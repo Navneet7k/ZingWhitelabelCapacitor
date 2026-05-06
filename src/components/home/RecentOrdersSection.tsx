@@ -6,12 +6,17 @@ import './RecentOrdersSection.css';
 const RecentOrdersSection: React.FC = () => {
   const { template } = useTemplate();
   switch (template.id) {
-    case 'luxe':   return <LuxeOrders />;
-    case 'fresh':  return <FreshOrders />;
-    case 'street': return <StreetOrders />;
-    case 'zen':    return <ZenOrders />;
-    case 'fiesta': return <FiestaOrders />;
-    default:       return <FreshOrders />;
+    case 'luxe':    return <LuxeOrders />;
+    case 'fresh':   return <FreshOrders />;
+    case 'street':  return <StreetOrders />;
+    case 'zen':     return <ZenOrders />;
+    case 'fiesta':  return <FiestaOrders />;
+    case 'neon':    return <NeonOrders />;
+    case 'rustic':  return <RusticOrders />;
+    case 'ocean':   return <OceanOrders />;
+    case 'blossom': return <BlossomOrders />;
+    case 'ember':   return <EmberOrders />;
+    default:        return <FreshOrders />;
   }
 };
 
@@ -141,6 +146,76 @@ const FiestaOrders: React.FC = () => (
               <span className="fiesta-order-bubble__date">{o.date}</span>
             </div>
           </div>
+        </div>
+      ))}
+    </div>
+  </div>
+);
+
+const NeonOrders: React.FC = () => (
+  <div className="section"><h2 className="section-title">ORDERS.LOG</h2>
+    <div className="neon-orders__list">
+      {RECENT_ORDERS.map((o, i) => (
+        <div key={o.id} className="neon-order-card" style={{ animationDelay: `${i * 0.07}s` }}>
+          <div className="neon-order-card__header"><span className="neon-order-card__id">{o.id}</span><span className="neon-order-card__status" style={{ color: o.color }}>{o.status}</span></div>
+          <div className="neon-order-card__items">&gt; {o.items.join(' · ')}</div>
+          <div className="neon-order-card__footer"><span className="neon-order-card__date">{o.date}</span><span className="neon-order-card__total">${o.total.toFixed(2)}</span></div>
+        </div>
+      ))}
+    </div>
+  </div>
+);
+
+const RusticOrders: React.FC = () => (
+  <div className="section"><h2 className="section-title">Your Orders</h2>
+    <div className="rustic-orders__list">
+      {RECENT_ORDERS.slice(0,3).map((o, i) => (
+        <div key={o.id} className="rustic-order-card" style={{ animationDelay: `${i * 0.08}s` }}>
+          <div className="rustic-order-card__header"><span className="rustic-order-card__id">{o.id}</span><span className="rustic-order-card__date">{o.date}</span></div>
+          <div className="rustic-order-card__items">{o.items.map((item, j) => <span key={j} className="rustic-order-card__item">{item}</span>)}</div>
+          <div className="rustic-order-card__footer"><span className="rustic-order-card__status" style={{ color: o.color }}>{o.status}</span><span className="rustic-order-card__total">${o.total.toFixed(2)}</span></div>
+        </div>
+      ))}
+    </div>
+  </div>
+);
+
+const OceanOrders: React.FC = () => (
+  <div className="section"><h2 className="section-title">Recent Orders</h2>
+    <div className="ocean-orders__list">
+      {RECENT_ORDERS.map((o, i) => (
+        <div key={o.id} className="ocean-order-card" style={{ animationDelay: `${i * 0.07}s` }}>
+          <div className="ocean-order-card__header"><span className="ocean-order-card__id">{o.id}</span><span className="ocean-order-card__status" style={{ color: o.color }}>{o.status}</span></div>
+          <div className="ocean-order-card__items">{o.items.map((item, j) => <span key={j} className="ocean-order-card__item">{item}</span>)}</div>
+          <div className="ocean-order-card__footer"><span className="ocean-order-card__date">{o.date}</span><span className="ocean-order-card__total">${o.total.toFixed(2)}</span></div>
+        </div>
+      ))}
+    </div>
+  </div>
+);
+
+const BlossomOrders: React.FC = () => (
+  <div className="section"><h2 className="section-title">My Orders</h2>
+    <div className="blossom-orders__list">
+      {RECENT_ORDERS.map((o, i) => (
+        <div key={o.id} className="blossom-order-card" style={{ animationDelay: `${i * 0.07}s` }}>
+          <div className="blossom-order-card__header"><span className="blossom-order-card__id">{o.id}</span><span className="blossom-order-card__status" style={{ color: o.color }}>{o.statusEmoji} {o.status}</span></div>
+          <div className="blossom-order-card__items">{o.items.map((item, j) => <span key={j} className="blossom-order-card__item">{item}</span>)}</div>
+          <div className="blossom-order-card__footer"><span className="blossom-order-card__date">{o.date}</span><span className="blossom-order-card__total">${o.total.toFixed(2)}</span></div>
+        </div>
+      ))}
+    </div>
+  </div>
+);
+
+const EmberOrders: React.FC = () => (
+  <div className="section"><h2 className="section-title">YOUR ORDERS</h2>
+    <div className="ember-orders__list">
+      {RECENT_ORDERS.slice(0,3).map((o, i) => (
+        <div key={o.id} className="ember-order-card" style={{ animationDelay: `${i * 0.07}s` }}>
+          <div className="ember-order-card__header"><span className="ember-order-card__id">{o.id}</span><span className="ember-order-card__status" style={{ color: o.color }}>{o.status}</span></div>
+          <div className="ember-order-card__items">{o.items.map((item, j) => <span key={j} className="ember-order-card__item">{item}</span>)}</div>
+          <div className="ember-order-card__footer"><span className="ember-order-card__date">{o.date}</span><span className="ember-order-card__total">${o.total.toFixed(2)}</span></div>
         </div>
       ))}
     </div>

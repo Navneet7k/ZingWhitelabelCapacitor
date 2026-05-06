@@ -6,7 +6,7 @@ import { Capacitor } from '@capacitor/core';
 //   YOUR_REPO_NAME        →  ZingWhitelabelCapacitor (or whatever you named it)
 // ─────────────────────────────────────────────────────────────────────────────
 const MANIFEST_URL =
-  'https://YOUR_GITHUB_USERNAME.github.io/YOUR_REPO_NAME/manifest.json';
+  'https://Navneet7k.github.io/ZingWhitelabelCapacitor/manifest.json';
 
 const VERSION_KEY = 'zing_bundle_version';
 

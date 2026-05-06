@@ -6,12 +6,17 @@ import './BannerSection.css';
 const BannerSection: React.FC = () => {
   const { template } = useTemplate();
   switch (template.id) {
-    case 'luxe':   return <LuxeBanner />;
-    case 'fresh':  return <FreshBanner />;
-    case 'street': return <StreetBanner />;
-    case 'zen':    return <ZenBanner />;
-    case 'fiesta': return <FiestaBanner />;
-    default:       return <FreshBanner />;
+    case 'luxe':    return <LuxeBanner />;
+    case 'fresh':   return <FreshBanner />;
+    case 'street':  return <StreetBanner />;
+    case 'zen':     return <ZenBanner />;
+    case 'fiesta':  return <FiestaBanner />;
+    case 'neon':    return <NeonBanner />;
+    case 'rustic':  return <RusticBanner />;
+    case 'ocean':   return <OceanBanner />;
+    case 'blossom': return <BlossomBanner />;
+    case 'ember':   return <EmberBanner />;
+    default:        return <FreshBanner />;
   }
 };
 
@@ -161,6 +166,151 @@ const FiestaBanner: React.FC = () => {
             onClick={() => setActive(i)}
             style={{ background: i === active ? '#FFE66D' : 'rgba(255,255,255,0.5)' }}
           />
+        ))}
+      </div>
+    </div>
+  );
+};
+
+/* ── NEON: Cyberpunk scan-line hero ── */
+const NeonBanner: React.FC = () => {
+  const [active, setActive] = useState(0);
+  useEffect(() => {
+    const t = setInterval(() => setActive(i => (i + 1) % BANNER_SLIDES.length), 4000);
+    return () => clearInterval(t);
+  }, []);
+  const slide = BANNER_SLIDES[active];
+  return (
+    <div className="neon-banner">
+      <div key={active} className="neon-banner__img" style={{ backgroundImage: `url(${slide.image})` }} />
+      <div className="neon-banner__scanlines" />
+      <div className="neon-banner__overlay" />
+      <div key={`c-${active}`} className="neon-banner__content">
+        <div className="neon-banner__chip">// ZING.EXE</div>
+        <h1 className="neon-banner__title">{slide.title}</h1>
+        <p className="neon-banner__sub">{slide.subtitle}</p>
+        <button className="neon-banner__cta">{slide.cta} ›</button>
+      </div>
+      <div className="neon-banner__dots">
+        {BANNER_SLIDES.map((_, i) => (
+          <span key={i} className={`neon-dot ${i === active ? 'active' : ''}`} onClick={() => setActive(i)} />
+        ))}
+      </div>
+    </div>
+  );
+};
+
+/* ── RUSTIC: Warm farmhouse hero ── */
+const RusticBanner: React.FC = () => {
+  const [active, setActive] = useState(0);
+  useEffect(() => {
+    const t = setInterval(() => setActive(i => (i + 1) % BANNER_SLIDES.length), 5000);
+    return () => clearInterval(t);
+  }, []);
+  const slide = BANNER_SLIDES[active];
+  return (
+    <div className="rustic-banner">
+      <div key={active} className="rustic-banner__img" style={{ backgroundImage: `url(${slide.image})` }} />
+      <div className="rustic-banner__overlay" />
+      <div key={`c-${active}`} className="rustic-banner__content">
+        <div className="rustic-banner__rule"><span>✦ ZING ✦</span></div>
+        <h1 className="rustic-banner__title">{slide.title}</h1>
+        <p className="rustic-banner__sub">{slide.subtitle}</p>
+        <button className="rustic-banner__cta">{slide.cta}</button>
+      </div>
+      <div className="rustic-banner__dots">
+        {BANNER_SLIDES.map((_, i) => (
+          <span key={i} className={`rustic-dot ${i === active ? 'active' : ''}`} onClick={() => setActive(i)} />
+        ))}
+      </div>
+    </div>
+  );
+};
+
+/* ── OCEAN: Wave clip-path coastal ── */
+const OceanBanner: React.FC = () => {
+  const [active, setActive] = useState(0);
+  useEffect(() => {
+    const t = setInterval(() => setActive(i => (i + 1) % BANNER_SLIDES.length), 4200);
+    return () => clearInterval(t);
+  }, []);
+  const slide = BANNER_SLIDES[active];
+  return (
+    <div className="ocean-banner">
+      <div key={active} className="ocean-banner__img" style={{ backgroundImage: `url(${slide.image})` }} />
+      <div className="ocean-banner__overlay" />
+      <div key={`c-${active}`} className="ocean-banner__content">
+        <span className="ocean-banner__tag">🌊 COASTAL KITCHEN</span>
+        <h1 className="ocean-banner__title">{slide.title}</h1>
+        <p className="ocean-banner__sub">{slide.subtitle}</p>
+        <button className="ocean-banner__cta">{slide.cta}</button>
+      </div>
+      <div className="ocean-banner__wave-wrap">
+        <div className="ocean-banner__wave" />
+      </div>
+      <div className="ocean-banner__dots">
+        {BANNER_SLIDES.map((_, i) => (
+          <span key={i} className={`ocean-dot ${i === active ? 'active' : ''}`} onClick={() => setActive(i)} />
+        ))}
+      </div>
+    </div>
+  );
+};
+
+/* ── BLOSSOM: Soft petal romantic ── */
+const BlossomBanner: React.FC = () => {
+  const [active, setActive] = useState(0);
+  useEffect(() => {
+    const t = setInterval(() => setActive(i => (i + 1) % BANNER_SLIDES.length), 4500);
+    return () => clearInterval(t);
+  }, []);
+  const slide = BANNER_SLIDES[active];
+  return (
+    <div className="blossom-banner">
+      <div key={active} className="blossom-banner__img" style={{ backgroundImage: `url(${slide.image})` }} />
+      <div className="blossom-banner__overlay" />
+      {['🌸','🌺','🌸','🌸','🌺'].map((p, i) => (
+        <span key={i} className="blossom-petal" style={{ '--delay': `${i * 0.5}s`, '--x': `${10 + i * 20}%` } as React.CSSProperties}>{p}</span>
+      ))}
+      <div key={`c-${active}`} className="blossom-banner__content">
+        <h1 className="blossom-banner__title">{slide.title}</h1>
+        <div className="blossom-banner__hearts">♡ ♡ ♡</div>
+        <p className="blossom-banner__sub">{slide.subtitle}</p>
+        <button className="blossom-banner__cta">{slide.cta} ♡</button>
+      </div>
+      <div className="blossom-banner__dots">
+        {BANNER_SLIDES.map((_, i) => (
+          <span key={i} className={`blossom-dot ${i === active ? 'active' : ''}`} onClick={() => setActive(i)} />
+        ))}
+      </div>
+    </div>
+  );
+};
+
+/* ── EMBER: Dark smoky fire ── */
+const EmberBanner: React.FC = () => {
+  const [active, setActive] = useState(0);
+  useEffect(() => {
+    const t = setInterval(() => setActive(i => (i + 1) % BANNER_SLIDES.length), 4000);
+    return () => clearInterval(t);
+  }, []);
+  const slide = BANNER_SLIDES[active];
+  return (
+    <div className="ember-banner">
+      <div key={active} className="ember-banner__img" style={{ backgroundImage: `url(${slide.image})` }} />
+      <div className="ember-banner__overlay" />
+      {[...Array(8)].map((_, i) => (
+        <div key={i} className="ember-particle" style={{ '--delay': `${i * 0.35}s`, '--x': `${8 + i * 11}%` } as React.CSSProperties} />
+      ))}
+      <div key={`c-${active}`} className="ember-banner__content">
+        <div className="ember-banner__chip">🔥 FIRED UP</div>
+        <h1 className="ember-banner__title">{slide.title.toUpperCase()}</h1>
+        <p className="ember-banner__sub">{slide.subtitle}</p>
+        <button className="ember-banner__cta">{slide.cta.toUpperCase()}</button>
+      </div>
+      <div className="ember-banner__dots">
+        {BANNER_SLIDES.map((_, i) => (
+          <span key={i} className={`ember-dot ${i === active ? 'active' : ''}`} onClick={() => setActive(i)} />
         ))}
       </div>
     </div>

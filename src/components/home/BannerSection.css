@@ -326,3 +326,105 @@
 }
 .fiesta-dot { width: 10px; height: 10px; border-radius: 50%; transition: all 0.35s cubic-bezier(0.68,-0.55,0.265,1.55); }
 .fiesta-dot.active { width: 28px; border-radius: 5px; }
+
+/* ── NEON BANNER ── */
+.neon-banner { position: relative; height: 400px; overflow: hidden; background: #0A0010; }
+.neon-banner__img {
+  position: absolute; inset: 0;
+  background-size: cover; background-position: center;
+  opacity: 0.25; animation: fadeIn 0.5s ease;
+}
+.neon-banner__scanlines {
+  position: absolute; inset: 0; pointer-events: none;
+  background: repeating-linear-gradient(0deg, transparent, transparent 2px, rgba(0,245,255,0.03) 2px, rgba(0,245,255,0.03) 4px);
+}
+.neon-banner__overlay {
+  position: absolute; inset: 0;
+  background: linear-gradient(to top, rgba(10,0,16,0.96) 0%, rgba(10,0,16,0.5) 60%, transparent 100%);
+}
+.neon-banner__content { position: absolute; bottom: 52px; left: 0; right: 0; padding: 0 24px; animation: fadeInUp 0.4s ease both; }
+.neon-banner__chip { font-family: 'Rajdhani', sans-serif; font-size: 11px; letter-spacing: 0.2em; color: #00F5FF; text-shadow: 0 0 10px rgba(0,245,255,0.9); margin-bottom: 10px; animation: neonFlicker 3s 1s infinite; }
+.neon-banner__title { font-family: 'Rajdhani', sans-serif; font-size: 36px; font-weight: 700; color: #FF006E; text-shadow: 0 0 20px rgba(255,0,110,0.7), 0 0 40px rgba(255,0,110,0.4); margin-bottom: 8px; line-height: 1.1; }
+.neon-banner__sub { font-family: 'Rajdhani', sans-serif; font-size: 15px; color: rgba(255,255,255,0.65); margin-bottom: 20px; letter-spacing: 0.04em; }
+.neon-banner__cta {
+  background: transparent; border: 1px solid #FF006E; color: #FF006E;
+  font-family: 'Rajdhani', sans-serif; font-size: 14px; letter-spacing: 0.12em; padding: 10px 24px;
+  cursor: pointer; text-shadow: 0 0 8px rgba(255,0,110,0.6);
+  box-shadow: 0 0 14px rgba(255,0,110,0.3), inset 0 0 14px rgba(255,0,110,0.05);
+  transition: all 0.2s;
+}
+.neon-banner__cta:hover { background: rgba(255,0,110,0.12); box-shadow: 0 0 24px rgba(255,0,110,0.5); }
+.neon-banner__dots { position: absolute; bottom: 22px; left: 24px; display: flex; gap: 8px; }
+.neon-dot { width: 18px; height: 2px; background: rgba(0,245,255,0.25); cursor: pointer; transition: all 0.3s; }
+.neon-dot.active { background: #00F5FF; box-shadow: 0 0 8px rgba(0,245,255,0.9); width: 34px; }
+
+/* ── RUSTIC BANNER ── */
+.rustic-banner { position: relative; height: 400px; overflow: hidden; }
+.rustic-banner__img { position: absolute; inset: 0; background-size: cover; background-position: center; animation: fadeIn 0.6s ease; }
+.rustic-banner__overlay { position: absolute; inset: 0; background: linear-gradient(to top, rgba(62,31,0,0.88) 0%, rgba(62,31,0,0.3) 55%, transparent 100%); }
+.rustic-banner__content { position: absolute; bottom: 52px; left: 0; right: 0; padding: 0 28px; animation: fadeInUp 0.6s ease both; }
+.rustic-banner__rule { font-family: 'Lato', sans-serif; font-size: 11px; letter-spacing: 0.2em; color: #C1440E; margin-bottom: 12px; }
+.rustic-banner__title { font-family: 'Abril Fatface', cursive; font-size: 34px; color: #FDF6EC; line-height: 1.2; margin-bottom: 8px; text-shadow: 0 2px 8px rgba(0,0,0,0.4); }
+.rustic-banner__sub { font-family: 'Merriweather', serif; font-size: 13px; font-weight: 300; color: rgba(253,246,236,0.8); margin-bottom: 20px; line-height: 1.6; }
+.rustic-banner__cta { background: #C1440E; color: #FDF6EC; border: none; padding: 12px 26px; font-family: 'Merriweather', serif; font-size: 13px; cursor: pointer; letter-spacing: 0.04em; }
+.rustic-banner__dots { position: absolute; bottom: 24px; left: 28px; display: flex; gap: 8px; }
+.rustic-dot { width: 8px; height: 8px; border-radius: 50%; background: rgba(253,246,236,0.3); cursor: pointer; transition: all 0.4s; }
+.rustic-dot.active { background: #C1440E; transform: scale(1.2); }
+
+/* ── OCEAN BANNER ── */
+.ocean-banner { position: relative; height: 380px; overflow: hidden; }
+.ocean-banner__img { position: absolute; inset: 0; background-size: cover; background-position: center; animation: fadeIn 0.5s ease; }
+.ocean-banner__overlay { position: absolute; inset: 0; background: linear-gradient(to bottom, rgba(27,79,114,0.5) 0%, rgba(27,79,114,0.75) 100%); }
+.ocean-banner__content { position: absolute; top: 50%; left: 0; right: 0; transform: translateY(-50%); padding: 0 28px; animation: fadeInUp 0.5s ease both; text-align: center; }
+.ocean-banner__tag { font-family: 'Montserrat', sans-serif; font-size: 11px; font-weight: 600; letter-spacing: 0.15em; color: #48C9B0; background: rgba(72,201,176,0.15); padding: 4px 12px; border-radius: 20px; margin-bottom: 14px; display: inline-block; }
+.ocean-banner__title { font-family: 'Montserrat', sans-serif; font-size: 30px; font-weight: 800; color: #fff; margin-bottom: 8px; line-height: 1.2; }
+.ocean-banner__sub { font-family: 'Montserrat', sans-serif; font-size: 13px; color: rgba(255,255,255,0.8); margin-bottom: 22px; }
+.ocean-banner__cta { background: #48C9B0; color: #1A2F3E; border: none; border-radius: 50px; padding: 12px 30px; font-family: 'Montserrat', sans-serif; font-weight: 700; font-size: 13px; cursor: pointer; }
+.ocean-banner__wave-wrap { position: absolute; bottom: -2px; left: 0; right: 0; height: 60px; overflow: hidden; }
+.ocean-banner__wave {
+  position: absolute; bottom: 0; width: 200%; height: 100%;
+  background: #F0F9FF;
+  clip-path: ellipse(55% 60% at 50% 100%);
+}
+.ocean-banner__dots { position: absolute; bottom: 18px; left: 50%; transform: translateX(-50%); display: flex; gap: 8px; }
+.ocean-dot { width: 8px; height: 8px; border-radius: 50%; background: rgba(255,255,255,0.35); cursor: pointer; transition: all 0.3s; }
+.ocean-dot.active { background: #48C9B0; width: 24px; border-radius: 4px; }
+
+/* ── BLOSSOM BANNER ── */
+.blossom-banner { position: relative; height: 400px; overflow: hidden; }
+.blossom-banner__img { position: absolute; inset: 0; background-size: cover; background-position: center; animation: fadeIn 0.6s ease; }
+.blossom-banner__overlay { position: absolute; inset: 0; background: linear-gradient(to top, rgba(255,107,149,0.75) 0%, rgba(255,107,149,0.35) 50%, rgba(255,245,247,0.1) 100%); }
+.blossom-petal {
+  position: absolute; top: -20px; font-size: 18px;
+  left: var(--x, 50%);
+  animation: petalFall 4s var(--delay, 0s) infinite linear;
+  pointer-events: none;
+}
+.blossom-banner__content { position: absolute; bottom: 52px; left: 0; right: 0; padding: 0 28px; animation: fadeInUp 0.6s ease both; text-align: center; }
+.blossom-banner__title { font-family: 'Dancing Script', cursive; font-size: 42px; font-weight: 700; color: #fff; text-shadow: 0 2px 12px rgba(255,107,149,0.4); margin-bottom: 4px; line-height: 1.2; }
+.blossom-banner__hearts { font-size: 16px; color: rgba(255,255,255,0.8); margin-bottom: 8px; letter-spacing: 0.3em; }
+.blossom-banner__sub { font-family: 'Quicksand', sans-serif; font-size: 14px; font-weight: 500; color: rgba(255,255,255,0.9); margin-bottom: 20px; }
+.blossom-banner__cta { background: rgba(255,255,255,0.9); color: #FF6B95; border: none; border-radius: 50px; padding: 12px 28px; font-family: 'Quicksand', sans-serif; font-weight: 700; font-size: 14px; cursor: pointer; }
+.blossom-banner__dots { position: absolute; bottom: 22px; left: 50%; transform: translateX(-50%); display: flex; gap: 8px; }
+.blossom-dot { width: 8px; height: 8px; border-radius: 50%; background: rgba(255,255,255,0.4); cursor: pointer; transition: all 0.4s cubic-bezier(0.34,1.56,0.64,1); }
+.blossom-dot.active { background: #fff; transform: scale(1.4); }
+
+/* ── EMBER BANNER ── */
+.ember-banner { position: relative; height: 400px; overflow: hidden; background: #1A0A00; }
+.ember-banner__img { position: absolute; inset: 0; background-size: cover; background-position: center; opacity: 0.5; animation: fadeIn 0.4s ease; }
+.ember-banner__overlay { position: absolute; inset: 0; background: linear-gradient(to top, rgba(26,10,0,0.97) 0%, rgba(26,10,0,0.5) 55%, transparent 100%); }
+.ember-particle {
+  position: absolute; bottom: 0; left: var(--x, 50%);
+  width: 4px; height: 4px; border-radius: 50%;
+  background: radial-gradient(circle, #FF9040, #FF6B00);
+  box-shadow: 0 0 6px #FF6B00;
+  animation: emberRise 2s var(--delay, 0s) infinite ease-out;
+}
+.ember-banner__content { position: absolute; bottom: 52px; left: 0; right: 0; padding: 0 24px; animation: slideInUp 0.3s ease both; }
+.ember-banner__chip { display: inline-block; background: rgba(255,107,0,0.2); border: 1px solid rgba(255,107,0,0.4); color: #FF6B00; font-family: 'Barlow', sans-serif; font-size: 12px; font-weight: 600; letter-spacing: 0.1em; padding: 4px 12px; margin-bottom: 12px; }
+.ember-banner__title { font-family: 'Anton', sans-serif; font-size: 40px; letter-spacing: 0.03em; color: #FF6B00; text-shadow: 0 0 20px rgba(255,107,0,0.5), 0 0 40px rgba(255,45,0,0.3); margin-bottom: 8px; line-height: 1.1; }
+.ember-banner__sub { font-family: 'Barlow', sans-serif; font-size: 14px; color: rgba(245,230,211,0.7); margin-bottom: 20px; }
+.ember-banner__cta { background: #FF6B00; color: #1A0A00; border: none; padding: 12px 26px; font-family: 'Anton', sans-serif; font-size: 14px; letter-spacing: 0.06em; cursor: pointer; }
+.ember-banner__dots { position: absolute; bottom: 22px; left: 24px; display: flex; gap: 8px; }
+.ember-dot { width: 20px; height: 3px; background: rgba(255,107,0,0.25); cursor: pointer; transition: all 0.3s; border-radius: 2px; }
+.ember-dot.active { background: #FF6B00; box-shadow: 0 0 8px rgba(255,107,0,0.7); width: 36px; }

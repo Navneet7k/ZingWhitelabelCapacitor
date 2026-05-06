@@ -86,6 +86,116 @@
   --t-tab-inactive: #C0AFA0;
 }
 
+/* ── NEON: Cyberpunk Future ── */
+[data-template="neon"] {
+  --t-bg: #0A0010;
+  --t-surface: #120020;
+  --t-surface2: #1A0030;
+  --t-primary: #FF006E;
+  --t-primary-light: #FF5499;
+  --t-accent: #00F5FF;
+  --t-text: #FFFFFF;
+  --t-text-muted: #8877AA;
+  --t-border: rgba(255,0,110,0.25);
+  --t-font-heading: 'Rajdhani', sans-serif;
+  --t-font-body: 'Rajdhani', sans-serif;
+  --t-radius: 4px;
+  --t-radius-lg: 6px;
+  --t-shadow: 0 0 20px rgba(255,0,110,0.25);
+  --t-transition: 300ms ease;
+  --t-tab-bg: #0A0010;
+  --t-tab-active: #FF006E;
+  --t-tab-inactive: #553366;
+}
+
+/* ── RUSTIC: Farmhouse Warmth ── */
+[data-template="rustic"] {
+  --t-bg: #FDF6EC;
+  --t-surface: #FFF8F0;
+  --t-surface2: #F5E6D3;
+  --t-primary: #C1440E;
+  --t-primary-light: #D96B3A;
+  --t-accent: #8B4513;
+  --t-text: #3E1F00;
+  --t-text-muted: #8B6B4A;
+  --t-border: rgba(193,68,14,0.15);
+  --t-font-heading: 'Abril Fatface', cursive;
+  --t-font-body: 'Merriweather', serif;
+  --t-radius: 6px;
+  --t-radius-lg: 10px;
+  --t-shadow: 0 4px 16px rgba(62,31,0,0.12);
+  --t-transition: 500ms ease;
+  --t-tab-bg: #FDF6EC;
+  --t-tab-active: #C1440E;
+  --t-tab-inactive: #C4A882;
+}
+
+/* ── OCEAN: Coastal Fresh ── */
+[data-template="ocean"] {
+  --t-bg: #F0F9FF;
+  --t-surface: #FFFFFF;
+  --t-surface2: #E1F4FF;
+  --t-primary: #1B4F72;
+  --t-primary-light: #2E86C1;
+  --t-accent: #48C9B0;
+  --t-text: #1A2F3E;
+  --t-text-muted: #6B8A9E;
+  --t-border: rgba(27,79,114,0.12);
+  --t-font-heading: 'Montserrat', sans-serif;
+  --t-font-body: 'Montserrat', sans-serif;
+  --t-radius: 14px;
+  --t-radius-lg: 20px;
+  --t-shadow: 0 6px 24px rgba(27,79,114,0.12);
+  --t-transition: 450ms ease;
+  --t-tab-bg: #FFFFFF;
+  --t-tab-active: #1B4F72;
+  --t-tab-inactive: #A8C4D4;
+}
+
+/* ── BLOSSOM: Soft Romantic ── */
+[data-template="blossom"] {
+  --t-bg: #FFF5F7;
+  --t-surface: #FFFFFF;
+  --t-surface2: #FFE8EE;
+  --t-primary: #FF6B95;
+  --t-primary-light: #FF9BB5;
+  --t-accent: #FFB3C6;
+  --t-text: #2D1B2D;
+  --t-text-muted: #B07090;
+  --t-border: rgba(255,107,149,0.15);
+  --t-font-heading: 'Dancing Script', cursive;
+  --t-font-body: 'Quicksand', sans-serif;
+  --t-radius: 20px;
+  --t-radius-lg: 28px;
+  --t-shadow: 0 6px 24px rgba(255,107,149,0.15);
+  --t-transition: 500ms cubic-bezier(0.34,1.56,0.64,1);
+  --t-tab-bg: #FFFFFF;
+  --t-tab-active: #FF6B95;
+  --t-tab-inactive: #DDAABB;
+}
+
+/* ── EMBER: Dark BBQ Fire ── */
+[data-template="ember"] {
+  --t-bg: #1A0A00;
+  --t-surface: #241200;
+  --t-surface2: #2E1800;
+  --t-primary: #FF6B00;
+  --t-primary-light: #FF9040;
+  --t-accent: #FF2D00;
+  --t-text: #F5E6D3;
+  --t-text-muted: #8B7355;
+  --t-border: rgba(255,107,0,0.2);
+  --t-font-heading: 'Anton', sans-serif;
+  --t-font-body: 'Barlow', sans-serif;
+  --t-radius: 4px;
+  --t-radius-lg: 8px;
+  --t-shadow: 0 4px 20px rgba(255,107,0,0.2);
+  --t-transition: 280ms ease;
+  --t-tab-bg: #1A0A00;
+  --t-tab-active: #FF6B00;
+  --t-tab-inactive: #5C3D1E;
+}
+
 /* ── FIESTA: Vibrant Festive ── */
 [data-template="fiesta"] {
   --t-bg: #FFF9F0;

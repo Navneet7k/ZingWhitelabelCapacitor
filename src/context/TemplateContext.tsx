@@ -1,6 +1,6 @@
 import React, { createContext, useContext, useState, useEffect } from 'react';
 
-export type TemplateId = 'luxe' | 'fresh' | 'street' | 'zen' | 'fiesta';
+export type TemplateId = 'luxe' | 'fresh' | 'street' | 'zen' | 'fiesta' | 'neon' | 'rustic' | 'ocean' | 'blossom' | 'ember';
 
 export interface Template {
   id: TemplateId;
@@ -45,6 +45,41 @@ export const TEMPLATES: Template[] = [
     tagline: 'Bold & festive',
     emoji: '🎉',
     colors: { bg: '#FFF9F0', primary: '#FF6B6B', accent: '#4ECDC4', text: '#292F36' },
+  },
+  {
+    id: 'neon',
+    name: 'Neon',
+    tagline: 'Cyberpunk future',
+    emoji: '⚡',
+    colors: { bg: '#0A0010', primary: '#FF006E', accent: '#00F5FF', text: '#FFFFFF' },
+  },
+  {
+    id: 'rustic',
+    name: 'Rustic',
+    tagline: 'Farmhouse & warm',
+    emoji: '🌾',
+    colors: { bg: '#FDF6EC', primary: '#C1440E', accent: '#8B4513', text: '#3E1F00' },
+  },
+  {
+    id: 'ocean',
+    name: 'Ocean',
+    tagline: 'Coastal & fresh',
+    emoji: '🌊',
+    colors: { bg: '#F0F9FF', primary: '#1B4F72', accent: '#48C9B0', text: '#1A2F3E' },
+  },
+  {
+    id: 'blossom',
+    name: 'Blossom',
+    tagline: 'Soft & romantic',
+    emoji: '🌸',
+    colors: { bg: '#FFF5F7', primary: '#FF6B95', accent: '#FFB3C6', text: '#2D1B2D' },
+  },
+  {
+    id: 'ember',
+    name: 'Ember',
+    tagline: 'Dark & fiery',
+    emoji: '🔥',
+    colors: { bg: '#1A0A00', primary: '#FF6B00', accent: '#FF2D00', text: '#F5E6D3' },
   },
 ];
 

@@ -6,12 +6,17 @@ import './LoyaltySection.css';
 const LoyaltySection: React.FC = () => {
   const { template } = useTemplate();
   switch (template.id) {
-    case 'luxe':   return <LuxeLoyalty />;
-    case 'fresh':  return <FreshLoyalty />;
-    case 'street': return <StreetLoyalty />;
-    case 'zen':    return <ZenLoyalty />;
-    case 'fiesta': return <FiestaLoyalty />;
-    default:       return <FreshLoyalty />;
+    case 'luxe':    return <LuxeLoyalty />;
+    case 'fresh':   return <FreshLoyalty />;
+    case 'street':  return <StreetLoyalty />;
+    case 'zen':     return <ZenLoyalty />;
+    case 'fiesta':  return <FiestaLoyalty />;
+    case 'neon':    return <NeonLoyalty />;
+    case 'rustic':  return <RusticLoyalty />;
+    case 'ocean':   return <OceanLoyalty />;
+    case 'blossom': return <BlossomLoyalty />;
+    case 'ember':   return <EmberLoyalty />;
+    default:        return <FreshLoyalty />;
   }
 };
 
@@ -160,5 +165,129 @@ const FiestaLoyalty: React.FC = () => {
     </div>
   );
 };
+
+/* ── NEON: Terminal-style glitch card ── */
+const NeonLoyalty: React.FC = () => (
+  <div className="section">
+    <h2 className="section-title">REWARDS.SYS</h2>
+    <div className="neon-loyalty">
+      <div className="neon-loyalty__screen">
+        <div className="neon-loyalty__line cyan">&gt; USER: GOLD_MEMBER</div>
+        <div className="neon-loyalty__line pink">&gt; POINTS: <span className="neon-loyalty__pts">{LOYALTY.points.toLocaleString()}</span></div>
+        <div className="neon-loyalty__line cyan">&gt; NEXT_TIER: {LOYALTY.nextTier}</div>
+        <div className="neon-loyalty__line muted">&gt; PROGRESS:</div>
+        <div className="neon-loyalty__bar-wrap">
+          <div className="neon-loyalty__bar">
+            <div className="neon-loyalty__fill" style={{ '--progress-width': `${pct}%` } as React.CSSProperties} />
+          </div>
+          <span className="neon-loyalty__pct">{pct}%</span>
+        </div>
+        <div className="neon-loyalty__cursor">█</div>
+      </div>
+    </div>
+  </div>
+);
+
+/* ── RUSTIC: Wooden badge board ── */
+const RusticLoyalty: React.FC = () => (
+  <div className="section">
+    <h2 className="section-title">Your Rewards</h2>
+    <div className="rustic-loyalty">
+      <div className="rustic-loyalty__top">
+        <div className="rustic-loyalty__badge">
+          <span className="rustic-loyalty__tier">{LOYALTY.tier}</span>
+          <span className="rustic-loyalty__member">Member</span>
+        </div>
+        <div className="rustic-loyalty__pts-wrap">
+          <span className="rustic-loyalty__pts">{LOYALTY.points.toLocaleString()}</span>
+          <span className="rustic-loyalty__pts-label">points earned</span>
+        </div>
+      </div>
+      <div className="rustic-loyalty__divider">✦ ✦ ✦</div>
+      <div className="rustic-loyalty__progress-label">
+        <span>{LOYALTY.nextTierPoints - LOYALTY.points} pts until {LOYALTY.nextTier}</span>
+        <span>{pct}%</span>
+      </div>
+      <div className="rustic-loyalty__track">
+        <div className="rustic-loyalty__fill" style={{ '--progress-width': `${pct}%` } as React.CSSProperties} />
+      </div>
+    </div>
+  </div>
+);
+
+/* ── OCEAN: Wave progress card ── */
+const OceanLoyalty: React.FC = () => (
+  <div className="section">
+    <h2 className="section-title">Rewards</h2>
+    <div className="ocean-loyalty">
+      <div className="ocean-loyalty__left">
+        <span className="ocean-loyalty__pts">{LOYALTY.points.toLocaleString()}</span>
+        <span className="ocean-loyalty__label">points</span>
+        <span className="ocean-loyalty__tier">{LOYALTY.tier} 🌊</span>
+      </div>
+      <div className="ocean-loyalty__right">
+        <div className="ocean-loyalty__wave-bar">
+          <div className="ocean-loyalty__wave-fill" style={{ width: `${pct}%` }} />
+        </div>
+        <p className="ocean-loyalty__next">{LOYALTY.nextTierPoints - LOYALTY.points} pts to {LOYALTY.nextTier}</p>
+        <button className="ocean-loyalty__btn">Redeem →</button>
+      </div>
+    </div>
+  </div>
+);
+
+/* ── BLOSSOM: Heart-shaped progress ── */
+const BlossomLoyalty: React.FC = () => {
+  const hearts = Math.round((pct / 100) * 5);
+  return (
+    <div className="section">
+      <h2 className="section-title">Your Rewards</h2>
+      <div className="blossom-loyalty">
+        <div className="blossom-loyalty__header">
+          <span className="blossom-loyalty__pts">{LOYALTY.points.toLocaleString()}</span>
+          <span className="blossom-loyalty__tier"> ✦ {LOYALTY.tier}</span>
+        </div>
+        <div className="blossom-loyalty__hearts">
+          {[1,2,3,4,5].map(h => (
+            <span key={h} className={`blossom-heart ${h <= hearts ? 'filled' : ''}`}
+              style={{ animationDelay: `${h * 0.12}s` }}>
+              {h <= hearts ? '♥' : '♡'}
+            </span>
+          ))}
+        </div>
+        <div className="blossom-loyalty__bar">
+          <div className="blossom-loyalty__fill" style={{ '--progress-width': `${pct}%` } as React.CSSProperties} />
+        </div>
+        <p className="blossom-loyalty__note">{LOYALTY.nextTierPoints - LOYALTY.points} more points to {LOYALTY.nextTier} 🌸</p>
+      </div>
+    </div>
+  );
+};
+
+/* ── EMBER: Fire-glow progress ── */
+const EmberLoyalty: React.FC = () => (
+  <div className="section">
+    <h2 className="section-title">REWARDS</h2>
+    <div className="ember-loyalty">
+      <div className="ember-loyalty__top">
+        <div>
+          <span className="ember-loyalty__pts">{LOYALTY.points.toLocaleString()}</span>
+          <span className="ember-loyalty__unit"> PTS</span>
+        </div>
+        <span className="ember-loyalty__tier">{LOYALTY.tier} 🔥</span>
+      </div>
+      <div className="ember-loyalty__flames">
+        {[...Array(5)].map((_, i) => (
+          <span key={i} className={`ember-flame ${i < Math.round(pct/20) ? 'lit' : ''}`}
+            style={{ animationDelay: `${i * 0.2}s` }}>🔥</span>
+        ))}
+      </div>
+      <div className="ember-loyalty__track">
+        <div className="ember-loyalty__fill" style={{ '--progress-width': `${pct}%` } as React.CSSProperties} />
+      </div>
+      <p className="ember-loyalty__note">{LOYALTY.nextTierPoints - LOYALTY.points} pts until {LOYALTY.nextTier}</p>
+    </div>
+  </div>
+);
 
 export default LoyaltySection;

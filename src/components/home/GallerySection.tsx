@@ -8,12 +8,17 @@ const POLAROID_ROTATIONS = [-3.5, 2.8, -2.1, 3.7, -1.5, 2.4];
 const GallerySection: React.FC = () => {
   const { template } = useTemplate();
   switch (template.id) {
-    case 'luxe':   return <LuxeGallery />;
-    case 'fresh':  return <FreshGallery />;
-    case 'street': return <StreetGallery />;
-    case 'zen':    return <ZenGallery />;
-    case 'fiesta': return <FiestaGallery />;
-    default:       return <FreshGallery />;
+    case 'luxe':    return <LuxeGallery />;
+    case 'fresh':   return <FreshGallery />;
+    case 'street':  return <StreetGallery />;
+    case 'zen':     return <ZenGallery />;
+    case 'fiesta':  return <FiestaGallery />;
+    case 'neon':    return <NeonGallery />;
+    case 'rustic':  return <RusticGallery />;
+    case 'ocean':   return <OceanGallery />;
+    case 'blossom': return <BlossomGallery />;
+    case 'ember':   return <EmberGallery />;
+    default:        return <FreshGallery />;
   }
 };
 
@@ -111,5 +116,35 @@ const FiestaGallery: React.FC = () => {
     </div>
   );
 };
+
+const NeonGallery: React.FC = () => (
+  <div className="section" style={{ paddingBottom: 16 }}><h2 className="section-title">GALLERY.EXE</h2>
+    <div className="neon-gallery">{GALLERY_ITEMS.map((item, i) => <div key={item.id} className="neon-gallery__tile" style={{ animationDelay: `${i * 0.06}s` }}><img src={item.url} alt="" /></div>)}</div>
+  </div>
+);
+
+const RusticGallery: React.FC = () => (
+  <div className="section" style={{ paddingBottom: 24 }}><h2 className="section-title">Our Gallery</h2>
+    <div className="rustic-gallery">{GALLERY_ITEMS.map((item, i) => <div key={item.id} className="rustic-gallery__tile" style={{ animationDelay: `${i * 0.08}s` }}><img src={item.url} alt="" /><div className="rustic-gallery__label">ZING</div></div>)}</div>
+  </div>
+);
+
+const OceanGallery: React.FC = () => (
+  <div className="section" style={{ paddingBottom: 16 }}><h2 className="section-title">Our Gallery</h2>
+    <div className="ocean-gallery">{GALLERY_ITEMS.map((item, i) => <div key={item.id} className="ocean-gallery__tile" style={{ animationDelay: `${i * 0.06}s` }}><img src={item.url} alt="" /></div>)}</div>
+  </div>
+);
+
+const BlossomGallery: React.FC = () => (
+  <div className="section" style={{ paddingBottom: 16 }}><h2 className="section-title">Our Gallery 🌸</h2>
+    <div className="blossom-gallery">{GALLERY_ITEMS.map((item, i) => <div key={item.id} className="blossom-gallery__tile" style={{ animationDelay: `${i * 0.07}s` }}><img src={item.url} alt="" /></div>)}</div>
+  </div>
+);
+
+const EmberGallery: React.FC = () => (
+  <div className="section" style={{ paddingBottom: 24 }}><h2 className="section-title">GALLERY</h2>
+    <div className="ember-gallery">{GALLERY_ITEMS.map((item, i) => <div key={item.id} className="ember-gallery__tile" style={{ animationDelay: `${i * 0.07}s` }}><img src={item.url} alt="" /></div>)}</div>
+  </div>
+);
 
 export default GallerySection;

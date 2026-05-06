@@ -164,3 +164,68 @@
 .fiesta-loyalty__bar { height: 8px; background: rgba(255,255,255,0.25); border-radius: 4px; margin-bottom: 6px; overflow: hidden; }
 .fiesta-loyalty__fill { height: 100%; background: #FFE66D; border-radius: 4px; animation: progressFill 1s 0.3s ease both; }
 .fiesta-loyalty__next { font-family: 'Poppins', sans-serif; font-size: 11px; opacity: 0.85; }
+
+/* ── NEON LOYALTY ── */
+.neon-loyalty { border: 1px solid rgba(0,245,255,0.3); background: #0D0020; padding: 16px; animation: fadeInUp 0.4s ease both; }
+.neon-loyalty__screen { font-family: 'Rajdhani', monospace; font-size: 14px; display: flex; flex-direction: column; gap: 6px; }
+.neon-loyalty__line { letter-spacing: 0.05em; }
+.neon-loyalty__line.cyan { color: #00F5FF; text-shadow: 0 0 6px rgba(0,245,255,0.7); }
+.neon-loyalty__line.pink { color: rgba(255,255,255,0.8); }
+.neon-loyalty__line.muted { color: #553366; }
+.neon-loyalty__pts { color: #FF006E; text-shadow: 0 0 10px rgba(255,0,110,0.8); font-size: 18px; font-weight: 700; }
+.neon-loyalty__bar-wrap { display: flex; align-items: center; gap: 10px; padding-left: 12px; }
+.neon-loyalty__bar { flex: 1; height: 6px; background: rgba(0,245,255,0.1); border: 1px solid rgba(0,245,255,0.2); }
+.neon-loyalty__fill { height: 100%; background: linear-gradient(90deg, #FF006E, #00F5FF); box-shadow: 0 0 8px rgba(0,245,255,0.6); animation: progressFill 1s 0.3s ease both; }
+.neon-loyalty__pct { color: #00F5FF; font-size: 12px; text-shadow: 0 0 6px rgba(0,245,255,0.7); }
+.neon-loyalty__cursor { color: #00F5FF; animation: pulse 1s infinite; margin-top: 4px; text-shadow: 0 0 8px rgba(0,245,255,0.9); }
+
+/* ── RUSTIC LOYALTY ── */
+.rustic-loyalty { background: #FFF8F0; border: 2px solid rgba(193,68,14,0.2); padding: 20px; animation: fadeInUp 0.5s ease both; }
+.rustic-loyalty__top { display: flex; align-items: center; justify-content: space-between; margin-bottom: 14px; }
+.rustic-loyalty__badge { background: #C1440E; padding: 10px 16px; text-align: center; }
+.rustic-loyalty__tier { display: block; font-family: 'Abril Fatface', cursive; font-size: 18px; color: #FDF6EC; }
+.rustic-loyalty__member { display: block; font-family: 'Merriweather', serif; font-size: 10px; color: rgba(253,246,236,0.8); letter-spacing: 0.1em; }
+.rustic-loyalty__pts-wrap { text-align: right; }
+.rustic-loyalty__pts { display: block; font-family: 'Abril Fatface', cursive; font-size: 36px; color: #3E1F00; line-height: 1; }
+.rustic-loyalty__pts-label { font-family: 'Merriweather', serif; font-size: 11px; color: #8B6B4A; }
+.rustic-loyalty__divider { text-align: center; color: #C1440E; font-size: 12px; letter-spacing: 0.3em; margin: 12px 0; }
+.rustic-loyalty__progress-label { display: flex; justify-content: space-between; font-family: 'Merriweather', serif; font-size: 11px; color: #8B6B4A; margin-bottom: 6px; }
+.rustic-loyalty__track { height: 6px; background: rgba(193,68,14,0.1); }
+.rustic-loyalty__fill { height: 100%; background: #C1440E; animation: progressFill 1s 0.3s ease both; }
+
+/* ── OCEAN LOYALTY ── */
+.ocean-loyalty { display: flex; gap: 16px; background: #fff; border-radius: 20px; padding: 20px; box-shadow: 0 6px 24px rgba(27,79,114,0.1); animation: scaleIn 0.45s ease both; }
+.ocean-loyalty__left { display: flex; flex-direction: column; align-items: center; justify-content: center; padding-right: 16px; border-right: 1px solid rgba(27,79,114,0.1); }
+.ocean-loyalty__pts { font-family: 'Montserrat', sans-serif; font-size: 32px; font-weight: 800; color: #1B4F72; line-height: 1; }
+.ocean-loyalty__label { font-family: 'Montserrat', sans-serif; font-size: 11px; color: #6B8A9E; margin-bottom: 6px; }
+.ocean-loyalty__tier { font-family: 'Montserrat', sans-serif; font-size: 13px; font-weight: 600; color: #48C9B0; }
+.ocean-loyalty__right { flex: 1; display: flex; flex-direction: column; justify-content: center; gap: 10px; }
+.ocean-loyalty__wave-bar { height: 12px; background: #E1F4FF; border-radius: 6px; overflow: hidden; }
+.ocean-loyalty__wave-fill { height: 100%; background: linear-gradient(90deg, #48C9B0, #1B4F72); border-radius: 6px; transition: width 1.2s ease; animation: progressFill 1.2s 0.3s ease both; }
+.ocean-loyalty__next { font-family: 'Montserrat', sans-serif; font-size: 12px; color: #6B8A9E; }
+.ocean-loyalty__btn { background: #1B4F72; color: #fff; border: none; border-radius: 12px; padding: 8px 18px; font-family: 'Montserrat', sans-serif; font-weight: 600; font-size: 12px; cursor: pointer; align-self: flex-start; }
+
+/* ── BLOSSOM LOYALTY ── */
+.blossom-loyalty { background: linear-gradient(135deg, #FFF0F4, #FFE0EA); border-radius: 24px; padding: 20px; animation: bounceIn 0.5s ease both; }
+.blossom-loyalty__header { display: flex; align-items: baseline; gap: 6px; margin-bottom: 12px; }
+.blossom-loyalty__pts { font-family: 'Dancing Script', cursive; font-size: 40px; font-weight: 700; color: #FF6B95; line-height: 1; }
+.blossom-loyalty__tier { font-family: 'Quicksand', sans-serif; font-size: 14px; font-weight: 600; color: #B07090; }
+.blossom-loyalty__hearts { display: flex; gap: 8px; margin-bottom: 14px; }
+.blossom-heart { font-size: 26px; color: rgba(255,107,149,0.25); transition: color 0.3s; }
+.blossom-heart.filled { color: #FF6B95; animation: heartBeat 0.8s ease both; }
+.blossom-loyalty__bar { height: 8px; background: rgba(255,107,149,0.15); border-radius: 4px; overflow: hidden; margin-bottom: 8px; }
+.blossom-loyalty__fill { height: 100%; background: linear-gradient(90deg, #FF6B95, #FFB3C6); border-radius: 4px; animation: progressFill 1s 0.3s ease both; }
+.blossom-loyalty__note { font-family: 'Quicksand', sans-serif; font-size: 12px; color: #B07090; }
+
+/* ── EMBER LOYALTY ── */
+.ember-loyalty { background: #241200; border-left: 3px solid #FF6B00; padding: 18px; animation: fadeInUp 0.4s ease both; }
+.ember-loyalty__top { display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 14px; }
+.ember-loyalty__pts { font-family: 'Anton', sans-serif; font-size: 40px; color: #FF6B00; text-shadow: 0 0 16px rgba(255,107,0,0.4); line-height: 1; }
+.ember-loyalty__unit { font-family: 'Barlow', sans-serif; font-size: 14px; color: #8B7355; }
+.ember-loyalty__tier { font-family: 'Barlow', sans-serif; font-size: 13px; font-weight: 600; color: #FF6B00; }
+.ember-loyalty__flames { display: flex; gap: 6px; margin-bottom: 12px; }
+.ember-flame { font-size: 22px; filter: grayscale(1) opacity(0.3); transition: all 0.3s; }
+.ember-flame.lit { filter: none; animation: pulse 1.5s ease infinite; }
+.ember-loyalty__track { height: 6px; background: rgba(255,107,0,0.1); margin-bottom: 8px; }
+.ember-loyalty__fill { height: 100%; background: linear-gradient(90deg, #FF2D00, #FF6B00); box-shadow: 0 0 10px rgba(255,107,0,0.4); animation: progressFill 1s 0.3s ease both; }
+.ember-loyalty__note { font-family: 'Barlow', sans-serif; font-size: 12px; color: #8B7355; }

@@ -6,12 +6,17 @@ import './PopularDishesSection.css';
 const PopularDishesSection: React.FC = () => {
   const { template } = useTemplate();
   switch (template.id) {
-    case 'luxe':   return <LuxeDishes />;
-    case 'fresh':  return <FreshDishes />;
-    case 'street': return <StreetDishes />;
-    case 'zen':    return <ZenDishes />;
-    case 'fiesta': return <FiestaDishes />;
-    default:       return <FreshDishes />;
+    case 'luxe':    return <LuxeDishes />;
+    case 'fresh':   return <FreshDishes />;
+    case 'street':  return <StreetDishes />;
+    case 'zen':     return <ZenDishes />;
+    case 'fiesta':  return <FiestaDishes />;
+    case 'neon':    return <NeonDishes />;
+    case 'rustic':  return <RusticDishes />;
+    case 'ocean':   return <OceanDishes />;
+    case 'blossom': return <BlossomDishes />;
+    case 'ember':   return <EmberDishes />;
+    default:        return <FreshDishes />;
   }
 };
 
@@ -127,6 +132,120 @@ const FiestaDishes: React.FC = () => (
             <div className="fiesta-dish-card__row">
               <span className="fiesta-dish-card__price">${dish.price.toFixed(2)}</span>
               <button className="fiesta-dish-card__add">＋</button>
+            </div>
+          </div>
+        </div>
+      ))}
+    </div>
+  </div>
+);
+
+/* ── NEON: Dark cards with neon price ── */
+const NeonDishes: React.FC = () => (
+  <div className="section">
+    <h2 className="section-title">MENU.DAT</h2>
+    <div className="neon-dishes__grid">
+      {POPULAR_DISHES.map((dish, i) => (
+        <div key={dish.id} className="neon-dish-card" style={{ animationDelay: `${i * 0.07}s` }}>
+          <img src={dish.image} alt={dish.name} className="neon-dish-card__img" />
+          <div className="neon-dish-card__body">
+            <span className="neon-dish-card__tag">{dish.tag}</span>
+            <h3 className="neon-dish-card__name">{dish.name}</h3>
+            <div className="neon-dish-card__row">
+              <span className="neon-dish-card__price">${dish.price.toFixed(2)}</span>
+              <button className="neon-dish-card__add">+</button>
+            </div>
+          </div>
+        </div>
+      ))}
+    </div>
+  </div>
+);
+
+/* ── RUSTIC: Warm cards with terracotta tag ── */
+const RusticDishes: React.FC = () => (
+  <div className="section">
+    <h2 className="section-title">From Our Kitchen</h2>
+    <div className="rustic-dishes__track">
+      {POPULAR_DISHES.map((dish, i) => (
+        <div key={dish.id} className="rustic-dish-card" style={{ animationDelay: `${i * 0.08}s` }}>
+          <img src={dish.image} alt={dish.name} className="rustic-dish-card__img" />
+          <div className="rustic-dish-card__body">
+            <span className="rustic-dish-card__tag">{dish.tag}</span>
+            <h3 className="rustic-dish-card__name">{dish.name}</h3>
+            <div className="rustic-dish-card__row">
+              <span className="rustic-dish-card__price">${dish.price.toFixed(2)}</span>
+              <span className="rustic-dish-card__rating">★ {dish.rating}</span>
+            </div>
+          </div>
+        </div>
+      ))}
+    </div>
+  </div>
+);
+
+/* ── OCEAN: Horizontal cards with wave accent ── */
+const OceanDishes: React.FC = () => (
+  <div className="section">
+    <h2 className="section-title">Today's Catch</h2>
+    <div className="ocean-dishes__list">
+      {POPULAR_DISHES.slice(0, 4).map((dish, i) => (
+        <div key={dish.id} className="ocean-dish-row" style={{ animationDelay: `${i * 0.08}s` }}>
+          <img src={dish.image} alt={dish.name} className="ocean-dish-row__img" />
+          <div className="ocean-dish-row__body">
+            <span className="ocean-dish-row__tag">{dish.tag}</span>
+            <h3 className="ocean-dish-row__name">{dish.name}</h3>
+            <div className="ocean-dish-row__row">
+              <span className="ocean-dish-row__price">${dish.price.toFixed(2)}</span>
+              <button className="ocean-dish-row__add">Add →</button>
+            </div>
+          </div>
+        </div>
+      ))}
+    </div>
+  </div>
+);
+
+/* ── BLOSSOM: Soft rounded cards with pink gradient ── */
+const BlossomDishes: React.FC = () => (
+  <div className="section">
+    <h2 className="section-title">Sweet Selections</h2>
+    <div className="blossom-dishes__track">
+      {POPULAR_DISHES.map((dish, i) => (
+        <div key={dish.id} className="blossom-dish-card" style={{ animationDelay: `${i * 0.07}s` }}>
+          <div className="blossom-dish-card__img-wrap">
+            <img src={dish.image} alt={dish.name} />
+            <div className="blossom-dish-card__heart">♡</div>
+          </div>
+          <div className="blossom-dish-card__body">
+            <h3 className="blossom-dish-card__name">{dish.name}</h3>
+            <span className="blossom-dish-card__tag">{dish.tag}</span>
+            <div className="blossom-dish-card__row">
+              <span className="blossom-dish-card__price">${dish.price.toFixed(2)}</span>
+              <button className="blossom-dish-card__add">+</button>
+            </div>
+          </div>
+        </div>
+      ))}
+    </div>
+  </div>
+);
+
+/* ── EMBER: Dark dramatic cards ── */
+const EmberDishes: React.FC = () => (
+  <div className="section">
+    <h2 className="section-title">OFF THE GRILL</h2>
+    <div className="ember-dishes__track">
+      {POPULAR_DISHES.map((dish, i) => (
+        <div key={dish.id} className="ember-dish-card" style={{ animationDelay: `${i * 0.07}s` }}>
+          <img src={dish.image} alt={dish.name} className="ember-dish-card__img" />
+          <div className="ember-dish-card__glow" />
+          <div className="ember-dish-card__body">
+            <span className="ember-dish-card__tag">🔥 {dish.tag}</span>
+            <h3 className="ember-dish-card__name">{dish.name.toUpperCase()}</h3>
+            <div className="ember-dish-card__row">
+              <span className="ember-dish-card__price">${dish.price.toFixed(2)}</span>
+              <button className="ember-dish-card__add">ORDER</button>
             </div>
           </div>
         </div>
