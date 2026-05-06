@@ -18,6 +18,8 @@ const GallerySection: React.FC = () => {
     case 'ocean':   return <OceanGallery />;
     case 'blossom': return <BlossomGallery />;
     case 'ember':   return <EmberGallery />;
+    case 'cosmic':  return <CosmicGallery />;
+    case 'retro':   return <RetroGallery />;
     default:        return <FreshGallery />;
   }
 };
@@ -144,6 +146,18 @@ const BlossomGallery: React.FC = () => (
 const EmberGallery: React.FC = () => (
   <div className="section" style={{ paddingBottom: 24 }}><h2 className="section-title">GALLERY</h2>
     <div className="ember-gallery">{GALLERY_ITEMS.map((item, i) => <div key={item.id} className="ember-gallery__tile" style={{ animationDelay: `${i * 0.07}s` }}><img src={item.url} alt="" /></div>)}</div>
+  </div>
+);
+
+const CosmicGallery: React.FC = () => (
+  <div className="section" style={{ paddingBottom: 16 }}><h2 className="section-title">GALLERY.SYS</h2>
+    <div className="cosmic-gallery">{GALLERY_ITEMS.map((item, i) => <div key={item.id} className="cosmic-gallery__tile" style={{ animationDelay: `${i * 0.07}s` }}><img src={item.url} alt="" /></div>)}</div>
+  </div>
+);
+
+const RetroGallery: React.FC = () => (
+  <div className="section" style={{ paddingBottom: 16 }}><h2 className="section-title">Photo Wall</h2>
+    <div className="retro-gallery">{GALLERY_ITEMS.map((item, i) => <div key={item.id} className="retro-gallery__tile" style={{ animationDelay: `${i * 0.06}s` }}><img src={item.url} alt="" /><div className="retro-gallery__label">ZING DINER</div></div>)}</div>
   </div>
 );
 

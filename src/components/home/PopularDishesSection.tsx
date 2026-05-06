@@ -16,6 +16,8 @@ const PopularDishesSection: React.FC = () => {
     case 'ocean':   return <OceanDishes />;
     case 'blossom': return <BlossomDishes />;
     case 'ember':   return <EmberDishes />;
+    case 'cosmic':  return <CosmicDishes />;
+    case 'retro':   return <RetroDishes />;
     default:        return <FreshDishes />;
   }
 };
@@ -247,6 +249,51 @@ const EmberDishes: React.FC = () => (
               <span className="ember-dish-card__price">${dish.price.toFixed(2)}</span>
               <button className="ember-dish-card__add">ORDER</button>
             </div>
+          </div>
+        </div>
+      ))}
+    </div>
+  </div>
+);
+
+/* ── COSMIC: Holographic horizontal cards ── */
+const CosmicDishes: React.FC = () => (
+  <div className="section">
+    <h2 className="section-title">FEATURED.DAT</h2>
+    <div className="cosmic-dishes__track">
+      {POPULAR_DISHES.map((dish, i) => (
+        <div key={dish.id} className="cosmic-dish-card" style={{ animationDelay: `${i * 0.07}s` }}>
+          <img src={dish.image} alt={dish.name} className="cosmic-dish-card__img" />
+          <div className="cosmic-dish-card__glow" />
+          <div className="cosmic-dish-card__body">
+            <span className="cosmic-dish-card__tag">{dish.tag}</span>
+            <h3 className="cosmic-dish-card__name">{dish.name}</h3>
+            <div className="cosmic-dish-card__row">
+              <span className="cosmic-dish-card__price">${dish.price.toFixed(2)}</span>
+              <button className="cosmic-dish-card__add">+</button>
+            </div>
+          </div>
+        </div>
+      ))}
+    </div>
+  </div>
+);
+
+/* ── RETRO: Diner menu board cards ── */
+const RetroDishes: React.FC = () => (
+  <div className="section">
+    <h2 className="section-title">Today's Specials</h2>
+    <div className="retro-dishes__list">
+      {POPULAR_DISHES.slice(0, 5).map((dish, i) => (
+        <div key={dish.id} className="retro-dish-row" style={{ animationDelay: `${i * 0.06}s` }}>
+          <img src={dish.image} alt={dish.name} className="retro-dish-row__img" />
+          <div className="retro-dish-row__body">
+            <h3 className="retro-dish-row__name">{dish.name}</h3>
+            <span className="retro-dish-row__tag">{dish.tag}</span>
+          </div>
+          <div className="retro-dish-row__right">
+            <span className="retro-dish-row__price">${dish.price.toFixed(2)}</span>
+            <button className="retro-dish-row__add">ORDER</button>
           </div>
         </div>
       ))}

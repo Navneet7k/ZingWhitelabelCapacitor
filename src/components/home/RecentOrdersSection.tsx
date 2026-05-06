@@ -16,6 +16,8 @@ const RecentOrdersSection: React.FC = () => {
     case 'ocean':   return <OceanOrders />;
     case 'blossom': return <BlossomOrders />;
     case 'ember':   return <EmberOrders />;
+    case 'cosmic':  return <CosmicOrders />;
+    case 'retro':   return <RetroOrders />;
     default:        return <FreshOrders />;
   }
 };
@@ -216,6 +218,34 @@ const EmberOrders: React.FC = () => (
           <div className="ember-order-card__header"><span className="ember-order-card__id">{o.id}</span><span className="ember-order-card__status" style={{ color: o.color }}>{o.status}</span></div>
           <div className="ember-order-card__items">{o.items.map((item, j) => <span key={j} className="ember-order-card__item">{item}</span>)}</div>
           <div className="ember-order-card__footer"><span className="ember-order-card__date">{o.date}</span><span className="ember-order-card__total">${o.total.toFixed(2)}</span></div>
+        </div>
+      ))}
+    </div>
+  </div>
+);
+
+const CosmicOrders: React.FC = () => (
+  <div className="section"><h2 className="section-title">ORDERS.SYS</h2>
+    <div className="cosmic-orders__list">
+      {RECENT_ORDERS.map((o, i) => (
+        <div key={o.id} className="cosmic-order-card" style={{ animationDelay: `${i * 0.07}s` }}>
+          <div className="cosmic-order-card__header"><span className="cosmic-order-card__id">{o.id}</span><span className="cosmic-order-card__status" style={{ color: o.color }}>{o.status}</span></div>
+          <div className="cosmic-order-card__items">&gt;&gt; {o.items.join(' · ')}</div>
+          <div className="cosmic-order-card__footer"><span className="cosmic-order-card__date">{o.date}</span><span className="cosmic-order-card__total">${o.total.toFixed(2)}</span></div>
+        </div>
+      ))}
+    </div>
+  </div>
+);
+
+const RetroOrders: React.FC = () => (
+  <div className="section"><h2 className="section-title">Check History</h2>
+    <div className="retro-orders__list">
+      {RECENT_ORDERS.slice(0, 3).map((o, i) => (
+        <div key={o.id} className="retro-order-card" style={{ animationDelay: `${i * 0.07}s` }}>
+          <div className="retro-order-card__header"><span className="retro-order-card__id">{o.id}</span><span className="retro-order-card__date">{o.date}</span></div>
+          <div className="retro-order-card__items">{o.items.map((item, j) => <span key={j} className="retro-order-card__item">{item}</span>)}</div>
+          <div className="retro-order-card__footer"><span className="retro-order-card__status" style={{ color: o.color }}>{o.status}</span><span className="retro-order-card__total">${o.total.toFixed(2)}</span></div>
         </div>
       ))}
     </div>

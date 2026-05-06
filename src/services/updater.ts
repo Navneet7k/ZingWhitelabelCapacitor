@@ -1,14 +1,10 @@
 import { Capacitor } from '@capacitor/core';
 
-// ─────────────────────────────────────────────────────────────────────────────
-// REPLACE these two values after you create your GitHub repo and enable Pages:
-//   YOUR_GITHUB_USERNAME  →  your GitHub username
-//   YOUR_REPO_NAME        →  ZingWhitelabelCapacitor (or whatever you named it)
-// ─────────────────────────────────────────────────────────────────────────────
 const MANIFEST_URL =
   'https://Navneet7k.github.io/ZingWhitelabelCapacitor/manifest.json';
 
 const VERSION_KEY = 'zing_bundle_version';
+const UPDATE_STATUS_KEY = 'zing_update_status';
 
 interface Manifest {
   version: string;
@@ -16,56 +12,90 @@ interface Manifest {
   notes?: string;
 }
 
+export type UpdateStatus =
+  | { state: 'idle' }
+  | { state: 'checking' }
+  | { state: 'up_to_date'; version: string }
+  | { state: 'downloading'; from: string; to: string }
+  | { state: 'ready'; version: string }   // downloaded, will apply on next launch
+  | { state: 'error'; reason: string };
+
+type StatusListener = (s: UpdateStatus) => void;
+const listeners = new Set<StatusListener>();
+
+function setStatus(s: UpdateStatus) {
+  localStorage.setItem(UPDATE_STATUS_KEY, JSON.stringify(s));
+  listeners.forEach(fn => fn(s));
+}
+
+export function getStatus(): UpdateStatus {
+  try {
+    const raw = localStorage.getItem(UPDATE_STATUS_KEY);
+    if (raw) return JSON.parse(raw);
+  } catch {}
+  return { state: 'idle' };
+}
+
+export function onStatusChange(fn: StatusListener): () => void {
+  listeners.add(fn);
+  return () => listeners.delete(fn);
+}
+
 export async function initUpdater(): Promise<void> {
-  // Only run on a real native device — skip in browser/dev
-  if (!Capacitor.isNativePlatform()) return;
+  if (!Capacitor.isNativePlatform()) {
+    // In browser: show a fake status so the debug panel is visible
+    setStatus({ state: 'up_to_date', version: 'browser-dev' });
+    return;
+  }
 
   try {
     const { CapacitorUpdater } = await import('@capgo/capacitor-updater');
-
-    // Must call this first — tells the plugin the current bundle is stable.
-    // If we crash before this call, the plugin auto-rolls back to the previous
-    // working bundle on next launch.
     CapacitorUpdater.notifyAppReady();
-
     await checkAndDownload(CapacitorUpdater);
-  } catch (e) {
-    // Never crash the app over an update check failure
+  } catch (e: any) {
+    const reason = e?.message ?? String(e);
+    setStatus({ state: 'error', reason });
     console.warn('[Updater] init failed', e);
   }
 }
 
 async function checkAndDownload(updater: any): Promise<void> {
+  setStatus({ state: 'checking' });
+
   let manifest: Manifest;
   try {
     const res = await fetch(MANIFEST_URL, { cache: 'no-store' });
-    if (!res.ok) return;
+    if (!res.ok) {
+      setStatus({ state: 'error', reason: `manifest HTTP ${res.status}` });
+      return;
+    }
     manifest = await res.json();
-  } catch {
-    return; // No internet or server down — continue with current bundle
+  } catch (e: any) {
+    setStatus({ state: 'error', reason: `fetch failed: ${e?.message}` });
+    return;
   }
 
   const installedVersion = localStorage.getItem(VERSION_KEY) ?? '1.0.0';
 
-  if (manifest.version === installedVersion) return; // Already up to date
+  if (manifest.version === installedVersion) {
+    setStatus({ state: 'up_to_date', version: installedVersion });
+    return;
+  }
 
-  console.log(`[Updater] New version available: ${manifest.version}`);
+  setStatus({ state: 'downloading', from: installedVersion, to: manifest.version });
 
   try {
-    // Download the new bundle zip in the background
     const bundle = await updater.download({
       url: manifest.url,
       version: manifest.version,
     });
 
-    // Queue it for the NEXT app launch — doesn't interrupt current session
     await updater.next(bundle);
-
-    // Remember which version we queued
     localStorage.setItem(VERSION_KEY, manifest.version);
-
-    console.log(`[Updater] Version ${manifest.version} queued — loads on next launch`);
-  } catch (e) {
-    console.warn('[Updater] Download failed', e);
+    setStatus({ state: 'ready', version: manifest.version });
+    console.log(`[Updater] v${manifest.version} queued — close & reopen app to apply`);
+  } catch (e: any) {
+    setStatus({ state: 'error', reason: `download failed: ${e?.message}` });
+    console.warn('[Updater] download failed', e);
   }
 }

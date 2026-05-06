@@ -207,3 +207,26 @@
 .ember-order-card__footer { display: flex; justify-content: space-between; }
 .ember-order-card__date { font-family: 'Barlow', sans-serif; font-size: 11px; color: #8B7355; }
 .ember-order-card__total { font-family: 'Anton', sans-serif; font-size: 18px; color: #FF6B00; text-shadow: 0 0 10px rgba(255,107,0,0.4); }
+
+/* ── COSMIC ORDERS ── */
+.cosmic-orders__list { display: flex; flex-direction: column; gap: 10px; }
+.cosmic-order-card { background: #0D1530; border: 1px solid rgba(0,229,255,0.2); padding: 14px; border-radius: 8px; animation: fadeInUp 0.4s ease both; font-family: 'Space Grotesk', sans-serif; }
+.cosmic-order-card__header { display: flex; justify-content: space-between; margin-bottom: 8px; }
+.cosmic-order-card__id { font-family: 'Orbitron', sans-serif; font-size: 12px; letter-spacing: 0.1em; color: #00E5FF; text-shadow: 0 0 6px rgba(0,229,255,0.5); }
+.cosmic-order-card__status { font-size: 12px; font-weight: 600; }
+.cosmic-order-card__items { font-size: 12px; color: rgba(232,244,255,0.5); margin-bottom: 8px; line-height: 1.5; font-family: 'Space Grotesk', sans-serif; }
+.cosmic-order-card__footer { display: flex; justify-content: space-between; }
+.cosmic-order-card__date { font-size: 11px; color: #2D3D60; }
+.cosmic-order-card__total { font-family: 'Orbitron', sans-serif; font-size: 16px; font-weight: 700; color: #AA44FF; text-shadow: 0 0 8px rgba(170,68,255,0.5); }
+
+/* ── RETRO ORDERS ── */
+.retro-orders__list { display: flex; flex-direction: column; gap: 12px; }
+.retro-order-card { background: #FFFBF0; border: 2px solid #E8A500; padding: 14px; animation: fadeInUp 0.4s ease both; }
+.retro-order-card__header { display: flex; justify-content: space-between; margin-bottom: 10px; padding-bottom: 8px; border-bottom: 2px dashed rgba(232,165,0,0.4); }
+.retro-order-card__id { font-family: 'Bebas Neue', cursive; font-size: 16px; color: #D62828; letter-spacing: 0.06em; }
+.retro-order-card__date { font-family: 'Outfit', sans-serif; font-size: 11px; color: #7A5C30; }
+.retro-order-card__items { display: flex; flex-wrap: wrap; gap: 6px; margin-bottom: 10px; }
+.retro-order-card__item { font-family: 'Outfit', sans-serif; font-size: 12px; color: #1A0A00; background: rgba(232,165,0,0.15); padding: 3px 10px; border: 1px solid rgba(232,165,0,0.3); }
+.retro-order-card__footer { display: flex; justify-content: space-between; align-items: center; }
+.retro-order-card__status { font-family: 'Outfit', sans-serif; font-size: 12px; font-weight: 700; }
+.retro-order-card__total { font-family: 'Bebas Neue', cursive; font-size: 22px; color: #E8A500; }

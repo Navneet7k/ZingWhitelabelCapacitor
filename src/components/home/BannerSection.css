@@ -428,3 +428,193 @@
 .ember-banner__dots { position: absolute; bottom: 22px; left: 24px; display: flex; gap: 8px; }
 .ember-dot { width: 20px; height: 3px; background: rgba(255,107,0,0.25); cursor: pointer; transition: all 0.3s; border-radius: 2px; }
 .ember-dot.active { background: #FF6B00; box-shadow: 0 0 8px rgba(255,107,0,0.7); width: 36px; }
+
+/* ── COSMIC BANNER ── */
+.cosmic-banner {
+  position: relative;
+  height: 420px;
+  overflow: hidden;
+  background: #050A18;
+}
+.cosmic-banner__img {
+  position: absolute;
+  inset: 0;
+  background-size: cover;
+  background-position: center;
+  animation: fadeIn 0.8s ease;
+  opacity: 0.35;
+  filter: saturate(0.6);
+}
+.cosmic-banner__overlay {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(135deg, rgba(0,229,255,0.12) 0%, rgba(170,68,255,0.18) 100%);
+}
+.cosmic-star {
+  position: absolute;
+  left: var(--sx);
+  top: var(--sy);
+  width: 2px;
+  height: 2px;
+  border-radius: 50%;
+  background: #fff;
+  animation: cosmicTwinkle 2s ease-in-out var(--sd) infinite;
+}
+@keyframes cosmicTwinkle {
+  0%, 100% { opacity: 0.2; transform: scale(1); }
+  50% { opacity: 1; transform: scale(1.6); }
+}
+.cosmic-banner__content {
+  position: absolute;
+  bottom: 60px;
+  left: 0;
+  right: 0;
+  padding: 0 28px;
+  animation: fadeInUp 0.7s ease forwards;
+}
+.cosmic-banner__chip {
+  display: inline-block;
+  font-family: 'Space Grotesk', sans-serif;
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.12em;
+  color: #00E5FF;
+  border: 1px solid rgba(0,229,255,0.5);
+  padding: 4px 12px;
+  border-radius: 20px;
+  margin-bottom: 12px;
+}
+.cosmic-banner__title {
+  font-family: 'Orbitron', sans-serif;
+  font-size: 26px;
+  font-weight: 700;
+  color: #E8F4FF;
+  text-shadow: 0 0 20px rgba(0,229,255,0.6);
+  margin-bottom: 8px;
+  letter-spacing: 0.02em;
+}
+.cosmic-banner__sub {
+  font-family: 'Space Grotesk', sans-serif;
+  font-size: 13px;
+  color: rgba(232,244,255,0.65);
+  margin-bottom: 16px;
+}
+.cosmic-banner__cta {
+  font-family: 'Orbitron', sans-serif;
+  font-size: 12px;
+  font-weight: 600;
+  letter-spacing: 0.1em;
+  background: linear-gradient(90deg, #00E5FF, #AA44FF);
+  color: #050A18;
+  border: none;
+  padding: 10px 22px;
+  border-radius: 8px;
+  cursor: pointer;
+}
+.cosmic-banner__dots {
+  position: absolute;
+  bottom: 28px;
+  left: 50%;
+  transform: translateX(-50%);
+  display: flex;
+  gap: 8px;
+}
+.cosmic-dot {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: rgba(0,229,255,0.3);
+  border: 1px solid rgba(0,229,255,0.5);
+  transition: all 0.3s;
+  cursor: pointer;
+}
+.cosmic-dot.active {
+  background: #00E5FF;
+  box-shadow: 0 0 8px rgba(0,229,255,0.8);
+  transform: scale(1.3);
+}
+
+/* ── RETRO BANNER ── */
+.retro-banner {
+  position: relative;
+  height: 400px;
+  overflow: hidden;
+  background: #1A0A00;
+}
+.retro-banner__checker {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: 32px;
+  background-image: repeating-conic-gradient(#E8A500 0% 25%, transparent 0% 50%);
+  background-size: 20px 20px;
+  opacity: 0.8;
+  z-index: 3;
+}
+.retro-banner__img {
+  position: absolute;
+  inset: 0;
+  background-size: cover;
+  background-position: center;
+  animation: fadeIn 0.6s ease;
+  filter: sepia(20%) saturate(1.3);
+}
+.retro-banner__overlay {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(to top, rgba(26,10,0,0.9) 0%, rgba(26,10,0,0.3) 60%, transparent 100%);
+}
+.retro-banner__content {
+  position: absolute;
+  bottom: 56px;
+  left: 0;
+  right: 0;
+  padding: 0 24px;
+  animation: slideInLeft 0.4s ease forwards;
+}
+.retro-banner__badge {
+  display: inline-block;
+  font-family: 'Bebas Neue', cursive;
+  font-size: 13px;
+  letter-spacing: 0.18em;
+  color: #1A0A00;
+  background: #E8A500;
+  padding: 4px 14px;
+  margin-bottom: 12px;
+}
+.retro-banner__title {
+  font-family: 'Bebas Neue', cursive;
+  font-size: 46px;
+  line-height: 1;
+  color: #FFF8E7;
+  letter-spacing: 0.04em;
+  text-shadow: 3px 3px 0 rgba(232,165,0,0.4);
+  margin-bottom: 8px;
+}
+.retro-banner__sub {
+  font-family: 'Outfit', sans-serif;
+  font-size: 13px;
+  color: rgba(255,248,231,0.7);
+  margin-bottom: 16px;
+}
+.retro-banner__cta {
+  font-family: 'Bebas Neue', cursive;
+  font-size: 16px;
+  letter-spacing: 0.12em;
+  background: #D62828;
+  color: #FFF8E7;
+  border: none;
+  padding: 10px 24px;
+  cursor: pointer;
+}
+.retro-banner__counter {
+  position: absolute;
+  bottom: 36px;
+  right: 24px;
+  font-family: 'Bebas Neue', cursive;
+  font-size: 18px;
+  color: #E8A500;
+  letter-spacing: 0.06em;
+  z-index: 4;
+}

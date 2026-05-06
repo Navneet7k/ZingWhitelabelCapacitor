@@ -16,6 +16,8 @@ const BannerSection: React.FC = () => {
     case 'ocean':   return <OceanBanner />;
     case 'blossom': return <BlossomBanner />;
     case 'ember':   return <EmberBanner />;
+    case 'cosmic':  return <CosmicBanner />;
+    case 'retro':   return <RetroBanner />;
     default:        return <FreshBanner />;
   }
 };
@@ -313,6 +315,60 @@ const EmberBanner: React.FC = () => {
           <span key={i} className={`ember-dot ${i === active ? 'active' : ''}`} onClick={() => setActive(i)} />
         ))}
       </div>
+    </div>
+  );
+};
+
+/* ── COSMIC: Deep space holographic hero ── */
+const CosmicBanner: React.FC = () => {
+  const [active, setActive] = useState(0);
+  useEffect(() => {
+    const t = setInterval(() => setActive(i => (i + 1) % BANNER_SLIDES.length), 4200);
+    return () => clearInterval(t);
+  }, []);
+  const slide = BANNER_SLIDES[active];
+  return (
+    <div className="cosmic-banner">
+      <div key={active} className="cosmic-banner__img" style={{ backgroundImage: `url(${slide.image})` }} />
+      <div className="cosmic-banner__overlay" />
+      {[...Array(18)].map((_, i) => (
+        <div key={i} className="cosmic-star" style={{ '--sx': `${Math.random() * 100}%`, '--sy': `${Math.random() * 100}%`, '--sd': `${i * 0.4}s` } as React.CSSProperties} />
+      ))}
+      <div key={`c-${active}`} className="cosmic-banner__content">
+        <div className="cosmic-banner__chip">🚀 ZING UNIVERSE</div>
+        <h1 className="cosmic-banner__title">{slide.title}</h1>
+        <p className="cosmic-banner__sub">{slide.subtitle}</p>
+        <button className="cosmic-banner__cta">{slide.cta} ›</button>
+      </div>
+      <div className="cosmic-banner__dots">
+        {BANNER_SLIDES.map((_, i) => (
+          <span key={i} className={`cosmic-dot ${i === active ? 'active' : ''}`} onClick={() => setActive(i)} />
+        ))}
+      </div>
+    </div>
+  );
+};
+
+/* ── RETRO: 70s diner jukebox hero ── */
+const RetroBanner: React.FC = () => {
+  const [active, setActive] = useState(0);
+  useEffect(() => {
+    const t = setInterval(() => setActive(i => (i + 1) % BANNER_SLIDES.length), 4000);
+    return () => clearInterval(t);
+  }, []);
+  const slide = BANNER_SLIDES[active];
+  return (
+    <div className="retro-banner">
+      <div className="retro-banner__checker" />
+      <div key={active} className="retro-banner__img" style={{ backgroundImage: `url(${slide.image})` }} />
+      <div className="retro-banner__overlay" />
+      <div key={`c-${active}`} className="retro-banner__content">
+        <div className="retro-banner__badge">★ DAILY SPECIAL ★</div>
+        <h1 className="retro-banner__title">{slide.title}</h1>
+        <p className="retro-banner__sub">{slide.subtitle}</p>
+        <button className="retro-banner__cta">{slide.cta}</button>
+      </div>
+      <div className="retro-banner__counter">{String(active + 1).padStart(2, '0')}/{BANNER_SLIDES.length}</div>
     </div>
   );
 };

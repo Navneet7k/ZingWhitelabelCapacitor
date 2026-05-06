@@ -159,3 +159,21 @@
 .ember-gallery__tile img { width: 100%; display: block; filter: saturate(0.8) contrast(1.1); transition: filter 0.3s; }
 .ember-gallery__tile:hover img { filter: saturate(1.1) contrast(1.15); }
 .ember-gallery__tile::after { content: ''; position: absolute; bottom: 0; left: 0; right: 0; height: 30%; background: linear-gradient(to top, rgba(255,107,0,0.2), transparent); pointer-events: none; }
+
+/* ── COSMIC GALLERY ── */
+.cosmic-gallery { display: grid; grid-template-columns: repeat(3, 1fr); gap: 6px; }
+.cosmic-gallery__tile {
+  border-radius: 8px; overflow: hidden;
+  border: 1px solid rgba(0,229,255,0.15);
+  animation: fadeInUp 0.4s ease both;
+  position: relative;
+}
+.cosmic-gallery__tile img { width: 100%; height: 100px; object-fit: cover; display: block; filter: saturate(0.7); transition: filter 0.3s; }
+.cosmic-gallery__tile:hover img { filter: saturate(1.1); }
+.cosmic-gallery__tile::after { content: ''; position: absolute; inset: 0; background: linear-gradient(135deg, rgba(0,229,255,0.08), rgba(170,68,255,0.08)); pointer-events: none; }
+
+/* ── RETRO GALLERY ── */
+.retro-gallery { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+.retro-gallery__tile { background: #fff; padding: 6px 6px 22px; border: 2px solid #E8A500; animation: fadeInUp 0.5s ease both; }
+.retro-gallery__tile img { width: 100%; height: 110px; object-fit: cover; display: block; filter: sepia(15%); }
+.retro-gallery__label { font-family: 'Bebas Neue', cursive; font-size: 11px; color: #E8A500; text-align: center; padding-top: 6px; letter-spacing: 0.14em; }

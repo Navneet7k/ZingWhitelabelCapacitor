@@ -1,7 +1,8 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { IonContent, IonHeader, IonPage, IonToolbar, IonTitle } from '@ionic/react';
 import { useTemplate, TEMPLATES } from '../context/TemplateContext';
 import { LOYALTY } from '../config/mockData';
+import { getStatus, onStatusChange, UpdateStatus } from '../services/updater';
 import './AccountPage.css';
 
 const MENU_ITEMS_ACC = [
@@ -15,8 +16,24 @@ const MENU_ITEMS_ACC = [
   { icon: '🚪', label: 'Sign Out' },
 ];
 
+function updateStatusLabel(s: UpdateStatus): { text: string; color: string } {
+  switch (s.state) {
+    case 'idle':        return { text: 'Idle', color: '#888' };
+    case 'checking':    return { text: 'Checking for updates…', color: '#F5A623' };
+    case 'up_to_date':  return { text: `Up to date (${s.version})`, color: '#4CAF50' };
+    case 'downloading': return { text: `Downloading update ${s.from} → ${s.to}…`, color: '#2196F3' };
+    case 'ready':       return { text: `Update ready (v${s.version}) — restart app to apply`, color: '#9C27B0' };
+    case 'error':       return { text: `Update error: ${s.reason}`, color: '#F44336' };
+  }
+}
+
 const AccountPage: React.FC = () => {
   const { template, setTemplateId } = useTemplate();
+  const [updateStatus, setUpdateStatus] = useState<UpdateStatus>(getStatus);
+
+  useEffect(() => {
+    return onStatusChange(setUpdateStatus);
+  }, []);
 
   return (
     <IonPage>
@@ -67,6 +84,21 @@ const AccountPage: React.FC = () => {
               </button>
             ))}
           </div>
+        </div>
+
+        {/* Update status */}
+        <div className="acc__update-panel">
+          <div className="acc__update-header">
+            <span className="acc__update-icon">
+              {updateStatus.state === 'checking' || updateStatus.state === 'downloading' ? '🔄' :
+               updateStatus.state === 'ready' ? '✅' :
+               updateStatus.state === 'error' ? '❌' : '🔃'}
+            </span>
+            <span className="acc__update-title">App Updates</span>
+          </div>
+          <p className="acc__update-text" style={{ color: updateStatusLabel(updateStatus).color }}>
+            {updateStatusLabel(updateStatus).text}
+          </p>
         </div>
 
         <div style={{ height: 32 }} />
