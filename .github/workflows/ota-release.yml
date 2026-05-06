@@ -6,7 +6,7 @@ name: OTA Release
 on:
   push:
     branches:
-      - release
+      - main
 
 # ─── Permissions ───────────────────────────────────────────────────────────
 permissions:
