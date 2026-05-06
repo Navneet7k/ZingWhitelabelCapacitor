@@ -1,0 +1,101 @@
+.acc__profile {
+  padding: 36px 24px 28px;
+  text-align: center;
+  color: #fff;
+  animation: fadeIn 0.5s ease both;
+}
+.acc__avatar {
+  width: 72px;
+  height: 72px;
+  border-radius: 50%;
+  background: rgba(255,255,255,0.25);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 22px;
+  font-weight: 700;
+  font-family: var(--t-font-heading);
+  color: #fff;
+  margin: 0 auto 12px;
+  border: 2px solid rgba(255,255,255,0.4);
+}
+.acc__name {
+  font-family: var(--t-font-heading);
+  font-size: 22px;
+  font-weight: 700;
+  margin-bottom: 4px;
+}
+.acc__email {
+  font-family: var(--t-font-body);
+  font-size: 13px;
+  opacity: 0.8;
+  margin-bottom: 14px;
+}
+.acc__badges { display: flex; justify-content: center; gap: 8px; }
+.acc__badge {
+  background: rgba(255,255,255,0.2);
+  color: #fff;
+  font-family: var(--t-font-body);
+  font-size: 12px;
+  font-weight: 600;
+  padding: 4px 14px;
+  border-radius: 20px;
+}
+
+.acc__menu {
+  padding: 8px 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+.acc__menu-item {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  padding: 14px 16px;
+  background: var(--t-surface);
+  border: none;
+  border-radius: var(--t-radius);
+  cursor: pointer;
+  animation: fadeInUp 0.4s ease both;
+  transition: opacity 0.15s;
+}
+.acc__menu--luxe .acc__menu-item { background: #181818; border-bottom: 1px solid rgba(201,168,76,0.1); border-radius: 0; }
+.acc__menu--street .acc__menu-item { background: #1C1C1E; border-radius: 4px; }
+.acc__menu-item:hover { opacity: 0.8; }
+.acc__menu-icon { font-size: 20px; }
+.acc__menu-label {
+  flex: 1;
+  font-family: var(--t-font-body);
+  font-size: 15px;
+  color: var(--t-text);
+  text-align: left;
+}
+.acc__menu-arrow { font-size: 20px; color: var(--t-text-muted); }
+
+.acc__template-section { padding: 24px 16px 8px; }
+.acc__template-title {
+  font-family: var(--t-font-heading);
+  font-size: 16px;
+  color: var(--t-text);
+  margin-bottom: 12px;
+}
+.acc__template-grid {
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  gap: 8px;
+}
+.acc__template-btn {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 4px;
+  padding: 10px 4px;
+  border: 2px solid transparent;
+  border-radius: 12px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+.acc__template-btn.active { box-shadow: 0 2px 10px rgba(0,0,0,0.15); }
+.acc__template-emoji { font-size: 20px; }
+.acc__template-name { font-size: 10px; font-family: sans-serif; font-weight: 600; }

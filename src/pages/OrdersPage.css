@@ -1,0 +1,45 @@
+.orders__hero {
+  padding: 32px 24px 28px;
+  text-align: center;
+  color: #fff;
+}
+.orders__hero-icon { font-size: 36px; display: block; margin-bottom: 8px; }
+.orders__hero-title { font-family: var(--t-font-heading); font-size: 24px; font-weight: 700; margin-bottom: 4px; }
+.orders__hero-sub { font-family: var(--t-font-body); font-size: 14px; opacity: 0.85; }
+
+.orders__list { padding: 16px; display: flex; flex-direction: column; gap: 12px; }
+.orders__card {
+  background: var(--t-surface);
+  border-radius: var(--t-radius-lg);
+  padding: 16px;
+  box-shadow: var(--t-shadow);
+  animation: fadeInUp 0.4s ease both;
+}
+.orders__list--luxe .orders__card { background: #181818; border: 1px solid rgba(201,168,76,0.15); }
+.orders__list--street .orders__card { background: #1C1C1E; border-left: 3px solid #FFD600; border-radius: 6px; }
+
+.orders__card-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px; }
+.orders__card-id {
+  font-family: var(--t-font-body);
+  font-size: 13px;
+  font-weight: 700;
+  color: var(--t-text-muted);
+  letter-spacing: 0.04em;
+}
+.orders__card-status { font-family: var(--t-font-body); font-size: 13px; font-weight: 700; }
+
+.orders__card-items { display: flex; flex-wrap: wrap; gap: 6px; margin-bottom: 12px; }
+.orders__card-item {
+  background: var(--t-surface2, #f5f5f5);
+  color: var(--t-text);
+  font-family: var(--t-font-body);
+  font-size: 12px;
+  padding: 4px 10px;
+  border-radius: 20px;
+}
+.orders__list--luxe .orders__card-item { background: rgba(201,168,76,0.1); color: #F5F0E8; }
+.orders__list--street .orders__card-item { background: #2A2A2A; color: #fff; border-radius: 4px; }
+
+.orders__card-footer { display: flex; justify-content: space-between; align-items: center; }
+.orders__card-date { font-family: var(--t-font-body); font-size: 12px; color: var(--t-text-muted); }
+.orders__card-total { font-family: var(--t-font-heading); font-size: 18px; font-weight: 700; }

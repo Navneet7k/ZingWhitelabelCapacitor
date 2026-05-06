@@ -1,0 +1,78 @@
+name: OTA Release
+
+# ─── Trigger ───────────────────────────────────────────────────────────────
+# Push to the `release` branch → builds app, zips dist, publishes to
+# GitHub Pages. All existing users get the update on next app launch.
+on:
+  push:
+    branches:
+      - release
+
+# ─── Permissions ───────────────────────────────────────────────────────────
+permissions:
+  contents: write
+  pages: write
+  id-token: write
+
+jobs:
+  build-and-deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+      # 1. Check out source
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      # 2. Set up Node
+      - name: Setup Node 20
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          cache: 'npm'
+
+      # 3. Install dependencies
+      - name: Install dependencies
+        run: npm ci
+
+      # 4. Build web app
+      - name: Build
+        run: npm run build
+
+      # 5. Read version from package.json
+      - name: Read version
+        id: pkg
+        run: echo "VERSION=$(node -p "require('./package.json').version")" >> $GITHUB_OUTPUT
+
+      # 6. Zip the dist folder
+      - name: Zip dist
+        run: |
+          mkdir -p deploy/updates
+          cd dist
+          zip -r ../deploy/updates/v${{ steps.pkg.outputs.VERSION }}.zip .
+          cd ..
+          echo "✅ Created deploy/updates/v${{ steps.pkg.outputs.VERSION }}.zip"
+
+      # 7. Write manifest.json
+      - name: Write manifest.json
+        run: |
+          cat > deploy/manifest.json << EOF
+          {
+            "version": "${{ steps.pkg.outputs.VERSION }}",
+            "url": "https://${{ github.repository_owner }}.github.io/${{ github.event.repository.name }}/updates/v${{ steps.pkg.outputs.VERSION }}.zip",
+            "notes": "Released from commit ${{ github.sha }}",
+            "released_at": "$(date -u +%Y-%m-%dT%H:%M:%SZ)"
+          }
+          EOF
+          echo "✅ manifest.json:"
+          cat deploy/manifest.json
+
+      # 8. Deploy to GitHub Pages
+      #    keep_files: true → old zip files are preserved so users on older
+      #    native shells can still roll back to any previous web bundle.
+      - name: Deploy to GitHub Pages
+        uses: peaceiris/actions-gh-pages@v4
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          publish_dir: ./deploy
+          keep_files: true
+          commit_message: "OTA v${{ steps.pkg.outputs.VERSION }} — ${{ github.sha }}"

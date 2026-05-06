@@ -1,0 +1,109 @@
+/* ── LUXE: Dark Gold Fine Dining ── */
+[data-template="luxe"] {
+  --t-bg: #0D0D0D;
+  --t-surface: #181818;
+  --t-surface2: #222;
+  --t-primary: #C9A84C;
+  --t-primary-light: #E2C97E;
+  --t-accent: #F5F0E8;
+  --t-text: #F5F0E8;
+  --t-text-muted: #888;
+  --t-border: rgba(201,168,76,0.25);
+  --t-font-heading: 'Playfair Display', serif;
+  --t-font-body: 'Lato', sans-serif;
+  --t-radius: 4px;
+  --t-radius-lg: 8px;
+  --t-shadow: 0 4px 24px rgba(0,0,0,0.6);
+  --t-transition: 600ms cubic-bezier(0.4,0,0.2,1);
+  --t-tab-bg: #0D0D0D;
+  --t-tab-active: #C9A84C;
+  --t-tab-inactive: #555;
+}
+
+/* ── FRESH: Bright Modern Fast-Casual ── */
+[data-template="fresh"] {
+  --t-bg: #F8FFF9;
+  --t-surface: #FFFFFF;
+  --t-surface2: #F0FAF3;
+  --t-primary: #00B87C;
+  --t-primary-light: #4CD9A4;
+  --t-accent: #FF6B35;
+  --t-text: #1A1A1A;
+  --t-text-muted: #666;
+  --t-border: rgba(0,184,124,0.15);
+  --t-font-heading: 'Nunito', sans-serif;
+  --t-font-body: 'Nunito', sans-serif;
+  --t-radius: 18px;
+  --t-radius-lg: 26px;
+  --t-shadow: 0 8px 32px rgba(0,184,124,0.15);
+  --t-transition: 350ms cubic-bezier(0.34,1.56,0.64,1);
+  --t-tab-bg: #FFFFFF;
+  --t-tab-active: #00B87C;
+  --t-tab-inactive: #AAAAAA;
+}
+
+/* ── STREET: Urban Dark Street Food ── */
+[data-template="street"] {
+  --t-bg: #111111;
+  --t-surface: #1C1C1E;
+  --t-surface2: #242424;
+  --t-primary: #FFD600;
+  --t-primary-light: #FFE566;
+  --t-accent: #FF3B30;
+  --t-text: #FFFFFF;
+  --t-text-muted: #888;
+  --t-border: rgba(255,214,0,0.2);
+  --t-font-heading: 'Oswald', sans-serif;
+  --t-font-body: 'Inter', sans-serif;
+  --t-radius: 6px;
+  --t-radius-lg: 10px;
+  --t-shadow: 4px 4px 0 rgba(255,214,0,0.4);
+  --t-transition: 220ms cubic-bezier(0.16,1,0.3,1);
+  --t-tab-bg: #1C1C1E;
+  --t-tab-active: #FFD600;
+  --t-tab-inactive: #555;
+}
+
+/* ── ZEN: Minimal Japanese Warmth ── */
+[data-template="zen"] {
+  --t-bg: #FAF8F5;
+  --t-surface: #FFFFFF;
+  --t-surface2: #F3EFE9;
+  --t-primary: #5C3D2E;
+  --t-primary-light: #8B6B4A;
+  --t-accent: #8B6B4A;
+  --t-text: #2D2D2D;
+  --t-text-muted: #9E8C7D;
+  --t-border: rgba(92,61,46,0.12);
+  --t-font-heading: 'Cormorant Garamond', serif;
+  --t-font-body: 'Source Sans 3', sans-serif;
+  --t-radius: 2px;
+  --t-radius-lg: 4px;
+  --t-shadow: 0 2px 12px rgba(92,61,46,0.08);
+  --t-transition: 700ms cubic-bezier(0.4,0,0.2,1);
+  --t-tab-bg: #FAF8F5;
+  --t-tab-active: #5C3D2E;
+  --t-tab-inactive: #C0AFA0;
+}
+
+/* ── FIESTA: Vibrant Festive ── */
+[data-template="fiesta"] {
+  --t-bg: #FFF9F0;
+  --t-surface: #FFFFFF;
+  --t-surface2: #FFF3E0;
+  --t-primary: #FF6B6B;
+  --t-primary-light: #FF9E9E;
+  --t-accent: #4ECDC4;
+  --t-text: #292F36;
+  --t-text-muted: #7A7A7A;
+  --t-border: rgba(255,107,107,0.15);
+  --t-font-heading: 'Fredoka One', cursive;
+  --t-font-body: 'Poppins', sans-serif;
+  --t-radius: 16px;
+  --t-radius-lg: 24px;
+  --t-shadow: 0 6px 24px rgba(255,107,107,0.18);
+  --t-transition: 400ms cubic-bezier(0.68,-0.55,0.265,1.55);
+  --t-tab-bg: #FFFFFF;
+  --t-tab-active: #FF6B6B;
+  --t-tab-inactive: #BBBBBB;
+}

@@ -1,0 +1,22 @@
+.home-template-picker {
+  display: flex;
+  gap: 10px;
+  padding: 10px 16px;
+  background: var(--t-surface, #fff);
+  border-bottom: 1px solid var(--t-border, #eee);
+  overflow-x: auto;
+  animation: slideInUp 0.2s ease both;
+}
+.home-tp-btn {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 4px;
+  padding: 8px 14px;
+  border: 2px solid transparent;
+  border-radius: 12px;
+  cursor: pointer;
+  flex-shrink: 0;
+  transition: all 0.2s ease;
+}
+.home-tp-btn.active { box-shadow: 0 2px 8px rgba(0,0,0,0.15); }
