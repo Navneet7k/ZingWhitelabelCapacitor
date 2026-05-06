@@ -3,6 +3,7 @@ import { IonContent, IonHeader, IonPage, IonToolbar, IonTitle } from '@ionic/rea
 import { useTemplate, TEMPLATES } from '../context/TemplateContext';
 import { LOYALTY } from '../config/mockData';
 import { getStatus, onStatusChange, UpdateStatus } from '../services/updater';
+import { isRestaurantMode, getRestaurantName } from '../services/restaurantConfig';
 import './AccountPage.css';
 
 const MENU_ITEMS_ACC = [
@@ -65,26 +66,39 @@ const AccountPage: React.FC = () => {
           ))}
         </div>
 
-        {/* Template switcher */}
-        <div className="acc__template-section">
-          <h3 className="acc__template-title">App Template</h3>
-          <div className="acc__template-grid">
-            {TEMPLATES.map(t => (
-              <button
-                key={t.id}
-                className={`acc__template-btn ${t.id === template.id ? 'active' : ''}`}
-                style={{
-                  background: t.colors.bg,
-                  borderColor: t.id === template.id ? t.colors.primary : 'transparent',
-                }}
-                onClick={() => setTemplateId(t.id)}
-              >
-                <span className="acc__template-emoji">{t.emoji}</span>
-                <span className="acc__template-name" style={{ color: t.colors.text }}>{t.name}</span>
-              </button>
-            ))}
+        {/* Template switcher — hidden in restaurant mode */}
+        {!isRestaurantMode() && (
+          <div className="acc__template-section">
+            <h3 className="acc__template-title">App Template</h3>
+            <div className="acc__template-grid">
+              {TEMPLATES.map(t => (
+                <button
+                  key={t.id}
+                  className={`acc__template-btn ${t.id === template.id ? 'active' : ''}`}
+                  style={{
+                    background: t.colors.bg,
+                    borderColor: t.id === template.id ? t.colors.primary : 'transparent',
+                  }}
+                  onClick={() => setTemplateId(t.id)}
+                >
+                  <span className="acc__template-emoji">{t.emoji}</span>
+                  <span className="acc__template-name" style={{ color: t.colors.text }}>{t.name}</span>
+                </button>
+              ))}
+            </div>
           </div>
-        </div>
+        )}
+
+        {/* Restaurant branding info — shown only in restaurant mode */}
+        {isRestaurantMode() && (
+          <div className="acc__restaurant-panel">
+            <span className="acc__restaurant-icon">🍕</span>
+            <div>
+              <p className="acc__restaurant-name">{getRestaurantName() ?? 'Restaurant App'}</p>
+              <p className="acc__restaurant-powered">Powered by Zing</p>
+            </div>
+          </div>
+        )}
 
         {/* Update status */}
         <div className="acc__update-panel">

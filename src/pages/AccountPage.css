@@ -128,3 +128,29 @@
   line-height: 1.5;
   word-break: break-word;
 }
+
+/* ── Restaurant mode panel ── */
+.acc__restaurant-panel {
+  margin: 0 16px 8px;
+  background: var(--t-surface, #fff);
+  border-radius: var(--t-radius, 12px);
+  padding: 14px 16px;
+  border: 1px solid var(--t-border, rgba(0,0,0,0.08));
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+.acc__restaurant-icon { font-size: 28px; }
+.acc__restaurant-name {
+  font-family: var(--t-font-heading, sans-serif);
+  font-size: 15px;
+  font-weight: 700;
+  color: var(--t-text, #1A1A1A);
+  margin: 0 0 2px;
+}
+.acc__restaurant-powered {
+  font-family: var(--t-font-body, sans-serif);
+  font-size: 11px;
+  color: var(--t-text-muted, #888);
+  margin: 0;
+}
