@@ -26,8 +26,9 @@ const BannerSection: React.FC = () => {
         case 'blossom': return <BlossomBanner />;
         case 'ember':   return <EmberBanner />;
         case 'cosmic':  return <CosmicBanner />;
-        case 'retro':   return <RetroBanner />;
-        default:        return <FreshBanner />;
+        case 'retro':    return <RetroBanner />;
+        case 'tropical': return <TropicalBanner />;
+        default:         return <FreshBanner />;
       }})()}
     </BannerCtx.Provider>
   );
@@ -359,6 +360,35 @@ const RetroBanner: React.FC = () => {
         <button className="retro-banner__cta">{slide.cta}</button>
       </div>
       <div className="retro-banner__counter">{String(active + 1).padStart(2, '0')}/{BANNER_SLIDES.length}</div>
+    </div>
+  );
+};
+
+/* ── TROPICAL ── */
+const TropicalBanner: React.FC = () => {
+  const BANNER_SLIDES = useContext(BannerCtx);
+  const [active, setActive] = useState(0);
+  useEffect(() => {
+    const t = setInterval(() => setActive(i => (i + 1) % BANNER_SLIDES.length), 4000);
+    return () => clearInterval(t);
+  }, [BANNER_SLIDES.length]);
+  const slide = BANNER_SLIDES[active] ?? BANNER_SLIDES[0];
+  return (
+    <div className="tropical-banner">
+      <div key={active} className="tropical-banner__img" style={{ backgroundImage: `url(${slide.image})` }} />
+      <div className="tropical-banner__overlay" />
+      {['🌺', '🌴', '🍍', '🌺', '🥭'].map((e, i) => (
+        <span key={i} className="tropical-float" style={{ '--delay': `${i * 0.7}s`, '--x': `${8 + i * 20}%` } as React.CSSProperties}>{e}</span>
+      ))}
+      <div key={`c-${active}`} className="tropical-banner__content">
+        <div className="tropical-banner__chip">🌴 ISLAND EATS</div>
+        <h1 className="tropical-banner__title">{slide.title}</h1>
+        <p className="tropical-banner__sub">{slide.subtitle}</p>
+        <button className="tropical-banner__cta">{slide.cta} 🥥</button>
+      </div>
+      <div className="tropical-banner__dots">
+        {BANNER_SLIDES.map((_, i) => <span key={i} className={`tropical-dot ${i === active ? 'active' : ''}`} onClick={() => setActive(i)} />)}
+      </div>
     </div>
   );
 };

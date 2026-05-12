@@ -7,7 +7,7 @@ const RESTAURANT_NAME_KEY  = 'zing_restaurant_name';
 const TEMPLATE_MAP: Record<number, TemplateId> = {
   1: 'luxe',   2: 'fresh',  3: 'street', 4: 'zen',
   5: 'fiesta', 6: 'neon',   7: 'rustic', 8: 'ocean',
-  9: 'blossom',10: 'ember', 11: 'cosmic',12: 'retro',
+  9: 'blossom',10: 'ember', 11: 'cosmic',12: 'retro',13: 'tropical',
 };
 
 /**

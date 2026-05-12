@@ -15,8 +15,9 @@ const LoyaltySection: React.FC = () => {
     case 'rustic':  return <RusticLoyalty />;
     case 'ocean':   return <OceanLoyalty />;
     case 'blossom': return <BlossomLoyalty />;
-    case 'ember':   return <EmberLoyalty />;
-    default:        return <FreshLoyalty />;
+    case 'ember':    return <EmberLoyalty />;
+    case 'tropical': return <TropicalLoyalty />;
+    default:         return <FreshLoyalty />;
   }
 };
 
@@ -289,5 +290,35 @@ const EmberLoyalty: React.FC = () => (
     </div>
   </div>
 );
+
+/* ── TROPICAL: Pineapple stamp card ── */
+const TropicalLoyalty: React.FC = () => {
+  const pineapples = Math.round((pct / 100) * 5);
+  return (
+    <div className="section">
+      <h2 className="section-title">Your Rewards 🌴</h2>
+      <div className="tropical-loyalty">
+        <div className="tropical-loyalty__top">
+          <div>
+            <span className="tropical-loyalty__pts">{LOYALTY.points.toLocaleString()}</span>
+            <span className="tropical-loyalty__unit"> points</span>
+          </div>
+          <span className="tropical-loyalty__tier">{LOYALTY.tier} 🌺</span>
+        </div>
+        <div className="tropical-loyalty__pineapples">
+          {[1, 2, 3, 4, 5].map(p => (
+            <span key={p} className={`tropical-pine ${p <= pineapples ? 'lit' : ''}`}
+              style={{ animationDelay: `${p * 0.1}s` }}>🍍</span>
+          ))}
+        </div>
+        <div className="tropical-loyalty__track">
+          <div className="tropical-loyalty__fill" style={{ '--progress-width': `${pct}%` } as React.CSSProperties} />
+        </div>
+        <p className="tropical-loyalty__note">{LOYALTY.nextTierPoints - LOYALTY.points} pts to {LOYALTY.nextTier}</p>
+        <button className="tropical-loyalty__btn">Redeem 🥥</button>
+      </div>
+    </div>
+  );
+};
 
 export default LoyaltySection;

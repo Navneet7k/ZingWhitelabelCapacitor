@@ -26,8 +26,9 @@ const PopularDishesSection: React.FC = () => {
         case 'blossom': return <BlossomDishes />;
         case 'ember':   return <EmberDishes />;
         case 'cosmic':  return <CosmicDishes />;
-        case 'retro':   return <RetroDishes />;
-        default:        return <FreshDishes />;
+        case 'retro':    return <RetroDishes />;
+        case 'tropical': return <TropicalDishes />;
+        default:         return <FreshDishes />;
       }})()}
     </DishesCtx.Provider>
   );
@@ -332,6 +333,34 @@ const RetroDishes: React.FC = () => {
             <div className="retro-dish-row__right">
               <Price dish={dish} className="retro-dish-row__price" />
               <button className="retro-dish-row__add">ORDER</button>
+            </div>
+          </div>
+        ))}
+      </div>
+    </div>
+  );
+};
+
+const TROPICAL_FRUITS = ['🥭', '🍍', '🥥', '🍋', '🌶️', '🫐'];
+const TropicalDishes: React.FC = () => {
+  const POPULAR_DISHES = useContext(DishesCtx);
+  return (
+    <div className="section">
+      <h2 className="section-title">Island Favorites 🥭</h2>
+      <div className="tropical-dishes__track">
+        {POPULAR_DISHES.map((dish, i) => (
+          <div key={dish.id} className="tropical-dish-card" style={{ animationDelay: `${i * 0.07}s` }}>
+            <div className="tropical-dish-card__img-wrap">
+              <img src={dish.image} alt={dish.name} />
+              <span className="tropical-dish-card__fruit">{TROPICAL_FRUITS[i % TROPICAL_FRUITS.length]}</span>
+            </div>
+            <div className="tropical-dish-card__body">
+              <span className="tropical-dish-card__tag">{dish.tag}</span>
+              <h3 className="tropical-dish-card__name">{dish.name}</h3>
+              <div className="tropical-dish-card__row">
+                <Price dish={dish} className="tropical-dish-card__price" />
+                <button className="tropical-dish-card__add">+</button>
+              </div>
             </div>
           </div>
         ))}
