@@ -17,6 +17,7 @@ const LoyaltySection: React.FC = () => {
     case 'blossom': return <BlossomLoyalty />;
     case 'ember':    return <EmberLoyalty />;
     case 'tropical': return <TropicalLoyalty />;
+    case 'royal':    return <RoyalLoyalty />;
     default:         return <FreshLoyalty />;
   }
 };
@@ -287,6 +288,30 @@ const EmberLoyalty: React.FC = () => (
         <div className="ember-loyalty__fill" style={{ '--progress-width': `${pct}%` } as React.CSSProperties} />
       </div>
       <p className="ember-loyalty__note">{LOYALTY.nextTierPoints - LOYALTY.points} pts until {LOYALTY.nextTier}</p>
+    </div>
+  </div>
+);
+
+/* ── ROYAL: Heraldic honours card ── */
+const RoyalLoyalty: React.FC = () => (
+  <div className="section" style={{ paddingTop: 28 }}>
+    <div className="royal-loyalty">
+      <div className="royal-loyalty__header">
+        <span className="royal-loyalty__crown">👑</span>
+        <div>
+          <span className="royal-loyalty__label">ROYAL HONOURS</span>
+          <span className="royal-loyalty__tier">{LOYALTY.tier} Member</span>
+        </div>
+        <span className="royal-loyalty__pts">{LOYALTY.points.toLocaleString()}</span>
+      </div>
+      <div className="royal-loyalty__rule">✦ ✦ ✦</div>
+      <div className="royal-loyalty__progress-label">
+        <span>{LOYALTY.nextTier} — {LOYALTY.nextTierPoints - LOYALTY.points} pts away</span>
+        <span>{pct}%</span>
+      </div>
+      <div className="royal-loyalty__track">
+        <div className="royal-loyalty__fill" style={{ '--progress-width': `${pct}%` } as React.CSSProperties} />
+      </div>
     </div>
   </div>
 );

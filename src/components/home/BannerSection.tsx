@@ -28,6 +28,7 @@ const BannerSection: React.FC = () => {
         case 'cosmic':  return <CosmicBanner />;
         case 'retro':    return <RetroBanner />;
         case 'tropical': return <TropicalBanner />;
+        case 'royal':    return <RoyalBanner />;
         default:         return <FreshBanner />;
       }})()}
     </BannerCtx.Provider>
@@ -360,6 +361,35 @@ const RetroBanner: React.FC = () => {
         <button className="retro-banner__cta">{slide.cta}</button>
       </div>
       <div className="retro-banner__counter">{String(active + 1).padStart(2, '0')}/{BANNER_SLIDES.length}</div>
+    </div>
+  );
+};
+
+/* ── ROYAL ── */
+const RoyalBanner: React.FC = () => {
+  const BANNER_SLIDES = useContext(BannerCtx);
+  const [active, setActive] = useState(0);
+  useEffect(() => {
+    const t = setInterval(() => setActive(i => (i + 1) % BANNER_SLIDES.length), 5000);
+    return () => clearInterval(t);
+  }, [BANNER_SLIDES.length]);
+  const slide = BANNER_SLIDES[active] ?? BANNER_SLIDES[0];
+  return (
+    <div className="royal-banner">
+      <div key={active} className="royal-banner__img" style={{ backgroundImage: `url(${slide.image})` }} />
+      <div className="royal-banner__overlay" />
+      <div className="royal-banner__corner tl">✦</div>
+      <div className="royal-banner__corner tr">✦</div>
+      <div key={`c-${active}`} className="royal-banner__content">
+        <div className="royal-banner__crest">👑</div>
+        <div className="royal-banner__rule">✦ ✦ ✦</div>
+        <h1 className="royal-banner__title">{slide.title}</h1>
+        <p className="royal-banner__sub">{slide.subtitle}</p>
+        <button className="royal-banner__cta">{slide.cta}</button>
+      </div>
+      <div className="royal-banner__dots">
+        {BANNER_SLIDES.map((_, i) => <span key={i} className={`royal-dot ${i === active ? 'active' : ''}`} onClick={() => setActive(i)} />)}
+      </div>
     </div>
   );
 };

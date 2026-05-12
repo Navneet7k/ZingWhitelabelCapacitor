@@ -608,6 +608,107 @@
   padding: 10px 24px;
   cursor: pointer;
 }
+/* ── ROYAL BANNER ── */
+.royal-banner {
+  position: relative;
+  height: 420px;
+  overflow: hidden;
+  background: #150810;
+}
+.royal-banner__img {
+  position: absolute;
+  inset: 0;
+  background-size: cover;
+  background-position: center;
+  animation: fadeIn 0.8s ease;
+  opacity: 0.35;
+  filter: saturate(0.5);
+}
+.royal-banner__overlay {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(to bottom, rgba(139,26,46,0.45) 0%, rgba(21,8,16,0.94) 100%);
+}
+.royal-banner__corner {
+  position: absolute;
+  font-size: 14px;
+  color: rgba(201,146,58,0.45);
+  z-index: 2;
+}
+.royal-banner__corner.tl { top: 18px; left: 20px; }
+.royal-banner__corner.tr { top: 18px; right: 20px; }
+.royal-banner__content {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 0 32px 60px;
+  text-align: center;
+  animation: fadeInUp 0.7s ease both;
+  z-index: 2;
+}
+.royal-banner__crest {
+  font-size: 28px;
+  margin-bottom: 8px;
+  filter: drop-shadow(0 2px 8px rgba(201,146,58,0.4));
+}
+.royal-banner__rule {
+  font-size: 11px;
+  color: rgba(201,146,58,0.55);
+  letter-spacing: 0.32em;
+  margin-bottom: 16px;
+}
+.royal-banner__title {
+  font-family: 'Cinzel', serif;
+  font-size: 30px;
+  font-weight: 700;
+  color: #F5ECD7;
+  line-height: 1.2;
+  margin-bottom: 10px;
+  letter-spacing: 0.04em;
+  text-shadow: 0 2px 16px rgba(0,0,0,0.7);
+}
+.royal-banner__sub {
+  font-family: 'EB Garamond', serif;
+  font-size: 16px;
+  font-style: italic;
+  color: rgba(245,236,215,0.72);
+  margin-bottom: 24px;
+  line-height: 1.5;
+}
+.royal-banner__cta {
+  border: 1px solid #C9923A;
+  background: transparent;
+  color: #C9923A;
+  font-family: 'Cinzel', serif;
+  font-size: 12px;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  padding: 11px 30px;
+  cursor: pointer;
+  transition: all 0.45s;
+}
+.royal-banner__cta:hover { background: #C9923A; color: #150810; }
+.royal-banner__dots {
+  position: absolute;
+  bottom: 24px;
+  left: 50%;
+  transform: translateX(-50%);
+  display: flex;
+  gap: 8px;
+  z-index: 2;
+}
+.royal-dot {
+  width: 24px;
+  height: 2px;
+  background: rgba(201,146,58,0.28);
+  cursor: pointer;
+  transition: all 0.45s;
+}
+.royal-dot.active { background: #C9923A; width: 40px; }
+
 /* ── TROPICAL BANNER ── */
 .tropical-banner {
   position: relative;

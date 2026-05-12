@@ -28,6 +28,7 @@ const PopularDishesSection: React.FC = () => {
         case 'cosmic':  return <CosmicDishes />;
         case 'retro':    return <RetroDishes />;
         case 'tropical': return <TropicalDishes />;
+        case 'royal':    return <RoyalDishes />;
         default:         return <FreshDishes />;
       }})()}
     </DishesCtx.Provider>
@@ -333,6 +334,30 @@ const RetroDishes: React.FC = () => {
             <div className="retro-dish-row__right">
               <Price dish={dish} className="retro-dish-row__price" />
               <button className="retro-dish-row__add">ORDER</button>
+            </div>
+          </div>
+        ))}
+      </div>
+    </div>
+  );
+};
+
+const RoyalDishes: React.FC = () => {
+  const POPULAR_DISHES = useContext(DishesCtx);
+  return (
+    <div className="section">
+      <h2 className="section-title">From The Kitchen</h2>
+      <div className="royal-dishes__track">
+        {POPULAR_DISHES.map((dish, i) => (
+          <div key={dish.id} className="royal-dish-card" style={{ animationDelay: `${i * 0.08}s` }}>
+            <img src={dish.image} alt={dish.name} className="royal-dish-card__img" />
+            <div className="royal-dish-card__body">
+              <span className="royal-dish-card__tag">{dish.tag}</span>
+              <h3 className="royal-dish-card__name">{dish.name}</h3>
+              <div className="royal-dish-card__row">
+                <Price dish={dish} className="royal-dish-card__price" />
+                {dish.rating != null && <span className="royal-dish-card__rating">★ {dish.rating}</span>}
+              </div>
             </div>
           </div>
         ))}

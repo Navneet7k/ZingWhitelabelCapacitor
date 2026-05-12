@@ -262,6 +262,28 @@
   --t-tab-inactive: #C5B89A;
 }
 
+/* ── ROYAL: British Pub/Bistro Elegance ── */
+[data-template="royal"] {
+  --t-bg: #150810;
+  --t-surface: #200D18;
+  --t-surface2: #2A1020;
+  --t-primary: #C9923A;
+  --t-primary-light: #DEB060;
+  --t-accent: #8C1A2E;
+  --t-text: #F5ECD7;
+  --t-text-muted: #9E8470;
+  --t-border: rgba(201,146,58,0.22);
+  --t-font-heading: 'Cinzel', serif;
+  --t-font-body: 'EB Garamond', serif;
+  --t-radius: 2px;
+  --t-radius-lg: 4px;
+  --t-shadow: 0 4px 24px rgba(0,0,0,0.65);
+  --t-transition: 550ms cubic-bezier(0.4,0,0.2,1);
+  --t-tab-bg: #150810;
+  --t-tab-active: #C9923A;
+  --t-tab-inactive: #5E3040;
+}
+
 /* ── RETRO: 70s Diner Americana ── */
 [data-template="retro"] {
   --t-bg: #FFF8E7;

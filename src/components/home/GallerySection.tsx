@@ -30,6 +30,7 @@ const GallerySection: React.FC = () => {
         case 'cosmic':  return <CosmicGallery />;
         case 'retro':    return <RetroGallery />;
         case 'tropical': return <TropicalGallery />;
+        case 'royal':    return <RoyalGallery />;
         default:         return <FreshGallery />;
       }})()}
     </GalleryCtx.Provider>
@@ -184,6 +185,22 @@ const RetroGallery: React.FC = () => {
   return (
     <div className="section" style={{ paddingBottom: 16 }}><h2 className="section-title">Photo Wall</h2>
       <div className="retro-gallery">{GALLERY_ITEMS.map((item, i) => <div key={item.id} className="retro-gallery__tile" style={{ animationDelay: `${i * 0.06}s` }}><img src={item.url} alt="" /><div className="retro-gallery__label">ZING DINER</div></div>)}</div>
+    </div>
+  );
+};
+
+const RoyalGallery: React.FC = () => {
+  const GALLERY_ITEMS = useContext(GalleryCtx);
+  return (
+    <div className="section" style={{ paddingBottom: 24 }}>
+      <h2 className="section-title">Our Establishment</h2>
+      <div className="royal-gallery">
+        {GALLERY_ITEMS.map((item, i) => (
+          <div key={item.id} className="royal-gallery__tile" style={{ animationDelay: `${i * 0.08}s` }}>
+            <img src={item.url} alt="" />
+          </div>
+        ))}
+      </div>
     </div>
   );
 };

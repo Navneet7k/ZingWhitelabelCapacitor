@@ -230,6 +230,71 @@
 .ember-loyalty__fill { height: 100%; background: linear-gradient(90deg, #FF2D00, #FF6B00); box-shadow: 0 0 10px rgba(255,107,0,0.4); animation: progressFill 1s 0.3s ease both; }
 .ember-loyalty__note { font-family: 'Barlow', sans-serif; font-size: 12px; color: #8B7355; }
 
+/* ── ROYAL LOYALTY ── */
+.royal-loyalty {
+  border: 1px solid rgba(201,146,58,0.28);
+  background: #200D18;
+  padding: 20px;
+  animation: fadeInUp 0.6s ease both;
+}
+.royal-loyalty__header {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  margin-bottom: 14px;
+}
+.royal-loyalty__crown {
+  font-size: 28px;
+  filter: drop-shadow(0 2px 6px rgba(201,146,58,0.4));
+  flex-shrink: 0;
+}
+.royal-loyalty__label {
+  display: block;
+  font-family: 'Cinzel', serif;
+  font-size: 9px;
+  letter-spacing: 0.2em;
+  color: #C9923A;
+  margin-bottom: 3px;
+}
+.royal-loyalty__tier {
+  display: block;
+  font-family: 'EB Garamond', serif;
+  font-size: 14px;
+  color: rgba(245,236,215,0.75);
+}
+.royal-loyalty__pts {
+  margin-left: auto;
+  font-family: 'Cinzel', serif;
+  font-size: 28px;
+  font-weight: 700;
+  color: #C9923A;
+  flex-shrink: 0;
+}
+.royal-loyalty__rule {
+  font-size: 11px;
+  color: rgba(201,146,58,0.4);
+  letter-spacing: 0.32em;
+  text-align: center;
+  margin-bottom: 14px;
+}
+.royal-loyalty__progress-label {
+  display: flex;
+  justify-content: space-between;
+  font-family: 'EB Garamond', serif;
+  font-size: 13px;
+  color: rgba(245,236,215,0.5);
+  margin-bottom: 8px;
+}
+.royal-loyalty__track {
+  height: 4px;
+  background: rgba(201,146,58,0.1);
+}
+.royal-loyalty__fill {
+  height: 100%;
+  background: linear-gradient(90deg, #8C1A2E, #C9923A);
+  animation: progressFill 1.2s cubic-bezier(0.4,0,0.2,1) both;
+}
+
 /* ── TROPICAL LOYALTY ── */
 .tropical-loyalty {
   background: linear-gradient(135deg, #fff8e1 0%, #fff3e0 100%);
