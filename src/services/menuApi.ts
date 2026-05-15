@@ -1,5 +1,5 @@
 const BASE_URL  = 'https://app.zingmyorder.com/api';
-const IMG_BASE  = 'https://zingmyorder.s3.amazonaws.com/';
+const IMG_BASE  = 'https://app.zingmyorder.com/image/original/';
 const CACHE_KEY = (id: string) => `zing_menu_v1_${id}`;
 
 // ── Raw API shapes ─────────────────────────────────────────────────────────────
