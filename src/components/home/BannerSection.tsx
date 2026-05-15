@@ -128,7 +128,7 @@ const StreetBanner: React.FC = () => {
         <div className="street-banner__badge">⚡ WELCOME TO {(getRestaurantName() ?? 'Zing').toUpperCase()}</div>
         <h1 className="street-banner__title">{`WELCOME TO ${(getRestaurantName() ?? 'Zing').toUpperCase()}`}</h1>
         <p className="street-banner__sub">{slide.subtitle}</p>
-        <button className="street-banner__cta" onClick={openOrder}>{slide.cta.toUpperCase()} →</button>
+        <button className="street-banner__cta" onClick={openOrder}>{(slide.cta ?? 'Order Now').toUpperCase()} →</button>
       </div>
       <div className="street-banner__counter">{String(active + 1).padStart(2, '0')} / {String(BANNER_SLIDES.length).padStart(2, '0')}</div>
     </div>
@@ -317,7 +317,7 @@ const EmberBanner: React.FC = () => {
         <div className="ember-banner__chip">🔥 WELCOME TO {(getRestaurantName() ?? 'Zing').toUpperCase()}</div>
         <h1 className="ember-banner__title">{`WELCOME TO ${(getRestaurantName() ?? 'Zing').toUpperCase()}`}</h1>
         <p className="ember-banner__sub">{slide.subtitle}</p>
-        <button className="ember-banner__cta" onClick={openOrder}>{slide.cta.toUpperCase()}</button>
+        <button className="ember-banner__cta" onClick={openOrder}>{(slide.cta ?? 'Order Now').toUpperCase()}</button>
       </div>
       <div className="ember-banner__dots">
         {BANNER_SLIDES.map((_, i) => <span key={i} className={`ember-dot ${i === active ? 'active' : ''}`} onClick={() => setActive(i)} />)}

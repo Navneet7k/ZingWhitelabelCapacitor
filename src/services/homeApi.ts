@@ -129,7 +129,7 @@ export function mapHomeResponse(raw: ApiHomeResponse): HomeData {
 // ── Fetch + cache ─────────────────────────────────────────────────────────────
 export function getCachedHomeData(restaurantId: string): HomeData | null {
   try {
-    const raw = localStorage.getItem(`zing_home_v2_${restaurantId}`);
+    const raw = localStorage.getItem(`zing_home_v3_${restaurantId}`);
     return raw ? JSON.parse(raw) : null;
   } catch { return null; }
 }
@@ -139,6 +139,6 @@ export async function fetchHomeData(restaurantId: string): Promise<HomeData> {
   if (!res.ok) throw new Error(`HTTP ${res.status}`);
   const raw: ApiHomeResponse = await res.json();
   const data = mapHomeResponse(raw);
-  localStorage.setItem(`zing_home_v2_${restaurantId}`, JSON.stringify(data));
+  localStorage.setItem(`zing_home_v3_${restaurantId}`, JSON.stringify(data));
   return data;
 }
