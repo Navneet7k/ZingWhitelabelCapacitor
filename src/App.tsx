@@ -10,6 +10,7 @@ import { homeOutline, fastFoodOutline, listOutline, personOutline } from 'ionico
 
 import { TemplateProvider, useTemplate } from './context/TemplateContext';
 import { HomeDataProvider } from './context/HomeDataContext';
+import { MenuDataProvider } from './context/MenuDataContext';
 import TemplateSelectPage from './pages/TemplateSelectPage';
 import { isRestaurantMode } from './services/restaurantConfig';
 import HomePage from './pages/HomePage';
@@ -76,7 +77,9 @@ const App: React.FC = () => (
   <IonApp>
     <TemplateProvider>
       <HomeDataProvider>
-        <AppInner />
+        <MenuDataProvider>
+          <AppInner />
+        </MenuDataProvider>
       </HomeDataProvider>
     </TemplateProvider>
   </IonApp>
