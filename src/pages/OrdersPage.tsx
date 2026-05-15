@@ -1,16 +1,20 @@
-import React, { useEffect } from 'react';
-import { IonContent, IonHeader, IonPage, IonToolbar, IonTitle } from '@ionic/react';
+import React, { useEffect, useRef } from 'react';
+import { IonContent, IonHeader, IonPage, IonToolbar, IonTitle, useIonViewDidEnter } from '@ionic/react';
 import { InAppBrowser } from '@capgo/inappbrowser';
+import type { PluginListenerHandle } from '@capacitor/core';
 import { useTemplate } from '../context/TemplateContext';
 import { getOrderUrl } from '../services/configApi';
 import './OrdersPage.css';
 
 const OrdersPage: React.FC = () => {
   const { template } = useTemplate();
+  const listenerRef = useRef<PluginListenerHandle | null>(null);
 
-  useEffect(() => {
+  useIonViewDidEnter(() => {
     const url = getOrderUrl();
     if (!url) return;
+
+    listenerRef.current?.remove();
 
     InAppBrowser.openWebView({
       url,
@@ -21,16 +25,16 @@ const OrdersPage: React.FC = () => {
       toolbarTextColor: '#ffffff',
     });
 
-    const listenerPromise = InAppBrowser.addListener('closeEvent', () => {
+    InAppBrowser.addListener('closeEvent', () => {
       setTimeout(() => {
         const homeTab = document.querySelector('ion-tab-button[tab="home"]') as HTMLElement;
         homeTab?.click();
       }, 100);
-    });
+    }).then(handle => { listenerRef.current = handle; });
+  });
 
-    return () => {
-      listenerPromise.then(handle => handle.remove());
-    };
+  useEffect(() => {
+    return () => { listenerRef.current?.remove(); };
   }, []);
 
   return (
