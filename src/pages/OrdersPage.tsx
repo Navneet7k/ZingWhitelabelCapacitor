@@ -1,5 +1,5 @@
 import React, { useEffect } from 'react';
-import { IonContent, IonHeader, IonPage, IonToolbar, IonTitle, useIonRouter } from '@ionic/react';
+import { IonContent, IonHeader, IonPage, IonToolbar, IonTitle } from '@ionic/react';
 import { InAppBrowser } from '@capgo/inappbrowser';
 import { useTemplate } from '../context/TemplateContext';
 import { getOrderUrl } from '../services/configApi';
@@ -7,7 +7,6 @@ import './OrdersPage.css';
 
 const OrdersPage: React.FC = () => {
   const { template } = useTemplate();
-  const router = useIonRouter();
 
   useEffect(() => {
     const url = getOrderUrl();
@@ -23,7 +22,10 @@ const OrdersPage: React.FC = () => {
     });
 
     const listenerPromise = InAppBrowser.addListener('closeEvent', () => {
-      router.push('/home', 'back', 'replace');
+      setTimeout(() => {
+        const homeTab = document.querySelector('ion-tab-button[tab="home"]') as HTMLElement;
+        homeTab?.click();
+      }, 100);
     });
 
     return () => {
