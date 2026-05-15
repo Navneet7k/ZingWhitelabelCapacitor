@@ -63,7 +63,16 @@ const xml = \`<?xml version='1.0' encoding='utf-8'?>
 fs.writeFileSync(path, xml);
 "
 
-# 7. Sync native projects
+# 7. Patch applicationId in build.gradle (determines Android package name)
+node -e "
+const fs = require('fs');
+const path = 'android/app/build.gradle';
+let src = fs.readFileSync(path, 'utf8');
+src = src.replace(/applicationId\s+\".*?\"/, 'applicationId \"$APP_ID\"');
+fs.writeFileSync(path, src);
+"
+
+# 8. Sync native projects
 npx cap sync android
 
 echo ""
