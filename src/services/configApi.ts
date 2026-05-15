@@ -1,11 +1,17 @@
 import { getToken } from './authApi';
 
-const BASE_URL  = 'https://app.zingmyorder.com/api';
+const BASE_URL   = 'https://app.zingmyorder.com/api';
+const IMG_BASE   = 'https://app.zingmyorder.com/image/original/';
 const ORDER_BASE = 'https://app.zingmyorder.com/order/eatery';
-const SLUG_KEY  = 'zing_restaurant_slug';
+const SLUG_KEY   = 'zing_restaurant_slug';
+const LOGO_KEY   = 'zing_restaurant_logo';
 
 interface ApiConfigResponse {
-  restaurant?: { slug?: string; [key: string]: unknown };
+  restaurant?: {
+    slug?: string;
+    logo?: { path?: string }[];
+    [key: string]: unknown;
+  };
   [key: string]: unknown;
 }
 
@@ -16,11 +22,17 @@ export async function fetchRestaurantConfig(restaurantId: string): Promise<void>
     const data: ApiConfigResponse = await res.json();
     const slug = data?.restaurant?.slug;
     if (slug) localStorage.setItem(SLUG_KEY, slug as string);
-  } catch { /* non-critical — app works without it */ }
+    const logoPath = data?.restaurant?.logo?.[0]?.path;
+    if (logoPath) localStorage.setItem(LOGO_KEY, `${IMG_BASE}${logoPath}`);
+  } catch { /* non-critical */ }
 }
 
 export function getRestaurantSlug(): string | null {
   return localStorage.getItem(SLUG_KEY);
+}
+
+export function getRestaurantLogo(): string | null {
+  return localStorage.getItem(LOGO_KEY);
 }
 
 export function getOrderUrl(): string | null {

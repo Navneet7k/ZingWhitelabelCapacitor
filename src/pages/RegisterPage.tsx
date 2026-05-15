@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { IonPage, IonContent } from '@ionic/react';
 import { useTemplate } from '../context/TemplateContext';
 import { getRestaurantId, getRestaurantName } from '../services/restaurantConfig';
+import { getRestaurantLogo } from '../services/configApi';
 import { register } from '../services/authApi';
 import './RegisterPage.css';
 
@@ -33,6 +34,7 @@ const RegisterPage: React.FC<Props> = ({ onRegister, onBack }) => {
   const isDark  = DARK_TEMPLATES.has(template.id);
   const appName = getRestaurantName() ?? 'Zing';
   const primary = template.colors.primary;
+  const logoUrl = getRestaurantLogo();
 
   const validate = (): string | null => {
     if (!name.trim())                  return 'Please enter your name';
@@ -76,7 +78,10 @@ const RegisterPage: React.FC<Props> = ({ onRegister, onBack }) => {
         <div className={`register register--${template.id} ${isDark ? 'register--dark' : 'register--light'}`}>
 
           <div className="register__header">
-            <div className="register__brand" style={{ color: primary }}>{appName}</div>
+            {logoUrl
+              ? <img src={logoUrl} alt={appName} className="register__logo" />
+              : <div className="register__brand" style={{ color: primary }}>{appName}</div>
+            }
             <h1 className="register__title">Create Account</h1>
             <p className="register__subtitle">Join us and start ordering</p>
           </div>

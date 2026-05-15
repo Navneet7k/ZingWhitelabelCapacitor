@@ -78,6 +78,14 @@
   margin-bottom: 32px;
   animation: fadeInUp 0.5s ease both;
 }
+.register__logo {
+  display: block;
+  max-height: 90px;
+  max-width: 200px;
+  width: auto;
+  object-fit: contain;
+  margin: 0 auto 12px;
+}
 .register__brand {
   font-family: var(--t-font-heading);
   font-size: 28px;

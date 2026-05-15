@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { IonPage, IonContent } from '@ionic/react';
 import { useTemplate } from '../context/TemplateContext';
 import { getRestaurantId, getRestaurantName } from '../services/restaurantConfig';
+import { getRestaurantLogo } from '../services/configApi';
 import { login, saveAuth } from '../services/authApi';
 import './LoginPage.css';
 
@@ -20,9 +21,10 @@ const LoginPage: React.FC<Props> = ({ onLogin, onRegister }) => {
   const [loading,  setLoading]  = useState(false);
   const [error,    setError]    = useState<string | null>(null);
 
-  const isDark  = DARK_TEMPLATES.has(template.id);
-  const appName = getRestaurantName() ?? 'Zing';
-  const primary = template.colors.primary;
+  const isDark    = DARK_TEMPLATES.has(template.id);
+  const appName   = getRestaurantName() ?? 'Zing';
+  const primary   = template.colors.primary;
+  const logoUrl   = getRestaurantLogo();
 
   const handleLogin = async () => {
     if (!email.trim() || !password.trim()) {
@@ -51,7 +53,10 @@ const LoginPage: React.FC<Props> = ({ onLogin, onRegister }) => {
         <div className={`login login--${template.id} ${isDark ? 'login--dark' : 'login--light'}`}>
 
           <div className="login__header">
-            <div className="login__brand" style={{ color: primary }}>{appName}</div>
+            {logoUrl
+              ? <img src={logoUrl} alt={appName} className="login__logo" />
+              : <div className="login__brand" style={{ color: primary }}>{appName}</div>
+            }
             <h1 className="login__title">Welcome Back</h1>
             <p className="login__subtitle">Sign in to your account</p>
           </div>
