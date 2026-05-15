@@ -26,13 +26,6 @@ export const TEMPLATES: Template[] = [
     colors: { bg: '#F8FFF9', primary: '#00B87C', accent: '#FF6B35', text: '#1A1A1A' },
   },
   {
-    id: 'street',
-    name: 'Street',
-    tagline: 'Urban street food',
-    emoji: '⚡',
-    colors: { bg: '#111111', primary: '#FFD600', accent: '#FF3B30', text: '#FFFFFF' },
-  },
-  {
     id: 'zen',
     name: 'Zen',
     tagline: 'Minimal & serene',
@@ -73,13 +66,6 @@ export const TEMPLATES: Template[] = [
     tagline: 'Soft & romantic',
     emoji: '🌸',
     colors: { bg: '#FFF5F7', primary: '#FF6B95', accent: '#FFB3C6', text: '#2D1B2D' },
-  },
-  {
-    id: 'ember',
-    name: 'Ember',
-    tagline: 'Dark & fiery',
-    emoji: '🔥',
-    colors: { bg: '#1A0A00', primary: '#FF6B00', accent: '#FF2D00', text: '#F5E6D3' },
   },
   {
     id: 'cosmic',

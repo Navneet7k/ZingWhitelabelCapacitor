@@ -17,14 +17,12 @@ const PopularDishesSection: React.FC = () => {
       {(() => { switch (template.id) {
         case 'luxe':    return <LuxeDishes />;
         case 'fresh':   return <FreshDishes />;
-        case 'street':  return <StreetDishes />;
         case 'zen':     return <ZenDishes />;
         case 'fiesta':  return <FiestaDishes />;
         case 'neon':    return <NeonDishes />;
         case 'rustic':  return <RusticDishes />;
         case 'ocean':   return <OceanDishes />;
         case 'blossom': return <BlossomDishes />;
-        case 'ember':   return <EmberDishes />;
         case 'cosmic':  return <CosmicDishes />;
         case 'retro':    return <RetroDishes />;
         case 'tropical': return <TropicalDishes />;

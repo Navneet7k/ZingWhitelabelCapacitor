@@ -19,14 +19,12 @@ const GallerySection: React.FC = () => {
       {(() => { switch (template.id) {
         case 'luxe':    return <LuxeGallery />;
         case 'fresh':   return <FreshGallery />;
-        case 'street':  return <StreetGallery />;
         case 'zen':     return <ZenGallery />;
         case 'fiesta':  return <FiestaGallery />;
         case 'neon':    return <NeonGallery />;
         case 'rustic':  return <RusticGallery />;
         case 'ocean':   return <OceanGallery />;
         case 'blossom': return <BlossomGallery />;
-        case 'ember':   return <EmberGallery />;
         case 'cosmic':  return <CosmicGallery />;
         case 'retro':    return <RetroGallery />;
         case 'tropical': return <TropicalGallery />;

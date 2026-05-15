@@ -8,14 +8,12 @@ const LoyaltySection: React.FC = () => {
   switch (template.id) {
     case 'luxe':    return <LuxeLoyalty />;
     case 'fresh':   return <FreshLoyalty />;
-    case 'street':  return <StreetLoyalty />;
     case 'zen':     return <ZenLoyalty />;
     case 'fiesta':  return <FiestaLoyalty />;
     case 'neon':    return <NeonLoyalty />;
     case 'rustic':  return <RusticLoyalty />;
     case 'ocean':   return <OceanLoyalty />;
     case 'blossom': return <BlossomLoyalty />;
-    case 'ember':    return <EmberLoyalty />;
     case 'tropical': return <TropicalLoyalty />;
     case 'royal':    return <RoyalLoyalty />;
     default:         return <FreshLoyalty />;

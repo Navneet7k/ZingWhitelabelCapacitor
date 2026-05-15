@@ -17,14 +17,12 @@ const RecentOrdersSection: React.FC = () => {
       {(() => { switch (template.id) {
         case 'luxe':    return <LuxeOrders />;
         case 'fresh':   return <FreshOrders />;
-        case 'street':  return <StreetOrders />;
         case 'zen':     return <ZenOrders />;
         case 'fiesta':  return <FiestaOrders />;
         case 'neon':    return <NeonOrders />;
         case 'rustic':  return <RusticOrders />;
         case 'ocean':   return <OceanOrders />;
         case 'blossom': return <BlossomOrders />;
-        case 'ember':   return <EmberOrders />;
         case 'cosmic':  return <CosmicOrders />;
         case 'retro':   return <RetroOrders />;
         default:        return <FreshOrders />;

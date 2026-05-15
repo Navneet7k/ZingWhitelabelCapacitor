@@ -32,14 +32,12 @@ const BannerSection: React.FC = () => {
       {(() => { switch (template.id) {
         case 'luxe':    return <LuxeBanner />;
         case 'fresh':   return <FreshBanner />;
-        case 'street':  return <StreetBanner />;
         case 'zen':     return <ZenBanner />;
         case 'fiesta':  return <FiestaBanner />;
         case 'neon':    return <NeonBanner />;
         case 'rustic':  return <RusticBanner />;
         case 'ocean':   return <OceanBanner />;
         case 'blossom': return <BlossomBanner />;
-        case 'ember':   return <EmberBanner />;
         case 'cosmic':  return <CosmicBanner />;
         case 'retro':    return <RetroBanner />;
         case 'tropical': return <TropicalBanner />;
