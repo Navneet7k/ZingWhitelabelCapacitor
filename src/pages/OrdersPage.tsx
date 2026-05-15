@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react';
 import { IonContent, IonHeader, IonPage, IonToolbar, IonTitle, useIonRouter } from '@ionic/react';
-import { InAppBrowser, ToolBarType } from '@capgo/inappbrowser';
+import { InAppBrowser } from '@capgo/inappbrowser';
 import { useTemplate } from '../context/TemplateContext';
 import { getOrderUrl } from '../services/configApi';
 import './OrdersPage.css';
@@ -13,7 +13,14 @@ const OrdersPage: React.FC = () => {
     const url = getOrderUrl();
     if (!url) return;
 
-    InAppBrowser.openWebView({ url, title: '', toolbarType: ToolBarType.BLANK });
+    InAppBrowser.openWebView({
+      url,
+      title: 'Place Order',
+      visibleTitle: false,
+      showArrow: true,
+      toolbarColor: template.colors.primary,
+      toolbarTextColor: '#ffffff',
+    });
 
     const listenerPromise = InAppBrowser.addListener('closeEvent', () => {
       router.push('/home', 'back', 'replace');
