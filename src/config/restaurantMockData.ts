@@ -119,6 +119,48 @@ const DATA_BY_RESTAURANT: Record<string, RestaurantMockData> = {
       { id: 6, name: 'Garlic Bread Basket',  price:  5.99, rating: 4.6, tag: 'Sides',    image: 'https://images.unsplash.com/photo-1573821663912-6df460f9c684?w=400' },
     ],
   },
+  '23198': {
+    info: {
+      name: 'Cafe Dolce Amore',
+      tagline: 'Every slice, made right.',
+      address: '42 Main Street, Downtown',
+      phone: '+1 800 RIGHT SLICE',
+    },
+    banners: [
+      {
+        id: 1,
+        image: 'https://images.unsplash.com/photo-1565299624946-b28f40a0ae38?w=800',
+        title: 'Every Slice, Made Right',
+        subtitle: 'Fresh dough, real cheese, handcrafted daily.',
+        cta: 'Order Now',
+        gradient: 'linear-gradient(135deg,rgba(60,120,60,0.7),rgba(30,60,30,0.9))',
+      },
+      {
+        id: 2,
+        image: 'https://images.unsplash.com/photo-1571407970349-bc81e7e96d47?w=800',
+        title: 'New: BBQ Loaded Pizza',
+        subtitle: 'Smoky BBQ, grilled chicken & caramelised onions.',
+        cta: 'Try It Now',
+        gradient: 'linear-gradient(135deg,rgba(180,60,0,0.7),rgba(80,20,0,0.9))',
+      },
+      {
+        id: 3,
+        image: 'https://images.unsplash.com/photo-1513104890138-7c749659a591?w=800',
+        title: 'Free Delivery Today',
+        subtitle: 'On all orders above $20. No code needed.',
+        cta: 'Grab the Deal',
+        gradient: 'linear-gradient(135deg,rgba(30,100,180,0.7),rgba(10,40,80,0.9))',
+      },
+    ],
+    popularDishes: [
+      { id: 1, name: 'Margherita Classic',   price: 11.99, rating: 4.9, tag: 'Bestseller', image: 'https://images.unsplash.com/photo-1604068549290-dea0e4a305ca?w=400' },
+      { id: 2, name: 'BBQ Chicken Pizza',    price: 14.99, rating: 4.7, tag: 'Chef\'s Pick', image: 'https://images.unsplash.com/photo-1565299624946-b28f40a0ae38?w=400' },
+      { id: 3, name: 'Pepperoni Supreme',    price: 13.99, rating: 4.8, tag: 'Spicy 🌶️', image: 'https://images.unsplash.com/photo-1571407970349-bc81e7e96d47?w=400' },
+      { id: 4, name: 'Veggie Garden',        price: 12.49, rating: 4.5, tag: 'Veg',      image: 'https://images.unsplash.com/photo-1574071318508-1cdbab80d002?w=400' },
+      { id: 5, name: 'Four Cheese Feast',    price: 15.49, rating: 4.8, tag: 'New',      image: 'https://images.unsplash.com/photo-1513104890138-7c749659a591?w=400' },
+      { id: 6, name: 'Garlic Bread Basket',  price:  5.99, rating: 4.6, tag: 'Sides',    image: 'https://images.unsplash.com/photo-1573821663912-6df460f9c684?w=400' },
+    ],
+  },
 };
 
 const DEFAULT_DATA: RestaurantMockData = {

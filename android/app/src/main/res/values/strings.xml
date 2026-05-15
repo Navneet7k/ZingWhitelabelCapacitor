@@ -1,7 +1,7 @@
 <?xml version='1.0' encoding='utf-8'?>
 <resources>
-    <string name="app_name">Soda Lab</string>
-    <string name="title_activity_main">Soda Lab</string>
-    <string name="package_name">com.sodalab.zingmyorder</string>
-    <string name="custom_url_scheme">com.sodalab.zingmyorder</string>
+    <string name="app_name">Cafe Dolce Amore</string>
+    <string name="title_activity_main">Cafe Dolce Amore</string>
+    <string name="package_name">com.cafedolce.zingmyorder</string>
+    <string name="custom_url_scheme">com.cafedolce.zingmyorder</string>
 </resources>
