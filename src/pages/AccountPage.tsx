@@ -1,12 +1,11 @@
 import React, { useState, useEffect } from 'react';
 import { IonContent, IonHeader, IonPage, IonToolbar, IonTitle } from '@ionic/react';
 import { useTemplate, TEMPLATES } from '../context/TemplateContext';
-import { LOYALTY } from '../config/mockData';
+import { LOYALTY, RECENT_ORDERS } from '../config/mockData';
 import { getStatus, onStatusChange, UpdateStatus } from '../services/updater';
 import { isRestaurantMode, getRestaurantName } from '../services/restaurantConfig';
 import { clearAuth } from '../services/authApi';
 import { useHomeData } from '../context/HomeDataContext';
-import { RECENT_ORDERS } from '../config/mockData';
 import './AccountPage.css';
 
 const STATUS_ICONS: Record<string, string> = {
@@ -14,6 +13,7 @@ const STATUS_ICONS: Record<string, string> = {
 };
 
 const MENU_ITEMS_ACC = [
+  { icon: '🛍️', label: 'Order History' },
   { icon: '🏠', label: 'Saved Addresses' },
   { icon: '💳', label: 'Payment Methods' },
   { icon: '🔔', label: 'Notifications' },
@@ -39,12 +39,54 @@ const AccountPage: React.FC<{ onSignOut?: () => void }> = ({ onSignOut }) => {
   const { template, setTemplateId } = useTemplate();
   const { data } = useHomeData();
   const [updateStatus, setUpdateStatus] = useState<UpdateStatus>(getStatus);
+  const [showHistory, setShowHistory]   = useState(false);
+
+  useEffect(() => { return onStatusChange(setUpdateStatus); }, []);
+
   const orders = data?.recentOrders?.length ? data.recentOrders : RECENT_ORDERS;
 
-  useEffect(() => {
-    return onStatusChange(setUpdateStatus);
-  }, []);
+  const handleMenuItem = (label: string) => {
+    if (label === 'Sign Out')      { clearAuth(); onSignOut?.(); }
+    if (label === 'Order History') { setShowHistory(true); }
+  };
 
+  // ── Order History full screen ──────────────────────────────────────────────
+  if (showHistory) {
+    return (
+      <IonPage>
+        <IonHeader>
+          <IonToolbar>
+            <button className="acc__back-btn" onClick={() => setShowHistory(false)}>‹ Back</button>
+            <IonTitle>Order History</IonTitle>
+          </IonToolbar>
+        </IonHeader>
+        <IonContent>
+          <div className="acc__orders">
+            {orders.map((order, i) => (
+              <div key={order.id} className="acc__order-card" style={{ animationDelay: `${i * 0.06}s` }}>
+                <div className="acc__order-header">
+                  <span className="acc__order-id">{order.id}</span>
+                  <span className="acc__order-status" style={{ color: order.color }}>
+                    {STATUS_ICONS[order.status] ?? ''} {order.status}
+                  </span>
+                </div>
+                <div className="acc__order-items">
+                  {order.items.map((item, j) => <span key={j} className="acc__order-item">{item}</span>)}
+                </div>
+                <div className="acc__order-footer">
+                  <span className="acc__order-date">{order.date}</span>
+                  <span className="acc__order-total" style={{ color: template.colors.primary }}>${order.total.toFixed(2)}</span>
+                </div>
+              </div>
+            ))}
+          </div>
+          <div style={{ height: 32 }} />
+        </IonContent>
+      </IonPage>
+    );
+  }
+
+  // ── Main profile screen ────────────────────────────────────────────────────
   return (
     <IonPage>
       <IonHeader>
@@ -53,7 +95,6 @@ const AccountPage: React.FC<{ onSignOut?: () => void }> = ({ onSignOut }) => {
         </IonToolbar>
       </IonHeader>
       <IonContent>
-        {/* Avatar section */}
         <div className="acc__profile" style={{ background: template.colors.primary }}>
           <div className="acc__avatar">JD</div>
           <h2 className="acc__name">John Doe</h2>
@@ -64,14 +105,13 @@ const AccountPage: React.FC<{ onSignOut?: () => void }> = ({ onSignOut }) => {
           </div>
         </div>
 
-        {/* Menu list */}
         <div className={`acc__menu acc__menu--${template.id}`}>
           {MENU_ITEMS_ACC.map((item, i) => (
             <button
               key={i}
               className="acc__menu-item"
               style={{ animationDelay: `${i * 0.04}s` }}
-              onClick={item.label === 'Sign Out' ? () => { clearAuth(); onSignOut?.(); } : undefined}
+              onClick={() => handleMenuItem(item.label)}
             >
               <span className="acc__menu-icon">{item.icon}</span>
               <span className="acc__menu-label">{item.label}</span>
@@ -80,7 +120,6 @@ const AccountPage: React.FC<{ onSignOut?: () => void }> = ({ onSignOut }) => {
           ))}
         </div>
 
-        {/* Template switcher — hidden in restaurant mode */}
         {!isRestaurantMode() && (
           <div className="acc__template-section">
             <h3 className="acc__template-title">App Template</h3>
@@ -103,7 +142,6 @@ const AccountPage: React.FC<{ onSignOut?: () => void }> = ({ onSignOut }) => {
           </div>
         )}
 
-        {/* Restaurant branding info — shown only in restaurant mode */}
         {isRestaurantMode() && (
           <div className="acc__restaurant-panel">
             <span className="acc__restaurant-icon">🍕</span>
@@ -114,29 +152,6 @@ const AccountPage: React.FC<{ onSignOut?: () => void }> = ({ onSignOut }) => {
           </div>
         )}
 
-        {/* Order History */}
-        <div className="acc__section-title">Order History</div>
-        <div className="acc__orders">
-          {orders.map((order, i) => (
-            <div key={order.id} className="acc__order-card" style={{ animationDelay: `${i * 0.06}s` }}>
-              <div className="acc__order-header">
-                <span className="acc__order-id">{order.id}</span>
-                <span className="acc__order-status" style={{ color: order.color }}>
-                  {STATUS_ICONS[order.status] ?? ''} {order.status}
-                </span>
-              </div>
-              <div className="acc__order-items">
-                {order.items.map((item, j) => <span key={j} className="acc__order-item">{item}</span>)}
-              </div>
-              <div className="acc__order-footer">
-                <span className="acc__order-date">{order.date}</span>
-                <span className="acc__order-total" style={{ color: template.colors.primary }}>${order.total.toFixed(2)}</span>
-              </div>
-            </div>
-          ))}
-        </div>
-
-        {/* Update status */}
         <div className="acc__update-panel">
           <div className="acc__update-header">
             <span className="acc__update-icon">

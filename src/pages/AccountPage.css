@@ -30,6 +30,16 @@
 .acc__order-date { font-family: var(--t-font-body); font-size: 12px; color: var(--t-text-muted); }
 .acc__order-total { font-family: var(--t-font-heading); font-size: 16px; font-weight: 700; }
 
+.acc__back-btn {
+  background: none;
+  border: none;
+  font-family: var(--t-font-body);
+  font-size: 16px;
+  color: var(--t-primary);
+  padding: 0 12px;
+  cursor: pointer;
+}
+
 .acc__profile {
   padding: 36px 24px 28px;
   text-align: center;
