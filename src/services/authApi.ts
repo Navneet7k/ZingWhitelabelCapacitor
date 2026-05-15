@@ -24,6 +24,7 @@ export async function login(
       restaurant_id: restaurantId,
       is_app: '1',
       flag: 'app',
+      fcm_token: '',
     }),
   });
   const data = await res.json();
@@ -50,6 +51,7 @@ export async function register(params: {
       password_confirmation: params.passwordConfirmation,
       restaurant_id:         params.restaurantId,
       is_app:                '1',
+      fcm_token:             '',
     }),
   });
   const data = await res.json();
