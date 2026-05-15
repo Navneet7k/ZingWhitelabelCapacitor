@@ -12,7 +12,7 @@ const PopularDishesSection: React.FC = () => {
   const { data }     = useHomeData();
   const S3_BASE = 'https://zingmyorder.s3.amazonaws.com';
   const prefixImg = (d: Dish): Dish =>
-    d.image && !d.image.startsWith('http') ? { ...d, image: `${S3_BASE}${d.image}` } : d;
+    d.image && !d.image.startsWith('http') ? { ...d, image: `${S3_BASE}/${d.image.replace(/^\//, '')}` } : d;
   const dishes = ((data?.popularDishes && data.popularDishes.length > 0) ? data.popularDishes : MOCK_DISHES).map(prefixImg);
 
   return (
