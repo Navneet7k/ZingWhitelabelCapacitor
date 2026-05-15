@@ -11,6 +11,8 @@ import { homeOutline, fastFoodOutline, listOutline, personOutline } from 'ionico
 import { TemplateProvider, useTemplate } from './context/TemplateContext';
 import { isLoggedIn, updateFcmToken, getToken } from './services/authApi';
 import { initFcm } from './services/fcmService';
+import { fetchRestaurantConfig } from './services/configApi';
+import { getRestaurantId } from './services/restaurantConfig';
 import { HomeDataProvider } from './context/HomeDataContext';
 import { MenuDataProvider } from './context/MenuDataContext';
 import TemplateSelectPage from './pages/TemplateSelectPage';
@@ -49,6 +51,8 @@ const AppInner: React.FC = () => {
 
   useEffect(() => {
     initUpdater();
+    const rid = getRestaurantId();
+    if (rid) fetchRestaurantConfig(rid);
     initFcm().then(token => {
       if (token) {
         const apiToken = getToken();

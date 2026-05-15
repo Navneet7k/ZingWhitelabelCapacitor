@@ -1,3 +1,18 @@
+.orders__placeholder {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  height: 60vh;
+  gap: 16px;
+}
+.orders__placeholder-icon { font-size: 52px; }
+.orders__placeholder-text {
+  font-family: var(--t-font-body);
+  font-size: 16px;
+  color: var(--t-text-muted);
+}
+
 .orders__hero {
   padding: 32px 24px 28px;
   text-align: center;

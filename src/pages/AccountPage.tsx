@@ -5,7 +5,13 @@ import { LOYALTY } from '../config/mockData';
 import { getStatus, onStatusChange, UpdateStatus } from '../services/updater';
 import { isRestaurantMode, getRestaurantName } from '../services/restaurantConfig';
 import { clearAuth } from '../services/authApi';
+import { useHomeData } from '../context/HomeDataContext';
+import { RECENT_ORDERS } from '../config/mockData';
 import './AccountPage.css';
+
+const STATUS_ICONS: Record<string, string> = {
+  Delivered: '✅', 'In Progress': '🔥', Pending: '⏳',
+};
 
 const MENU_ITEMS_ACC = [
   { icon: '🏠', label: 'Saved Addresses' },
@@ -31,7 +37,9 @@ function updateStatusLabel(s: UpdateStatus): { text: string; color: string } {
 
 const AccountPage: React.FC<{ onSignOut?: () => void }> = ({ onSignOut }) => {
   const { template, setTemplateId } = useTemplate();
+  const { data } = useHomeData();
   const [updateStatus, setUpdateStatus] = useState<UpdateStatus>(getStatus);
+  const orders = data?.recentOrders?.length ? data.recentOrders : RECENT_ORDERS;
 
   useEffect(() => {
     return onStatusChange(setUpdateStatus);
@@ -105,6 +113,28 @@ const AccountPage: React.FC<{ onSignOut?: () => void }> = ({ onSignOut }) => {
             </div>
           </div>
         )}
+
+        {/* Order History */}
+        <div className="acc__section-title">Order History</div>
+        <div className="acc__orders">
+          {orders.map((order, i) => (
+            <div key={order.id} className="acc__order-card" style={{ animationDelay: `${i * 0.06}s` }}>
+              <div className="acc__order-header">
+                <span className="acc__order-id">{order.id}</span>
+                <span className="acc__order-status" style={{ color: order.color }}>
+                  {STATUS_ICONS[order.status] ?? ''} {order.status}
+                </span>
+              </div>
+              <div className="acc__order-items">
+                {order.items.map((item, j) => <span key={j} className="acc__order-item">{item}</span>)}
+              </div>
+              <div className="acc__order-footer">
+                <span className="acc__order-date">{order.date}</span>
+                <span className="acc__order-total" style={{ color: template.colors.primary }}>${order.total.toFixed(2)}</span>
+              </div>
+            </div>
+          ))}
+        </div>
 
         {/* Update status */}
         <div className="acc__update-panel">

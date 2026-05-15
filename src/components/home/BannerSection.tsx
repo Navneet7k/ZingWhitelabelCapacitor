@@ -1,9 +1,16 @@
 import React, { useState, useEffect, useRef, createContext, useContext } from 'react';
+import { Browser } from '@capacitor/browser';
 import { BANNER_SLIDES as MOCK_SLIDES } from '../../config/mockData';
 import { useTemplate } from '../../context/TemplateContext';
 import { useHomeData } from '../../context/HomeDataContext';
 import type { BannerSlide } from '../../services/homeApi';
+import { getOrderUrl } from '../../services/configApi';
 import './BannerSection.css';
+
+const openOrder = () => {
+  const url = getOrderUrl();
+  if (url) Browser.open({ url, presentationStyle: 'fullscreen' });
+};
 
 const BannerCtx = createContext<BannerSlide[]>(MOCK_SLIDES);
 
@@ -56,7 +63,7 @@ const LuxeBanner: React.FC = () => {
         <span className="luxe-banner__eyebrow">EST. 2020 · ZING</span>
         <h1 className="luxe-banner__title">{slide.title}</h1>
         <p className="luxe-banner__subtitle">{slide.subtitle}</p>
-        <button className="luxe-banner__cta">{slide.cta}</button>
+        <button className="luxe-banner__cta" onClick={openOrder}>{slide.cta}</button>
       </div>
       <div className="luxe-banner__dots">
         {BANNER_SLIDES.map((_, i) => <span key={i} className={`luxe-dot ${i === active ? 'active' : ''}`} onClick={() => setActive(i)} />)}
@@ -84,7 +91,7 @@ const FreshBanner: React.FC = () => {
               <span className="fresh-banner__tag">{i === 0 ? '🔥 Hot Deal' : i === 1 ? '🚚 Free Delivery' : '🎉 Weekend'}</span>
               <h2 className="fresh-banner__title">{slide.title}</h2>
               <p className="fresh-banner__sub">{slide.subtitle}</p>
-              <button className="fresh-banner__cta">{slide.cta} →</button>
+              <button className="fresh-banner__cta" onClick={openOrder}>{slide.cta} →</button>
             </div>
           </div>
         ))}
@@ -113,7 +120,7 @@ const StreetBanner: React.FC = () => {
         <div className="street-banner__badge">⚡ ZING EATS</div>
         <h1 className="street-banner__title">{slide.title.toUpperCase()}</h1>
         <p className="street-banner__sub">{slide.subtitle}</p>
-        <button className="street-banner__cta">{slide.cta.toUpperCase()} →</button>
+        <button className="street-banner__cta" onClick={openOrder}>{slide.cta.toUpperCase()} →</button>
       </div>
       <div className="street-banner__counter">{String(active + 1).padStart(2, '0')} / {String(BANNER_SLIDES.length).padStart(2, '0')}</div>
     </div>
@@ -136,7 +143,7 @@ const ZenBanner: React.FC = () => {
         <div className="zen-banner__rule" />
         <h1 className="zen-banner__title">{slide.title}</h1>
         <p className="zen-banner__sub">{slide.subtitle}</p>
-        <button className="zen-banner__cta">{slide.cta}</button>
+        <button className="zen-banner__cta" onClick={openOrder}>{slide.cta}</button>
         <div className="zen-banner__dots">
           {BANNER_SLIDES.map((_, i) => <span key={i} className={`zen-dot ${i === active ? 'active' : ''}`} onClick={() => setActive(i)} />)}
         </div>
@@ -161,7 +168,7 @@ const FiestaBanner: React.FC = () => {
       <div key={`c-${active}`} className="fiesta-banner__content">
         <h1 className="fiesta-banner__title">{slide.title}</h1>
         <p className="fiesta-banner__sub">{slide.subtitle}</p>
-        <button className="fiesta-banner__cta">{slide.cta} 🎉</button>
+        <button className="fiesta-banner__cta" onClick={openOrder}>{slide.cta} 🎉</button>
       </div>
       <div className="fiesta-banner__dots">
         {BANNER_SLIDES.map((_, i) => (
@@ -191,7 +198,7 @@ const NeonBanner: React.FC = () => {
         <div className="neon-banner__chip">// ZING.EXE</div>
         <h1 className="neon-banner__title">{slide.title}</h1>
         <p className="neon-banner__sub">{slide.subtitle}</p>
-        <button className="neon-banner__cta">{slide.cta} ›</button>
+        <button className="neon-banner__cta" onClick={openOrder}>{slide.cta} ›</button>
       </div>
       <div className="neon-banner__dots">
         {BANNER_SLIDES.map((_, i) => <span key={i} className={`neon-dot ${i === active ? 'active' : ''}`} onClick={() => setActive(i)} />)}
@@ -217,7 +224,7 @@ const RusticBanner: React.FC = () => {
         <div className="rustic-banner__rule"><span>✦ ZING ✦</span></div>
         <h1 className="rustic-banner__title">{slide.title}</h1>
         <p className="rustic-banner__sub">{slide.subtitle}</p>
-        <button className="rustic-banner__cta">{slide.cta}</button>
+        <button className="rustic-banner__cta" onClick={openOrder}>{slide.cta}</button>
       </div>
       <div className="rustic-banner__dots">
         {BANNER_SLIDES.map((_, i) => <span key={i} className={`rustic-dot ${i === active ? 'active' : ''}`} onClick={() => setActive(i)} />)}
@@ -243,7 +250,7 @@ const OceanBanner: React.FC = () => {
         <span className="ocean-banner__tag">🌊 COASTAL KITCHEN</span>
         <h1 className="ocean-banner__title">{slide.title}</h1>
         <p className="ocean-banner__sub">{slide.subtitle}</p>
-        <button className="ocean-banner__cta">{slide.cta}</button>
+        <button className="ocean-banner__cta" onClick={openOrder}>{slide.cta}</button>
       </div>
       <div className="ocean-banner__wave-wrap"><div className="ocean-banner__wave" /></div>
       <div className="ocean-banner__dots">
@@ -273,7 +280,7 @@ const BlossomBanner: React.FC = () => {
         <h1 className="blossom-banner__title">{slide.title}</h1>
         <div className="blossom-banner__hearts">♡ ♡ ♡</div>
         <p className="blossom-banner__sub">{slide.subtitle}</p>
-        <button className="blossom-banner__cta">{slide.cta} ♡</button>
+        <button className="blossom-banner__cta" onClick={openOrder}>{slide.cta} ♡</button>
       </div>
       <div className="blossom-banner__dots">
         {BANNER_SLIDES.map((_, i) => <span key={i} className={`blossom-dot ${i === active ? 'active' : ''}`} onClick={() => setActive(i)} />)}
@@ -302,7 +309,7 @@ const EmberBanner: React.FC = () => {
         <div className="ember-banner__chip">🔥 FIRED UP</div>
         <h1 className="ember-banner__title">{slide.title.toUpperCase()}</h1>
         <p className="ember-banner__sub">{slide.subtitle}</p>
-        <button className="ember-banner__cta">{slide.cta.toUpperCase()}</button>
+        <button className="ember-banner__cta" onClick={openOrder}>{slide.cta.toUpperCase()}</button>
       </div>
       <div className="ember-banner__dots">
         {BANNER_SLIDES.map((_, i) => <span key={i} className={`ember-dot ${i === active ? 'active' : ''}`} onClick={() => setActive(i)} />)}
@@ -331,7 +338,7 @@ const CosmicBanner: React.FC = () => {
         <div className="cosmic-banner__chip">🚀 ZING UNIVERSE</div>
         <h1 className="cosmic-banner__title">{slide.title}</h1>
         <p className="cosmic-banner__sub">{slide.subtitle}</p>
-        <button className="cosmic-banner__cta">{slide.cta} ›</button>
+        <button className="cosmic-banner__cta" onClick={openOrder}>{slide.cta} ›</button>
       </div>
       <div className="cosmic-banner__dots">
         {BANNER_SLIDES.map((_, i) => <span key={i} className={`cosmic-dot ${i === active ? 'active' : ''}`} onClick={() => setActive(i)} />)}
@@ -358,7 +365,7 @@ const RetroBanner: React.FC = () => {
         <div className="retro-banner__badge">★ DAILY SPECIAL ★</div>
         <h1 className="retro-banner__title">{slide.title}</h1>
         <p className="retro-banner__sub">{slide.subtitle}</p>
-        <button className="retro-banner__cta">{slide.cta}</button>
+        <button className="retro-banner__cta" onClick={openOrder}>{slide.cta}</button>
       </div>
       <div className="retro-banner__counter">{String(active + 1).padStart(2, '0')}/{BANNER_SLIDES.length}</div>
     </div>
@@ -385,7 +392,7 @@ const RoyalBanner: React.FC = () => {
         <div className="royal-banner__rule">✦ ✦ ✦</div>
         <h1 className="royal-banner__title">{slide.title}</h1>
         <p className="royal-banner__sub">{slide.subtitle}</p>
-        <button className="royal-banner__cta">{slide.cta}</button>
+        <button className="royal-banner__cta" onClick={openOrder}>{slide.cta}</button>
       </div>
       <div className="royal-banner__dots">
         {BANNER_SLIDES.map((_, i) => <span key={i} className={`royal-dot ${i === active ? 'active' : ''}`} onClick={() => setActive(i)} />)}
@@ -414,7 +421,7 @@ const TropicalBanner: React.FC = () => {
         <div className="tropical-banner__chip">🌴 ISLAND EATS</div>
         <h1 className="tropical-banner__title">{slide.title}</h1>
         <p className="tropical-banner__sub">{slide.subtitle}</p>
-        <button className="tropical-banner__cta">{slide.cta} 🥥</button>
+        <button className="tropical-banner__cta" onClick={openOrder}>{slide.cta} 🥥</button>
       </div>
       <div className="tropical-banner__dots">
         {BANNER_SLIDES.map((_, i) => <span key={i} className={`tropical-dot ${i === active ? 'active' : ''}`} onClick={() => setActive(i)} />)}

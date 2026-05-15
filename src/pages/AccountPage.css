@@ -1,3 +1,35 @@
+/* ── Order History ── */
+.acc__section-title {
+  font-family: var(--t-font-heading);
+  font-size: 16px;
+  font-weight: 700;
+  color: var(--t-text);
+  padding: 20px 16px 10px;
+}
+.acc__orders { padding: 0 16px; display: flex; flex-direction: column; gap: 10px; margin-bottom: 8px; }
+.acc__order-card {
+  background: var(--t-surface);
+  border-radius: var(--t-radius-lg);
+  padding: 14px;
+  border: 1px solid var(--t-border);
+  animation: fadeInUp 0.4s ease both;
+}
+.acc__order-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px; }
+.acc__order-id { font-family: var(--t-font-body); font-size: 12px; font-weight: 700; color: var(--t-text-muted); letter-spacing: 0.04em; }
+.acc__order-status { font-family: var(--t-font-body); font-size: 12px; font-weight: 700; }
+.acc__order-items { display: flex; flex-wrap: wrap; gap: 5px; margin-bottom: 10px; }
+.acc__order-item {
+  background: var(--t-surface2, #f5f5f5);
+  color: var(--t-text);
+  font-family: var(--t-font-body);
+  font-size: 11px;
+  padding: 3px 9px;
+  border-radius: 20px;
+}
+.acc__order-footer { display: flex; justify-content: space-between; align-items: center; }
+.acc__order-date { font-family: var(--t-font-body); font-size: 12px; color: var(--t-text-muted); }
+.acc__order-total { font-family: var(--t-font-heading); font-size: 16px; font-weight: 700; }
+
 .acc__profile {
   padding: 36px 24px 28px;
   text-align: center;
