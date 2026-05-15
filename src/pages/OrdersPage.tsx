@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react';
 import { IonContent, IonHeader, IonPage, IonToolbar, IonTitle } from '@ionic/react';
-import { Browser } from '@capacitor/browser';
+import { InAppBrowser } from '@capgo/inappbrowser';
 import { useTemplate } from '../context/TemplateContext';
 import { getOrderUrl } from '../services/configApi';
 import './OrdersPage.css';
@@ -10,7 +10,7 @@ const OrdersPage: React.FC = () => {
 
   useEffect(() => {
     const url = getOrderUrl();
-    if (url) Browser.open({ url, presentationStyle: 'fullscreen' });
+    if (url) InAppBrowser.openWebView({ url, title: '' });
   }, []);
 
   return (

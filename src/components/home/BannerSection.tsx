@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useRef, createContext, useContext } from 'react';
-import { Browser } from '@capacitor/browser';
+import { InAppBrowser } from '@capgo/inappbrowser';
 import { BANNER_SLIDES as MOCK_SLIDES } from '../../config/mockData';
 import { useTemplate } from '../../context/TemplateContext';
 import { useHomeData } from '../../context/HomeDataContext';
@@ -9,7 +9,7 @@ import './BannerSection.css';
 
 const openOrder = () => {
   const url = getOrderUrl();
-  if (url) Browser.open({ url, presentationStyle: 'fullscreen' });
+  if (url) InAppBrowser.openWebView({ url, title: '' });
 };
 
 const BannerCtx = createContext<BannerSlide[]>(MOCK_SLIDES);
