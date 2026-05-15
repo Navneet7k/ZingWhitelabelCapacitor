@@ -9,6 +9,7 @@ import { Redirect, Route } from 'react-router-dom';
 import { homeOutline, fastFoodOutline, listOutline, personOutline } from 'ionicons/icons';
 
 import { TemplateProvider, useTemplate } from './context/TemplateContext';
+import { isLoggedIn } from './services/authApi';
 import { HomeDataProvider } from './context/HomeDataContext';
 import { MenuDataProvider } from './context/MenuDataContext';
 import TemplateSelectPage from './pages/TemplateSelectPage';
@@ -34,7 +35,7 @@ setupIonicReact();
 type AuthView = 'login' | 'register' | 'profile';
 
 const AccountGate: React.FC = () => {
-  const [view, setView] = useState<AuthView>('login');
+  const [view, setView] = useState<AuthView>(() => isLoggedIn() ? 'profile' : 'login');
   if (view === 'login')    return <LoginPage    onLogin={() => setView('profile')} onRegister={() => setView('register')} />;
   if (view === 'register') return <RegisterPage onRegister={() => setView('profile')} onBack={() => setView('login')} />;
   return <AccountPage />;
