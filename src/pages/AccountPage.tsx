@@ -61,7 +61,7 @@ const AccountPage: React.FC<{ onSignOut?: () => void }> = ({ onSignOut }) => {
         </IonToolbar>
       </IonHeader>
 
-      <IonContent>
+      <IonContent key={showHistory ? 'history' : 'profile'}>
         {showHistory ? (
           <>
             <div className="acc__orders">

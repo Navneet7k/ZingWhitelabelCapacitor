@@ -23,17 +23,15 @@ const HomePage: React.FC = () => {
     <IonPage>
       <IonHeader>
         <IonToolbar>
-          <IonTitle>
-            {logoUrl
-              ? <img src={logoUrl} alt={appName} className="home__toolbar-logo" />
-              : <>{template.emoji} {appName}</>
-            }
-          </IonTitle>
           <IonButtons slot="start">
             <IonButton onClick={() => setShowPicker(s => !s)}>
               <IonIcon icon={reorderThreeOutline} />
             </IonButton>
+            {logoUrl && (
+              <img src={logoUrl} alt={appName} className="home__toolbar-logo" />
+            )}
           </IonButtons>
+          {!logoUrl && <IonTitle>{template.emoji} {appName}</IonTitle>}
           <IonButtons slot="end">
             <IonButton><IonIcon icon={searchOutline} /></IonButton>
             <IonButton><IonIcon icon={cartOutline} /></IonButton>
