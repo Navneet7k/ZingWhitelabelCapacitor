@@ -72,7 +72,16 @@ src = src.replace(/applicationId\s+\".*?\"/, 'applicationId \"$APP_ID\"');
 fs.writeFileSync(path, src);
 "
 
-# 8. Sync native projects
+# 8. Copy google-services.json for FCM (optional — warn if missing)
+GOOGLE_SERVICES="restaurant-configs/$RESTAURANT_ID/google-services.json"
+if [ -f "$GOOGLE_SERVICES" ]; then
+  cp "$GOOGLE_SERVICES" android/app/google-services.json
+  echo "✅ google-services.json copied"
+else
+  echo "⚠️  Warning: no google-services.json found at $GOOGLE_SERVICES — FCM will not work on this build"
+fi
+
+# 9. Sync native projects
 npx cap sync android
 
 echo ""

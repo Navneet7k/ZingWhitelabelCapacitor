@@ -4,6 +4,7 @@ import { useTemplate, TEMPLATES } from '../context/TemplateContext';
 import { LOYALTY } from '../config/mockData';
 import { getStatus, onStatusChange, UpdateStatus } from '../services/updater';
 import { isRestaurantMode, getRestaurantName } from '../services/restaurantConfig';
+import { clearAuth } from '../services/authApi';
 import './AccountPage.css';
 
 const MENU_ITEMS_ACC = [
@@ -28,7 +29,7 @@ function updateStatusLabel(s: UpdateStatus): { text: string; color: string } {
   }
 }
 
-const AccountPage: React.FC = () => {
+const AccountPage: React.FC<{ onSignOut?: () => void }> = ({ onSignOut }) => {
   const { template, setTemplateId } = useTemplate();
   const [updateStatus, setUpdateStatus] = useState<UpdateStatus>(getStatus);
 
@@ -58,7 +59,12 @@ const AccountPage: React.FC = () => {
         {/* Menu list */}
         <div className={`acc__menu acc__menu--${template.id}`}>
           {MENU_ITEMS_ACC.map((item, i) => (
-            <button key={i} className="acc__menu-item" style={{ animationDelay: `${i * 0.04}s` }}>
+            <button
+              key={i}
+              className="acc__menu-item"
+              style={{ animationDelay: `${i * 0.04}s` }}
+              onClick={item.label === 'Sign Out' ? () => { clearAuth(); onSignOut?.(); } : undefined}
+            >
               <span className="acc__menu-icon">{item.icon}</span>
               <span className="acc__menu-label">{item.label}</span>
               <span className="acc__menu-arrow">›</span>

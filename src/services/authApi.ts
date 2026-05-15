@@ -1,3 +1,5 @@
+import { getSavedFcmToken } from './fcmService';
+
 const BASE_URL = 'https://app.zingmyorder.com/api';
 
 export interface AuthUser {
@@ -22,9 +24,9 @@ export async function login(
       email,
       password,
       restaurant_id: restaurantId,
-      is_app: '1',
-      flag: 'app',
-      fcm_token: '',
+      is_app:        '1',
+      flag:          'app',
+      fcm_token:     getSavedFcmToken(),
     }),
   });
   const data = await res.json();
@@ -51,12 +53,11 @@ export async function register(params: {
       password_confirmation: params.passwordConfirmation,
       restaurant_id:         params.restaurantId,
       is_app:                '1',
-      fcm_token:             '',
+      fcm_token:             getSavedFcmToken(),
     }),
   });
   const data = await res.json();
   if (!data.status) {
-    // Extract first field-level error if present
     const errors = data.errors as Record<string, string[]> | undefined;
     let message = data.message ?? 'Registration failed';
     if (errors) {
@@ -65,6 +66,16 @@ export async function register(params: {
     }
     throw new Error(message);
   }
+}
+
+export async function updateFcmToken(fcmToken: string, apiToken: string): Promise<void> {
+  try {
+    await fetch(`${BASE_URL}/client/update/fcm?api_token=${apiToken}`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ fcm_token: fcmToken }),
+    });
+  } catch { /* silent fail — non-critical */ }
 }
 
 // ── Local storage ──────────────────────────────────────────────────────────────

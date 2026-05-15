@@ -9,7 +9,8 @@ import { Redirect, Route } from 'react-router-dom';
 import { homeOutline, fastFoodOutline, listOutline, personOutline } from 'ionicons/icons';
 
 import { TemplateProvider, useTemplate } from './context/TemplateContext';
-import { isLoggedIn } from './services/authApi';
+import { isLoggedIn, updateFcmToken, getToken } from './services/authApi';
+import { initFcm } from './services/fcmService';
 import { HomeDataProvider } from './context/HomeDataContext';
 import { MenuDataProvider } from './context/MenuDataContext';
 import TemplateSelectPage from './pages/TemplateSelectPage';
@@ -38,7 +39,7 @@ const AccountGate: React.FC = () => {
   const [view, setView] = useState<AuthView>(() => isLoggedIn() ? 'profile' : 'login');
   if (view === 'login')    return <LoginPage    onLogin={() => setView('profile')} onRegister={() => setView('register')} />;
   if (view === 'register') return <RegisterPage onRegister={() => setView('profile')} onBack={() => setView('login')} />;
-  return <AccountPage />;
+  return <AccountPage onSignOut={() => setView('login')} />;
 };
 
 const AppInner: React.FC = () => {
@@ -46,7 +47,15 @@ const AppInner: React.FC = () => {
   // In restaurant mode the template is pre-set — skip the picker entirely
   const [selected, setSelected] = useState(hasSelected || isRestaurantMode());
 
-  useEffect(() => { initUpdater(); }, []);
+  useEffect(() => {
+    initUpdater();
+    initFcm().then(token => {
+      if (token) {
+        const apiToken = getToken();
+        if (apiToken) updateFcmToken(token, apiToken);
+      }
+    });
+  }, []);
 
   if (!selected) {
     return <TemplateSelectPage onSelect={() => setSelected(true)} />;
