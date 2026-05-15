@@ -17,6 +17,8 @@ import HomePage from './pages/HomePage';
 import MenuPage from './pages/MenuPage';
 import OrdersPage from './pages/OrdersPage';
 import AccountPage from './pages/AccountPage';
+import LoginPage from './pages/LoginPage';
+import RegisterPage from './pages/RegisterPage';
 
 import '@ionic/react/css/core.css';
 import '@ionic/react/css/normalize.css';
@@ -28,6 +30,15 @@ import './theme/animations.css';
 import './theme/global.css';
 
 setupIonicReact();
+
+type AuthView = 'login' | 'register' | 'profile';
+
+const AccountGate: React.FC = () => {
+  const [view, setView] = useState<AuthView>('login');
+  if (view === 'login')    return <LoginPage    onLogin={() => setView('profile')} onRegister={() => setView('register')} />;
+  if (view === 'register') return <RegisterPage onRegister={() => setView('profile')} onBack={() => setView('login')} />;
+  return <AccountPage />;
+};
 
 const AppInner: React.FC = () => {
   const { hasSelected } = useTemplate();
@@ -47,7 +58,7 @@ const AppInner: React.FC = () => {
           <Route exact path="/home" component={HomePage} />
           <Route exact path="/menu" component={MenuPage} />
           <Route exact path="/orders" component={OrdersPage} />
-          <Route exact path="/account" component={AccountPage} />
+          <Route exact path="/account" component={AccountGate} />
           <Route exact path="/" render={() => <Redirect to="/home" />} />
         </IonRouterOutlet>
         <IonTabBar slot="bottom">

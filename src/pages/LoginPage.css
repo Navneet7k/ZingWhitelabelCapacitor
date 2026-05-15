@@ -1,0 +1,174 @@
+/* ── Base layout ── */
+.login {
+  min-height: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  padding: 40px 24px 32px;
+  background: var(--t-bg);
+}
+
+/* ── Header ── */
+.login__header {
+  text-align: center;
+  margin-bottom: 32px;
+  animation: fadeInUp 0.5s ease both;
+}
+.login__brand {
+  font-family: var(--t-font-heading);
+  font-size: 28px;
+  font-weight: 700;
+  letter-spacing: 0.02em;
+  margin-bottom: 12px;
+}
+.login__title {
+  font-family: var(--t-font-heading);
+  font-size: 24px;
+  font-weight: 700;
+  color: var(--t-text);
+  margin: 0 0 6px;
+}
+.login__subtitle {
+  font-family: var(--t-font-body);
+  font-size: 14px;
+  color: var(--t-text-muted);
+  margin: 0;
+}
+
+/* ── Card ── */
+.login__card {
+  background: var(--t-surface);
+  border-radius: var(--t-radius-lg);
+  padding: 28px 20px;
+  box-shadow: var(--t-shadow);
+  border: 1px solid var(--t-border);
+  animation: fadeInUp 0.5s 0.1s ease both;
+}
+
+/* ── Fields ── */
+.login__field { margin-bottom: 16px; }
+.login__label {
+  display: block;
+  font-family: var(--t-font-body);
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--t-text-muted);
+  margin-bottom: 6px;
+}
+.login__input {
+  width: 100%;
+  box-sizing: border-box;
+  padding: 13px 14px;
+  background: var(--t-surface2, var(--t-bg));
+  border: 1px solid var(--t-border);
+  border-radius: var(--t-radius);
+  font-family: var(--t-font-body);
+  font-size: 15px;
+  color: var(--t-text);
+  outline: none;
+  transition: border-color 0.2s;
+}
+.login__input::placeholder { color: var(--t-text-muted); opacity: 0.6; }
+.login__input:focus { border-color: var(--t-primary); }
+
+/* ── Forgot ── */
+.login__forgot {
+  text-align: right;
+  margin-bottom: 20px;
+  font-family: var(--t-font-body);
+  font-size: 13px;
+  cursor: pointer;
+}
+
+/* ── Button ── */
+.login__btn {
+  width: 100%;
+  padding: 15px;
+  border: none;
+  border-radius: var(--t-radius);
+  font-family: var(--t-font-heading);
+  font-size: 16px;
+  font-weight: 700;
+  color: #fff;
+  cursor: pointer;
+  letter-spacing: 0.03em;
+  transition: opacity 0.15s, transform 0.15s;
+  margin-bottom: 20px;
+}
+.login__btn:active { opacity: 0.85; transform: scale(0.98); }
+
+/* ── Switch link ── */
+.login__switch {
+  text-align: center;
+  font-family: var(--t-font-body);
+  font-size: 14px;
+  color: var(--t-text-muted);
+  margin: 0;
+}
+.login__switch-link {
+  font-weight: 700;
+  cursor: pointer;
+}
+
+/* ── Dark template overrides ── */
+.login--dark .login__card {
+  border: 1px solid var(--t-border);
+}
+.login--dark .login__input {
+  background: var(--t-surface2);
+}
+
+/* ── Template-specific tweaks ── */
+.login--luxe .login__brand { letter-spacing: 0.15em; font-size: 26px; }
+.login--luxe .login__btn   { letter-spacing: 0.12em; border-radius: 2px; }
+.login--luxe .login__input { border-radius: 2px; border-bottom-width: 2px; background: transparent; }
+.login--luxe .login__card  { border-radius: 4px; background: #181818; }
+
+.login--street .login__brand { letter-spacing: 0.2em; font-size: 30px; text-transform: uppercase; }
+.login--street .login__btn   { letter-spacing: 0.1em; text-transform: uppercase; color: #111; }
+.login--street .login__input { border-radius: 4px; }
+
+.login--neon .login__brand { text-shadow: 0 0 16px var(--t-primary); }
+.login--neon .login__input { background: rgba(255,255,255,0.05); border-color: var(--t-primary); border-radius: 4px; }
+.login--neon .login__btn   { box-shadow: 0 0 16px var(--t-primary); border-radius: 4px; color: #000; }
+.login--neon .login__card  { background: rgba(255,255,255,0.04); border-color: rgba(0,245,255,0.2); }
+
+.login--zen .login__brand  { letter-spacing: 0.08em; }
+.login--zen .login__card   { border-radius: 2px; box-shadow: none; border-color: rgba(92,61,46,0.15); }
+.login--zen .login__input  { border-radius: 2px; border-left: none; border-right: none; border-top: none; border-radius: 0; background: transparent; padding-left: 0; }
+.login--zen .login__btn    { border-radius: 2px; }
+
+.login--fresh .login__card   { border-radius: 24px; }
+.login--fresh .login__input  { border-radius: 14px; }
+.login--fresh .login__btn    { border-radius: 14px; }
+
+.login--fiesta .login__card  { border-radius: 20px; }
+.login--fiesta .login__brand { font-size: 32px; }
+
+.login--ocean .login__card   { border-radius: 16px; }
+.login--ocean .login__header { margin-bottom: 24px; }
+
+.login--blossom .login__card  { border-radius: 24px; }
+.login--blossom .login__brand { letter-spacing: 0.05em; }
+.login--blossom .login__btn   { border-radius: 50px; }
+
+.login--ember .login__brand  { text-transform: uppercase; letter-spacing: 0.15em; }
+.login--ember .login__btn    { border-radius: 4px; letter-spacing: 0.1em; text-transform: uppercase; }
+.login--ember .login__card   { background: #1A0A00; border-color: rgba(255,107,0,0.25); }
+
+.login--cosmic .login__brand { letter-spacing: 0.1em; text-transform: uppercase; }
+.login--cosmic .login__card  { background: rgba(255,255,255,0.04); border-color: rgba(0,229,255,0.2); border-radius: 8px; }
+.login--cosmic .login__btn   { border-radius: 6px; color: #050A18; }
+
+.login--retro .login__brand  { font-size: 32px; letter-spacing: 0.04em; }
+.login--retro .login__card   { border: 2px solid var(--t-primary); }
+
+.login--tropical .login__card  { border-radius: 24px; }
+.login--tropical .login__btn   { border-radius: 50px; }
+
+.login--royal .login__brand  { letter-spacing: 0.12em; text-transform: uppercase; font-size: 22px; }
+.login--royal .login__card   { background: #1E0D18; border-color: rgba(201,146,58,0.3); border-radius: 8px; }
+.login--royal .login__btn    { border-radius: 6px; letter-spacing: 0.08em; }
+
+.login--rustic .login__card  { border-radius: 8px; border: 1.5px solid var(--t-border); box-shadow: none; }
+.login--rustic .login__btn   { border-radius: 6px; }

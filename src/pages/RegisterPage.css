@@ -1,0 +1,158 @@
+/* ── Base layout ── */
+.register {
+  min-height: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  padding: 40px 24px 32px;
+  background: var(--t-bg);
+}
+
+/* ── Header ── */
+.register__header {
+  text-align: center;
+  margin-bottom: 32px;
+  animation: fadeInUp 0.5s ease both;
+}
+.register__brand {
+  font-family: var(--t-font-heading);
+  font-size: 28px;
+  font-weight: 700;
+  letter-spacing: 0.02em;
+  margin-bottom: 12px;
+}
+.register__title {
+  font-family: var(--t-font-heading);
+  font-size: 24px;
+  font-weight: 700;
+  color: var(--t-text);
+  margin: 0 0 6px;
+}
+.register__subtitle {
+  font-family: var(--t-font-body);
+  font-size: 14px;
+  color: var(--t-text-muted);
+  margin: 0;
+}
+
+/* ── Card ── */
+.register__card {
+  background: var(--t-surface);
+  border-radius: var(--t-radius-lg);
+  padding: 28px 20px;
+  box-shadow: var(--t-shadow);
+  border: 1px solid var(--t-border);
+  animation: fadeInUp 0.5s 0.1s ease both;
+}
+
+/* ── Fields ── */
+.register__field { margin-bottom: 16px; }
+.register__label {
+  display: block;
+  font-family: var(--t-font-body);
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--t-text-muted);
+  margin-bottom: 6px;
+}
+.register__input {
+  width: 100%;
+  box-sizing: border-box;
+  padding: 13px 14px;
+  background: var(--t-surface2, var(--t-bg));
+  border: 1px solid var(--t-border);
+  border-radius: var(--t-radius);
+  font-family: var(--t-font-body);
+  font-size: 15px;
+  color: var(--t-text);
+  outline: none;
+  transition: border-color 0.2s;
+}
+.register__input::placeholder { color: var(--t-text-muted); opacity: 0.6; }
+.register__input:focus { border-color: var(--t-primary); }
+
+/* ── Button ── */
+.register__btn {
+  width: 100%;
+  padding: 15px;
+  border: none;
+  border-radius: var(--t-radius);
+  font-family: var(--t-font-heading);
+  font-size: 16px;
+  font-weight: 700;
+  color: #fff;
+  cursor: pointer;
+  letter-spacing: 0.03em;
+  transition: opacity 0.15s, transform 0.15s;
+  margin-top: 4px;
+  margin-bottom: 20px;
+}
+.register__btn:active { opacity: 0.85; transform: scale(0.98); }
+
+/* ── Switch link ── */
+.register__switch {
+  text-align: center;
+  font-family: var(--t-font-body);
+  font-size: 14px;
+  color: var(--t-text-muted);
+  margin: 0;
+}
+.register__switch-link {
+  font-weight: 700;
+  cursor: pointer;
+}
+
+/* ── Dark template overrides ── */
+.register--dark .register__input { background: var(--t-surface2); }
+
+/* ── Template-specific tweaks (mirrors LoginPage) ── */
+.register--luxe .register__brand { letter-spacing: 0.15em; font-size: 26px; }
+.register--luxe .register__btn   { letter-spacing: 0.12em; border-radius: 2px; }
+.register--luxe .register__input { border-radius: 2px; border-bottom-width: 2px; background: transparent; }
+.register--luxe .register__card  { border-radius: 4px; background: #181818; }
+
+.register--street .register__brand { letter-spacing: 0.2em; font-size: 30px; text-transform: uppercase; }
+.register--street .register__btn   { letter-spacing: 0.1em; text-transform: uppercase; color: #111; }
+.register--street .register__input { border-radius: 4px; }
+
+.register--neon .register__brand { text-shadow: 0 0 16px var(--t-primary); }
+.register--neon .register__input { background: rgba(255,255,255,0.05); border-color: var(--t-primary); border-radius: 4px; }
+.register--neon .register__btn   { box-shadow: 0 0 16px var(--t-primary); border-radius: 4px; color: #000; }
+.register--neon .register__card  { background: rgba(255,255,255,0.04); border-color: rgba(0,245,255,0.2); }
+
+.register--zen .register__card   { border-radius: 2px; box-shadow: none; border-color: rgba(92,61,46,0.15); }
+.register--zen .register__input  { border-left: none; border-right: none; border-top: none; border-radius: 0; background: transparent; padding-left: 0; }
+.register--zen .register__btn    { border-radius: 2px; }
+
+.register--fresh .register__card   { border-radius: 24px; }
+.register--fresh .register__input  { border-radius: 14px; }
+.register--fresh .register__btn    { border-radius: 14px; }
+
+.register--fiesta .register__card  { border-radius: 20px; }
+.register--fiesta .register__brand { font-size: 32px; }
+
+.register--ocean .register__card   { border-radius: 16px; }
+
+.register--blossom .register__card  { border-radius: 24px; }
+.register--blossom .register__btn   { border-radius: 50px; }
+
+.register--ember .register__brand  { text-transform: uppercase; letter-spacing: 0.15em; }
+.register--ember .register__btn    { border-radius: 4px; letter-spacing: 0.1em; text-transform: uppercase; }
+.register--ember .register__card   { background: #1A0A00; border-color: rgba(255,107,0,0.25); }
+
+.register--cosmic .register__brand { letter-spacing: 0.1em; text-transform: uppercase; }
+.register--cosmic .register__card  { background: rgba(255,255,255,0.04); border-color: rgba(0,229,255,0.2); border-radius: 8px; }
+.register--cosmic .register__btn   { border-radius: 6px; color: #050A18; }
+
+.register--retro .register__brand  { font-size: 32px; letter-spacing: 0.04em; }
+.register--retro .register__card   { border: 2px solid var(--t-primary); }
+
+.register--tropical .register__card  { border-radius: 24px; }
+.register--tropical .register__btn   { border-radius: 50px; }
+
+.register--royal .register__brand  { letter-spacing: 0.12em; text-transform: uppercase; font-size: 22px; }
+.register--royal .register__card   { background: #1E0D18; border-color: rgba(201,146,58,0.3); border-radius: 8px; }
+.register--royal .register__btn    { border-radius: 6px; letter-spacing: 0.08em; }
+
+.register--rustic .register__card  { border-radius: 8px; border: 1.5px solid var(--t-border); box-shadow: none; }
+.register--rustic .register__btn   { border-radius: 6px; }
