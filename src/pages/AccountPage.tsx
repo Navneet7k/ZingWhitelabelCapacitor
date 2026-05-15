@@ -50,123 +50,117 @@ const AccountPage: React.FC<{ onSignOut?: () => void }> = ({ onSignOut }) => {
     if (label === 'Order History') { setShowHistory(true); }
   };
 
-  // ── Order History full screen ──────────────────────────────────────────────
-  if (showHistory) {
-    return (
-      <IonPage>
-        <IonHeader>
-          <IonToolbar>
-            <button className="acc__back-btn" onClick={() => setShowHistory(false)}>‹ Back</button>
-            <IonTitle>Order History</IonTitle>
-          </IonToolbar>
-        </IonHeader>
-        <IonContent>
-          <div className="acc__orders">
-            {orders.map((order, i) => (
-              <div key={order.id} className="acc__order-card" style={{ animationDelay: `${i * 0.06}s` }}>
-                <div className="acc__order-header">
-                  <span className="acc__order-id">{order.id}</span>
-                  <span className="acc__order-status" style={{ color: order.color }}>
-                    {STATUS_ICONS[order.status] ?? ''} {order.status}
-                  </span>
-                </div>
-                <div className="acc__order-items">
-                  {order.items.map((item, j) => <span key={j} className="acc__order-item">{item}</span>)}
-                </div>
-                <div className="acc__order-footer">
-                  <span className="acc__order-date">{order.date}</span>
-                  <span className="acc__order-total" style={{ color: template.colors.primary }}>${order.total.toFixed(2)}</span>
-                </div>
-              </div>
-            ))}
-          </div>
-          <div style={{ height: 32 }} />
-        </IonContent>
-      </IonPage>
-    );
-  }
-
-  // ── Main profile screen ────────────────────────────────────────────────────
   return (
     <IonPage>
       <IonHeader>
         <IonToolbar>
-          <IonTitle>Account</IonTitle>
+          {showHistory && (
+            <button className="acc__back-btn" onClick={() => setShowHistory(false)}>‹ Back</button>
+          )}
+          <IonTitle>{showHistory ? 'Order History' : 'Account'}</IonTitle>
         </IonToolbar>
       </IonHeader>
+
       <IonContent>
-        <div className="acc__profile" style={{ background: template.colors.primary }}>
-          <div className="acc__avatar">JD</div>
-          <h2 className="acc__name">John Doe</h2>
-          <p className="acc__email">john.doe@email.com</p>
-          <div className="acc__badges">
-            <span className="acc__badge">{LOYALTY.tier} Member</span>
-            <span className="acc__badge">{LOYALTY.points.toLocaleString()} pts</span>
-          </div>
-        </div>
+        {showHistory ? (
+          <>
+            <div className="acc__orders">
+              {orders.map((order, i) => (
+                <div key={order.id} className="acc__order-card" style={{ animationDelay: `${i * 0.06}s` }}>
+                  <div className="acc__order-header">
+                    <span className="acc__order-id">{order.id}</span>
+                    <span className="acc__order-status" style={{ color: order.color }}>
+                      {STATUS_ICONS[order.status] ?? ''} {order.status}
+                    </span>
+                  </div>
+                  <div className="acc__order-items">
+                    {order.items.map((item, j) => <span key={j} className="acc__order-item">{item}</span>)}
+                  </div>
+                  <div className="acc__order-footer">
+                    <span className="acc__order-date">{order.date}</span>
+                    <span className="acc__order-total" style={{ color: template.colors.primary }}>${order.total.toFixed(2)}</span>
+                  </div>
+                </div>
+              ))}
+            </div>
+            <div style={{ height: 32 }} />
+          </>
+        ) : (
+          <>
+            <div className="acc__profile" style={{ background: template.colors.primary }}>
+              <div className="acc__avatar">JD</div>
+              <h2 className="acc__name">John Doe</h2>
+              <p className="acc__email">john.doe@email.com</p>
+              <div className="acc__badges">
+                <span className="acc__badge">{LOYALTY.tier} Member</span>
+                <span className="acc__badge">{LOYALTY.points.toLocaleString()} pts</span>
+              </div>
+            </div>
 
-        <div className={`acc__menu acc__menu--${template.id}`}>
-          {MENU_ITEMS_ACC.map((item, i) => (
-            <button
-              key={i}
-              className="acc__menu-item"
-              style={{ animationDelay: `${i * 0.04}s` }}
-              onClick={() => handleMenuItem(item.label)}
-            >
-              <span className="acc__menu-icon">{item.icon}</span>
-              <span className="acc__menu-label">{item.label}</span>
-              <span className="acc__menu-arrow">›</span>
-            </button>
-          ))}
-        </div>
-
-        {!isRestaurantMode() && (
-          <div className="acc__template-section">
-            <h3 className="acc__template-title">App Template</h3>
-            <div className="acc__template-grid">
-              {TEMPLATES.map(t => (
+            <div className={`acc__menu acc__menu--${template.id}`}>
+              {MENU_ITEMS_ACC.map((item, i) => (
                 <button
-                  key={t.id}
-                  className={`acc__template-btn ${t.id === template.id ? 'active' : ''}`}
-                  style={{
-                    background: t.colors.bg,
-                    borderColor: t.id === template.id ? t.colors.primary : 'transparent',
-                  }}
-                  onClick={() => setTemplateId(t.id)}
+                  key={i}
+                  className="acc__menu-item"
+                  style={{ animationDelay: `${i * 0.04}s` }}
+                  onClick={() => handleMenuItem(item.label)}
                 >
-                  <span className="acc__template-emoji">{t.emoji}</span>
-                  <span className="acc__template-name" style={{ color: t.colors.text }}>{t.name}</span>
+                  <span className="acc__menu-icon">{item.icon}</span>
+                  <span className="acc__menu-label">{item.label}</span>
+                  <span className="acc__menu-arrow">›</span>
                 </button>
               ))}
             </div>
-          </div>
-        )}
 
-        {isRestaurantMode() && (
-          <div className="acc__restaurant-panel">
-            <span className="acc__restaurant-icon">🍕</span>
-            <div>
-              <p className="acc__restaurant-name">{getRestaurantName() ?? 'Restaurant App'}</p>
-              <p className="acc__restaurant-powered">Powered by Zing</p>
+            {!isRestaurantMode() && (
+              <div className="acc__template-section">
+                <h3 className="acc__template-title">App Template</h3>
+                <div className="acc__template-grid">
+                  {TEMPLATES.map(t => (
+                    <button
+                      key={t.id}
+                      className={`acc__template-btn ${t.id === template.id ? 'active' : ''}`}
+                      style={{
+                        background: t.colors.bg,
+                        borderColor: t.id === template.id ? t.colors.primary : 'transparent',
+                      }}
+                      onClick={() => setTemplateId(t.id)}
+                    >
+                      <span className="acc__template-emoji">{t.emoji}</span>
+                      <span className="acc__template-name" style={{ color: t.colors.text }}>{t.name}</span>
+                    </button>
+                  ))}
+                </div>
+              </div>
+            )}
+
+            {isRestaurantMode() && (
+              <div className="acc__restaurant-panel">
+                <span className="acc__restaurant-icon">🍕</span>
+                <div>
+                  <p className="acc__restaurant-name">{getRestaurantName() ?? 'Restaurant App'}</p>
+                  <p className="acc__restaurant-powered">Powered by Zing</p>
+                </div>
+              </div>
+            )}
+
+            <div className="acc__update-panel">
+              <div className="acc__update-header">
+                <span className="acc__update-icon">
+                  {updateStatus.state === 'checking' || updateStatus.state === 'downloading' ? '🔄' :
+                   updateStatus.state === 'ready' ? '✅' :
+                   updateStatus.state === 'error' ? '❌' : '🔃'}
+                </span>
+                <span className="acc__update-title">App Updates</span>
+              </div>
+              <p className="acc__update-text" style={{ color: updateStatusLabel(updateStatus).color }}>
+                {updateStatusLabel(updateStatus).text}
+              </p>
             </div>
-          </div>
+
+            <div style={{ height: 32 }} />
+          </>
         )}
-
-        <div className="acc__update-panel">
-          <div className="acc__update-header">
-            <span className="acc__update-icon">
-              {updateStatus.state === 'checking' || updateStatus.state === 'downloading' ? '🔄' :
-               updateStatus.state === 'ready' ? '✅' :
-               updateStatus.state === 'error' ? '❌' : '🔃'}
-            </span>
-            <span className="acc__update-title">App Updates</span>
-          </div>
-          <p className="acc__update-text" style={{ color: updateStatusLabel(updateStatus).color }}>
-            {updateStatusLabel(updateStatus).text}
-          </p>
-        </div>
-
-        <div style={{ height: 32 }} />
       </IonContent>
     </IonPage>
   );

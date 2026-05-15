@@ -5,6 +5,7 @@ import { useTemplate } from '../../context/TemplateContext';
 import { useHomeData } from '../../context/HomeDataContext';
 import type { BannerSlide } from '../../services/homeApi';
 import { getOrderUrl } from '../../services/configApi';
+import { getRestaurantName } from '../../services/restaurantConfig';
 import './BannerSection.css';
 
 const openOrder = () => {
@@ -67,7 +68,7 @@ const LuxeBanner: React.FC = () => {
       <div key={active} className="luxe-banner__img" style={{ backgroundImage: `url(${slide.image})` }} />
       <div className="luxe-banner__overlay" />
       <div key={animKey} className="luxe-banner__content">
-        <span className="luxe-banner__eyebrow">EST. 2020 · ZING</span>
+        <span className="luxe-banner__eyebrow">{(getRestaurantName() ?? 'Zing').toUpperCase()}</span>
         <h1 className="luxe-banner__title">{slide.title}</h1>
         <p className="luxe-banner__subtitle">{slide.subtitle}</p>
         <button className="luxe-banner__cta" onClick={openOrder}>{slide.cta}</button>
@@ -95,7 +96,7 @@ const FreshBanner: React.FC = () => {
           <div key={slide.id} className="fresh-banner__card">
             <img src={slide.image} alt={slide.title} className="fresh-banner__img" />
             <div className="fresh-banner__body">
-              <span className="fresh-banner__tag">{i === 0 ? '🔥 Hot Deal' : i === 1 ? '🚚 Free Delivery' : '🎉 Weekend'}</span>
+              <span className="fresh-banner__tag">{getRestaurantName() ?? 'Zing'}</span>
               <h2 className="fresh-banner__title">{slide.title}</h2>
               <p className="fresh-banner__sub">{slide.subtitle}</p>
               <button className="fresh-banner__cta" onClick={openOrder}>{slide.cta} →</button>
@@ -124,7 +125,7 @@ const StreetBanner: React.FC = () => {
       <div key={active} className="street-banner__img" style={{ backgroundImage: `url(${slide.image})` }} />
       <div className="street-banner__overlay" />
       <div key={`t-${active}`} className="street-banner__content">
-        <div className="street-banner__badge">⚡ ZING EATS</div>
+        <div className="street-banner__badge">⚡ {(getRestaurantName() ?? 'Zing').toUpperCase()}</div>
         <h1 className="street-banner__title">{slide.title.toUpperCase()}</h1>
         <p className="street-banner__sub">{slide.subtitle}</p>
         <button className="street-banner__cta" onClick={openOrder}>{slide.cta.toUpperCase()} →</button>
@@ -202,7 +203,7 @@ const NeonBanner: React.FC = () => {
       <div className="neon-banner__scanlines" />
       <div className="neon-banner__overlay" />
       <div key={`c-${active}`} className="neon-banner__content">
-        <div className="neon-banner__chip">// ZING.EXE</div>
+        <div className="neon-banner__chip">// {(getRestaurantName() ?? 'Zing').toUpperCase()}</div>
         <h1 className="neon-banner__title">{slide.title}</h1>
         <p className="neon-banner__sub">{slide.subtitle}</p>
         <button className="neon-banner__cta" onClick={openOrder}>{slide.cta} ›</button>
@@ -228,7 +229,7 @@ const RusticBanner: React.FC = () => {
       <div key={active} className="rustic-banner__img" style={{ backgroundImage: `url(${slide.image})` }} />
       <div className="rustic-banner__overlay" />
       <div key={`c-${active}`} className="rustic-banner__content">
-        <div className="rustic-banner__rule"><span>✦ ZING ✦</span></div>
+        <div className="rustic-banner__rule"><span>✦ {getRestaurantName() ?? 'Zing'} ✦</span></div>
         <h1 className="rustic-banner__title">{slide.title}</h1>
         <p className="rustic-banner__sub">{slide.subtitle}</p>
         <button className="rustic-banner__cta" onClick={openOrder}>{slide.cta}</button>
@@ -254,7 +255,7 @@ const OceanBanner: React.FC = () => {
       <div key={active} className="ocean-banner__img" style={{ backgroundImage: `url(${slide.image})` }} />
       <div className="ocean-banner__overlay" />
       <div key={`c-${active}`} className="ocean-banner__content">
-        <span className="ocean-banner__tag">🌊 COASTAL KITCHEN</span>
+        <span className="ocean-banner__tag">🌊 {(getRestaurantName() ?? 'Zing').toUpperCase()}</span>
         <h1 className="ocean-banner__title">{slide.title}</h1>
         <p className="ocean-banner__sub">{slide.subtitle}</p>
         <button className="ocean-banner__cta" onClick={openOrder}>{slide.cta}</button>
@@ -285,7 +286,7 @@ const BlossomBanner: React.FC = () => {
       ))}
       <div key={`c-${active}`} className="blossom-banner__content">
         <h1 className="blossom-banner__title">{slide.title}</h1>
-        <div className="blossom-banner__hearts">♡ ♡ ♡</div>
+        <div className="blossom-banner__hearts">{getRestaurantName() ?? 'Zing'}</div>
         <p className="blossom-banner__sub">{slide.subtitle}</p>
         <button className="blossom-banner__cta" onClick={openOrder}>{slide.cta} ♡</button>
       </div>
@@ -313,7 +314,7 @@ const EmberBanner: React.FC = () => {
         <div key={i} className="ember-particle" style={{ '--delay': `${i * 0.35}s`, '--x': `${8 + i * 11}%` } as React.CSSProperties} />
       ))}
       <div key={`c-${active}`} className="ember-banner__content">
-        <div className="ember-banner__chip">🔥 FIRED UP</div>
+        <div className="ember-banner__chip">🔥 {(getRestaurantName() ?? 'Zing').toUpperCase()}</div>
         <h1 className="ember-banner__title">{slide.title.toUpperCase()}</h1>
         <p className="ember-banner__sub">{slide.subtitle}</p>
         <button className="ember-banner__cta" onClick={openOrder}>{slide.cta.toUpperCase()}</button>
@@ -342,7 +343,7 @@ const CosmicBanner: React.FC = () => {
         <div key={i} className="cosmic-star" style={{ '--sx': `${(i * 17 + 7) % 100}%`, '--sy': `${(i * 13 + 5) % 100}%`, '--sd': `${i * 0.4}s` } as React.CSSProperties} />
       ))}
       <div key={`c-${active}`} className="cosmic-banner__content">
-        <div className="cosmic-banner__chip">🚀 ZING UNIVERSE</div>
+        <div className="cosmic-banner__chip">🚀 {(getRestaurantName() ?? 'Zing').toUpperCase()}</div>
         <h1 className="cosmic-banner__title">{slide.title}</h1>
         <p className="cosmic-banner__sub">{slide.subtitle}</p>
         <button className="cosmic-banner__cta" onClick={openOrder}>{slide.cta} ›</button>
@@ -369,7 +370,7 @@ const RetroBanner: React.FC = () => {
       <div key={active} className="retro-banner__img" style={{ backgroundImage: `url(${slide.image})` }} />
       <div className="retro-banner__overlay" />
       <div key={`c-${active}`} className="retro-banner__content">
-        <div className="retro-banner__badge">★ DAILY SPECIAL ★</div>
+        <div className="retro-banner__badge">★ {(getRestaurantName() ?? 'Zing').toUpperCase()} ★</div>
         <h1 className="retro-banner__title">{slide.title}</h1>
         <p className="retro-banner__sub">{slide.subtitle}</p>
         <button className="retro-banner__cta" onClick={openOrder}>{slide.cta}</button>
@@ -396,7 +397,7 @@ const RoyalBanner: React.FC = () => {
       <div className="royal-banner__corner tr">✦</div>
       <div key={`c-${active}`} className="royal-banner__content">
         <div className="royal-banner__crest">👑</div>
-        <div className="royal-banner__rule">✦ ✦ ✦</div>
+        <div className="royal-banner__rule">{getRestaurantName() ?? 'Zing'}</div>
         <h1 className="royal-banner__title">{slide.title}</h1>
         <p className="royal-banner__sub">{slide.subtitle}</p>
         <button className="royal-banner__cta" onClick={openOrder}>{slide.cta}</button>
@@ -425,7 +426,7 @@ const TropicalBanner: React.FC = () => {
         <span key={i} className="tropical-float" style={{ '--delay': `${i * 0.7}s`, '--x': `${8 + i * 20}%` } as React.CSSProperties}>{e}</span>
       ))}
       <div key={`c-${active}`} className="tropical-banner__content">
-        <div className="tropical-banner__chip">🌴 ISLAND EATS</div>
+        <div className="tropical-banner__chip">🌴 {(getRestaurantName() ?? 'Zing').toUpperCase()}</div>
         <h1 className="tropical-banner__title">{slide.title}</h1>
         <p className="tropical-banner__sub">{slide.subtitle}</p>
         <button className="tropical-banner__cta" onClick={openOrder}>{slide.cta} 🥥</button>

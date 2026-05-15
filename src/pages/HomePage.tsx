@@ -4,6 +4,8 @@ import {
 } from '@ionic/react';
 import { cartOutline, searchOutline, reorderThreeOutline } from 'ionicons/icons';
 import { useTemplate, TEMPLATES } from '../context/TemplateContext';
+import { getRestaurantLogo } from '../services/configApi';
+import { getRestaurantName } from '../services/restaurantConfig';
 import BannerSection from '../components/home/BannerSection';
 import LoyaltySection from '../components/home/LoyaltySection';
 import PopularDishesSection from '../components/home/PopularDishesSection';
@@ -14,12 +16,19 @@ import './HomePage.css';
 const HomePage: React.FC = () => {
   const { template, setTemplateId } = useTemplate();
   const [showPicker, setShowPicker] = useState(false);
+  const logoUrl = getRestaurantLogo();
+  const appName = getRestaurantName() ?? 'Zing';
 
   return (
     <IonPage>
       <IonHeader>
         <IonToolbar>
-          <IonTitle>{template.emoji} Zing</IonTitle>
+          <IonTitle>
+            {logoUrl
+              ? <img src={logoUrl} alt={appName} className="home__toolbar-logo" />
+              : <>{template.emoji} {appName}</>
+            }
+          </IonTitle>
           <IonButtons slot="start">
             <IonButton onClick={() => setShowPicker(s => !s)}>
               <IonIcon icon={reorderThreeOutline} />
