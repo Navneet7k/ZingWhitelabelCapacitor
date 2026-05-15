@@ -8,6 +8,13 @@ on:
     branches:
       - release
 
+# ─── Concurrency ───────────────────────────────────────────────────────────
+# Only one deployment runs at a time. A queued run is cancelled when a
+# newer push arrives, so the latest commit always wins.
+concurrency:
+  group: ota-release
+  cancel-in-progress: true
+
 # ─── Permissions ───────────────────────────────────────────────────────────
 permissions:
   contents: write
