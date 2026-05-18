@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { IonContent, IonHeader, IonPage, IonToolbar, IonTitle } from '@ionic/react';
-import { InAppBrowser } from '@capgo/inappbrowser';
+import { openWebView } from '../services/webviewService';
 import { useTemplate, TEMPLATES } from '../context/TemplateContext';
 import { LOYALTY, RECENT_ORDERS } from '../config/mockData';
 import { getStatus, onStatusChange, UpdateStatus } from '../services/updater';
@@ -50,17 +50,6 @@ const AccountPage: React.FC<{ onSignOut?: () => void }> = ({ onSignOut }) => {
 
   const orders = data?.recentOrders?.length ? data.recentOrders : RECENT_ORDERS;
 
-  function openWebView(url: string, title: string) {
-    InAppBrowser.openWebView({
-      url,
-      title,
-      visibleTitle: false,
-      showArrow: true,
-      toolbarColor: template.colors.primary,
-      toolbarTextColor: '#ffffff',
-    });
-  }
-
   function clientUrl(path: string) {
     const rid   = getRestaurantId() ?? '';
     const token = getToken() ?? '';
@@ -70,10 +59,10 @@ const AccountPage: React.FC<{ onSignOut?: () => void }> = ({ onSignOut }) => {
   const handleMenuItem = (label: string) => {
     if (label === 'Sign Out')         { clearAuth(); onSignOut?.(); }
     if (label === 'My Orders')        { setShowHistory(true); }
-    if (label === 'Edit Profile')     { openWebView(clientUrl('edit-profile'), 'Edit Profile'); }
-    if (label === 'Favorites')        { openWebView(clientUrl('favorites'),    'Favorites'); }
-    if (label === 'Points')           { openWebView(clientUrl('points'),       'Points'); }
-    if (label === 'Saved Addresses')  { openWebView(clientUrl('address'),      'Saved Addresses'); }
+    if (label === 'Edit Profile')     { openWebView(clientUrl('edit-profile'), 'Edit Profile',    template.colors.primary); }
+    if (label === 'Favorites')        { openWebView(clientUrl('favorites'),    'Favorites',       template.colors.primary); }
+    if (label === 'Points')           { openWebView(clientUrl('points'),       'Points',          template.colors.primary); }
+    if (label === 'Saved Addresses')  { openWebView(clientUrl('address'),      'Saved Addresses', template.colors.primary); }
     if (label === 'Delete Account')   { setShowDeleteConfirm(true); }
   };
 
@@ -81,7 +70,7 @@ const AccountPage: React.FC<{ onSignOut?: () => void }> = ({ onSignOut }) => {
     setShowDeleteConfirm(false);
     const rid   = getRestaurantId() ?? '';
     const token = getToken() ?? '';
-    openWebView(`https://app.zingmyorder.com/app/delete-user/${rid}?token=${token}`, 'Delete Account');
+    openWebView(`https://app.zingmyorder.com/app/delete-user/${rid}?token=${token}`, 'Delete Account', template.colors.primary);
   }
 
   return (

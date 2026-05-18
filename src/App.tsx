@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { initUpdater, recheckForUpdate, applyIfReady, onStatusChange, checkOnTabSwitch } from './services/updater';
+import { hasOpenBrowsers } from './services/webviewService';
 import {
   IonApp, IonIcon, IonLabel, IonRouterOutlet,
   IonTabBar, IonTabButton, IonTabs, setupIonicReact,
@@ -102,12 +103,10 @@ const AppInner: React.FC = () => {
 
     const onVisibility = () => {
       if (document.visibilityState === 'visible') {
-        // Apply any ready bundle the moment the WebView is active again.
-        // Deliberately NOT applying on 'hidden': InAppBrowser (SFSafariViewController /
-        // Chrome Custom Tabs) also fires visibilitychange:hidden, and calling set()
-        // on a suspended hidden WebView means notifyAppReady() never fires → Capgo
-        // treats the bundle as crashed and rolls back to the previous build.
-        applyIfReady();
+        // webviewService handles applyIfReady() via closeEvent when a managed browser
+        // closes. Only call it here for true app-foreground events (lock screen unlock,
+        // app switcher return) where no InAppBrowser is involved.
+        if (!hasOpenBrowsers()) applyIfReady();
         recheckForUpdate();
       }
     };
