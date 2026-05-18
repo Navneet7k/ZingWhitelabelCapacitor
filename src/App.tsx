@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
-import { initUpdater } from './services/updater';
+import { initUpdater, recheckForUpdate } from './services/updater';
+import UpdatePrompt from './components/UpdatePrompt';
 import {
   IonApp, IonIcon, IonLabel, IonRouterOutlet,
   IonTabBar, IonTabButton, IonTabs, setupIonicReact,
@@ -59,6 +60,13 @@ const AppInner: React.FC = () => {
         if (apiToken) updateFcmToken(token, apiToken);
       }
     });
+
+    // Re-check for updates whenever the app comes back to the foreground
+    const onVisibility = () => {
+      if (document.visibilityState === 'visible') recheckForUpdate();
+    };
+    document.addEventListener('visibilitychange', onVisibility);
+    return () => document.removeEventListener('visibilitychange', onVisibility);
   }, []);
 
   if (!selected) {
@@ -67,7 +75,8 @@ const AppInner: React.FC = () => {
 
   return (
     <IonReactRouter>
-      <IonTabs>
+      <UpdatePrompt />
+      <IonTabs onIonTabsDidChange={() => recheckForUpdate()}>
         <IonRouterOutlet>
           <Route exact path="/home" component={HomePage} />
           <Route exact path="/menu" component={MenuPage} />
