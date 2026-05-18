@@ -31,20 +31,23 @@ ion-tab-button {
 }
 
 ion-header {
-  --background: var(--t-bg);
-  background: var(--t-bg);
+  --background: var(--t-primary);
+  background: var(--t-primary);
 }
 
 ion-toolbar {
-  --background: var(--t-bg);
-  --color: var(--t-text);
+  --background: var(--t-primary);
+  --color: #fff;
   --border-width: 0;
 }
 
 ion-title {
   font-family: var(--t-font-heading);
-  font-size: 18px;
-  color: var(--t-text);
+  font-size: 20px;
+  font-weight: 700;
+  color: #fff;
+  text-align: left;
+  padding-inline-start: 20px;
 }
 
 /* Scrollbar */

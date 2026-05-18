@@ -22,7 +22,7 @@ const OrdersPage: React.FC = () => {
   return (
     <IonPage>
       <IonHeader>
-        <IonToolbar style={{ '--background': template.colors.primary, '--color': '#fff', '--border-width': '0' } as any}>
+        <IonToolbar>
           <IonTitle>Orders</IonTitle>
         </IonToolbar>
       </IonHeader>

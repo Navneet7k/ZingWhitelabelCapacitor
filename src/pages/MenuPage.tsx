@@ -62,7 +62,7 @@ const MenuPage: React.FC = () => {
   return (
     <IonPage>
       <IonHeader>
-        <IonToolbar style={{ '--background': primary, '--color': '#fff', '--border-width': '0' } as any}>
+        <IonToolbar>
           <IonTitle>Menu</IonTitle>
         </IonToolbar>
       </IonHeader>

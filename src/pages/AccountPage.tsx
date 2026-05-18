@@ -76,7 +76,7 @@ const AccountPage: React.FC<{ onSignOut?: () => void }> = ({ onSignOut }) => {
   return (
     <IonPage>
       <IonHeader>
-        <IonToolbar style={{ '--background': template.colors.primary, '--color': '#fff', '--border-width': '0' } as any}>
+        <IonToolbar>
           {showHistory && (
             <IonButtons slot="start">
               <button className="acc__back-btn" onClick={() => setShowHistory(false)}>‹ Back</button>
