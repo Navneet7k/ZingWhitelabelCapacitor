@@ -1,0 +1,578 @@
+/* ── GROVE TEMPLATE — Botanical farm-to-table ── */
+
+.gv {
+  position: fixed;
+  inset: 0;
+  background: #F4F7F2;
+  color: #1A2E1A;
+  font-family: 'Lato', sans-serif;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+}
+
+/* ── Header ── */
+.gv__header {
+  flex-shrink: 0;
+  padding: calc(env(safe-area-inset-top) + 14px) 20px 14px;
+  background: #2C5F2E;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.gv__header-name {
+  font-family: 'Outfit', sans-serif;
+  font-size: 20px;
+  font-weight: 700;
+  color: #fff;
+  margin: 0;
+  letter-spacing: 0.3px;
+}
+
+.gv__header-badge {
+  background: #E8A838;
+  color: #fff;
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 1px;
+  padding: 4px 10px;
+  border-radius: 20px;
+}
+
+/* ── Scrollable content ── */
+.gv__scroll {
+  flex: 1;
+  overflow-y: auto;
+  -webkit-overflow-scrolling: touch;
+  padding-bottom: calc(env(safe-area-inset-bottom) + 70px);
+}
+
+/* ── Section label ── */
+.gv__section-label {
+  font-family: 'Outfit', sans-serif;
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  color: #2C5F2E;
+  padding: 20px 20px 8px;
+  margin: 0;
+}
+
+/* ── Hero card ── */
+.gv__hero {
+  margin: 16px 20px 0;
+  border-radius: 16px;
+  overflow: hidden;
+  position: relative;
+  height: 200px;
+  background: #2C5F2E;
+  cursor: pointer;
+}
+
+.gv__hero-img {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.gv__hero-veil {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(to top, rgba(20,45,20,0.88) 0%, transparent 60%);
+  padding: 16px;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+}
+
+.gv__hero-name {
+  font-family: 'Outfit', sans-serif;
+  font-size: 22px;
+  font-weight: 700;
+  color: #fff;
+  margin: 0 0 4px;
+  line-height: 1.1;
+}
+
+.gv__hero-sub {
+  font-size: 13px;
+  color: rgba(255,255,255,0.75);
+  margin: 0 0 10px;
+}
+
+.gv__hero-btn {
+  align-self: flex-start;
+  background: #E8A838;
+  color: #fff;
+  border: none;
+  border-radius: 8px;
+  padding: 8px 16px;
+  font-size: 13px;
+  font-weight: 700;
+  cursor: pointer;
+  font-family: 'Lato', sans-serif;
+}
+
+/* ── Horizontal scroll strip ── */
+.gv__hscroll {
+  display: flex;
+  gap: 12px;
+  overflow-x: auto;
+  padding: 0 20px 4px;
+  -webkit-overflow-scrolling: touch;
+  scrollbar-width: none;
+}
+
+.gv__hscroll::-webkit-scrollbar { display: none; }
+
+/* ── Dish card (horizontal strip) ── */
+.gv__dish-card {
+  flex-shrink: 0;
+  width: 130px;
+  background: #fff;
+  border-radius: 12px;
+  overflow: hidden;
+  box-shadow: 0 2px 10px rgba(44,95,46,0.10);
+  cursor: pointer;
+}
+
+.gv__dish-img {
+  width: 100%;
+  height: 90px;
+  object-fit: cover;
+  background: #D8E8D8;
+  display: block;
+}
+
+.gv__dish-img-placeholder {
+  width: 100%;
+  height: 90px;
+  background: #D8E8D8;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 28px;
+}
+
+.gv__dish-info {
+  padding: 8px 10px;
+}
+
+.gv__dish-name {
+  font-size: 12px;
+  font-weight: 700;
+  color: #1A2E1A;
+  margin: 0 0 2px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.gv__dish-price {
+  font-size: 12px;
+  color: #2C5F2E;
+  font-weight: 700;
+  margin: 0;
+}
+
+/* ── Order row (home & orders views) ── */
+.gv__order-row {
+  margin: 0 20px 10px;
+  background: #fff;
+  border-radius: 12px;
+  padding: 12px 14px;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  box-shadow: 0 1px 6px rgba(44,95,46,0.08);
+}
+
+.gv__order-emoji { font-size: 22px; flex-shrink: 0; }
+
+.gv__order-detail { flex: 1; min-width: 0; }
+
+.gv__order-id {
+  font-size: 13px;
+  font-weight: 700;
+  color: #1A2E1A;
+  margin: 0 0 2px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.gv__order-date { font-size: 11px; color: #6B7C6B; margin: 0; }
+
+.gv__order-meta { text-align: right; flex-shrink: 0; }
+
+.gv__order-total { font-size: 13px; font-weight: 700; color: #1A2E1A; margin: 0 0 2px; }
+
+.gv__order-status { font-size: 11px; font-weight: 600; margin: 0; }
+
+/* ── CTA buttons ── */
+.gv__cta {
+  display: block;
+  margin: 0 20px;
+  background: #2C5F2E;
+  color: #fff;
+  border: none;
+  border-radius: 12px;
+  padding: 14px;
+  font-size: 15px;
+  font-weight: 700;
+  text-align: center;
+  cursor: pointer;
+  font-family: 'Outfit', sans-serif;
+  letter-spacing: 0.3px;
+  -webkit-tap-highlight-color: transparent;
+}
+
+.gv__text-link {
+  display: block;
+  margin: 8px 20px 0;
+  background: none;
+  border: none;
+  color: #2C5F2E;
+  font-size: 13px;
+  font-weight: 700;
+  cursor: pointer;
+  padding: 0;
+  text-align: left;
+}
+
+/* ── Menu view ── */
+.gv__cats {
+  display: flex;
+  gap: 8px;
+  overflow-x: auto;
+  padding: 12px 20px;
+  -webkit-overflow-scrolling: touch;
+  scrollbar-width: none;
+}
+
+.gv__cats::-webkit-scrollbar { display: none; }
+
+.gv__cat-pill {
+  flex-shrink: 0;
+  background: #fff;
+  border: 2px solid #D8E8D8;
+  border-radius: 20px;
+  padding: 5px 14px;
+  font-size: 12px;
+  font-weight: 700;
+  color: #4A6F4A;
+  cursor: pointer;
+  white-space: nowrap;
+  -webkit-tap-highlight-color: transparent;
+}
+
+.gv__cat-pill.active {
+  background: #2C5F2E;
+  border-color: #2C5F2E;
+  color: #fff;
+}
+
+.gv__menu-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 12px;
+  padding: 0 20px;
+}
+
+.gv__menu-card {
+  background: #fff;
+  border-radius: 12px;
+  overflow: hidden;
+  box-shadow: 0 2px 10px rgba(44,95,46,0.10);
+  cursor: pointer;
+  -webkit-tap-highlight-color: transparent;
+}
+
+.gv__menu-img {
+  width: 100%;
+  height: 110px;
+  object-fit: cover;
+  background: #D8E8D8;
+  display: block;
+}
+
+.gv__menu-img-ph {
+  width: 100%;
+  height: 110px;
+  background: #D8E8D8;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 32px;
+}
+
+.gv__menu-info { padding: 10px; }
+
+.gv__menu-name {
+  font-size: 13px;
+  font-weight: 700;
+  color: #1A2E1A;
+  margin: 0 0 4px;
+}
+
+.gv__menu-desc {
+  font-size: 11px;
+  color: #6B7C6B;
+  margin: 0 0 6px;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+.gv__menu-footer {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.gv__menu-price { font-size: 13px; font-weight: 700; color: #2C5F2E; }
+
+.gv__menu-add {
+  background: #2C5F2E;
+  color: #fff;
+  border: none;
+  border-radius: 6px;
+  width: 26px;
+  height: 26px;
+  font-size: 18px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  -webkit-tap-highlight-color: transparent;
+}
+
+.gv__empty {
+  text-align: center;
+  color: #6B7C6B;
+  padding: 40px 20px;
+  font-size: 14px;
+}
+
+/* ── Account / login ── */
+.gv__profile-card {
+  margin: 16px 20px;
+  background: #fff;
+  border-radius: 16px;
+  padding: 20px;
+  box-shadow: 0 2px 10px rgba(44,95,46,0.10);
+  text-align: center;
+}
+
+.gv__avatar {
+  width: 68px;
+  height: 68px;
+  border-radius: 50%;
+  background: #2C5F2E;
+  color: #fff;
+  font-family: 'Outfit', sans-serif;
+  font-size: 28px;
+  font-weight: 700;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 0 auto 12px;
+}
+
+.gv__profile-name {
+  font-family: 'Outfit', sans-serif;
+  font-size: 18px;
+  font-weight: 700;
+  color: #1A2E1A;
+  margin: 0 0 4px;
+}
+
+.gv__profile-email {
+  font-size: 13px;
+  color: #6B7C6B;
+  margin: 0 0 14px;
+}
+
+.gv__loyalty {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  background: #F4F7F2;
+  border-radius: 10px;
+  padding: 10px;
+  font-size: 13px;
+  font-weight: 700;
+  color: #2C5F2E;
+  margin-bottom: 14px;
+}
+
+.gv__signout {
+  width: 100%;
+  background: #F4F7F2;
+  border: 1.5px solid #D8E8D8;
+  border-radius: 10px;
+  padding: 11px;
+  font-size: 14px;
+  font-weight: 700;
+  color: #4A6F4A;
+  cursor: pointer;
+  font-family: 'Lato', sans-serif;
+}
+
+.gv__login-card {
+  margin: 16px 20px;
+  background: #fff;
+  border-radius: 16px;
+  padding: 20px;
+  box-shadow: 0 2px 10px rgba(44,95,46,0.10);
+}
+
+.gv__login-title {
+  font-family: 'Outfit', sans-serif;
+  font-size: 20px;
+  font-weight: 700;
+  color: #1A2E1A;
+  margin: 0 0 4px;
+}
+
+.gv__login-sub {
+  font-size: 13px;
+  color: #6B7C6B;
+  margin: 0 0 16px;
+}
+
+.gv__login-error {
+  background: #FFF2F2;
+  border: 1px solid #FFCCCC;
+  border-radius: 8px;
+  padding: 8px 12px;
+  font-size: 13px;
+  color: #CC3333;
+  margin-bottom: 12px;
+}
+
+.gv__input {
+  width: 100%;
+  background: #F4F7F2;
+  border: 1.5px solid #D8E8D8;
+  border-radius: 10px;
+  padding: 13px 14px;
+  font-size: 14px;
+  color: #1A2E1A;
+  margin-bottom: 10px;
+  box-sizing: border-box;
+  font-family: 'Lato', sans-serif;
+  -webkit-appearance: none;
+}
+
+.gv__input:focus { outline: none; border-color: #2C5F2E; }
+
+.gv__submit {
+  width: 100%;
+  background: #2C5F2E;
+  border: none;
+  border-radius: 10px;
+  padding: 14px;
+  font-size: 15px;
+  font-weight: 700;
+  color: #fff;
+  cursor: pointer;
+  font-family: 'Outfit', sans-serif;
+  -webkit-tap-highlight-color: transparent;
+}
+
+.gv__submit:disabled { opacity: 0.6; }
+
+/* ── Template switcher ── */
+.gv__tmpl-label {
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 1.8px;
+  text-transform: uppercase;
+  color: #6B7C6B;
+  padding: 20px 20px 8px;
+  margin: 0;
+}
+
+.gv__tmpl-strip {
+  display: flex;
+  gap: 8px;
+  overflow-x: auto;
+  padding: 0 20px 8px;
+  scrollbar-width: none;
+}
+
+.gv__tmpl-strip::-webkit-scrollbar { display: none; }
+
+.gv__tmpl-pill {
+  flex-shrink: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 4px;
+  border-radius: 10px;
+  border: 2px solid transparent;
+  padding: 8px 10px;
+  cursor: pointer;
+  min-width: 54px;
+  -webkit-tap-highlight-color: transparent;
+}
+
+.gv__tmpl-pill.active { border-color: #2C5F2E; }
+.gv__tmpl-emoji { font-size: 18px; }
+.gv__tmpl-name  { font-size: 9px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.5px; }
+
+/* ── View title ── */
+.gv__view-title {
+  font-family: 'Outfit', sans-serif;
+  font-size: 22px;
+  font-weight: 700;
+  color: #1A2E1A;
+  padding: 16px 20px 0;
+  margin: 0;
+}
+
+/* ── Bottom nav ── */
+.gv__nav {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: calc(env(safe-area-inset-bottom) + 58px);
+  background: #fff;
+  border-top: 1px solid #E8EDE8;
+  display: flex;
+  align-items: flex-start;
+  padding-top: 4px;
+}
+
+.gv__nav-btn {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 3px;
+  background: none;
+  border: none;
+  padding: 6px 4px;
+  cursor: pointer;
+  -webkit-tap-highlight-color: transparent;
+}
+
+.gv__nav-icon { font-size: 20px; line-height: 1; }
+
+.gv__nav-label {
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 0.3px;
+  color: #9BAA9B;
+}
+
+.gv__nav-btn.active .gv__nav-label { color: #2C5F2E; }
+.gv__nav-btn.active .gv__nav-icon { filter: none; }

@@ -372,6 +372,28 @@
   --t-tab-inactive: rgba(255,255,255,0.35);
 }
 
+/* ── GROVE: Botanical Farm-to-Table ── */
+[data-template="grove"] {
+  --t-bg: #F4F7F2;
+  --t-surface: #FFFFFF;
+  --t-surface2: #EDF2ED;
+  --t-primary: #2C5F2E;
+  --t-primary-light: #4A8B4C;
+  --t-accent: #E8A838;
+  --t-text: #1A2E1A;
+  --t-text-muted: #6B7C6B;
+  --t-border: rgba(44,95,46,0.15);
+  --t-font-heading: 'Outfit', sans-serif;
+  --t-font-body: 'Lato', sans-serif;
+  --t-radius: 12px;
+  --t-radius-lg: 16px;
+  --t-shadow: 0 2px 10px rgba(44,95,46,0.10);
+  --t-transition: 300ms ease;
+  --t-tab-bg: #FFFFFF;
+  --t-tab-active: #2C5F2E;
+  --t-tab-inactive: #9BAA9B;
+}
+
 /* ── BREW: Artisan Café ── */
 [data-template="brew"] {
   --t-bg: #F7F3EE;

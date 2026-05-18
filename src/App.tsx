@@ -22,6 +22,7 @@ import CafeApp from './pages/CafeApp';
 import DynastyApp from './pages/DynastyApp';
 import FloatApp from './pages/FloatApp';
 import ReelApp from './pages/ReelApp';
+import GroveApp from './pages/GroveApp';
 import { isRestaurantMode } from './services/restaurantConfig';
 import HomePage from './pages/HomePage';
 import MenuPage from './pages/MenuPage';
@@ -154,10 +155,11 @@ const AppInner: React.FC = () => {
     return <TemplateSelectPage onSelect={() => setSelected(true)} />;
   }
 
-  if (template.id === 'brew') return <TemplateErrorBoundary onCrash={() => setTemplateId('luxe')}><CafeApp /></TemplateErrorBoundary>;
-  if (template.id === 'dynasty') return <TemplateErrorBoundary onCrash={() => setTemplateId('luxe')}><DynastyApp /></TemplateErrorBoundary>;
-  if (template.id === 'float') return <TemplateErrorBoundary onCrash={() => setTemplateId('luxe')}><FloatApp /></TemplateErrorBoundary>;
-  if (template.id === 'reel') return <TemplateErrorBoundary onCrash={() => setTemplateId('luxe')}><ReelApp /></TemplateErrorBoundary>;
+  if (template.id === 'brew') return <TemplateErrorBoundary onCrash={() => setTemplateId('fiesta')}><CafeApp /></TemplateErrorBoundary>;
+  if (template.id === 'dynasty') return <TemplateErrorBoundary onCrash={() => setTemplateId('fiesta')}><DynastyApp /></TemplateErrorBoundary>;
+  if (template.id === 'float') return <TemplateErrorBoundary onCrash={() => setTemplateId('fiesta')}><FloatApp /></TemplateErrorBoundary>;
+  if (template.id === 'reel') return <TemplateErrorBoundary onCrash={() => setTemplateId('fiesta')}><ReelApp /></TemplateErrorBoundary>;
+  if (template.id === 'grove') return <TemplateErrorBoundary onCrash={() => setTemplateId('fiesta')}><GroveApp /></TemplateErrorBoundary>;
 
   return (
     <IonReactRouter>

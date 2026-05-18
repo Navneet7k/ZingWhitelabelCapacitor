@@ -1,6 +1,6 @@
 import React, { createContext, useContext, useState, useEffect } from 'react';
 
-export type TemplateId = 'luxe' | 'fresh' | 'street' | 'zen' | 'fiesta' | 'neon' | 'rustic' | 'ocean' | 'blossom' | 'ember' | 'cosmic' | 'retro' | 'tropical' | 'royal' | 'brew' | 'dynasty' | 'float' | 'reel';
+export type TemplateId = 'luxe' | 'fresh' | 'street' | 'zen' | 'fiesta' | 'neon' | 'rustic' | 'ocean' | 'blossom' | 'ember' | 'cosmic' | 'retro' | 'tropical' | 'royal' | 'brew' | 'dynasty' | 'float' | 'reel' | 'grove';
 
 export interface Template {
   id: TemplateId;
@@ -122,6 +122,13 @@ export const TEMPLATES: Template[] = [
     tagline: 'Full-screen food cinema',
     emoji: '🎬',
     colors: { bg: '#080808', primary: '#FF3B30', accent: '#FFD60A', text: '#FFFFFF' },
+  },
+  {
+    id: 'grove',
+    name: 'Grove',
+    tagline: 'Farm-to-table botanical',
+    emoji: '🌿',
+    colors: { bg: '#F4F7F2', primary: '#2C5F2E', accent: '#E8A838', text: '#1A2E1A' },
   },
 ];
 
