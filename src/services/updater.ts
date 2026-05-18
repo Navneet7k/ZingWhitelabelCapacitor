@@ -43,22 +43,46 @@ export function onStatusChange(fn: StatusListener): () => void {
 }
 
 /**
- * Call once at cold start. Runs notifyAppReady so Capgo never rolls back,
- * then checks for a newer bundle and downloads it in the background.
+ * Call once at cold start. Reads the ACTUALLY RUNNING bundle version from
+ * Capgo's native layer (not localStorage) so rollbacks are detected and
+ * self-healed on the next background cycle.
  */
 export async function initUpdater(): Promise<void> {
   if (!Capacitor.isNativePlatform()) {
     setStatus({ state: 'up_to_date', version: 'browser-dev' });
     return;
   }
-  // Show the last-known installed version immediately so the panel never
-  // flashes "idle → checking" after an OTA reload — user sees "Up to date"
-  // first, then a brief "Checking…", then "Up to date" again.
+  // Eager display of last-known version to avoid flicker before async completes
   const stored = localStorage.getItem(VERSION_KEY);
   if (stored) setStatus({ state: 'up_to_date', version: stored });
+
   try {
     const { CapacitorUpdater } = await import('@capgo/capacitor-updater');
-    // notifyAppReady() is called in main.tsx at the earliest possible moment
+
+    // ── Ground-truth version sync ──────────────────────────────────────────
+    // CapacitorUpdater.current() returns what Capgo is ACTUALLY running,
+    // not what localStorage says was downloaded. If a rollback happened,
+    // localStorage would still show the old downloaded version while the
+    // native layer is running an older bundle. Reading current() here corrects
+    // that mismatch so _checkAndDownload re-downloads the latest bundle
+    // automatically — this is the self-healing mechanism.
+    try {
+      const { bundle } = await CapacitorUpdater.current();
+      const isBuiltin = !bundle.version || bundle.version === '0.0.0' || bundle.id === 'builtin';
+      if (isBuiltin) {
+        // Running built-in APK bundle — clear stored version so
+        // _checkAndDownload treats it as unversioned and downloads latest.
+        localStorage.removeItem(VERSION_KEY);
+      } else if (bundle.version !== localStorage.getItem(VERSION_KEY)) {
+        // Rollback detected: Capgo is running an older version than what
+        // localStorage claims was installed. Correct the record.
+        localStorage.setItem(VERSION_KEY, bundle.version);
+        setStatus({ state: 'up_to_date', version: bundle.version });
+      }
+    } catch {
+      // current() unavailable on this device/version — use stored as fallback
+    }
+
     await _checkAndDownload(CapacitorUpdater);
   } catch (e: any) {
     setStatus({ state: 'error', reason: e?.message ?? String(e) });
@@ -135,7 +159,9 @@ async function _checkAndDownload(updater: any): Promise<void> {
       return;
     }
     const manifest: Manifest = await res.json();
-    const installed = localStorage.getItem(VERSION_KEY) ?? '1.0.0';
+    // Use '0.0.0' default so a missing key (built-in bundle, cleared above)
+    // always triggers a download rather than a false "up to date".
+    const installed = localStorage.getItem(VERSION_KEY) ?? '0.0.0';
 
     if (manifest.version === installed) {
       setStatus({ state: 'up_to_date', version: installed });
@@ -149,9 +175,11 @@ async function _checkAndDownload(updater: any): Promise<void> {
       version: manifest.version,
     });
 
+    // Store downloaded version. initUpdater() will overwrite this with the
+    // REAL running version on the next cold start, so any rollback after
+    // apply will be caught immediately.
     localStorage.setItem(VERSION_KEY, manifest.version);
     _pendingBundle = bundle;
-    // Don't call next() — App.tsx decides when to apply (background or idle)
     setStatus({ state: 'ready', version: manifest.version });
   } catch (e: any) {
     setStatus({ state: 'error', reason: `download failed: ${e?.message}` });

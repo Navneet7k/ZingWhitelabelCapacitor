@@ -41,6 +41,16 @@ import './theme/global.css';
 
 setupIonicReact();
 
+class TemplateErrorBoundary extends React.Component<
+  { children: React.ReactNode; onCrash: () => void },
+  { crashed: boolean }
+> {
+  state = { crashed: false };
+  static getDerivedStateFromError(): { crashed: boolean } { return { crashed: true }; }
+  componentDidCatch(err: Error) { console.warn('[TemplateErrorBoundary]', err); this.props.onCrash(); }
+  render() { return this.state.crashed ? null : this.props.children as React.ReactElement; }
+}
+
 type AuthView = 'login' | 'register' | 'profile';
 
 function hasValidSession(): boolean {
@@ -70,7 +80,7 @@ const AccountGate: React.FC = () => {
 };
 
 const AppInner: React.FC = () => {
-  const { hasSelected, template } = useTemplate();
+  const { hasSelected, template, setTemplateId } = useTemplate();
   // In restaurant mode the template is pre-set — skip the picker entirely
   const [selected, setSelected] = useState(hasSelected || isRestaurantMode());
 
@@ -144,10 +154,10 @@ const AppInner: React.FC = () => {
     return <TemplateSelectPage onSelect={() => setSelected(true)} />;
   }
 
-  if (template.id === 'brew') return <CafeApp />;
-  if (template.id === 'dynasty') return <DynastyApp />;
-  if (template.id === 'float') return <FloatApp />;
-  if (template.id === 'reel') return <ReelApp />;
+  if (template.id === 'brew') return <TemplateErrorBoundary onCrash={() => setTemplateId('luxe')}><CafeApp /></TemplateErrorBoundary>;
+  if (template.id === 'dynasty') return <TemplateErrorBoundary onCrash={() => setTemplateId('luxe')}><DynastyApp /></TemplateErrorBoundary>;
+  if (template.id === 'float') return <TemplateErrorBoundary onCrash={() => setTemplateId('luxe')}><FloatApp /></TemplateErrorBoundary>;
+  if (template.id === 'reel') return <TemplateErrorBoundary onCrash={() => setTemplateId('luxe')}><ReelApp /></TemplateErrorBoundary>;
 
   return (
     <IonReactRouter>
