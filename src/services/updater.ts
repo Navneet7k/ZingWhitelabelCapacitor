@@ -25,10 +25,8 @@ const listeners = new Set<StatusListener>();
 let _status: UpdateStatus = { state: 'idle' };
 let _pendingBundle: any = null;   // in-memory only — can't serialise a bundle ref
 let _isChecking       = false;
-let _lastCheckAt      = 0;  // used by recheckForUpdate (foreground / poll)
-let _lastTabCheckAt   = 0;  // used by checkOnTabSwitch — separate so the two don't block each other
+let _lastCheckAt      = 0;
 const RECHECK_COOLDOWN_MS = 5 * 60 * 1000;
-const TAB_DEBOUNCE_MS     = 5_000; // just prevents double-fire from rapid taps
 
 function setStatus(s: UpdateStatus) {
   _status = s;
@@ -80,29 +78,6 @@ export async function recheckForUpdate(): Promise<void> {
     await _checkAndDownload(CapacitorUpdater);
   } catch (e) {
     console.warn('[Updater] recheck failed', e);
-  }
-}
-
-/**
- * Called on every tab-bar tap — download-only trigger.
- * Apply is intentionally NOT called here. App.tsx schedules a 600 ms delayed
- * apply (with hasOpenBrowsers guard) so there is time for useIonViewDidEnter
- * on the Orders tab to open InAppBrowser before set() is called.  Calling
- * set() while InAppBrowser is in mid-launch causes a native crash → rollback.
- */
-export async function checkOnTabSwitch(): Promise<void> {
-  if (!Capacitor.isNativePlatform()) return;
-  if (_isChecking || _status.state === 'downloading' || _status.state === 'ready') return;
-
-  // Debounce — only prevents double-fire from a single rapid tap
-  if (Date.now() - _lastTabCheckAt < TAB_DEBOUNCE_MS) return;
-  _lastTabCheckAt = Date.now();
-
-  try {
-    const { CapacitorUpdater } = await import('@capgo/capacitor-updater');
-    await _checkAndDownload(CapacitorUpdater);
-  } catch (e) {
-    console.warn('[Updater] tab check failed', e);
   }
 }
 

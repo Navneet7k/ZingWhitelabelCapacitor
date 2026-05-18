@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { initUpdater, recheckForUpdate, applyIfReady, onStatusChange, checkOnTabSwitch, getStatus } from './services/updater';
+import { initUpdater, recheckForUpdate, applyIfReady, onStatusChange } from './services/updater';
 import { hasOpenBrowsers } from './services/webviewService';
 
 import {
@@ -142,16 +142,7 @@ const AppInner: React.FC = () => {
           <Route exact path="/account" component={AccountGate} />
           <Route exact path="/" render={() => <Redirect to="/home" />} />
         </IonRouterOutlet>
-        <IonTabBar slot="bottom" onClick={() => {
-          checkOnTabSwitch();
-          // Apply a ready bundle 600 ms after the tap. The delay lets
-          // useIonViewDidEnter on the Orders tab open InAppBrowser first
-          // (_isOpening becomes true), so the hasOpenBrowsers guard below
-          // prevents set() from racing with native browser launch.
-          if (getStatus().state === 'ready') {
-            setTimeout(() => { if (!hasOpenBrowsers()) applyIfReady(); }, 600);
-          }
-        }}>
+        <IonTabBar slot="bottom">
           <IonTabButton tab="home" href="/home">
             <IonIcon icon={homeOutline} />
             <IonLabel>Home</IonLabel>

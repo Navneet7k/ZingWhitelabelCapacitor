@@ -3,7 +3,7 @@ import { IonContent, IonHeader, IonPage, IonToolbar, IonTitle, IonButtons } from
 import { openWebView } from '../services/webviewService';
 import { useTemplate, TEMPLATES } from '../context/TemplateContext';
 import { LOYALTY, RECENT_ORDERS } from '../config/mockData';
-import { getStatus, onStatusChange, UpdateStatus } from '../services/updater';
+import { getStatus, onStatusChange, applyIfReady, UpdateStatus } from '../services/updater';
 import { isRestaurantMode, getRestaurantName, getRestaurantId } from '../services/restaurantConfig';
 import { clearAuth, getToken, getSavedUser } from '../services/authApi';
 import { useHomeData } from '../context/HomeDataContext';
@@ -191,14 +191,25 @@ const AccountPage: React.FC<{ onSignOut?: () => void }> = ({ onSignOut }) => {
               <div className="acc__update-header">
                 <span className="acc__update-icon">
                   {updateStatus.state === 'checking' || updateStatus.state === 'downloading' ? '🔄' :
-                   updateStatus.state === 'ready' ? '✅' :
+                   updateStatus.state === 'ready' ? '⬆️' :
                    updateStatus.state === 'error' ? '❌' : '🔃'}
                 </span>
                 <span className="acc__update-title">App Updates</span>
               </div>
               <p className="acc__update-text" style={{ color: updateStatusLabel(updateStatus).color }}>
-                {updateStatusLabel(updateStatus).text}
+                {updateStatus.state === 'ready'
+                  ? `v${updateStatus.version} downloaded and ready to install`
+                  : updateStatusLabel(updateStatus).text}
               </p>
+              {updateStatus.state === 'ready' && (
+                <button
+                  className="acc__update-apply-btn"
+                  style={{ background: template.colors.primary }}
+                  onClick={() => applyIfReady()}
+                >
+                  Apply Update Now
+                </button>
+              )}
             </div>
 
             <div style={{ height: 32 }} />
