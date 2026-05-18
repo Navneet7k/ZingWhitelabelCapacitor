@@ -13,14 +13,13 @@ const STATUS_ICONS: Record<string, string> = {
 };
 
 const MENU_ITEMS_ACC = [
-  { icon: '🛍️', label: 'Order History' },
+  { icon: '✏️', label: 'Edit Profile' },
+  { icon: '🛍️', label: 'My Orders' },
+  { icon: '❤️', label: 'Favorites' },
+  { icon: '⭐', label: 'Points' },
   { icon: '🏠', label: 'Saved Addresses' },
-  { icon: '💳', label: 'Payment Methods' },
-  { icon: '🔔', label: 'Notifications' },
-  { icon: '🎁', label: 'Offers & Coupons' },
-  { icon: '⭐', label: 'Rate the App' },
-  { icon: '🔒', label: 'Privacy & Security' },
-  { icon: '📞', label: 'Contact Support' },
+  { icon: '📋', label: 'Terms & Conditions' },
+  { icon: '🗑️', label: 'Delete Account' },
   { icon: '🚪', label: 'Sign Out' },
 ];
 
@@ -46,8 +45,8 @@ const AccountPage: React.FC<{ onSignOut?: () => void }> = ({ onSignOut }) => {
   const orders = data?.recentOrders?.length ? data.recentOrders : RECENT_ORDERS;
 
   const handleMenuItem = (label: string) => {
-    if (label === 'Sign Out')      { clearAuth(); onSignOut?.(); }
-    if (label === 'Order History') { setShowHistory(true); }
+    if (label === 'Sign Out')   { clearAuth(); onSignOut?.(); }
+    if (label === 'My Orders')  { setShowHistory(true); }
   };
 
   return (
@@ -57,7 +56,7 @@ const AccountPage: React.FC<{ onSignOut?: () => void }> = ({ onSignOut }) => {
           {showHistory && (
             <button className="acc__back-btn" onClick={() => setShowHistory(false)}>‹ Back</button>
           )}
-          <IonTitle>{showHistory ? 'Order History' : 'Account'}</IonTitle>
+          <IonTitle>{showHistory ? 'My Orders' : 'Account'}</IonTitle>
         </IonToolbar>
       </IonHeader>
 
