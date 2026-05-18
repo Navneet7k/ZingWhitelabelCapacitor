@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import {
   IonContent, IonHeader, IonPage, IonToolbar, IonTitle, IonButtons, IonButton, IonIcon,
 } from '@ionic/react';
-import { cartOutline, searchOutline, reorderThreeOutline } from 'ionicons/icons';
+import { reorderThreeOutline } from 'ionicons/icons';
 import { useTemplate, TEMPLATES } from '../context/TemplateContext';
 import { getRestaurantLogo } from '../services/configApi';
 import { getRestaurantName } from '../services/restaurantConfig';
@@ -33,10 +33,6 @@ const HomePage: React.FC = () => {
             )}
           </IonButtons>
           {!logoUrl && <IonTitle>{template.emoji} {appName}</IonTitle>}
-          <IonButtons slot="end">
-            <IonButton><IonIcon icon={searchOutline} /></IonButton>
-            <IonButton><IonIcon icon={cartOutline} /></IonButton>
-          </IonButtons>
         </IonToolbar>
       </IonHeader>
 
