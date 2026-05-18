@@ -84,25 +84,15 @@ export async function recheckForUpdate(): Promise<void> {
 }
 
 /**
- * Called on every tab-bar tap.
- * - Bundle already downloaded → apply immediately (tab transition = best
- *   reload moment; user expects a screen change anyway).
- * - No bundle yet → fetch manifest and start download if a new version
- *   exists. Uses its own 5-second debounce that is completely independent
- *   from recheckForUpdate's cooldown, so a screen-unlock check never
- *   blocks a subsequent tab press.
+ * Called on every tab-bar tap — download-only trigger.
+ * Apply is intentionally NOT called here. App.tsx schedules a 600 ms delayed
+ * apply (with hasOpenBrowsers guard) so there is time for useIonViewDidEnter
+ * on the Orders tab to open InAppBrowser before set() is called.  Calling
+ * set() while InAppBrowser is in mid-launch causes a native crash → rollback.
  */
 export async function checkOnTabSwitch(): Promise<void> {
   if (!Capacitor.isNativePlatform()) return;
-
-  // Bundle ready → apply on this tap (user expects a screen change anyway, and
-  // there is no native overlay active during a tab switch — safe to reload).
-  if (_status.state === 'ready') {
-    await applyIfReady();
-    return;
-  }
-
-  if (_isChecking || _status.state === 'downloading') return;
+  if (_isChecking || _status.state === 'downloading' || _status.state === 'ready') return;
 
   // Debounce — only prevents double-fire from a single rapid tap
   if (Date.now() - _lastTabCheckAt < TAB_DEBOUNCE_MS) return;
