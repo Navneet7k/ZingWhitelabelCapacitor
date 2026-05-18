@@ -90,9 +90,14 @@ export async function recheckForUpdate(): Promise<void> {
 export async function checkOnTabSwitch(): Promise<void> {
   if (!Capacitor.isNativePlatform()) return;
 
-  // Never apply on a tab switch — page transitions are not a safe moment to
-  // call CapacitorUpdater.set(). Updates are applied on visibilitychange:hidden.
-  if (_isChecking || _status.state === 'downloading' || _status.state === 'ready') return;
+  // Bundle ready → apply on this tap (user expects a screen change anyway, and
+  // there is no native overlay active during a tab switch — safe to reload).
+  if (_status.state === 'ready') {
+    await applyIfReady();
+    return;
+  }
+
+  if (_isChecking || _status.state === 'downloading') return;
 
   // Debounce — only prevents double-fire from a single rapid tap
   if (Date.now() - _lastTabCheckAt < TAB_DEBOUNCE_MS) return;
