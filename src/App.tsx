@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { Capacitor } from '@capacitor/core';
 import { initUpdater, recheckForUpdate, applyIfReady, onStatusChange, checkOnTabSwitch } from './services/updater';
+import { hasOpenBrowsers } from './services/webviewService';
 
 import {
   IonApp, IonIcon, IonLabel, IonRouterOutlet,
@@ -120,14 +121,12 @@ const AppInner: React.FC = () => {
 
     const onVisibility = () => {
       if (document.visibilityState === 'hidden') {
-        // App going to background — WebView is no longer visible so reloading it
-        // via CapacitorUpdater.set() is completely safe and invisible to the user.
-        applyIfReady();
+        // Safe to apply only when the app is genuinely backgrounded.
+        // InAppBrowser opening ALSO fires hidden — guard against that case
+        // because set() racing with a native browser launch causes a crash
+        // identical to the close-race we fixed in v2.2.2.
+        if (!hasOpenBrowsers()) applyIfReady();
       } else {
-        // App came to foreground — only check for new updates, never apply here.
-        // Applying on visible is unsafe: the InAppBrowser close triggers visible
-        // before the native overlay fully dismisses, so set() races with native
-        // cleanup and crashes the app.
         recheckForUpdate();
       }
     };
