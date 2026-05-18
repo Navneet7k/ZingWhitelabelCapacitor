@@ -53,7 +53,7 @@ export async function initUpdater(): Promise<void> {
   }
   try {
     const { CapacitorUpdater } = await import('@capgo/capacitor-updater');
-    CapacitorUpdater.notifyAppReady();
+    // notifyAppReady() is called in main.tsx at the earliest possible moment
     await _checkAndDownload(CapacitorUpdater);
   } catch (e: any) {
     setStatus({ state: 'error', reason: e?.message ?? String(e) });
