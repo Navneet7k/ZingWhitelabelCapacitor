@@ -51,6 +51,11 @@ export async function initUpdater(): Promise<void> {
     setStatus({ state: 'up_to_date', version: 'browser-dev' });
     return;
   }
+  // Show the last-known installed version immediately so the panel never
+  // flashes "idle → checking" after an OTA reload — user sees "Up to date"
+  // first, then a brief "Checking…", then "Up to date" again.
+  const stored = localStorage.getItem(VERSION_KEY);
+  if (stored) setStatus({ state: 'up_to_date', version: stored });
   try {
     const { CapacitorUpdater } = await import('@capgo/capacitor-updater');
     // notifyAppReady() is called in main.tsx at the earliest possible moment
