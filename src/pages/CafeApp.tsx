@@ -50,6 +50,10 @@ const CafeApp: React.FC = () => {
     : allCategories.flatMap(c => c.items);
 
   const handleOrder = async () => {
+    if (!authUser) {
+      setActiveSheet('account');
+      return;
+    }
     const url = getOrderUrl();
     if (!url) return;
     await openWebView(url, 'Place Order', template.colors.primary);
