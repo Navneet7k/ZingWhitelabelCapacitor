@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { Capacitor } from '@capacitor/core';
 import { initUpdater, recheckForUpdate, applyIfReady, onStatusChange, checkOnTabSwitch } from './services/updater';
-import { hasOpenBrowsers } from './services/webviewService';
+
 import {
   IonApp, IonIcon, IonLabel, IonRouterOutlet,
   IonTabBar, IonTabButton, IonTabs, setupIonicReact,
@@ -119,11 +119,15 @@ const AppInner: React.FC = () => {
     const pollInterval = setInterval(() => recheckForUpdate(), POLL_MS);
 
     const onVisibility = () => {
-      if (document.visibilityState === 'visible') {
-        // webviewService handles applyIfReady() via closeEvent when a managed browser
-        // closes. Only call it here for true app-foreground events (lock screen unlock,
-        // app switcher return) where no InAppBrowser is involved.
-        if (!hasOpenBrowsers()) applyIfReady();
+      if (document.visibilityState === 'hidden') {
+        // App going to background — WebView is no longer visible so reloading it
+        // via CapacitorUpdater.set() is completely safe and invisible to the user.
+        applyIfReady();
+      } else {
+        // App came to foreground — only check for new updates, never apply here.
+        // Applying on visible is unsafe: the InAppBrowser close triggers visible
+        // before the native overlay fully dismisses, so set() races with native
+        // cleanup and crashes the app.
         recheckForUpdate();
       }
     };

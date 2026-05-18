@@ -90,14 +90,9 @@ export async function recheckForUpdate(): Promise<void> {
 export async function checkOnTabSwitch(): Promise<void> {
   if (!Capacitor.isNativePlatform()) return;
 
-  // Bundle ready → apply on this tap
-  if (_status.state === 'ready') {
-    await applyIfReady();
-    return;
-  }
-
-  // Download already in progress → nothing to do here; apply on next tap
-  if (_isChecking || _status.state === 'downloading') return;
+  // Never apply on a tab switch — page transitions are not a safe moment to
+  // call CapacitorUpdater.set(). Updates are applied on visibilitychange:hidden.
+  if (_isChecking || _status.state === 'downloading' || _status.state === 'ready') return;
 
   // Debounce — only prevents double-fire from a single rapid tap
   if (Date.now() - _lastTabCheckAt < TAB_DEBOUNCE_MS) return;

@@ -1,6 +1,5 @@
 import { InAppBrowser } from '@capgo/inappbrowser';
 import type { PluginListenerHandle } from '@capacitor/core';
-import { applyIfReady } from './updater';
 
 const _openIds = new Set<string>();
 let _isOpening = false;
@@ -18,9 +17,10 @@ export function hasOpenBrowsers(): boolean {
  *   are no-ops, preventing the "backstack" bug.
  * - closeEvent listener is registered BEFORE openWebView() so no close event can
  *   be missed in the window between resolving the promise and adding the listener.
- * - applyIfReady() is deferred 300 ms after close so the native bridge callback
- *   fully unwinds before CapacitorUpdater.set() triggers a WebView reload.
- *   Calling set() synchronously inside a bridge callback can crash the bridge.
+ * - applyIfReady() is NOT called here. The InAppBrowser close triggers a
+ *   visibilitychange:visible event BEFORE the native browser finishes closing, so
+ *   calling CapacitorUpdater.set() here races with native cleanup and crashes.
+ *   Updates are applied only on visibilitychange:hidden (app backgrounded).
  */
 export async function openWebView(
   url: string,
@@ -50,9 +50,6 @@ export async function openWebView(
       if (webviewId !== null && event.id && event.id !== webviewId) return;
       cleanup();
       onClose?.();
-      // Defer: give the bridge callback 300 ms to fully return before
-      // CapacitorUpdater.set() destroys and reloads the WebView.
-      setTimeout(() => applyIfReady(), 300);
     });
 
     const { id } = await InAppBrowser.openWebView({
