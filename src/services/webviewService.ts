@@ -2,22 +2,25 @@ import { InAppBrowser } from '@capgo/inappbrowser';
 import type { PluginListenerHandle } from '@capacitor/core';
 import { applyIfReady } from './updater';
 
-// Tracks webview ids that are currently open.
 const _openIds = new Set<string>();
-// Prevents duplicate opens during the async openWebView() call.
 let _isOpening = false;
 
-/** True while any managed webview is on screen. */
+/** True while any managed webview is on screen or being opened. */
 export function hasOpenBrowsers(): boolean {
   return _openIds.size > 0 || _isOpening;
 }
 
 /**
  * Open a single managed webview.
- * - Blocks duplicate/stacked opens — extra taps while a browser is visible are no-ops.
- * - Listens for closeEvent and applies any pending OTA bundle only after the last
- *   browser is fully dismissed, so notifyAppReady() can fire on an active WebView.
- * - Calls optional onClose() callback when the browser is dismissed.
+ *
+ * Safety guarantees:
+ * - Duplicate/stacked opens are blocked — extra taps while a browser is visible
+ *   are no-ops, preventing the "backstack" bug.
+ * - closeEvent listener is registered BEFORE openWebView() so no close event can
+ *   be missed in the window between resolving the promise and adding the listener.
+ * - applyIfReady() is deferred 300 ms after close so the native bridge callback
+ *   fully unwinds before CapacitorUpdater.set() triggers a WebView reload.
+ *   Calling set() synchronously inside a bridge callback can crash the bridge.
  */
 export async function openWebView(
   url: string,
@@ -28,9 +31,30 @@ export async function openWebView(
   if (_isOpening || _openIds.size > 0) return;
   _isOpening = true;
 
+  let webviewId: string | null = null;
   let handle: PluginListenerHandle | null = null;
 
+  const cleanup = () => {
+    handle?.remove();
+    handle = null;
+    if (webviewId) _openIds.delete(webviewId);
+    webviewId = null;
+    _isOpening = false;
+  };
+
   try {
+    // Register BEFORE opening — prevents missing a close that fires before
+    // we reach the addListener() call below.
+    handle = await InAppBrowser.addListener('closeEvent', (event) => {
+      // Ignore events for other webviews when we already know our id.
+      if (webviewId !== null && event.id && event.id !== webviewId) return;
+      cleanup();
+      onClose?.();
+      // Defer: give the bridge callback 300 ms to fully return before
+      // CapacitorUpdater.set() destroys and reloads the WebView.
+      setTimeout(() => applyIfReady(), 300);
+    });
+
     const { id } = await InAppBrowser.openWebView({
       url,
       title,
@@ -40,23 +64,10 @@ export async function openWebView(
       toolbarTextColor: '#ffffff',
     });
 
+    webviewId = id;
     _openIds.add(id);
     _isOpening = false;
-
-    handle = await InAppBrowser.addListener('closeEvent', (event) => {
-      // event.id may be absent on older plugin builds — treat as match when missing
-      if (event.id && event.id !== id) return;
-      handle?.remove();
-      _openIds.delete(id);
-      onClose?.();
-      // Apply OTA only when ALL browsers are closed. Calling CapacitorUpdater.set()
-      // while Chrome Custom Tabs is still visible suspends the WebView so
-      // notifyAppReady() never fires and Capgo rolls back to the previous bundle.
-      if (_openIds.size === 0) {
-        applyIfReady();
-      }
-    });
   } catch {
-    _isOpening = false;
+    cleanup();
   }
 }

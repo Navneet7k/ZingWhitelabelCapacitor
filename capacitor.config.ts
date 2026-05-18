@@ -7,6 +7,9 @@ const config: CapacitorConfig = {
   plugins: {
     CapacitorUpdater: {
       autoUpdate: false,
+      // Prevent Capgo from resetting to the built-in APK bundle when
+      // a native app update is installed from the Play Store.
+      resetWhenUpdate: false,
     },
   },
 };
