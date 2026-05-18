@@ -23,11 +23,10 @@ type StatusListener = (s: UpdateStatus) => void;
 const listeners = new Set<StatusListener>();
 
 let _status: UpdateStatus = { state: 'idle' };
-// Bundle reference kept in memory — can't be serialised to localStorage
-let _pendingBundle: any = null;
-let _isChecking = false;
-let _lastCheckAt = 0;
-const RECHECK_COOLDOWN_MS = 5 * 60 * 1000; // 5 min between rechecks
+let _pendingBundle: any = null;   // in-memory only — can't serialise a bundle ref
+let _isChecking    = false;
+let _lastCheckAt   = 0;
+const RECHECK_COOLDOWN_MS = 5 * 60 * 1000;
 
 function setStatus(s: UpdateStatus) {
   _status = s;
@@ -41,7 +40,10 @@ export function onStatusChange(fn: StatusListener): () => void {
   return () => listeners.delete(fn);
 }
 
-/** Cold-start init — also calls notifyAppReady so Capgo doesn't roll back. */
+/**
+ * Call once at cold start. Runs notifyAppReady so Capgo never rolls back,
+ * then checks for a newer bundle and downloads it in the background.
+ */
 export async function initUpdater(): Promise<void> {
   if (!Capacitor.isNativePlatform()) {
     setStatus({ state: 'up_to_date', version: 'browser-dev' });
@@ -58,15 +60,14 @@ export async function initUpdater(): Promise<void> {
 }
 
 /**
- * Call this on app resume (visibilitychange) and tab switches.
- * Respects a 5-minute cooldown so it doesn't hammer the manifest endpoint.
+ * Lightweight re-check triggered on app foreground / tab switch.
+ * Respects a 5-minute cooldown so the manifest endpoint isn't hammered.
  */
 export async function recheckForUpdate(): Promise<void> {
   if (!Capacitor.isNativePlatform()) return;
   if (_isChecking) return;
+  if (_status.state === 'ready') return;           // already have a bundle waiting
   if (Date.now() - _lastCheckAt < RECHECK_COOLDOWN_MS) return;
-  // Don't interrupt an update the user has already been shown
-  if (_status.state === 'ready') return;
   try {
     const { CapacitorUpdater } = await import('@capgo/capacitor-updater');
     await _checkAndDownload(CapacitorUpdater);
@@ -75,23 +76,24 @@ export async function recheckForUpdate(): Promise<void> {
   }
 }
 
-/** Apply update immediately — causes app to reload in ~1 s. */
-export async function applyNow(): Promise<void> {
+/**
+ * Apply the downloaded bundle immediately — causes the app to reload in ~1 s.
+ * Safe to call when the app is backgrounded (user won't notice the reload).
+ * Also called by the 15-minute idle fallback.
+ * No-op if no bundle is pending.
+ */
+export async function applyIfReady(): Promise<void> {
   if (!_pendingBundle) return;
+  if (!Capacitor.isNativePlatform()) return;
   const bundle = _pendingBundle;
   _pendingBundle = null;
-  const { CapacitorUpdater } = await import('@capgo/capacitor-updater');
-  await CapacitorUpdater.set(bundle); // triggers immediate reload
-}
-
-/** Queue update for next cold start (user chose "Later"). */
-export async function applyLater(): Promise<void> {
-  if (!_pendingBundle) return;
-  const bundle = _pendingBundle;
-  _pendingBundle = null;
-  setStatus({ state: 'up_to_date', version: bundle.version ?? 'unknown' });
-  const { CapacitorUpdater } = await import('@capgo/capacitor-updater');
-  await CapacitorUpdater.next(bundle);
+  try {
+    const { CapacitorUpdater } = await import('@capgo/capacitor-updater');
+    await CapacitorUpdater.set(bundle); // triggers immediate reload
+  } catch (e) {
+    console.warn('[Updater] apply failed', e);
+    _pendingBundle = bundle; // restore so it can be retried
+  }
 }
 
 // ── Internal ──────────────────────────────────────────────────────────────────
@@ -125,7 +127,7 @@ async function _checkAndDownload(updater: any): Promise<void> {
 
     localStorage.setItem(VERSION_KEY, manifest.version);
     _pendingBundle = bundle;
-    // Do NOT call next() here — let the user decide via UpdatePrompt
+    // Don't call next() — App.tsx decides when to apply (background or idle)
     setStatus({ state: 'ready', version: manifest.version });
   } catch (e: any) {
     setStatus({ state: 'error', reason: `download failed: ${e?.message}` });

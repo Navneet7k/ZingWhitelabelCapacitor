@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { initUpdater, recheckForUpdate } from './services/updater';
-import UpdatePrompt from './components/UpdatePrompt';
+import { initUpdater, recheckForUpdate, applyIfReady, onStatusChange } from './services/updater';
 import {
   IonApp, IonIcon, IonLabel, IonRouterOutlet,
   IonTabBar, IonTabButton, IonTabs, setupIonicReact,
@@ -61,12 +60,51 @@ const AppInner: React.FC = () => {
       }
     });
 
-    // Re-check for updates whenever the app comes back to the foreground
+    // ── OTA auto-update lifecycle ─────────────────────────────────────────
+    const IDLE_MS = 15 * 60 * 1000; // apply after 15 min of inactivity
+    let idleTimer: ReturnType<typeof setTimeout> | null = null;
+    let lastActivity = Date.now();
+
+    const resetActivity = () => { lastActivity = Date.now(); };
+
+    function scheduleIdleApply() {
+      if (idleTimer) clearTimeout(idleTimer);
+      idleTimer = setTimeout(() => {
+        if (Date.now() - lastActivity >= IDLE_MS) {
+          applyIfReady();         // user idle long enough — apply silently
+        } else {
+          scheduleIdleApply();    // user was active recently — reschedule
+        }
+      }, IDLE_MS);
+    }
+
+    // When a bundle finishes downloading, start the idle countdown
+    const unsubStatus = onStatusChange(s => {
+      if (s.state === 'ready') scheduleIdleApply();
+    });
+
     const onVisibility = () => {
-      if (document.visibilityState === 'visible') recheckForUpdate();
+      if (document.visibilityState === 'hidden') {
+        // App going to background — perfect silent-apply moment
+        applyIfReady();
+      } else {
+        // App coming to foreground — check for newer version
+        recheckForUpdate();
+      }
     };
+
     document.addEventListener('visibilitychange', onVisibility);
-    return () => document.removeEventListener('visibilitychange', onVisibility);
+    // Track activity so idle-apply doesn't interrupt an active user
+    document.addEventListener('touchstart',   resetActivity, { passive: true });
+    document.addEventListener('pointermove',  resetActivity, { passive: true });
+
+    return () => {
+      document.removeEventListener('visibilitychange', onVisibility);
+      document.removeEventListener('touchstart',  resetActivity);
+      document.removeEventListener('pointermove', resetActivity);
+      unsubStatus();
+      if (idleTimer) clearTimeout(idleTimer);
+    };
   }, []);
 
   if (!selected) {
@@ -75,7 +113,6 @@ const AppInner: React.FC = () => {
 
   return (
     <IonReactRouter>
-      <UpdatePrompt />
       <IonTabs onIonTabsDidChange={() => recheckForUpdate()}>
         <IonRouterOutlet>
           <Route exact path="/home" component={HomePage} />
