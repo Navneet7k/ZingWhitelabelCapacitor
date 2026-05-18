@@ -1,5 +1,5 @@
 import React, { useState, useRef } from 'react';
-import { useTemplate } from '../context/TemplateContext';
+import { useTemplate, TEMPLATES } from '../context/TemplateContext';
 import { useHomeData } from '../context/HomeDataContext';
 import { useMenuData } from '../context/MenuDataContext';
 import { getSavedUser, isLoggedIn, login, saveAuth, clearAuth } from '../services/authApi';
@@ -23,7 +23,7 @@ function timeGreeting(): string {
 }
 
 const CafeApp: React.FC = () => {
-  const { template } = useTemplate();
+  const { template, setTemplateId } = useTemplate();
   const { data: homeData } = useHomeData();
   const { data: menuData } = useMenuData();
 
@@ -396,6 +396,26 @@ const CafeApp: React.FC = () => {
                 </form>
               </div>
             )}
+
+            {/* ── Template switcher ── */}
+            <div className="cafe__sheet-divider" />
+            <p className="cafe__sheet-section-label">Switch Template</p>
+            <div className="cafe__template-strip">
+              {TEMPLATES.map(t => (
+                <button
+                  key={t.id}
+                  className={`cafe__template-pill${t.id === template.id ? ' active' : ''}`}
+                  style={{
+                    background: t.colors.bg,
+                    borderColor: t.id === template.id ? t.colors.primary : 'transparent',
+                  }}
+                  onClick={() => setTemplateId(t.id)}
+                >
+                  <span className="cafe__template-pill-emoji">{t.emoji}</span>
+                  <span className="cafe__template-pill-name" style={{ color: t.colors.text }}>{t.name}</span>
+                </button>
+              ))}
+            </div>
           </div>
         </div>
       )}

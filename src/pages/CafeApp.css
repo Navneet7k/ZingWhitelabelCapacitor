@@ -830,6 +830,59 @@
 .cafe__sheet-input:focus { border-color: var(--t-primary); }
 .cafe__sheet-input::placeholder { color: var(--t-text-muted); }
 
+/* ── Template switcher (account sheet) ── */
+.cafe__sheet-divider {
+  height: 1px;
+  background: var(--t-border);
+  margin: 20px 0 16px;
+}
+
+.cafe__sheet-section-label {
+  font-family: var(--t-font-body);
+  font-size: 11px;
+  font-weight: 700;
+  color: var(--t-text-muted);
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  margin: 0 0 12px;
+}
+
+.cafe__template-strip {
+  display: flex;
+  gap: 8px;
+  overflow-x: auto;
+  scrollbar-width: none;
+  padding-bottom: 4px;
+}
+.cafe__template-strip::-webkit-scrollbar { display: none; }
+
+.cafe__template-pill {
+  flex-shrink: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 4px;
+  padding: 10px 8px;
+  border: 2px solid transparent;
+  border-radius: 12px;
+  cursor: pointer;
+  min-width: 58px;
+  -webkit-tap-highlight-color: transparent;
+  transition: border-color 0.2s, box-shadow 0.2s;
+}
+.cafe__template-pill.active {
+  box-shadow: 0 2px 10px rgba(0,0,0,0.15);
+}
+
+.cafe__template-pill-emoji { font-size: 18px; }
+
+.cafe__template-pill-name {
+  font-size: 10px;
+  font-family: sans-serif;
+  font-weight: 600;
+  white-space: nowrap;
+}
+
 /* ═══════════════════════════════════
    ANIMATIONS
    ═══════════════════════════════════ */
