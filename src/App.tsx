@@ -11,7 +11,7 @@ import { Redirect, Route } from 'react-router-dom';
 import { homeOutline, fastFoodOutline, listOutline, personOutline } from 'ionicons/icons';
 
 import { TemplateProvider, useTemplate } from './context/TemplateContext';
-import { isLoggedIn, updateFcmToken, getToken, getSavedUser, clearAuth } from './services/authApi';
+import { isLoggedIn, updateFcmToken, getToken, getSavedUser } from './services/authApi';
 import { initFcm } from './services/fcmService';
 import { fetchRestaurantConfig } from './services/configApi';
 import { getRestaurantId } from './services/restaurantConfig';
@@ -45,16 +45,24 @@ function hasValidSession(): boolean {
   return !!(user?.id && user?.email);
 }
 
+// Module-level cache — survives Ionic remounting AccountGate on tab navigation
+// but resets to null on a full app restart (WebView reload after OTA).
+// This prevents clearAuth() from being called on every remount, which was
+// destroying the token whenever hasValidSession() returned false transiently.
+let _authView: AuthView | null = null;
+
 const AccountGate: React.FC = () => {
   const [view, setView] = useState<AuthView>(() => {
-    if (hasValidSession()) return 'profile';
-    clearAuth();
-    return 'login';
+    if (_authView !== null) return _authView;
+    _authView = hasValidSession() ? 'profile' : 'login';
+    return _authView;
   });
 
-  if (view === 'login')    return <LoginPage    onLogin={() => setView('profile')} onRegister={() => setView('register')} />;
-  if (view === 'register') return <RegisterPage onRegister={() => setView('profile')} onBack={() => setView('login')} />;
-  return <AccountPage onSignOut={() => setView('login')} />;
+  const updateView = (v: AuthView) => { _authView = v; setView(v); };
+
+  if (view === 'login')    return <LoginPage    onLogin={() => updateView('profile')} onRegister={() => updateView('register')} />;
+  if (view === 'register') return <RegisterPage onRegister={() => updateView('profile')} onBack={() => updateView('login')} />;
+  return <AccountPage onSignOut={() => updateView('login')} />;
 };
 
 const AppInner: React.FC = () => {
