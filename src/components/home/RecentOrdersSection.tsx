@@ -1,4 +1,4 @@
-import React, { createContext, useContext } from 'react';
+import React, { createContext, useContext, useState } from 'react';
 import { RECENT_ORDERS as MOCK_ORDERS } from '../../config/mockData';
 import { useTemplate } from '../../context/TemplateContext';
 import { useHomeData } from '../../context/HomeDataContext';
@@ -137,27 +137,63 @@ const ZenOrders: React.FC = () => {
 
 const FiestaOrders: React.FC = () => {
   const RECENT_ORDERS = useContext(OrdersCtx);
+  const [open, setOpen] = useState(false);
+
+  const emojis   = RECENT_ORDERS.slice(0, 3).map(o => o.statusEmoji);
+  const lastTotal = RECENT_ORDERS[0]?.total ?? 0;
+  const inProgress = RECENT_ORDERS.filter(o => o.status === 'In Progress').length;
+
   return (
-    <div className="section">
-      <h2 className="section-title">Recent Orders 🛍️</h2>
-      <div className="fiesta-orders__list">
-        {RECENT_ORDERS.map((o, i) => (
-          <div key={o.id} className="fiesta-order-bubble" style={{ animationDelay: `${i * 0.08}s` }}>
-            <div className="fiesta-order-bubble__icon">{o.statusEmoji}</div>
-            <div className="fiesta-order-bubble__body">
-              <div className="fiesta-order-bubble__header">
-                <span className="fiesta-order-bubble__id">{o.id}</span>
-                <span className="fiesta-order-bubble__total">${o.total.toFixed(2)}</span>
-              </div>
-              <p className="fiesta-order-bubble__items">{o.items.join(' · ')}</p>
-              <div className="fiesta-order-bubble__footer">
-                <span className="fiesta-order-bubble__status" style={{ background: o.color }}>{o.status}</span>
-                <span className="fiesta-order-bubble__date">{o.date}</span>
-              </div>
+    <div className="section fiesta-orders-wrap">
+      {/* ── Compact pill ── */}
+      <button className="fiesta-pill" onClick={() => setOpen(true)}>
+        <div className="fiesta-pill__emojis">
+          {emojis.map((e, i) => (
+            <span key={i} className="fiesta-pill__emoji" style={{ zIndex: 3 - i, marginLeft: i > 0 ? -10 : 0 }}>{e}</span>
+          ))}
+        </div>
+        <div className="fiesta-pill__info">
+          <span className="fiesta-pill__count">{RECENT_ORDERS.length} orders</span>
+          {inProgress > 0
+            ? <span className="fiesta-pill__live">🔴 {inProgress} in progress</span>
+            : <span className="fiesta-pill__last">Last ${lastTotal.toFixed(2)}</span>
+          }
+        </div>
+        <span className="fiesta-pill__cta">View All ›</span>
+      </button>
+
+      {/* ── Full-screen bottom sheet ── */}
+      {open && (
+        <>
+          <div className="fiesta-scrim" onClick={() => setOpen(false)} />
+          <div className="fiesta-sheet">
+            <div className="fiesta-sheet__handle" />
+            <div className="fiesta-sheet__header">
+              <span className="fiesta-sheet__title">Recent Orders 🛍️</span>
+              <button className="fiesta-sheet__close" onClick={() => setOpen(false)}>✕</button>
+            </div>
+            <div className="fiesta-sheet__body">
+              {RECENT_ORDERS.map((o, i) => (
+                <div key={o.id} className="fiesta-order-bubble" style={{ animationDelay: `${i * 0.05}s` }}>
+                  <div className="fiesta-order-bubble__icon">{o.statusEmoji}</div>
+                  <div className="fiesta-order-bubble__body">
+                    <div className="fiesta-order-bubble__header">
+                      <span className="fiesta-order-bubble__id">{o.id}</span>
+                      <span className="fiesta-order-bubble__total">${o.total.toFixed(2)}</span>
+                    </div>
+                    <p className="fiesta-order-bubble__items">{o.items.join(' · ')}</p>
+                    <div className="fiesta-order-bubble__footer">
+                      <span className="fiesta-order-bubble__status" style={{ background: o.color }}>{o.status}</span>
+                      <span className="fiesta-order-bubble__date">{o.date}</span>
+                    </div>
+                  </div>
+                </div>
+              ))}
+              <div style={{ height: 32 }} />
             </div>
           </div>
-        ))}
-      </div>
+        </>
+      )}
     </div>
   );
 };
