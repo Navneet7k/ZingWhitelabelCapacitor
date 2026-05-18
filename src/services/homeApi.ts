@@ -89,7 +89,7 @@ export function mapHomeResponse(raw: ApiHomeResponse): HomeData {
 
   const popularDishes: Dish[] = raw.popular_dishes.map((d, i) => ({
     id: i + 1,
-    name: d.name,
+    name: d.name ?? '',
     description: d.description,
     tag: DISH_TAGS[i % DISH_TAGS.length],
     image: toAbsImg(d.image),
