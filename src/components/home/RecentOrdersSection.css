@@ -273,6 +273,49 @@
 }
 .fiesta-order-bubble__date { font-family: 'Poppins', sans-serif; font-size: 11px; color: #BBBBBB; }
 
+
+/* ══════════════════════════════════════════════════════════════════════════════
+   SHARED: pill-to-sheet pattern (luxe, blossom, rustic, ocean, cosmic, retro)
+   ══════════════════════════════════════════════════════════════════════════════ */
+
+.ord-wrap { padding-bottom: 4px; }
+
+/* Scrim */
+.ord-scrim {
+  position: fixed; inset: 0;
+  background: rgba(0,0,0,0.55);
+  z-index: 9000;
+  animation: scrimIn 0.25s ease both;
+}
+
+/* Sheet base */
+.ord-sheet {
+  position: fixed; bottom: 0; left: 0; right: 0;
+  border-radius: 28px 28px 0 0;
+  z-index: 9001;
+  max-height: 82vh;
+  display: flex;
+  flex-direction: column;
+  animation: sheetUp 0.35s cubic-bezier(0.34, 1.1, 0.64, 1) both;
+}
+.ord-sheet__handle {
+  width: 40px; height: 5px;
+  border-radius: 3px;
+  margin: 12px auto 0;
+  flex-shrink: 0;
+}
+.ord-sheet__header {
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 14px 20px 10px;
+  flex-shrink: 0;
+}
+.ord-sheet__body {
+  overflow-y: auto;
+  padding: 12px 16px 0;
+  display: flex; flex-direction: column; gap: 12px;
+  -webkit-overflow-scrolling: touch;
+}
+
 /* ── NEON ORDERS ── */
 .neon-orders__list { display: flex; flex-direction: column; gap: 10px; }
 .neon-order-card { background: #0D0020; border: 1px solid rgba(0,245,255,0.2); padding: 14px; animation: fadeInUp 0.4s ease both; font-family: 'Rajdhani', sans-serif; }
@@ -354,3 +397,255 @@
 .retro-order-card__footer { display: flex; justify-content: space-between; align-items: center; }
 .retro-order-card__status { font-family: 'Outfit', sans-serif; font-size: 12px; font-weight: 700; }
 .retro-order-card__total { font-family: 'Bebas Neue', cursive; font-size: 22px; color: #E8A500; }
+
+/* ══════════════════════════════════════════════════════════════════════════════
+   LUXE — "Order Vault" dark pill with gold status pips
+   ══════════════════════════════════════════════════════════════════════════════ */
+.luxe-pill {
+  display: flex; align-items: center; gap: 14px;
+  width: 100%; padding: 14px 16px;
+  background: #0D0D0D;
+  border: none; border-left: 3px solid #C9A84C;
+  cursor: pointer; text-align: left;
+  animation: fadeInUp 0.5s ease both;
+}
+.luxe-pill__pips { display: flex; gap: 6px; flex-shrink: 0; }
+.luxe-pill__pip {
+  width: 10px; height: 10px; border-radius: 50%;
+  border: 1.5px solid; background: #0D0D0D;
+}
+.luxe-pill__info { flex: 1; display: flex; flex-direction: column; gap: 3px; }
+.luxe-pill__label { font-family: 'Lato', sans-serif; font-size: 11px; font-weight: 700; color: #C9A84C; letter-spacing: 0.12em; text-transform: uppercase; }
+.luxe-pill__sub   { font-family: 'Lato', sans-serif; font-size: 11px; color: #555; }
+.luxe-pill__cta   { font-family: 'Lato', sans-serif; font-size: 11px; font-weight: 700; color: #C9A84C; letter-spacing: 0.08em; flex-shrink: 0; }
+
+.luxe-ord-sheet { background: #0D0D0D; }
+.luxe-ord-sheet__header { border-bottom: 1px solid rgba(201,168,76,0.2); }
+.ord-sheet.luxe-ord-sheet .ord-sheet__handle { background: rgba(201,168,76,0.25); }
+.luxe-ord-sheet__title { font-family: 'Lato', sans-serif; font-size: 14px; font-weight: 700; color: #C9A84C; letter-spacing: 0.12em; }
+.luxe-ord-sheet__close { background: rgba(201,168,76,0.12); border: none; border-radius: 50%; width: 32px; height: 32px; color: #C9A84C; font-size: 13px; cursor: pointer; }
+
+/* ══════════════════════════════════════════════════════════════════════════════
+   BLOSSOM — "Petal envelope" soft pink pill
+   ══════════════════════════════════════════════════════════════════════════════ */
+.blossom-pill {
+  display: flex; align-items: center; gap: 12px;
+  width: 100%; padding: 12px 16px;
+  background: #fff;
+  border: 2px solid #FFB6C8; border-radius: 24px;
+  box-shadow: 0 4px 20px rgba(255,107,149,0.18);
+  cursor: pointer; text-align: left;
+  animation: bounceIn 0.5s ease both;
+}
+.blossom-pill__petals { display: flex; flex-shrink: 0; }
+.blossom-pill__petal {
+  width: 36px; height: 36px; border-radius: 50%;
+  background: #FFE8EE; border: 2px solid #fff;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 18px; position: relative;
+}
+.blossom-pill__info { flex: 1; display: flex; flex-direction: column; gap: 2px; }
+.blossom-pill__label { font-family: 'Dancing Script', cursive; font-size: 17px; color: #FF6B95; line-height: 1; }
+.blossom-pill__sub   { font-family: 'Quicksand', sans-serif; font-size: 11px; color: #B07090; }
+.blossom-pill__cta   { font-family: 'Quicksand', sans-serif; font-size: 13px; font-weight: 700; color: #FF6B95; flex-shrink: 0; }
+
+.blossom-ord-sheet { background: #fff; overflow: hidden; }
+.blossom-ord-sheet__top {
+  height: 6px;
+  background: linear-gradient(90deg, #FF6B95, #FFB6C8, #FF6B95);
+  flex-shrink: 0;
+}
+.ord-sheet.blossom-ord-sheet .ord-sheet__handle { background: #FFB6C8; }
+.blossom-ord-sheet__header { border-bottom: 1px solid #FFE8EE; }
+.blossom-ord-sheet__title { font-family: 'Dancing Script', cursive; font-size: 20px; color: #FF6B95; }
+.blossom-ord-sheet__close { background: #FFE8EE; border: none; border-radius: 50%; width: 32px; height: 32px; color: #FF6B95; font-size: 13px; cursor: pointer; }
+
+/* ══════════════════════════════════════════════════════════════════════════════
+   RUSTIC — "Open tab" receipt stub with tally marks
+   ══════════════════════════════════════════════════════════════════════════════ */
+.rustic-pill {
+  display: flex; align-items: center; gap: 0;
+  width: 100%;
+  background: #FFF8F0;
+  border: 1.5px solid rgba(193,68,14,0.25);
+  cursor: pointer; text-align: left;
+  animation: fadeInUp 0.5s ease both;
+  position: relative; overflow: hidden;
+  flex-direction: column;
+}
+.rustic-pill__perf {
+  width: 100%; height: 10px;
+  background: repeating-linear-gradient(
+    90deg,
+    #FFF8F0 0px, #FFF8F0 8px,
+    rgba(193,68,14,0.25) 8px, rgba(193,68,14,0.25) 14px
+  );
+}
+.rustic-pill__body {
+  width: 100%; display: flex; align-items: center;
+  justify-content: space-between; gap: 12px;
+  padding: 10px 16px;
+}
+.rustic-pill__heading { font-family: 'Merriweather', serif; font-size: 12px; font-weight: 700; color: #5D3A1A; letter-spacing: 0.08em; text-transform: uppercase; }
+.rustic-pill__row { display: flex; align-items: center; gap: 10px; }
+.rustic-pill__tally { font-size: 14px; color: #C1440E; letter-spacing: 2px; }
+.rustic-pill__total { font-family: 'Abril Fatface', cursive; font-size: 13px; color: #C1440E; }
+.rustic-pill__cta {
+  position: absolute; right: 0; top: 0; bottom: 0;
+  background: #C1440E; color: #fff;
+  font-family: 'Merriweather', serif; font-size: 10px; font-weight: 700;
+  writing-mode: vertical-rl; text-transform: uppercase; letter-spacing: 1px;
+  padding: 12px 6px; display: flex; align-items: center; justify-content: center;
+  min-width: 28px;
+}
+
+.rustic-ord-sheet { background: #FFF8F0; }
+.rustic-ord-sheet__perf {
+  height: 12px; flex-shrink: 0;
+  background: repeating-linear-gradient(
+    90deg,
+    #FFF8F0 0px, #FFF8F0 10px,
+    rgba(193,68,14,0.3) 10px, rgba(193,68,14,0.3) 16px
+  );
+}
+.ord-sheet.rustic-ord-sheet .ord-sheet__handle { background: rgba(193,68,14,0.2); }
+.rustic-ord-sheet__header { border-bottom: 1px dashed rgba(193,68,14,0.3); }
+.rustic-ord-sheet__title { font-family: 'Abril Fatface', cursive; font-size: 18px; color: #C1440E; }
+.rustic-ord-sheet__close { background: rgba(193,68,14,0.1); border: none; border-radius: 50%; width: 32px; height: 32px; color: #C1440E; font-size: 13px; cursor: pointer; }
+
+/* ══════════════════════════════════════════════════════════════════════════════
+   OCEAN — Teal wave gradient pill
+   ══════════════════════════════════════════════════════════════════════════════ */
+.ocean-pill {
+  display: flex; align-items: center; gap: 12px;
+  width: 100%; padding: 14px 16px 22px;
+  background: linear-gradient(135deg, #48C9B0 0%, #1B6CA8 100%);
+  border: none; border-radius: 18px;
+  box-shadow: 0 6px 24px rgba(27,108,168,0.3);
+  cursor: pointer; text-align: left;
+  animation: fadeInUp 0.45s ease both;
+  position: relative; overflow: hidden;
+}
+.ocean-pill__wave-icon { font-size: 28px; flex-shrink: 0; }
+.ocean-pill__info { flex: 1; display: flex; flex-direction: column; gap: 2px; }
+.ocean-pill__count { font-family: 'Montserrat', sans-serif; font-size: 15px; font-weight: 800; color: #fff; }
+.ocean-pill__sub   { font-family: 'Montserrat', sans-serif; font-size: 11px; color: rgba(255,255,255,0.8); }
+.ocean-pill__cta {
+  font-family: 'Montserrat', sans-serif; font-size: 12px; font-weight: 700;
+  background: rgba(255,255,255,0.2); color: #fff;
+  padding: 6px 14px; border-radius: 20px; flex-shrink: 0;
+}
+.ocean-pill__wave {
+  position: absolute; bottom: 0; left: 0; right: 0; height: 18px;
+  background: rgba(255,255,255,0.15);
+  clip-path: ellipse(55% 100% at 50% 100%);
+}
+
+.ocean-ord-sheet { background: #fff; }
+.ocean-ord-sheet__wave-header {
+  background: linear-gradient(135deg, #48C9B0, #1B6CA8);
+  border-radius: 28px 28px 0 0;
+  padding-bottom: 8px; flex-shrink: 0;
+}
+.ord-sheet.ocean-ord-sheet .ord-sheet__handle { background: rgba(255,255,255,0.4); }
+.ocean-ord-sheet__header { padding-top: 8px; }
+.ocean-ord-sheet__title { font-family: 'Montserrat', sans-serif; font-size: 17px; font-weight: 800; color: #fff; }
+.ocean-ord-sheet__close { background: rgba(255,255,255,0.2); border: none; border-radius: 50%; width: 32px; height: 32px; color: #fff; font-size: 13px; cursor: pointer; }
+
+/* ══════════════════════════════════════════════════════════════════════════════
+   COSMIC — "Mission Log" terminal HUD pill
+   ══════════════════════════════════════════════════════════════════════════════ */
+.cosmic-pill {
+  display: flex; align-items: center; gap: 12px;
+  width: 100%; padding: 12px 14px;
+  background: #050818;
+  border: 1px solid rgba(170,68,255,0.45);
+  border-radius: 6px;
+  box-shadow: 0 0 16px rgba(170,68,255,0.2), inset 0 0 12px rgba(0,229,255,0.04);
+  cursor: pointer; text-align: left;
+  animation: fadeInUp 0.4s ease both;
+  position: relative;
+}
+.cosmic-pill__scanner {
+  width: 28px; height: 28px; border-radius: 50%;
+  border: 1.5px solid #AA44FF; flex-shrink: 0;
+  display: flex; align-items: center; justify-content: center;
+  position: relative;
+  animation: cosmicPulse 2s ease-in-out infinite;
+}
+.cosmic-pill__beam {
+  width: 8px; height: 8px; border-radius: 50%;
+  background: #AA44FF;
+  box-shadow: 0 0 8px #AA44FF;
+}
+@keyframes cosmicPulse {
+  0%, 100% { box-shadow: 0 0 4px rgba(170,68,255,0.5); }
+  50%       { box-shadow: 0 0 14px rgba(170,68,255,0.9); }
+}
+.cosmic-pill__info { flex: 1; display: flex; flex-direction: column; gap: 3px; }
+.cosmic-pill__label { font-family: 'Orbitron', sans-serif; font-size: 9px; font-weight: 700; color: #AA44FF; letter-spacing: 0.2em; text-transform: uppercase; }
+.cosmic-pill__data  { font-family: 'Space Grotesk', monospace; font-size: 12px; color: rgba(232,244,255,0.75); }
+.cosmic-pill__active { color: #00E5FF; }
+.cosmic-pill__cta {
+  font-family: 'Orbitron', sans-serif; font-size: 10px; font-weight: 700;
+  color: #00E5FF; letter-spacing: 0.06em; flex-shrink: 0;
+  text-shadow: 0 0 6px rgba(0,229,255,0.7);
+}
+
+.cosmic-ord-sheet { background: #050818; border-top: 1px solid rgba(170,68,255,0.4); }
+.ord-sheet.cosmic-ord-sheet .ord-sheet__handle { background: rgba(170,68,255,0.3); }
+.cosmic-ord-sheet__header { border-bottom: 1px solid rgba(0,229,255,0.15); }
+.cosmic-ord-sheet__title { font-family: 'Orbitron', sans-serif; font-size: 13px; font-weight: 700; color: #AA44FF; letter-spacing: 0.15em; text-shadow: 0 0 8px rgba(170,68,255,0.6); }
+.cosmic-ord-sheet__close { background: rgba(0,229,255,0.08); border: 1px solid rgba(0,229,255,0.3); border-radius: 4px; width: 32px; height: 32px; color: #00E5FF; font-size: 11px; font-family: monospace; cursor: pointer; }
+
+/* ══════════════════════════════════════════════════════════════════════════════
+   RETRO — "Diner check" perforated receipt stub
+   ══════════════════════════════════════════════════════════════════════════════ */
+.retro-pill {
+  display: flex; flex-direction: column;
+  width: 100%;
+  background: #FFFBF0;
+  border: 2px solid #E8A500;
+  cursor: pointer; text-align: left;
+  animation: fadeInUp 0.4s ease both;
+  position: relative;
+}
+.retro-pill__perf {
+  height: 10px;
+  background: repeating-linear-gradient(
+    90deg,
+    #FFFBF0 0px, #FFFBF0 8px,
+    rgba(232,165,0,0.5) 8px, rgba(232,165,0,0.5) 14px
+  );
+}
+.retro-pill__body {
+  display: flex; align-items: center; justify-content: space-between;
+  gap: 10px; padding: 8px 16px 8px 80px;
+}
+.retro-pill__heading { font-family: 'Bebas Neue', cursive; font-size: 15px; color: #D62828; letter-spacing: 0.06em; }
+.retro-pill__row { display: flex; align-items: center; gap: 10px; }
+.retro-pill__count { font-family: 'Outfit', sans-serif; font-size: 12px; color: #7A5C30; }
+.retro-pill__total { font-family: 'Bebas Neue', cursive; font-size: 15px; color: #D62828; }
+.retro-pill__cta {
+  position: absolute; left: 0; top: 0; bottom: 0;
+  background: #E8A500; color: #1A0A00;
+  font-family: 'Bebas Neue', cursive; font-size: 11px;
+  writing-mode: vertical-rl; letter-spacing: 2px;
+  padding: 10px 6px; display: flex; align-items: center; justify-content: center;
+  min-width: 32px;
+}
+
+.retro-ord-sheet { background: #FFFBF0; }
+.retro-ord-sheet__perf {
+  height: 12px; flex-shrink: 0;
+  background: repeating-linear-gradient(
+    90deg,
+    #FFFBF0 0px, #FFFBF0 10px,
+    rgba(232,165,0,0.5) 10px, rgba(232,165,0,0.5) 16px
+  );
+  border-top: 2px solid #E8A500;
+}
+.ord-sheet.retro-ord-sheet .ord-sheet__handle { background: rgba(232,165,0,0.35); }
+.retro-ord-sheet__header { border-bottom: 2px dashed rgba(232,165,0,0.4); }
+.retro-ord-sheet__title { font-family: 'Bebas Neue', cursive; font-size: 20px; color: #D62828; letter-spacing: 0.06em; }
+.retro-ord-sheet__close { background: rgba(232,165,0,0.2); border: none; border-radius: 50%; width: 32px; height: 32px; color: #D62828; font-size: 13px; cursor: pointer; }
