@@ -89,10 +89,14 @@ const AppInner: React.FC = () => {
     const pollInterval = setInterval(() => recheckForUpdate(), POLL_MS);
 
     const onVisibility = () => {
-      if (document.visibilityState === 'hidden') {
-        applyIfReady(); // app going to background — perfect silent-apply moment
-      } else {
-        recheckForUpdate(); // app coming to foreground — check for newer version
+      if (document.visibilityState === 'visible') {
+        // Apply any ready bundle the moment the WebView is active again.
+        // Deliberately NOT applying on 'hidden': InAppBrowser (SFSafariViewController /
+        // Chrome Custom Tabs) also fires visibilitychange:hidden, and calling set()
+        // on a suspended hidden WebView means notifyAppReady() never fires → Capgo
+        // treats the bundle as crashed and rolls back to the previous build.
+        applyIfReady();
+        recheckForUpdate();
       }
     };
 
