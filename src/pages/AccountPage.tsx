@@ -5,7 +5,7 @@ import { useTemplate, TEMPLATES } from '../context/TemplateContext';
 import { LOYALTY, RECENT_ORDERS } from '../config/mockData';
 import { getStatus, onStatusChange, UpdateStatus } from '../services/updater';
 import { isRestaurantMode, getRestaurantName, getRestaurantId } from '../services/restaurantConfig';
-import { clearAuth, getToken } from '../services/authApi';
+import { clearAuth, getToken, getSavedUser } from '../services/authApi';
 import { useHomeData } from '../context/HomeDataContext';
 import './AccountPage.css';
 
@@ -38,6 +38,10 @@ function updateStatusLabel(s: UpdateStatus): { text: string; color: string } {
 const AccountPage: React.FC<{ onSignOut?: () => void }> = ({ onSignOut }) => {
   const { template, setTemplateId } = useTemplate();
   const { data } = useHomeData();
+  const savedUser   = getSavedUser();
+  const displayName = savedUser?.name  ?? 'Guest';
+  const displayEmail= savedUser?.email ?? '';
+  const initials    = displayName.split(' ').map((w: string) => w[0] ?? '').join('').toUpperCase().slice(0, 2) || 'G';
   const [updateStatus, setUpdateStatus]     = useState<UpdateStatus>(getStatus);
   const [showHistory, setShowHistory]       = useState(false);
   const [showDeleteConfirm, setShowDeleteConfirm] = useState(false);
@@ -118,9 +122,9 @@ const AccountPage: React.FC<{ onSignOut?: () => void }> = ({ onSignOut }) => {
         ) : (
           <>
             <div className="acc__profile" style={{ background: template.colors.primary }}>
-              <div className="acc__avatar">JD</div>
-              <h2 className="acc__name">John Doe</h2>
-              <p className="acc__email">john.doe@email.com</p>
+              <div className="acc__avatar">{initials}</div>
+              <h2 className="acc__name">{displayName}</h2>
+              <p className="acc__email">{displayEmail}</p>
               <div className="acc__badges">
                 <span className="acc__badge">{LOYALTY.tier} Member</span>
                 <span className="acc__badge">{LOYALTY.points.toLocaleString()} pts</span>

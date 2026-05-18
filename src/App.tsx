@@ -9,7 +9,7 @@ import { Redirect, Route } from 'react-router-dom';
 import { homeOutline, fastFoodOutline, listOutline, personOutline } from 'ionicons/icons';
 
 import { TemplateProvider, useTemplate } from './context/TemplateContext';
-import { isLoggedIn, updateFcmToken, getToken } from './services/authApi';
+import { isLoggedIn, updateFcmToken, getToken, getSavedUser, clearAuth } from './services/authApi';
 import { initFcm } from './services/fcmService';
 import { fetchRestaurantConfig } from './services/configApi';
 import { getRestaurantId } from './services/restaurantConfig';
@@ -37,8 +37,20 @@ setupIonicReact();
 
 type AuthView = 'login' | 'register' | 'profile';
 
+function hasValidSession(): boolean {
+  if (!isLoggedIn()) return false;
+  const user = getSavedUser();
+  // Require a real server-issued user object (id + email) — guards against
+  // partially-restored Android Auto Backup state or stale localStorage.
+  return !!(user?.id && user?.email);
+}
+
 const AccountGate: React.FC = () => {
-  const [view, setView] = useState<AuthView>(() => isLoggedIn() ? 'profile' : 'login');
+  const [view, setView] = useState<AuthView>(() => {
+    if (hasValidSession()) return 'profile';
+    clearAuth(); // wipe any partial/stale auth data before showing login
+    return 'login';
+  });
   if (view === 'login')    return <LoginPage    onLogin={() => setView('profile')} onRegister={() => setView('register')} />;
   if (view === 'register') return <RegisterPage onRegister={() => setView('profile')} onBack={() => setView('login')} />;
   return <AccountPage onSignOut={() => setView('login')} />;
