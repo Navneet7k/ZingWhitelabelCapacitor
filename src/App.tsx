@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import { Capacitor } from '@capacitor/core';
 import { initUpdater, recheckForUpdate, applyIfReady, onStatusChange, checkOnTabSwitch } from './services/updater';
 import { hasOpenBrowsers } from './services/webviewService';
 import {
@@ -41,17 +42,33 @@ type AuthView = 'login' | 'register' | 'profile';
 function hasValidSession(): boolean {
   if (!isLoggedIn()) return false;
   const user = getSavedUser();
-  // Require a real server-issued user object (id + email) — guards against
-  // partially-restored Android Auto Backup state or stale localStorage.
   return !!(user?.id && user?.email);
 }
 
 const AccountGate: React.FC = () => {
   const [view, setView] = useState<AuthView>(() => {
     if (hasValidSession()) return 'profile';
-    clearAuth(); // wipe any partial/stale auth data before showing login
+    clearAuth();
     return 'login';
   });
+
+  useEffect(() => {
+    // If we appear logged in on startup, verify Capgo is actually running an OTA
+    // bundle — not the built-in APK bundle. On the built-in bundle, localStorage
+    // auth data (including token + user) may have been restored by Android Auto
+    // Backup from a previous install. The built-in bundle is old and shows dummy
+    // data, so we force a login to make the user wait for the OTA bundle to apply.
+    if (view !== 'profile' || !Capacitor.isNativePlatform()) return;
+    import('@capgo/capacitor-updater').then(({ CapacitorUpdater }) => {
+      CapacitorUpdater.current().then(({ bundle }) => {
+        if (bundle.id === 'builtin') {
+          clearAuth();
+          setView('login');
+        }
+      }).catch(() => {});
+    }).catch(() => {});
+  }, []);
+
   if (view === 'login')    return <LoginPage    onLogin={() => setView('profile')} onRegister={() => setView('register')} />;
   if (view === 'register') return <RegisterPage onRegister={() => setView('profile')} onBack={() => setView('login')} />;
   return <AccountPage onSignOut={() => setView('login')} />;
