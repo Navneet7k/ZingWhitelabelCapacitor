@@ -305,3 +305,25 @@
   --t-tab-active: #E8A500;
   --t-tab-inactive: #C4A060;
 }
+
+/* ── BREW: Artisan Café ── */
+[data-template="brew"] {
+  --t-bg: #F7F3EE;
+  --t-surface: #FFFFFF;
+  --t-surface2: #EDE8E0;
+  --t-primary: #2C1810;
+  --t-primary-light: #4A2E22;
+  --t-accent: #C8A882;
+  --t-text: #1A0E0A;
+  --t-text-muted: #8B7355;
+  --t-border: rgba(44,24,16,0.10);
+  --t-font-heading: 'Playfair Display', Georgia, serif;
+  --t-font-body: 'Work Sans', system-ui, sans-serif;
+  --t-radius: 12px;
+  --t-radius-lg: 20px;
+  --t-shadow: 0 4px 20px rgba(44,24,16,0.10);
+  --t-transition: 350ms cubic-bezier(0.4,0,0.2,1);
+  --t-tab-bg: #F7F3EE;
+  --t-tab-active: #2C1810;
+  --t-tab-inactive: #C8A882;
+}

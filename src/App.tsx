@@ -18,6 +18,7 @@ import { getRestaurantId } from './services/restaurantConfig';
 import { HomeDataProvider } from './context/HomeDataContext';
 import { MenuDataProvider } from './context/MenuDataContext';
 import TemplateSelectPage from './pages/TemplateSelectPage';
+import CafeApp from './pages/CafeApp';
 import { isRestaurantMode } from './services/restaurantConfig';
 import HomePage from './pages/HomePage';
 import MenuPage from './pages/MenuPage';
@@ -66,7 +67,7 @@ const AccountGate: React.FC = () => {
 };
 
 const AppInner: React.FC = () => {
-  const { hasSelected } = useTemplate();
+  const { hasSelected, template } = useTemplate();
   // In restaurant mode the template is pre-set — skip the picker entirely
   const [selected, setSelected] = useState(hasSelected || isRestaurantMode());
 
@@ -138,6 +139,10 @@ const AppInner: React.FC = () => {
 
   if (!selected) {
     return <TemplateSelectPage onSelect={() => setSelected(true)} />;
+  }
+
+  if (template.id === 'brew') {
+    return <CafeApp />;
   }
 
   return (

@@ -1,6 +1,6 @@
 import React, { createContext, useContext, useState, useEffect } from 'react';
 
-export type TemplateId = 'luxe' | 'fresh' | 'street' | 'zen' | 'fiesta' | 'neon' | 'rustic' | 'ocean' | 'blossom' | 'ember' | 'cosmic' | 'retro' | 'tropical' | 'royal';
+export type TemplateId = 'luxe' | 'fresh' | 'street' | 'zen' | 'fiesta' | 'neon' | 'rustic' | 'ocean' | 'blossom' | 'ember' | 'cosmic' | 'retro' | 'tropical' | 'royal' | 'brew';
 
 export interface Template {
   id: TemplateId;
@@ -94,6 +94,13 @@ export const TEMPLATES: Template[] = [
     tagline: 'British pub/bistro elegance',
     emoji: '👑',
     colors: { bg: '#150810', primary: '#C9923A', accent: '#8C1A2E', text: '#F5ECD7' },
+  },
+  {
+    id: 'brew',
+    name: 'Brew',
+    tagline: 'Artisan café experience',
+    emoji: '☕',
+    colors: { bg: '#F7F3EE', primary: '#2C1810', accent: '#C8A882', text: '#1A0E0A' },
   },
 ];
 
