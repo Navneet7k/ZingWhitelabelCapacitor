@@ -11,6 +11,7 @@ import LoyaltySection from '../components/home/LoyaltySection';
 import PopularDishesSection from '../components/home/PopularDishesSection';
 import RecentOrdersSection from '../components/home/RecentOrdersSection';
 import GallerySection from '../components/home/GallerySection';
+import FeaturedSection from '../components/home/FeaturedSection';
 import './HomePage.css';
 
 const HomePage: React.FC = () => {
@@ -62,6 +63,7 @@ const HomePage: React.FC = () => {
         <BannerSection />
         <LoyaltySection />
         <PopularDishesSection />
+        <FeaturedSection />
         <RecentOrdersSection />
         <GallerySection />
         <div style={{ height: 32 }} />

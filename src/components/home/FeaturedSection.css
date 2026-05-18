@@ -1,0 +1,190 @@
+/* ── Shared layout ─────────────────────────────────────────────────────────── */
+.feat-section { padding-bottom: 8px; }
+
+.feat-scroll {
+  display: flex;
+  gap: 12px;
+  overflow-x: auto;
+  padding: 8px 16px 12px;
+  scroll-snap-type: x mandatory;
+  -webkit-overflow-scrolling: touch;
+}
+.feat-scroll::-webkit-scrollbar { display: none; }
+
+.feat-card {
+  flex: 0 0 260px;
+  height: 180px;
+  border-radius: 14px;
+  overflow: hidden;
+  scroll-snap-align: start;
+  position: relative;
+  animation: featFadeIn 0.4s ease both;
+}
+
+@keyframes featFadeIn {
+  from { opacity: 0; transform: translateX(16px); }
+  to   { opacity: 1; transform: translateX(0); }
+}
+
+.feat-card__img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+/* ── Luxe ───────────────────────────────────────────────────────────────────── */
+.feat-title--luxe { color: #c8a96e; letter-spacing: 2px; text-transform: uppercase; font-size: 13px; }
+.feat-scroll--luxe { background: transparent; }
+.feat-card--luxe { border-radius: 4px; box-shadow: 0 8px 32px rgba(0,0,0,0.6); }
+.feat-card--luxe .feat-card__img { filter: brightness(0.9) contrast(1.05); }
+.feat-card--luxe__shimmer {
+  position: absolute;
+  bottom: 0; left: 0; right: 0;
+  height: 2px;
+  background: linear-gradient(90deg, transparent, #c8a96e, transparent);
+  animation: shimmerSlide 2.5s linear infinite;
+}
+@keyframes shimmerSlide {
+  from { transform: translateX(-100%); }
+  to   { transform: translateX(100%); }
+}
+
+/* ── Fresh ──────────────────────────────────────────────────────────────────── */
+.feat-title--fresh { color: #2d6a2d; }
+.feat-card--fresh { border-radius: 16px; box-shadow: 0 4px 16px rgba(0,0,0,0.12); }
+.feat-card--fresh .feat-card__img { transition: transform 0.3s ease; }
+.feat-card--fresh:active .feat-card__img { transform: scale(1.04); }
+
+/* ── Zen ────────────────────────────────────────────────────────────────────── */
+.feat-title--zen { color: #4a4a4a; font-weight: 300; letter-spacing: 3px; text-transform: uppercase; font-size: 12px; }
+.feat-scroll--zen { gap: 8px; }
+.feat-card--zen { border-radius: 2px; box-shadow: none; }
+.feat-card--zen .feat-card__img { filter: saturate(0.85); }
+
+/* ── Fiesta ─────────────────────────────────────────────────────────────────── */
+.feat-title--fiesta { color: #c0392b; }
+.feat-card--fiesta { border-radius: 18px; border: 3px solid #f39c12; box-shadow: 0 4px 20px rgba(243,156,18,0.3); }
+.feat-card--fiesta__badge {
+  position: absolute;
+  top: 8px; right: 8px;
+  font-size: 22px;
+  filter: drop-shadow(0 2px 4px rgba(0,0,0,0.4));
+  animation: badgePop 0.5s ease both;
+}
+@keyframes badgePop {
+  from { transform: scale(0) rotate(-20deg); }
+  to   { transform: scale(1) rotate(0deg); }
+}
+
+/* ── Neon ───────────────────────────────────────────────────────────────────── */
+.feat-title--neon { color: #00ff88; font-family: monospace; letter-spacing: 2px; font-size: 13px; }
+.feat-card--neon { border-radius: 6px; border: 1.5px solid #00ff88; box-shadow: 0 0 12px rgba(0,255,136,0.4), inset 0 0 12px rgba(0,255,136,0.05); }
+.feat-card--neon .feat-card__img { filter: brightness(0.85) saturate(1.2); }
+.feat-card--neon__scanline {
+  position: absolute;
+  inset: 0;
+  background: repeating-linear-gradient(
+    0deg,
+    transparent,
+    transparent 2px,
+    rgba(0,255,136,0.03) 2px,
+    rgba(0,255,136,0.03) 4px
+  );
+  pointer-events: none;
+}
+
+/* ── Rustic ─────────────────────────────────────────────────────────────────── */
+.feat-title--rustic { color: #5d3a1a; font-family: serif; }
+.feat-card--rustic { border-radius: 4px; border: 3px solid #8b5e3c; box-shadow: 2px 4px 16px rgba(0,0,0,0.3); }
+.feat-card--rustic .feat-card__img { filter: saturate(0.9) sepia(0.1); }
+.feat-card--rustic__tag {
+  position: absolute;
+  top: 10px; left: -6px;
+  background: #8b5e3c;
+  color: #fff;
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 1px;
+  padding: 3px 10px 3px 12px;
+  clip-path: polygon(0 0, 100% 0, 95% 50%, 100% 100%, 0 100%);
+}
+
+/* ── Ocean ──────────────────────────────────────────────────────────────────── */
+.feat-title--ocean { color: #006994; }
+.feat-card--ocean { border-radius: 16px; box-shadow: 0 4px 24px rgba(0,105,148,0.25); }
+.feat-card--ocean .feat-card__img { filter: brightness(0.95) saturate(1.1); }
+.feat-card--ocean__wave {
+  position: absolute;
+  bottom: 0; left: 0; right: 0;
+  height: 30px;
+  background: linear-gradient(to top, rgba(0,150,200,0.35), transparent);
+  clip-path: ellipse(55% 100% at 50% 100%);
+}
+
+/* ── Blossom ────────────────────────────────────────────────────────────────── */
+.feat-title--blossom { color: #c2185b; }
+.feat-card--blossom { border-radius: 20px; border: 2px solid #f48fb1; box-shadow: 0 6px 24px rgba(194,24,91,0.18); }
+.feat-card--blossom .feat-card__img { filter: saturate(1.1); }
+
+/* ── Cosmic ─────────────────────────────────────────────────────────────────── */
+.feat-title--cosmic { color: #a78bfa; font-family: monospace; letter-spacing: 2px; font-size: 13px; }
+.feat-card--cosmic { border-radius: 8px; border: 1.5px solid #7c3aed; box-shadow: 0 0 18px rgba(124,58,237,0.45), inset 0 0 12px rgba(124,58,237,0.08); }
+.feat-card--cosmic .feat-card__img { filter: brightness(0.85) saturate(1.2); }
+.feat-card--cosmic__glow {
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(ellipse at 50% 0%, rgba(167,139,250,0.15) 0%, transparent 70%);
+  pointer-events: none;
+}
+
+/* ── Retro ──────────────────────────────────────────────────────────────────── */
+.feat-title--retro { color: #b45309; font-family: 'Courier New', monospace; letter-spacing: 1px; }
+.feat-scroll--retro { gap: 16px; background: #1a1a1a; padding: 12px 16px; }
+.feat-card--retro { border-radius: 0; background: #1a1a1a; height: 196px; flex-direction: column; display: flex; align-items: center; gap: 0; }
+.feat-card--retro .feat-card__img { height: 164px; border-radius: 0; flex: 1; }
+.feat-card--retro__holes {
+  width: 100%;
+  height: 16px;
+  background: #1a1a1a;
+  display: flex;
+  align-items: center;
+  justify-content: space-around;
+  padding: 0 8px;
+}
+.feat-card--retro__hole {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  background: #333;
+  border: 1.5px solid #555;
+  display: block;
+}
+
+/* ── Tropical ───────────────────────────────────────────────────────────────── */
+.feat-title--tropical { color: #15803d; }
+.feat-card--tropical { border-radius: 20px; box-shadow: 0 6px 24px rgba(21,128,61,0.2); border: 2px solid #bbf7d0; }
+.feat-card--tropical .feat-card__img { filter: saturate(1.2) brightness(1.02); }
+.feat-card--tropical__leaf {
+  position: absolute;
+  top: 8px; right: 8px;
+  font-size: 20px;
+  filter: drop-shadow(0 2px 4px rgba(0,0,0,0.3));
+}
+
+/* ── Royal ──────────────────────────────────────────────────────────────────── */
+.feat-title--royal { color: #92400e; font-family: serif; letter-spacing: 1px; }
+.feat-card--royal { border-radius: 6px; border: 1.5px solid #d4a843; box-shadow: 0 6px 28px rgba(212,168,67,0.3); }
+.feat-card--royal .feat-card__img { filter: brightness(0.95) saturate(1.05); }
+.feat-card--royal__corner {
+  position: absolute;
+  width: 14px;
+  height: 14px;
+  border-color: #d4a843;
+  border-style: solid;
+  z-index: 2;
+}
+.feat-card--royal__corner--tl { top: 4px; left: 4px; border-width: 2px 0 0 2px; }
+.feat-card--royal__corner--tr { top: 4px; right: 4px; border-width: 2px 2px 0 0; }
+.feat-card--royal__corner--bl { bottom: 4px; left: 4px; border-width: 0 0 2px 2px; }
+.feat-card--royal__corner--br { bottom: 4px; right: 4px; border-width: 0 2px 2px 0; }

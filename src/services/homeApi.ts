@@ -46,12 +46,13 @@ export interface RecentOrder {
 }
 
 export interface HomeData {
-  banners:      BannerSlide[];
-  popularDishes:Dish[];
-  gallery:      GalleryItem[];
-  recentOrders: RecentOrder[];
-  points:       number;
-  orderNowUrl:  string;
+  banners:        BannerSlide[];
+  popularDishes:  Dish[];
+  gallery:        GalleryItem[];
+  featuredImages: GalleryItem[];
+  recentOrders:   RecentOrder[];
+  points:         number;
+  orderNowUrl:    string;
 }
 
 // ── Helpers ───────────────────────────────────────────────────────────────────
@@ -102,6 +103,12 @@ export function mapHomeResponse(raw: ApiHomeResponse): HomeData {
     aspect: 1.0,
   }));
 
+  const featuredImages: GalleryItem[] = raw.featured_images.map((g, i) => ({
+    id: i + 1,
+    url: g.url,
+    aspect: 1.0,
+  }));
+
   const mapOrder = (o: ApiOrder, current: boolean): RecentOrder => ({
     id: `ORD-${o.order_id}`,
     items: [`${o.total_items} item${o.total_items !== 1 ? 's' : ''}`],
@@ -114,10 +121,11 @@ export function mapHomeResponse(raw: ApiHomeResponse): HomeData {
   });
 
   return {
-    banners:       banners,
-    popularDishes: popularDishes,
-    gallery:       gallery,
-    recentOrders:  [
+    banners:        banners,
+    popularDishes:  popularDishes,
+    gallery:        gallery,
+    featuredImages: featuredImages,
+    recentOrders:   [
       ...raw.orders.currorders.map(o => mapOrder(o, true)),
       ...raw.orders.pastorders.map(o => mapOrder(o, false)),
     ],
