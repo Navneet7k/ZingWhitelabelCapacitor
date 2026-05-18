@@ -116,7 +116,7 @@ const AppInner: React.FC = () => {
 
   return (
     <IonReactRouter>
-      <IonTabs onIonTabsDidChange={() => checkOnTabSwitch()}>
+      <IonTabs>
         <IonRouterOutlet>
           <Route exact path="/home" component={HomePage} />
           <Route exact path="/menu" component={MenuPage} />
@@ -124,7 +124,7 @@ const AppInner: React.FC = () => {
           <Route exact path="/account" component={AccountGate} />
           <Route exact path="/" render={() => <Redirect to="/home" />} />
         </IonRouterOutlet>
-        <IonTabBar slot="bottom">
+        <IonTabBar slot="bottom" onClick={() => checkOnTabSwitch()}>
           <IonTabButton tab="home" href="/home">
             <IonIcon icon={homeOutline} />
             <IonLabel>Home</IonLabel>

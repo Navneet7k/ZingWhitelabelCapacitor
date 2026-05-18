@@ -24,10 +24,11 @@ const listeners = new Set<StatusListener>();
 
 let _status: UpdateStatus = { state: 'idle' };
 let _pendingBundle: any = null;   // in-memory only — can't serialise a bundle ref
-let _isChecking    = false;
-let _lastCheckAt   = 0;
-const RECHECK_COOLDOWN_MS  = 5 * 60 * 1000;
-const TAB_COOLDOWN_MS      = 60 * 1000;       // shorter cooldown for tab-switch checks
+let _isChecking       = false;
+let _lastCheckAt      = 0;  // used by recheckForUpdate (foreground / poll)
+let _lastTabCheckAt   = 0;  // used by checkOnTabSwitch — separate so the two don't block each other
+const RECHECK_COOLDOWN_MS = 5 * 60 * 1000;
+const TAB_DEBOUNCE_MS     = 5_000; // just prevents double-fire from rapid taps
 
 function setStatus(s: UpdateStatus) {
   _status = s;
@@ -78,20 +79,30 @@ export async function recheckForUpdate(): Promise<void> {
 }
 
 /**
- * Called on every tab switch.
- * - If a bundle is already downloaded → apply it now (tab transition is the
- *   best time to reload; user expects a screen change anyway).
- * - Otherwise → check the manifest and start downloading if a new version
- *   exists. A 60-second cooldown prevents hammering on rapid tab presses.
+ * Called on every tab-bar tap.
+ * - Bundle already downloaded → apply immediately (tab transition = best
+ *   reload moment; user expects a screen change anyway).
+ * - No bundle yet → fetch manifest and start download if a new version
+ *   exists. Uses its own 5-second debounce that is completely independent
+ *   from recheckForUpdate's cooldown, so a screen-unlock check never
+ *   blocks a subsequent tab press.
  */
 export async function checkOnTabSwitch(): Promise<void> {
   if (!Capacitor.isNativePlatform()) return;
+
+  // Bundle ready → apply on this tap
   if (_status.state === 'ready') {
     await applyIfReady();
     return;
   }
-  if (_isChecking) return;
-  if (Date.now() - _lastCheckAt < TAB_COOLDOWN_MS) return;
+
+  // Download already in progress → nothing to do here; apply on next tap
+  if (_isChecking || _status.state === 'downloading') return;
+
+  // Debounce — only prevents double-fire from a single rapid tap
+  if (Date.now() - _lastTabCheckAt < TAB_DEBOUNCE_MS) return;
+  _lastTabCheckAt = Date.now();
+
   try {
     const { CapacitorUpdater } = await import('@capgo/capacitor-updater');
     await _checkAndDownload(CapacitorUpdater);
