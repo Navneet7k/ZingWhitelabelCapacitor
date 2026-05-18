@@ -1,10 +1,11 @@
 import React, { useState, useEffect } from 'react';
 import { IonContent, IonHeader, IonPage, IonToolbar, IonTitle } from '@ionic/react';
+import { InAppBrowser } from '@capgo/inappbrowser';
 import { useTemplate, TEMPLATES } from '../context/TemplateContext';
 import { LOYALTY, RECENT_ORDERS } from '../config/mockData';
 import { getStatus, onStatusChange, UpdateStatus } from '../services/updater';
-import { isRestaurantMode, getRestaurantName } from '../services/restaurantConfig';
-import { clearAuth } from '../services/authApi';
+import { isRestaurantMode, getRestaurantName, getRestaurantId } from '../services/restaurantConfig';
+import { clearAuth, getToken } from '../services/authApi';
 import { useHomeData } from '../context/HomeDataContext';
 import './AccountPage.css';
 
@@ -37,17 +38,47 @@ function updateStatusLabel(s: UpdateStatus): { text: string; color: string } {
 const AccountPage: React.FC<{ onSignOut?: () => void }> = ({ onSignOut }) => {
   const { template, setTemplateId } = useTemplate();
   const { data } = useHomeData();
-  const [updateStatus, setUpdateStatus] = useState<UpdateStatus>(getStatus);
-  const [showHistory, setShowHistory]   = useState(false);
+  const [updateStatus, setUpdateStatus]     = useState<UpdateStatus>(getStatus);
+  const [showHistory, setShowHistory]       = useState(false);
+  const [showDeleteConfirm, setShowDeleteConfirm] = useState(false);
 
   useEffect(() => { return onStatusChange(setUpdateStatus); }, []);
 
   const orders = data?.recentOrders?.length ? data.recentOrders : RECENT_ORDERS;
 
+  function openWebView(url: string, title: string) {
+    InAppBrowser.openWebView({
+      url,
+      title,
+      visibleTitle: false,
+      showArrow: true,
+      toolbarColor: template.colors.primary,
+      toolbarTextColor: '#ffffff',
+    });
+  }
+
+  function clientUrl(path: string) {
+    const rid   = getRestaurantId() ?? '';
+    const token = getToken() ?? '';
+    return `https://app.zingmyorder.com/client/app/${path}/${rid}?token=${token}`;
+  }
+
   const handleMenuItem = (label: string) => {
-    if (label === 'Sign Out')   { clearAuth(); onSignOut?.(); }
-    if (label === 'My Orders')  { setShowHistory(true); }
+    if (label === 'Sign Out')         { clearAuth(); onSignOut?.(); }
+    if (label === 'My Orders')        { setShowHistory(true); }
+    if (label === 'Edit Profile')     { openWebView(clientUrl('edit-profile'), 'Edit Profile'); }
+    if (label === 'Favorites')        { openWebView(clientUrl('favorites'),    'Favorites'); }
+    if (label === 'Points')           { openWebView(clientUrl('points'),       'Points'); }
+    if (label === 'Saved Addresses')  { openWebView(clientUrl('address'),      'Saved Addresses'); }
+    if (label === 'Delete Account')   { setShowDeleteConfirm(true); }
   };
+
+  function handleDeleteConfirmed() {
+    setShowDeleteConfirm(false);
+    const rid   = getRestaurantId() ?? '';
+    const token = getToken() ?? '';
+    openWebView(`https://app.zingmyorder.com/app/delete-user/${rid}?token=${token}`, 'Delete Account');
+  }
 
   return (
     <IonPage>
@@ -161,6 +192,31 @@ const AccountPage: React.FC<{ onSignOut?: () => void }> = ({ onSignOut }) => {
           </>
         )}
       </IonContent>
+
+      {showDeleteConfirm && (
+        <div className="acc__confirm-scrim" onClick={() => setShowDeleteConfirm(false)}>
+          <div className="acc__confirm-sheet" onClick={e => e.stopPropagation()}>
+            <div className="acc__confirm-handle" />
+            <span className="acc__confirm-icon">⚠️</span>
+            <h3 className="acc__confirm-title">Delete Account?</h3>
+            <p className="acc__confirm-body">
+              This will permanently delete your account and all associated data. This action cannot be undone.
+            </p>
+            <button
+              className="acc__confirm-btn acc__confirm-btn--danger"
+              onClick={handleDeleteConfirmed}
+            >
+              Yes, Delete My Account
+            </button>
+            <button
+              className="acc__confirm-btn acc__confirm-btn--cancel"
+              onClick={() => setShowDeleteConfirm(false)}
+            >
+              Cancel
+            </button>
+          </div>
+        </div>
+      )}
     </IonPage>
   );
 };
