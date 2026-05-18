@@ -61,7 +61,8 @@ const AppInner: React.FC = () => {
     });
 
     // ── OTA auto-update lifecycle ─────────────────────────────────────────
-    const IDLE_MS = 15 * 60 * 1000; // apply after 15 min of inactivity
+    const IDLE_MS     = 15 * 60 * 1000; // apply after 15 min of no interaction
+    const POLL_MS     = 10 * 60 * 1000; // re-check manifest every 10 min regardless
     let idleTimer: ReturnType<typeof setTimeout> | null = null;
     let lastActivity = Date.now();
 
@@ -71,9 +72,9 @@ const AppInner: React.FC = () => {
       if (idleTimer) clearTimeout(idleTimer);
       idleTimer = setTimeout(() => {
         if (Date.now() - lastActivity >= IDLE_MS) {
-          applyIfReady();         // user idle long enough — apply silently
+          applyIfReady();
         } else {
-          scheduleIdleApply();    // user was active recently — reschedule
+          scheduleIdleApply(); // user was active — reschedule
         }
       }, IDLE_MS);
     }
@@ -83,22 +84,24 @@ const AppInner: React.FC = () => {
       if (s.state === 'ready') scheduleIdleApply();
     });
 
+    // Periodic poll — catches releases while app stays open without any
+    // tab switching or backgrounding (the previously missing trigger)
+    const pollInterval = setInterval(() => recheckForUpdate(), POLL_MS);
+
     const onVisibility = () => {
       if (document.visibilityState === 'hidden') {
-        // App going to background — perfect silent-apply moment
-        applyIfReady();
+        applyIfReady(); // app going to background — perfect silent-apply moment
       } else {
-        // App coming to foreground — check for newer version
-        recheckForUpdate();
+        recheckForUpdate(); // app coming to foreground — check for newer version
       }
     };
 
     document.addEventListener('visibilitychange', onVisibility);
-    // Track activity so idle-apply doesn't interrupt an active user
-    document.addEventListener('touchstart',   resetActivity, { passive: true });
-    document.addEventListener('pointermove',  resetActivity, { passive: true });
+    document.addEventListener('touchstart',  resetActivity, { passive: true });
+    document.addEventListener('pointermove', resetActivity, { passive: true });
 
     return () => {
+      clearInterval(pollInterval);
       document.removeEventListener('visibilitychange', onVisibility);
       document.removeEventListener('touchstart',  resetActivity);
       document.removeEventListener('pointermove', resetActivity);
