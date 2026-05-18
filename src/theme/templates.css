@@ -350,6 +350,28 @@
   --t-tab-inactive: #4A1A1A;
 }
 
+/* ── REEL: TikTok-style food cinema ── */
+[data-template="reel"] {
+  --t-bg: #080808;
+  --t-surface: #111111;
+  --t-surface2: #1A1A1A;
+  --t-primary: #FF3B30;
+  --t-primary-light: #FF6B62;
+  --t-accent: #FFD60A;
+  --t-text: #FFFFFF;
+  --t-text-muted: rgba(255,255,255,0.5);
+  --t-border: rgba(255,255,255,0.12);
+  --t-font-heading: 'Bebas Neue', cursive;
+  --t-font-body: 'Barlow', sans-serif;
+  --t-radius: 12px;
+  --t-radius-lg: 20px;
+  --t-shadow: 0 4px 24px rgba(0,0,0,0.7);
+  --t-transition: 200ms ease;
+  --t-tab-bg: #111111;
+  --t-tab-active: #FF3B30;
+  --t-tab-inactive: rgba(255,255,255,0.35);
+}
+
 /* ── BREW: Artisan Café ── */
 [data-template="brew"] {
   --t-bg: #F7F3EE;
