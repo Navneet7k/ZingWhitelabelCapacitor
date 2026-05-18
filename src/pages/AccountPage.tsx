@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { IonContent, IonHeader, IonPage, IonToolbar, IonTitle } from '@ionic/react';
+import { IonContent, IonHeader, IonPage, IonToolbar, IonTitle, IonButtons } from '@ionic/react';
 import { openWebView } from '../services/webviewService';
 import { useTemplate, TEMPLATES } from '../context/TemplateContext';
 import { LOYALTY, RECENT_ORDERS } from '../config/mockData';
@@ -76,9 +76,11 @@ const AccountPage: React.FC<{ onSignOut?: () => void }> = ({ onSignOut }) => {
   return (
     <IonPage>
       <IonHeader>
-        <IonToolbar>
+        <IonToolbar style={{ '--background': template.colors.primary, '--color': '#fff', '--border-width': '0' } as any}>
           {showHistory && (
-            <button className="acc__back-btn" onClick={() => setShowHistory(false)}>‹ Back</button>
+            <IonButtons slot="start">
+              <button className="acc__back-btn" onClick={() => setShowHistory(false)}>‹ Back</button>
+            </IonButtons>
           )}
           <IonTitle>{showHistory ? 'My Orders' : 'Account'}</IonTitle>
         </IonToolbar>
@@ -87,6 +89,24 @@ const AccountPage: React.FC<{ onSignOut?: () => void }> = ({ onSignOut }) => {
       <IonContent key={showHistory ? 'history' : 'profile'}>
         {showHistory ? (
           <>
+            <div className="acc__orders-banner" style={{ background: template.colors.primary }}>
+              <div className="acc__orders-stat">
+                <span className="acc__orders-stat-val">{orders.filter(o => o.status === 'In Progress').length}</span>
+                <span className="acc__orders-stat-lbl">In Progress</span>
+              </div>
+              <div className="acc__orders-stat-sep" />
+              <div className="acc__orders-stat">
+                <span className="acc__orders-stat-val">{orders.filter(o => o.status === 'Delivered').length}</span>
+                <span className="acc__orders-stat-lbl">Delivered</span>
+              </div>
+              <div className="acc__orders-stat-sep" />
+              <div className="acc__orders-stat">
+                <span className="acc__orders-stat-val">{orders.filter(o => o.status === 'Pending').length}</span>
+                <span className="acc__orders-stat-lbl">Pending</span>
+              </div>
+            </div>
+
+            <p className="acc__section-title">Recent Orders</p>
             <div className="acc__orders">
               {orders.map((order, i) => (
                 <div key={order.id} className="acc__order-card" style={{ animationDelay: `${i * 0.06}s` }}>
