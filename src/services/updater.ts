@@ -26,7 +26,8 @@ let _status: UpdateStatus = { state: 'idle' };
 let _pendingBundle: any = null;   // in-memory only — can't serialise a bundle ref
 let _isChecking    = false;
 let _lastCheckAt   = 0;
-const RECHECK_COOLDOWN_MS = 5 * 60 * 1000;
+const RECHECK_COOLDOWN_MS  = 5 * 60 * 1000;
+const TAB_COOLDOWN_MS      = 60 * 1000;       // shorter cooldown for tab-switch checks
 
 function setStatus(s: UpdateStatus) {
   _status = s;
@@ -73,6 +74,29 @@ export async function recheckForUpdate(): Promise<void> {
     await _checkAndDownload(CapacitorUpdater);
   } catch (e) {
     console.warn('[Updater] recheck failed', e);
+  }
+}
+
+/**
+ * Called on every tab switch.
+ * - If a bundle is already downloaded → apply it now (tab transition is the
+ *   best time to reload; user expects a screen change anyway).
+ * - Otherwise → check the manifest and start downloading if a new version
+ *   exists. A 60-second cooldown prevents hammering on rapid tab presses.
+ */
+export async function checkOnTabSwitch(): Promise<void> {
+  if (!Capacitor.isNativePlatform()) return;
+  if (_status.state === 'ready') {
+    await applyIfReady();
+    return;
+  }
+  if (_isChecking) return;
+  if (Date.now() - _lastCheckAt < TAB_COOLDOWN_MS) return;
+  try {
+    const { CapacitorUpdater } = await import('@capgo/capacitor-updater');
+    await _checkAndDownload(CapacitorUpdater);
+  } catch (e) {
+    console.warn('[Updater] tab check failed', e);
   }
 }
 

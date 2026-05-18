@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { initUpdater, recheckForUpdate, applyIfReady, onStatusChange } from './services/updater';
+import { initUpdater, recheckForUpdate, applyIfReady, onStatusChange, checkOnTabSwitch } from './services/updater';
 import {
   IonApp, IonIcon, IonLabel, IonRouterOutlet,
   IonTabBar, IonTabButton, IonTabs, setupIonicReact,
@@ -116,7 +116,7 @@ const AppInner: React.FC = () => {
 
   return (
     <IonReactRouter>
-      <IonTabs onIonTabsDidChange={() => recheckForUpdate()}>
+      <IonTabs onIonTabsDidChange={() => checkOnTabSwitch()}>
         <IonRouterOutlet>
           <Route exact path="/home" component={HomePage} />
           <Route exact path="/menu" component={MenuPage} />
