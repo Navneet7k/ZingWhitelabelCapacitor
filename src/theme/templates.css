@@ -306,6 +306,28 @@
   --t-tab-inactive: #C4A060;
 }
 
+/* ── FLOAT: Glassmorphism Premium ── */
+[data-template="float"] {
+  --t-bg: #0F0C29;
+  --t-surface: rgba(255,255,255,0.09);
+  --t-surface2: rgba(255,255,255,0.05);
+  --t-primary: #7C3AED;
+  --t-primary-light: #A78BFA;
+  --t-accent: #34D399;
+  --t-text: #FFFFFF;
+  --t-text-muted: rgba(255,255,255,0.52);
+  --t-border: rgba(255,255,255,0.14);
+  --t-font-heading: 'Outfit', sans-serif;
+  --t-font-body: 'Inter', sans-serif;
+  --t-radius: 16px;
+  --t-radius-lg: 24px;
+  --t-shadow: 0 8px 32px rgba(124,58,237,0.30);
+  --t-transition: 320ms cubic-bezier(0.4,0,0.2,1);
+  --t-tab-bg: rgba(255,255,255,0.12);
+  --t-tab-active: #FFFFFF;
+  --t-tab-inactive: rgba(255,255,255,0.40);
+}
+
 /* ── DYNASTY: Imperial Chinese ── */
 [data-template="dynasty"] {
   --t-bg: #110000;

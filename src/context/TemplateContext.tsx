@@ -1,6 +1,6 @@
 import React, { createContext, useContext, useState, useEffect } from 'react';
 
-export type TemplateId = 'luxe' | 'fresh' | 'street' | 'zen' | 'fiesta' | 'neon' | 'rustic' | 'ocean' | 'blossom' | 'ember' | 'cosmic' | 'retro' | 'tropical' | 'royal' | 'brew' | 'dynasty';
+export type TemplateId = 'luxe' | 'fresh' | 'street' | 'zen' | 'fiesta' | 'neon' | 'rustic' | 'ocean' | 'blossom' | 'ember' | 'cosmic' | 'retro' | 'tropical' | 'royal' | 'brew' | 'dynasty' | 'float';
 
 export interface Template {
   id: TemplateId;
@@ -108,6 +108,13 @@ export const TEMPLATES: Template[] = [
     tagline: 'Imperial Chinese dining',
     emoji: '🏮',
     colors: { bg: '#110000', primary: '#C8102E', accent: '#D4AF37', text: '#F5ECD7' },
+  },
+  {
+    id: 'float',
+    name: 'Float',
+    tagline: 'Frosted glass premium dining',
+    emoji: '🔮',
+    colors: { bg: '#0F0C29', primary: '#7C3AED', accent: '#A78BFA', text: '#FFFFFF' },
   },
 ];
 

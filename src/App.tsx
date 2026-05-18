@@ -20,6 +20,7 @@ import { MenuDataProvider } from './context/MenuDataContext';
 import TemplateSelectPage from './pages/TemplateSelectPage';
 import CafeApp from './pages/CafeApp';
 import DynastyApp from './pages/DynastyApp';
+import FloatApp from './pages/FloatApp';
 import { isRestaurantMode } from './services/restaurantConfig';
 import HomePage from './pages/HomePage';
 import MenuPage from './pages/MenuPage';
@@ -144,6 +145,7 @@ const AppInner: React.FC = () => {
 
   if (template.id === 'brew') return <CafeApp />;
   if (template.id === 'dynasty') return <DynastyApp />;
+  if (template.id === 'float') return <FloatApp />;
 
   return (
     <IonReactRouter>
