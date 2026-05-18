@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { initUpdater, recheckForUpdate, applyIfReady, onStatusChange } from './services/updater';
+import { initUpdater, recheckForUpdate, applyIfReady, onStatusChange, checkOnTabSwitch } from './services/updater';
 import { hasOpenBrowsers } from './services/webviewService';
 
 import {
@@ -150,7 +150,7 @@ const AppInner: React.FC = () => {
           <Route exact path="/account" component={AccountGate} />
           <Route exact path="/" render={() => <Redirect to="/home" />} />
         </IonRouterOutlet>
-        <IonTabBar slot="bottom">
+        <IonTabBar slot="bottom" onClick={() => checkOnTabSwitch()}>
           <IonTabButton tab="home" href="/home">
             <IonIcon icon={homeOutline} />
             <IonLabel>Home</IonLabel>

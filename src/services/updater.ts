@@ -26,7 +26,9 @@ let _status: UpdateStatus = { state: 'idle' };
 let _pendingBundle: any = null;   // in-memory only — can't serialise a bundle ref
 let _isChecking       = false;
 let _lastCheckAt      = 0;
+let _lastTabCheckAt   = 0;
 const RECHECK_COOLDOWN_MS = 5 * 60 * 1000;
+const TAB_DEBOUNCE_MS     = 5_000;
 
 function setStatus(s: UpdateStatus) {
   _status = s;
@@ -78,6 +80,23 @@ export async function recheckForUpdate(): Promise<void> {
     await _checkAndDownload(CapacitorUpdater);
   } catch (e) {
     console.warn('[Updater] recheck failed', e);
+  }
+}
+
+/**
+ * Download-only check triggered on every tab-bar tap.
+ * Never calls applyIfReady — apply happens via the button, background, or idle timer.
+ */
+export async function checkOnTabSwitch(): Promise<void> {
+  if (!Capacitor.isNativePlatform()) return;
+  if (_isChecking || _status.state === 'downloading' || _status.state === 'ready') return;
+  if (Date.now() - _lastTabCheckAt < TAB_DEBOUNCE_MS) return;
+  _lastTabCheckAt = Date.now();
+  try {
+    const { CapacitorUpdater } = await import('@capgo/capacitor-updater');
+    await _checkAndDownload(CapacitorUpdater);
+  } catch (e) {
+    console.warn('[Updater] tab check failed', e);
   }
 }
 
