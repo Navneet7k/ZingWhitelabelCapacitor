@@ -110,16 +110,6 @@ async function _checkAndDownload(updater: any): Promise<void> {
   setStatus({ state: 'checking' });
 
   try {
-    // Detect whether Capgo is running the APK's built-in bundle (no OTA active).
-    // After an uninstall+reinstall, Android Auto Backup can restore localStorage
-    // with an old zing_bundle_version that matches the manifest — making us think
-    // we're "up to date" while actually running the stale built-in. Clearing the
-    // key forces a real download whenever no OTA bundle is active.
-    const { bundle: currentBundle } = await updater.current();
-    if (currentBundle.id === 'builtin') {
-      localStorage.removeItem(VERSION_KEY);
-    }
-
     const res = await fetch(MANIFEST_URL, { cache: 'no-store' });
     if (!res.ok) {
       setStatus({ state: 'error', reason: `manifest HTTP ${res.status}` });
