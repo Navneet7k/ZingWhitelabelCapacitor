@@ -437,3 +437,25 @@
   --t-tab-active: #2C1810;
   --t-tab-inactive: #C8A882;
 }
+
+/* ── NOIR: Film-noir editorial ── */
+[data-template="noir"] {
+  --t-bg: #0C0C0C;
+  --t-surface: #161616;
+  --t-surface2: #1E1E1E;
+  --t-primary: #E8C87A;
+  --t-primary-light: #F0D898;
+  --t-accent: #F0F0F0;
+  --t-text: #F0F0F0;
+  --t-text-muted: rgba(240,240,240,0.45);
+  --t-border: rgba(240,240,240,0.08);
+  --t-font-heading: Georgia, 'Times New Roman', serif;
+  --t-font-body: system-ui, -apple-system, sans-serif;
+  --t-radius: 6px;
+  --t-radius-lg: 12px;
+  --t-shadow: 0 4px 20px rgba(0,0,0,0.6);
+  --t-transition: 180ms ease;
+  --t-tab-bg: #1A1A1A;
+  --t-tab-active: #E8C87A;
+  --t-tab-inactive: #585858;
+}

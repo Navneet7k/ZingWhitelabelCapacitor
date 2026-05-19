@@ -1,6 +1,6 @@
 import React, { createContext, useContext, useState, useEffect } from 'react';
 
-export type TemplateId = 'luxe' | 'fresh' | 'street' | 'zen' | 'fiesta' | 'neon' | 'rustic' | 'ocean' | 'blossom' | 'ember' | 'cosmic' | 'retro' | 'tropical' | 'royal' | 'brew' | 'dynasty' | 'float' | 'reel' | 'grove' | 'vapour';
+export type TemplateId = 'luxe' | 'fresh' | 'street' | 'zen' | 'fiesta' | 'neon' | 'rustic' | 'ocean' | 'blossom' | 'ember' | 'cosmic' | 'retro' | 'tropical' | 'royal' | 'brew' | 'dynasty' | 'float' | 'reel' | 'grove' | 'vapour' | 'noir';
 
 export interface Template {
   id: TemplateId;
@@ -136,6 +136,13 @@ export const TEMPLATES: Template[] = [
     tagline: 'Neon retro-futuristic',
     emoji: '⚡',
     colors: { bg: '#100020', primary: '#E040FB', accent: '#40C4FF', text: '#F3F0FF' },
+  },
+  {
+    id: 'noir',
+    name: 'Noir',
+    tagline: 'Film noir editorial',
+    emoji: '🎭',
+    colors: { bg: '#0C0C0C', primary: '#E8C87A', accent: '#F0F0F0', text: '#F0F0F0' },
   },
 ];
 
