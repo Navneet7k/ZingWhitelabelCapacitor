@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { IonContent, IonHeader, IonPage, IonToolbar, IonTitle, IonButtons } from '@ionic/react';
 import { openWebView } from '../services/webviewService';
 import { useTemplate, TEMPLATES } from '../context/TemplateContext';
+import CustomizePage from './CustomizePage';
 import { LOYALTY, RECENT_ORDERS } from '../config/mockData';
 import { getStatus, onStatusChange, applyIfReady, UpdateStatus } from '../services/updater';
 import { isRestaurantMode, getRestaurantName, getRestaurantId } from '../services/restaurantConfig';
@@ -19,6 +20,7 @@ const MENU_ITEMS_ACC = [
   { icon: '❤️', label: 'Favorites' },
   { icon: '⭐', label: 'Points' },
   { icon: '🏠', label: 'Saved Addresses' },
+  { icon: '🎨', label: 'Customize' },
   { icon: '📋', label: 'Terms & Conditions' },
   { icon: '🗑️', label: 'Delete Account' },
   { icon: '🚪', label: 'Sign Out' },
@@ -44,6 +46,7 @@ const AccountPage: React.FC<{ onSignOut?: () => void }> = ({ onSignOut }) => {
   const initials    = displayName.split(' ').map((w: string) => w[0] ?? '').join('').toUpperCase().slice(0, 2) || 'G';
   const [updateStatus, setUpdateStatus]     = useState<UpdateStatus>(getStatus);
   const [showHistory, setShowHistory]       = useState(false);
+  const [showCustomize, setShowCustomize]   = useState(false);
   const [showDeleteConfirm, setShowDeleteConfirm] = useState(false);
 
   useEffect(() => { return onStatusChange(setUpdateStatus); }, []);
@@ -59,6 +62,7 @@ const AccountPage: React.FC<{ onSignOut?: () => void }> = ({ onSignOut }) => {
   const handleMenuItem = (label: string) => {
     if (label === 'Sign Out')         { clearAuth(); onSignOut?.(); }
     if (label === 'My Orders')        { setShowHistory(true); }
+    if (label === 'Customize')        { setShowCustomize(true); }
     if (label === 'Edit Profile')     { openWebView(clientUrl('edit-profile'), 'Edit Profile',    template.colors.primary); }
     if (label === 'Favorites')        { openWebView(clientUrl('favorites'),    'Favorites',       template.colors.primary); }
     if (label === 'Points')           { openWebView(clientUrl('points'),       'Points',          template.colors.primary); }
@@ -77,17 +81,26 @@ const AccountPage: React.FC<{ onSignOut?: () => void }> = ({ onSignOut }) => {
     <IonPage>
       <IonHeader>
         <IonToolbar>
-          {showHistory && (
+          {(showHistory || showCustomize) && (
             <IonButtons slot="start">
-              <button className="acc__back-btn" onClick={() => setShowHistory(false)}>‹ Back</button>
+              <button
+                className="acc__back-btn"
+                onClick={() => { setShowHistory(false); setShowCustomize(false); }}
+              >
+                ‹ Back
+              </button>
             </IonButtons>
           )}
-          <IonTitle>{showHistory ? 'My Orders' : 'Account'}</IonTitle>
+          <IonTitle>
+            {showHistory ? 'My Orders' : showCustomize ? 'Customize' : 'Account'}
+          </IonTitle>
         </IonToolbar>
       </IonHeader>
 
-      <IonContent key={showHistory ? 'history' : 'profile'}>
-        {showHistory ? (
+      <IonContent key={showHistory ? 'history' : showCustomize ? 'customize' : 'profile'}>
+        {showCustomize ? (
+          <CustomizePage onBack={() => setShowCustomize(false)} />
+        ) : showHistory ? (
           <>
             <div className="acc__orders-banner" style={{ background: template.colors.primary }}>
               <div className="acc__orders-stat">

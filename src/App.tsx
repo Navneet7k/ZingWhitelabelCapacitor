@@ -13,6 +13,7 @@ import { Redirect, Route } from 'react-router-dom';
 import { homeOutline, fastFoodOutline, listOutline, personOutline } from 'ionicons/icons';
 
 import { TemplateProvider, useTemplate } from './context/TemplateContext';
+import { ThemeCustomProvider } from './context/ThemeCustomContext';
 import WebViewModal from './components/WebViewModal';
 import { isLoggedIn, updateFcmToken, getToken, getSavedUser } from './services/authApi';
 import { initFcm } from './services/fcmService';
@@ -265,12 +266,14 @@ const AppInner: React.FC = () => {
 const App: React.FC = () => (
   <IonApp>
     <TemplateProvider>
-      <HomeDataProvider>
-        <MenuDataProvider>
-          <AppInner />
-          <WebViewHost />
-        </MenuDataProvider>
-      </HomeDataProvider>
+      <ThemeCustomProvider>
+        <HomeDataProvider>
+          <MenuDataProvider>
+            <AppInner />
+            <WebViewHost />
+          </MenuDataProvider>
+        </HomeDataProvider>
+      </ThemeCustomProvider>
     </TemplateProvider>
   </IonApp>
 );

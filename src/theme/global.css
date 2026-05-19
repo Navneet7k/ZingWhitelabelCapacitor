@@ -4,6 +4,7 @@ body {
   background: var(--t-bg, #fff);
   color: var(--t-text, #111);
   font-family: var(--t-font-body, sans-serif);
+  font-size: var(--t-font-size, 15px);
   transition: background 0.4s ease, color 0.4s ease;
 }
 
