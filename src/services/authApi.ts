@@ -103,7 +103,16 @@ export function isLoggedIn(): boolean {
   return !!getToken();
 }
 
+const _clearListeners = new Set<() => void>();
+
+/** Subscribe to clearAuth events (e.g. forced logout from webview). Returns unsubscribe fn. */
+export function onAuthClear(fn: () => void): () => void {
+  _clearListeners.add(fn);
+  return () => _clearListeners.delete(fn);
+}
+
 export function clearAuth(): void {
   localStorage.removeItem(TOKEN_KEY);
   localStorage.removeItem(USER_KEY);
+  _clearListeners.forEach(fn => fn());
 }
