@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { Capacitor } from '@capacitor/core';
 import { initUpdater, recheckForUpdate, applyIfReady, onStatusChange, getStatus, checkOnTabSwitch } from './services/updater';
 import type { UpdateStatus } from './services/updater';
-import { hasOpenBrowsers } from './services/webviewService';
+import { onWebViewChange, closeWebView, hasOpenBrowsers } from './services/webviewService';
 
 import {
   IonApp, IonIcon, IonLabel, IonRouterOutlet,
@@ -13,7 +13,8 @@ import { Redirect, Route } from 'react-router-dom';
 import { homeOutline, fastFoodOutline, listOutline, personOutline } from 'ionicons/icons';
 
 import { TemplateProvider, useTemplate } from './context/TemplateContext';
-import { isLoggedIn, updateFcmToken, getToken, getSavedUser, onAuthClear } from './services/authApi';
+import WebViewModal from './components/WebViewModal';
+import { isLoggedIn, updateFcmToken, getToken, getSavedUser } from './services/authApi';
 import { initFcm } from './services/fcmService';
 import { fetchRestaurantConfig } from './services/configApi';
 import { getRestaurantId } from './services/restaurantConfig';
@@ -57,6 +58,18 @@ class TemplateErrorBoundary extends React.Component<
   render() { return this.state.crashed ? null : this.props.children as React.ReactElement; }
 }
 
+const WebViewHost: React.FC = () => {
+  const [webview, setWebview] = useState<{ url: string; title: string } | null>(null);
+  useEffect(() => onWebViewChange(setWebview), []);
+  return (
+    <WebViewModal
+      isOpen={!!webview}
+      url={webview?.url ?? ''}
+      title={webview?.title ?? ''}
+      onClose={closeWebView}
+    />
+  );
+};
 
 // Shown when the stored template isn't in the current bundle (OTA rollback scenario).
 // Listens for the self-healing download and auto-applies it so the correct template loads.
@@ -117,9 +130,6 @@ const AccountGate: React.FC = () => {
   });
 
   const updateView = (v: AuthView) => { _authView = v; setView(v); };
-
-  // Forced logout from webview (e.g. unauthorize/user redirect)
-  useEffect(() => onAuthClear(() => { _authView = 'login'; setView('login'); }), []);
 
   if (view === 'login')    return <LoginPage    onLogin={() => updateView('profile')} onRegister={() => updateView('register')} />;
   if (view === 'register') return <RegisterPage onRegister={() => updateView('profile')} onBack={() => updateView('login')} />;
@@ -258,6 +268,7 @@ const App: React.FC = () => (
       <HomeDataProvider>
         <MenuDataProvider>
           <AppInner />
+          <WebViewHost />
         </MenuDataProvider>
       </HomeDataProvider>
     </TemplateProvider>
