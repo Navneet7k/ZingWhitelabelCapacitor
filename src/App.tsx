@@ -23,6 +23,7 @@ import DynastyApp from './pages/DynastyApp';
 import FloatApp from './pages/FloatApp';
 import ReelApp from './pages/ReelApp';
 import GroveApp from './pages/GroveApp';
+import VapourApp from './pages/VapourApp';
 import { isRestaurantMode } from './services/restaurantConfig';
 import HomePage from './pages/HomePage';
 import MenuPage from './pages/MenuPage';
@@ -160,6 +161,7 @@ const AppInner: React.FC = () => {
   if (template.id === 'float') return <TemplateErrorBoundary onCrash={() => setTemplateId('fiesta')}><FloatApp /></TemplateErrorBoundary>;
   if (template.id === 'reel') return <TemplateErrorBoundary onCrash={() => setTemplateId('fiesta')}><ReelApp /></TemplateErrorBoundary>;
   if (template.id === 'grove') return <TemplateErrorBoundary onCrash={() => setTemplateId('fiesta')}><GroveApp /></TemplateErrorBoundary>;
+  if (template.id === 'vapour') return <TemplateErrorBoundary onCrash={() => setTemplateId('fiesta')}><VapourApp /></TemplateErrorBoundary>;
 
   return (
     <IonReactRouter>

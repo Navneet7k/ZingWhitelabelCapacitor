@@ -1,6 +1,6 @@
 import React, { createContext, useContext, useState, useEffect } from 'react';
 
-export type TemplateId = 'luxe' | 'fresh' | 'street' | 'zen' | 'fiesta' | 'neon' | 'rustic' | 'ocean' | 'blossom' | 'ember' | 'cosmic' | 'retro' | 'tropical' | 'royal' | 'brew' | 'dynasty' | 'float' | 'reel' | 'grove';
+export type TemplateId = 'luxe' | 'fresh' | 'street' | 'zen' | 'fiesta' | 'neon' | 'rustic' | 'ocean' | 'blossom' | 'ember' | 'cosmic' | 'retro' | 'tropical' | 'royal' | 'brew' | 'dynasty' | 'float' | 'reel' | 'grove' | 'vapour';
 
 export interface Template {
   id: TemplateId;
@@ -129,6 +129,13 @@ export const TEMPLATES: Template[] = [
     tagline: 'Farm-to-table botanical',
     emoji: '🌿',
     colors: { bg: '#F4F7F2', primary: '#2C5F2E', accent: '#E8A838', text: '#1A2E1A' },
+  },
+  {
+    id: 'vapour',
+    name: 'Vapour',
+    tagline: 'Neon retro-futuristic',
+    emoji: '⚡',
+    colors: { bg: '#100020', primary: '#E040FB', accent: '#40C4FF', text: '#F3F0FF' },
   },
 ];
 

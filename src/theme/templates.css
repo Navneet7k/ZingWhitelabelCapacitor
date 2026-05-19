@@ -372,6 +372,28 @@
   --t-tab-inactive: rgba(255,255,255,0.35);
 }
 
+/* ── VAPOUR: Neon Vaporwave / Synthwave ── */
+[data-template="vapour"] {
+  --t-bg: #100020;
+  --t-surface: rgba(255,255,255,0.04);
+  --t-surface2: rgba(255,255,255,0.08);
+  --t-primary: #E040FB;
+  --t-primary-light: #EA80FC;
+  --t-accent: #40C4FF;
+  --t-text: #F3F0FF;
+  --t-text-muted: rgba(243,240,255,0.45);
+  --t-border: rgba(224,64,251,0.28);
+  --t-font-heading: 'Orbitron', sans-serif;
+  --t-font-body: 'Space Grotesk', sans-serif;
+  --t-radius: 10px;
+  --t-radius-lg: 14px;
+  --t-shadow: 0 0 20px rgba(224,64,251,0.2);
+  --t-transition: 180ms ease;
+  --t-tab-bg: rgba(255,255,255,0.04);
+  --t-tab-active: #E040FB;
+  --t-tab-inactive: rgba(243,240,255,0.35);
+}
+
 /* ── GROVE: Botanical Farm-to-Table ── */
 [data-template="grove"] {
   --t-bg: #F4F7F2;
