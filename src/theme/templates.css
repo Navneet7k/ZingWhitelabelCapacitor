@@ -459,3 +459,25 @@
   --t-tab-active: #E8C87A;
   --t-tab-inactive: #585858;
 }
+
+/* ── DUSK: Golden hour dining ── */
+[data-template="dusk"] {
+  --t-bg: #18063A;
+  --t-surface: rgba(255,255,255,0.08);
+  --t-surface2: rgba(255,255,255,0.05);
+  --t-primary: #FF6B35;
+  --t-primary-light: #FFB347;
+  --t-accent: #FFB347;
+  --t-text: #FFF8F0;
+  --t-text-muted: rgba(255,248,240,0.45);
+  --t-border: rgba(255,255,255,0.10);
+  --t-font-heading: system-ui, -apple-system, sans-serif;
+  --t-font-body: system-ui, -apple-system, sans-serif;
+  --t-radius: 14px;
+  --t-radius-lg: 20px;
+  --t-shadow: 0 4px 20px rgba(255,107,53,0.25);
+  --t-transition: 200ms ease;
+  --t-tab-bg: rgba(18,4,40,0.75);
+  --t-tab-active: #FFB347;
+  --t-tab-inactive: rgba(255,248,240,0.35);
+}
