@@ -2,8 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { Capacitor } from '@capacitor/core';
 import { initUpdater, recheckForUpdate, applyIfReady, onStatusChange, getStatus, checkOnTabSwitch } from './services/updater';
 import type { UpdateStatus } from './services/updater';
-import { onLoadingChange, isWebViewLoading, cancelWebView } from './services/webviewService';
-import { hasOpenBrowsers } from './services/webviewService';
+import { onWebViewChange, closeWebView, hasOpenBrowsers } from './services/webviewService';
 
 import {
   IonApp, IonIcon, IonLabel, IonRouterOutlet,
@@ -14,6 +13,7 @@ import { Redirect, Route } from 'react-router-dom';
 import { homeOutline, fastFoodOutline, listOutline, personOutline } from 'ionicons/icons';
 
 import { TemplateProvider, useTemplate } from './context/TemplateContext';
+import WebViewModal from './components/WebViewModal';
 import { isLoggedIn, updateFcmToken, getToken, getSavedUser } from './services/authApi';
 import { initFcm } from './services/fcmService';
 import { fetchRestaurantConfig } from './services/configApi';
@@ -58,22 +58,16 @@ class TemplateErrorBoundary extends React.Component<
   render() { return this.state.crashed ? null : this.props.children as React.ReactElement; }
 }
 
-// Shown while a managed webview is loading (isPresentAfterPageLoad).
-// Renders above everything via z-index 99999 (matches .wv-overlay in global.css).
-const WebViewLoadingOverlay: React.FC = () => {
-  const [loading, setLoading] = useState(isWebViewLoading);
-  useEffect(() => onLoadingChange(setLoading), []);
-  if (!loading) return null;
+const WebViewHost: React.FC = () => {
+  const [webview, setWebview] = useState<{ url: string; title: string } | null>(null);
+  useEffect(() => onWebViewChange(setWebview), []);
   return (
-    <div className="wv-overlay">
-      <div className="wv-header">
-        <button className="wv-back" onClick={cancelWebView}>‹</button>
-      </div>
-      <div className="wv-body">
-        <div className="wv-spinner" />
-        <p className="wv-label">Loading…</p>
-      </div>
-    </div>
+    <WebViewModal
+      isOpen={!!webview}
+      url={webview?.url ?? ''}
+      title={webview?.title ?? ''}
+      onClose={closeWebView}
+    />
   );
 };
 
@@ -274,7 +268,7 @@ const App: React.FC = () => (
       <HomeDataProvider>
         <MenuDataProvider>
           <AppInner />
-          <WebViewLoadingOverlay />
+          <WebViewHost />
         </MenuDataProvider>
       </HomeDataProvider>
     </TemplateProvider>
