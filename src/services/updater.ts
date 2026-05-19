@@ -81,11 +81,14 @@ export async function initUpdater(): Promise<void> {
         // Running built-in APK bundle — clear stored version so
         // _checkAndDownload treats it as unversioned and downloads latest.
         localStorage.removeItem(VERSION_KEY);
+        _lastCheckAt = 0; // ensure PendingTemplateScreen recheck is never throttled
       } else if (bundle.version !== localStorage.getItem(VERSION_KEY)) {
         // Rollback detected: Capgo is running an older version than what
-        // localStorage claims was installed. Correct the record.
+        // localStorage claims was installed. Correct the record so
+        // _checkAndDownload sees the real installed version and re-downloads.
         localStorage.setItem(VERSION_KEY, bundle.version);
         setStatus({ state: 'up_to_date', version: bundle.version });
+        _lastCheckAt = 0; // bypass cooldown — PendingTemplateScreen needs immediate recheck
       }
     } catch {
       // current() unavailable on this device/version — use stored as fallback

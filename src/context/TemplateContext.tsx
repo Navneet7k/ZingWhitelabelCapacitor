@@ -142,7 +142,9 @@ export const TEMPLATES: Template[] = [
 interface TemplateContextValue {
   template: Template;
   setTemplateId: (id: TemplateId) => void;
+  setTemplateIdMemoryOnly: (id: TemplateId) => void;
   hasSelected: boolean;
+  isTemplateKnown: boolean;
 }
 
 const TemplateContext = createContext<TemplateContextValue | null>(null);
@@ -157,14 +159,31 @@ export const TemplateProvider: React.FC<{ children: React.ReactNode }> = ({ chil
     setTemplateIdState(id);
   };
 
-  const template = TEMPLATES.find(t => t.id === templateId) ?? TEMPLATES[0];
+  // Updates in-memory state only — does NOT write localStorage.
+  // Used by crash recovery so the user's stored choice survives a template crash.
+  const setTemplateIdMemoryOnly = (id: TemplateId) => {
+    setTemplateIdState(id);
+  };
+
+  const knownTemplate = TEMPLATES.find(t => t.id === templateId);
+  // Visual fallback when stored template isn't in this bundle (e.g. after OTA rollback).
+  // Deliberately does NOT call setTemplateId so localStorage is preserved.
+  const template = knownTemplate
+    ?? TEMPLATES.find(t => t.id === 'fiesta')
+    ?? TEMPLATES[0];
 
   useEffect(() => {
     document.documentElement.setAttribute('data-template', template.id);
   }, [template.id]);
 
   return (
-    <TemplateContext.Provider value={{ template, setTemplateId, hasSelected: !!templateId }}>
+    <TemplateContext.Provider value={{
+      template,
+      setTemplateId,
+      setTemplateIdMemoryOnly,
+      hasSelected: !!templateId,
+      isTemplateKnown: !!knownTemplate,
+    }}>
       {children}
     </TemplateContext.Provider>
   );

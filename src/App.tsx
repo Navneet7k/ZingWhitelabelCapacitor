@@ -1,5 +1,7 @@
 import React, { useState, useEffect } from 'react';
-import { initUpdater, recheckForUpdate, applyIfReady, onStatusChange, checkOnTabSwitch } from './services/updater';
+import { Capacitor } from '@capacitor/core';
+import { initUpdater, recheckForUpdate, applyIfReady, onStatusChange, getStatus, checkOnTabSwitch } from './services/updater';
+import type { UpdateStatus } from './services/updater';
 import { hasOpenBrowsers } from './services/webviewService';
 
 import {
@@ -53,6 +55,43 @@ class TemplateErrorBoundary extends React.Component<
   render() { return this.state.crashed ? null : this.props.children as React.ReactElement; }
 }
 
+// Shown when the stored template isn't in the current bundle (OTA rollback scenario).
+// Listens for the self-healing download and auto-applies it so the correct template loads.
+const PendingTemplateScreen: React.FC = () => {
+  const [status, setStatus] = useState<UpdateStatus>(getStatus);
+
+  useEffect(() => {
+    if (getStatus().state === 'ready') { applyIfReady(); return; }
+    recheckForUpdate();
+    const unsub = onStatusChange(s => {
+      setStatus(s);
+      if (s.state === 'ready') applyIfReady();
+    });
+    return unsub;
+  }, []);
+
+  const msg = status.state === 'downloading' ? 'Downloading update…'
+    : status.state === 'ready'               ? 'Applying…'
+    : status.state === 'error'               ? 'Update failed — please restart the app.'
+    : 'Syncing your template…';
+
+  return (
+    <div style={{
+      display: 'flex', flexDirection: 'column', alignItems: 'center',
+      justifyContent: 'center', height: '100vh',
+      background: '#0D0D0D', color: '#fff', gap: 12,
+      fontFamily: 'system-ui, sans-serif', textAlign: 'center', padding: '0 24px',
+    }}>
+      <p style={{ margin: 0, fontSize: 16, opacity: 0.9 }}>{msg}</p>
+      {status.state !== 'error' && (
+        <p style={{ margin: 0, fontSize: 13, opacity: 0.45 }}>
+          Your selected template is loading — just a moment
+        </p>
+      )}
+    </div>
+  );
+};
+
 type AuthView = 'login' | 'register' | 'profile';
 
 function hasValidSession(): boolean {
@@ -82,7 +121,7 @@ const AccountGate: React.FC = () => {
 };
 
 const AppInner: React.FC = () => {
-  const { hasSelected, template, setTemplateId } = useTemplate();
+  const { hasSelected, template, setTemplateId, setTemplateIdMemoryOnly, isTemplateKnown } = useTemplate();
   // In restaurant mode the template is pre-set — skip the picker entirely
   const [selected, setSelected] = useState(hasSelected || isRestaurantMode());
 
@@ -156,12 +195,21 @@ const AppInner: React.FC = () => {
     return <TemplateSelectPage onSelect={() => setSelected(true)} />;
   }
 
-  if (template.id === 'brew') return <TemplateErrorBoundary onCrash={() => setTemplateId('fiesta')}><CafeApp /></TemplateErrorBoundary>;
-  if (template.id === 'dynasty') return <TemplateErrorBoundary onCrash={() => setTemplateId('fiesta')}><DynastyApp /></TemplateErrorBoundary>;
-  if (template.id === 'float') return <TemplateErrorBoundary onCrash={() => setTemplateId('fiesta')}><FloatApp /></TemplateErrorBoundary>;
-  if (template.id === 'reel') return <TemplateErrorBoundary onCrash={() => setTemplateId('fiesta')}><ReelApp /></TemplateErrorBoundary>;
-  if (template.id === 'grove') return <TemplateErrorBoundary onCrash={() => setTemplateId('fiesta')}><GroveApp /></TemplateErrorBoundary>;
-  if (template.id === 'vapour') return <TemplateErrorBoundary onCrash={() => setTemplateId('fiesta')}><VapourApp /></TemplateErrorBoundary>;
+  // Template was stored from a newer bundle that isn't running right now (OTA rollback).
+  // Show a self-healing screen that auto-applies the update when it downloads.
+  // Only triggered on native — in browser-dev the template list is always current.
+  if (!isTemplateKnown && Capacitor.isNativePlatform()) {
+    return <PendingTemplateScreen />;
+  }
+
+  // onCrash uses setTemplateIdMemoryOnly so a crash does NOT overwrite the user's
+  // stored template choice in localStorage — it only changes the in-session state.
+  if (template.id === 'brew') return <TemplateErrorBoundary onCrash={() => setTemplateIdMemoryOnly('fiesta')}><CafeApp /></TemplateErrorBoundary>;
+  if (template.id === 'dynasty') return <TemplateErrorBoundary onCrash={() => setTemplateIdMemoryOnly('fiesta')}><DynastyApp /></TemplateErrorBoundary>;
+  if (template.id === 'float') return <TemplateErrorBoundary onCrash={() => setTemplateIdMemoryOnly('fiesta')}><FloatApp /></TemplateErrorBoundary>;
+  if (template.id === 'reel') return <TemplateErrorBoundary onCrash={() => setTemplateIdMemoryOnly('fiesta')}><ReelApp /></TemplateErrorBoundary>;
+  if (template.id === 'grove') return <TemplateErrorBoundary onCrash={() => setTemplateIdMemoryOnly('fiesta')}><GroveApp /></TemplateErrorBoundary>;
+  if (template.id === 'vapour') return <TemplateErrorBoundary onCrash={() => setTemplateIdMemoryOnly('fiesta')}><VapourApp /></TemplateErrorBoundary>;
 
   return (
     <IonReactRouter>
