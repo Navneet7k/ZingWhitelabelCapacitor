@@ -128,7 +128,7 @@ const NoirApp: React.FC = () => {
                       <p className="nr__order-date">{safe(o.date)}</p>
                     </div>
                     <div className="nr__order-right">
-                      <p className="nr__order-total">₹{safe(o.total)}</p>
+                      <p className="nr__order-total">${safe(o.total)}</p>
                       <p className="nr__order-status" style={{ color: safe(o.color, '#E8C87A') }}>
                         {safe(o.status)}
                       </p>
@@ -181,7 +181,7 @@ const NoirApp: React.FC = () => {
                       }
                     </div>
                     <div className="nr__menu-end">
-                      <p className="nr__menu-price">₹{safe(String(item.price))}</p>
+                      <p className="nr__menu-price">${safe(String(item.price))}</p>
                       <button className="nr__menu-add" onClick={e => { e.stopPropagation(); handleOrder(); }}>+</button>
                     </div>
                   </div>
@@ -204,7 +204,7 @@ const NoirApp: React.FC = () => {
                       <p className="nr__order-date">{safe(o.date)}</p>
                     </div>
                     <div className="nr__order-right">
-                      <p className="nr__order-total">₹{safe(o.total)}</p>
+                      <p className="nr__order-total">${safe(o.total)}</p>
                       <p className="nr__order-status" style={{ color: safe(o.color, '#E8C87A') }}>
                         {safe(o.status)}
                       </p>

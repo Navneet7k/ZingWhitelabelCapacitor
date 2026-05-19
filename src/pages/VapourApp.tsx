@@ -156,7 +156,7 @@ const VapourApp: React.FC = () => {
                       <p className="vp__order-date">{safe(o.date)}</p>
                     </div>
                     <div className="vp__order-meta">
-                      <p className="vp__order-total">₹{safe(o.total)}</p>
+                      <p className="vp__order-total">${safe(o.total)}</p>
                       <p className="vp__order-status" style={{ color: safe(o.color, '#40C4FF') }}>
                         {safe(o.status)}
                       </p>
@@ -211,7 +211,7 @@ const VapourApp: React.FC = () => {
                         : null
                       }
                       <div className="vp__menu-row">
-                        <span className="vp__menu-price">₹{safe(String(item.price))}</span>
+                        <span className="vp__menu-price">${safe(String(item.price))}</span>
                         <button
                           className="vp__menu-add"
                           onClick={e => { e.stopPropagation(); handleOrder(); }}
@@ -239,7 +239,7 @@ const VapourApp: React.FC = () => {
                       <p className="vp__order-date">{safe(o.date)}</p>
                     </div>
                     <div className="vp__order-meta">
-                      <p className="vp__order-total">₹{safe(o.total)}</p>
+                      <p className="vp__order-total">${safe(o.total)}</p>
                       <p className="vp__order-status" style={{ color: safe(o.color, '#40C4FF') }}>
                         {safe(o.status)}
                       </p>

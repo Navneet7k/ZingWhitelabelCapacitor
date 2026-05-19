@@ -219,7 +219,7 @@ const CafeApp: React.FC = () => {
                     <p className="cafe__menu-desc">{item.description}</p>
                   )}
                   <div className="cafe__menu-footer">
-                    <span className="cafe__menu-price">₹{item.price}</span>
+                    <span className="cafe__menu-price">${item.price}</span>
                     <button
                       className="cafe__menu-add"
                       onClick={e => { e.stopPropagation(); handleOrder(); }}
@@ -326,7 +326,7 @@ const CafeApp: React.FC = () => {
                       <p className="cafe__sheet-order-date">{order.date}</p>
                     </div>
                     <div className="cafe__sheet-order-right">
-                      <p className="cafe__sheet-order-total">₹{order.total}</p>
+                      <p className="cafe__sheet-order-total">${order.total}</p>
                       <p className="cafe__sheet-order-status" style={{ color: order.color }}>
                         {order.status}
                       </p>

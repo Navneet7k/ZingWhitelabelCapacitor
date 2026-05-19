@@ -170,7 +170,7 @@ const DynastyApp: React.FC = () => {
                     )}
                   </div>
                   <div className="dyn__item-right">
-                    <span className="dyn__item-price">₹{item.price}</span>
+                    <span className="dyn__item-price">${item.price}</span>
                     <button
                       className="dyn__item-add"
                       onClick={e => { e.stopPropagation(); handleOrder(); }}
@@ -268,7 +268,7 @@ const DynastyApp: React.FC = () => {
                         <p className="dyn__sheet-order-date">{order.date}</p>
                       </div>
                       <div className="dyn__sheet-order-right">
-                        <p className="dyn__sheet-order-total">₹{order.total}</p>
+                        <p className="dyn__sheet-order-total">${order.total}</p>
                         <p className="dyn__sheet-order-status" style={{ color: order.color }}>{order.status}</p>
                       </div>
                     </div>

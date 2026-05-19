@@ -180,7 +180,7 @@ const FloatApp: React.FC = () => {
                       <p className="fl__order-date">{o.date}</p>
                     </div>
                     <div className="fl__order-meta">
-                      <p className="fl__order-total">₹{o.total}</p>
+                      <p className="fl__order-total">${o.total}</p>
                       <p className="fl__order-status" style={{ color: o.color }}>{o.status}</p>
                     </div>
                   </div>
@@ -233,7 +233,7 @@ const FloatApp: React.FC = () => {
                         <p className="fl__menu-desc">{item.description}</p>
                       )}
                       <div className="fl__menu-footer">
-                        <span className="fl__menu-price">₹{item.price}</span>
+                        <span className="fl__menu-price">${item.price}</span>
                         <button
                           className="fl__menu-add"
                           onClick={e => { e.stopPropagation(); handleOrder(); }}
@@ -260,7 +260,7 @@ const FloatApp: React.FC = () => {
                     <p className="fl__order-date">{o.date}</p>
                   </div>
                   <div className="fl__order-meta">
-                    <p className="fl__order-total">₹{o.total}</p>
+                    <p className="fl__order-total">${o.total}</p>
                     <p className="fl__order-status" style={{ color: o.color }}>{o.status}</p>
                   </div>
                 </div>

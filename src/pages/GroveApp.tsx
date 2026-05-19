@@ -173,7 +173,7 @@ const GroveApp: React.FC = () => {
                       <p className="gv__order-date">{safe(o.date)}</p>
                     </div>
                     <div className="gv__order-meta">
-                      <p className="gv__order-total">₹{safe(o.total)}</p>
+                      <p className="gv__order-total">${safe(o.total)}</p>
                       <p className="gv__order-status" style={{ color: safe(o.color, '#2C5F2E') }}>
                         {safe(o.status)}
                       </p>
@@ -230,7 +230,7 @@ const GroveApp: React.FC = () => {
                         : null
                       }
                       <div className="gv__menu-footer">
-                        <span className="gv__menu-price">₹{safe(String(item.price))}</span>
+                        <span className="gv__menu-price">${safe(String(item.price))}</span>
                         <button
                           className="gv__menu-add"
                           onClick={e => { e.stopPropagation(); handleOrder(); }}
@@ -258,7 +258,7 @@ const GroveApp: React.FC = () => {
                       <p className="gv__order-date">{safe(o.date)}</p>
                     </div>
                     <div className="gv__order-meta">
-                      <p className="gv__order-total">₹{safe(o.total)}</p>
+                      <p className="gv__order-total">${safe(o.total)}</p>
                       <p className="gv__order-status" style={{ color: safe(o.color, '#2C5F2E') }}>
                         {safe(o.status)}
                       </p>

@@ -112,7 +112,7 @@ const ReelApp: React.FC = () => {
                   <p className="rl__card-desc">{item.description}</p>
                 )}
                 <div className="rl__card-footer">
-                  <span className="rl__card-price">₹{item.price}</span>
+                  <span className="rl__card-price">${item.price}</span>
                   <button className="rl__order-btn" onClick={handleOrder}>
                     Order Now
                   </button>
@@ -202,7 +202,7 @@ const ReelApp: React.FC = () => {
                               <p className="rl__menu-item-desc">{item.description}</p>
                             )}
                           </div>
-                          <span className="rl__menu-item-price">₹{item.price}</span>
+                          <span className="rl__menu-item-price">${item.price}</span>
                         </div>
                       ))}
                     </div>

@@ -142,7 +142,7 @@ const DuskApp: React.FC = () => {
                       <p className="dk__order-date">{safe(o.date)}</p>
                     </div>
                     <div className="dk__order-meta">
-                      <p className="dk__order-total">₹{safe(o.total)}</p>
+                      <p className="dk__order-total">${safe(o.total)}</p>
                       <p className="dk__order-status" style={{ color: safe(o.color, '#FFB347') }}>
                         {safe(o.status)}
                       </p>
@@ -203,7 +203,7 @@ const DuskApp: React.FC = () => {
                         : null
                       }
                       <div className="dk__menu-row">
-                        <span className="dk__menu-price">₹{safe(String(item.price))}</span>
+                        <span className="dk__menu-price">${safe(String(item.price))}</span>
                         <button
                           className="dk__menu-add"
                           onClick={e => { e.stopPropagation(); handleOrder(); }}
@@ -231,7 +231,7 @@ const DuskApp: React.FC = () => {
                       <p className="dk__order-date">{safe(o.date)}</p>
                     </div>
                     <div className="dk__order-meta">
-                      <p className="dk__order-total">₹{safe(o.total)}</p>
+                      <p className="dk__order-total">${safe(o.total)}</p>
                       <p className="dk__order-status" style={{ color: safe(o.color, '#FFB347') }}>
                         {safe(o.status)}
                       </p>
