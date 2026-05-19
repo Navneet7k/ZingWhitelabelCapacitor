@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { Capacitor } from '@capacitor/core';
 import { initUpdater, recheckForUpdate, applyIfReady, onStatusChange, getStatus, checkOnTabSwitch } from './services/updater';
 import type { UpdateStatus } from './services/updater';
+import { onLoadingChange, isWebViewLoading } from './services/webviewService';
 import { hasOpenBrowsers } from './services/webviewService';
 
 import {
@@ -56,6 +57,20 @@ class TemplateErrorBoundary extends React.Component<
   componentDidCatch(err: Error) { console.warn('[TemplateErrorBoundary]', err); this.props.onCrash(); }
   render() { return this.state.crashed ? null : this.props.children as React.ReactElement; }
 }
+
+// Shown while a managed webview is loading (isPresentAfterPageLoad).
+// Renders above everything via z-index 99999 (matches .wv-overlay in global.css).
+const WebViewLoadingOverlay: React.FC = () => {
+  const [loading, setLoading] = useState(isWebViewLoading);
+  useEffect(() => onLoadingChange(setLoading), []);
+  if (!loading) return null;
+  return (
+    <div className="wv-overlay">
+      <div className="wv-spinner" />
+      <p className="wv-label">Loading…</p>
+    </div>
+  );
+};
 
 // Shown when the stored template isn't in the current bundle (OTA rollback scenario).
 // Listens for the self-healing download and auto-applies it so the correct template loads.
@@ -254,6 +269,7 @@ const App: React.FC = () => (
       <HomeDataProvider>
         <MenuDataProvider>
           <AppInner />
+          <WebViewLoadingOverlay />
         </MenuDataProvider>
       </HomeDataProvider>
     </TemplateProvider>
