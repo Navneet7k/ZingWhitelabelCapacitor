@@ -1,6 +1,6 @@
 import React, { createContext, useContext, useState, useEffect } from 'react';
 
-export type TemplateId = 'luxe' | 'fresh' | 'street' | 'zen' | 'fiesta' | 'neon' | 'rustic' | 'ocean' | 'blossom' | 'ember' | 'cosmic' | 'retro' | 'tropical' | 'royal' | 'brew' | 'dynasty' | 'float' | 'reel' | 'grove' | 'vapour' | 'noir' | 'dusk';
+export type TemplateId = 'luxe' | 'fresh' | 'street' | 'zen' | 'fiesta' | 'neon' | 'rustic' | 'ocean' | 'blossom' | 'ember' | 'cosmic' | 'retro' | 'tropical' | 'royal' | 'brew' | 'dynasty' | 'float' | 'reel' | 'grove' | 'vapour' | 'noir' | 'dusk' | 'piazza';
 
 export interface Template {
   id: TemplateId;
@@ -150,6 +150,13 @@ export const TEMPLATES: Template[] = [
     tagline: 'Golden hour dining',
     emoji: '🌅',
     colors: { bg: '#18063A', primary: '#FF6B35', accent: '#FFB347', text: '#FFF8F0' },
+  },
+  {
+    id: 'piazza',
+    name: 'Piazza',
+    tagline: 'Organic artisan warmth',
+    emoji: '🌿',
+    colors: { bg: '#FAF6EE', primary: '#8FBF9F', accent: '#B8D8C4', text: '#1A1A1A' },
   },
 ];
 
