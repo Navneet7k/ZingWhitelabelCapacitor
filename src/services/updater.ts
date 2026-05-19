@@ -59,6 +59,14 @@ export async function initUpdater(): Promise<void> {
   try {
     const { CapacitorUpdater } = await import('@capgo/capacitor-updater');
 
+    // ── Second notifyAppReady confirmation ────────────────────────────────
+    // main.tsx calls notifyAppReady() synchronously (fire-and-forget) before
+    // React renders. On some devices the native bridge processes that message
+    // too late and Capgo's rollback timer fires anyway. Calling it again here
+    // — awaited, after React has mounted — gives the native layer a confirmed
+    // signal and eliminates the race condition that causes repeated rollbacks.
+    await CapacitorUpdater.notifyAppReady().catch(() => {});
+
     // ── Ground-truth version sync ──────────────────────────────────────────
     // CapacitorUpdater.current() returns what Capgo is ACTUALLY running,
     // not what localStorage says was downloaded. If a rollback happened,
