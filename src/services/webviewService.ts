@@ -4,6 +4,7 @@ import type { PluginListenerHandle } from '@capacitor/core';
 const _openIds  = new Set<string>();
 let _isOpening  = false;
 let _isLoading  = false;
+let _cleanupRef: (() => void) | null = null;
 
 // ── Loading state listeners ───────────────────────────────────────────────────
 type LoadingListener = (loading: boolean) => void;
@@ -27,6 +28,20 @@ export function isWebViewLoading(): boolean { return _isLoading; }
 /** True while any managed webview is on screen or being opened. */
 export function hasOpenBrowsers(): boolean {
   return _openIds.size > 0 || _isOpening;
+}
+
+/**
+ * Cancel an in-progress webview open. Safe to call when nothing is loading.
+ * Immediately clears loading state for instant UI feedback, then closes the
+ * native webview (if already opened) which fires closeEvent → cleanup.
+ */
+export function cancelWebView(): void {
+  setLoading(false);
+  InAppBrowser.close().catch(() => {});
+  if (_cleanupRef) {
+    _cleanupRef();
+    _cleanupRef = null;
+  }
 }
 
 /**
@@ -59,6 +74,7 @@ export async function openWebView(
   let handle: PluginListenerHandle | null = null;
 
   const cleanup = () => {
+    _cleanupRef = null;
     handle?.remove();
     handle = null;
     if (webviewId) _openIds.delete(webviewId);
@@ -67,6 +83,7 @@ export async function openWebView(
     setLoading(false);
     clearTimeout(safetyTimer);
   };
+  _cleanupRef = cleanup;
 
   try {
     // Register BEFORE opening — prevents missing a close that fires before

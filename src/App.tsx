@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { Capacitor } from '@capacitor/core';
 import { initUpdater, recheckForUpdate, applyIfReady, onStatusChange, getStatus, checkOnTabSwitch } from './services/updater';
 import type { UpdateStatus } from './services/updater';
-import { onLoadingChange, isWebViewLoading } from './services/webviewService';
+import { onLoadingChange, isWebViewLoading, cancelWebView } from './services/webviewService';
 import { hasOpenBrowsers } from './services/webviewService';
 
 import {
@@ -68,6 +68,7 @@ const WebViewLoadingOverlay: React.FC = () => {
     <div className="wv-overlay">
       <div className="wv-spinner" />
       <p className="wv-label">Loading…</p>
+      <button className="wv-cancel" onClick={cancelWebView}>← Cancel</button>
     </div>
   );
 };

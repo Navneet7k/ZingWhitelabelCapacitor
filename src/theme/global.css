@@ -84,7 +84,10 @@ ion-title {
   to   { opacity: 1; }
 }
 .wv-overlay {
-  position: fixed; inset: 0; z-index: 99999;
+  position: fixed;
+  top: calc(env(safe-area-inset-top, 0px) + 56px);
+  left: 0; right: 0; bottom: 0;
+  z-index: 99999;
   background: rgba(0, 0, 0, 0.65);
   backdrop-filter: blur(4px);
   -webkit-backdrop-filter: blur(4px);
@@ -102,6 +105,18 @@ ion-title {
 .wv-label {
   font-size: 14px; font-weight: 500;
   color: rgba(255, 255, 255, 0.8);
+  font-family: system-ui, sans-serif;
+  letter-spacing: 0.02em;
+}
+.wv-cancel {
+  margin-top: 8px;
+  background: rgba(255, 255, 255, 0.12);
+  border: 1px solid rgba(255, 255, 255, 0.22);
+  border-radius: 20px;
+  color: rgba(255, 255, 255, 0.85);
+  font-size: 14px; font-weight: 500;
+  padding: 9px 22px;
+  cursor: pointer;
   font-family: system-ui, sans-serif;
   letter-spacing: 0.02em;
 }
