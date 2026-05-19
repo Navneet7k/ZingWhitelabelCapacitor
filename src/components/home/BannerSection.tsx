@@ -66,7 +66,6 @@ const LuxeBanner: React.FC = () => {
       <div key={active} className="luxe-banner__img" style={{ backgroundImage: `url(${slide.image})` }} />
       <div className="luxe-banner__overlay" />
       <div key={animKey} className="luxe-banner__content">
-        <span className="luxe-banner__eyebrow">WELCOME TO {(getRestaurantName() ?? 'Zing').toUpperCase()}</span>
         <h1 className="luxe-banner__title">{`Welcome to ${getRestaurantName() ?? 'Zing'}`}</h1>
         <p className="luxe-banner__subtitle">{slide.subtitle}</p>
         <button className="luxe-banner__cta" onClick={openOrder}>{slide.cta}</button>
@@ -94,7 +93,6 @@ const FreshBanner: React.FC = () => {
           <div key={slide.id} className="fresh-banner__card">
             <img src={slide.image} alt={`Welcome to ${getRestaurantName() ?? 'Zing'}`} className="fresh-banner__img" />
             <div className="fresh-banner__body">
-              <span className="fresh-banner__tag">Welcome to {getRestaurantName() ?? 'Zing'}</span>
               <h2 className="fresh-banner__title">{`Welcome to ${getRestaurantName() ?? 'Zing'}`}</h2>
               <p className="fresh-banner__sub">{slide.subtitle}</p>
               <button className="fresh-banner__cta" onClick={openOrder}>{slide.cta} →</button>
@@ -123,7 +121,6 @@ const StreetBanner: React.FC = () => {
       <div key={active} className="street-banner__img" style={{ backgroundImage: `url(${slide.image})` }} />
       <div className="street-banner__overlay" />
       <div key={`t-${active}`} className="street-banner__content">
-        <div className="street-banner__badge">⚡ WELCOME TO {(getRestaurantName() ?? 'Zing').toUpperCase()}</div>
         <h1 className="street-banner__title">{`WELCOME TO ${(getRestaurantName() ?? 'Zing').toUpperCase()}`}</h1>
         <p className="street-banner__sub">{slide.subtitle}</p>
         <button className="street-banner__cta" onClick={openOrder}>{(slide.cta ?? 'Order Now').toUpperCase()} →</button>
@@ -201,7 +198,6 @@ const NeonBanner: React.FC = () => {
       <div className="neon-banner__scanlines" />
       <div className="neon-banner__overlay" />
       <div key={`c-${active}`} className="neon-banner__content">
-        <div className="neon-banner__chip">WELCOME TO {(getRestaurantName() ?? 'Zing').toUpperCase()}</div>
         <h1 className="neon-banner__title">{`Welcome to ${getRestaurantName() ?? 'Zing'}`}</h1>
         <p className="neon-banner__sub">{slide.subtitle}</p>
         <button className="neon-banner__cta" onClick={openOrder}>{slide.cta} ›</button>
@@ -227,7 +223,6 @@ const RusticBanner: React.FC = () => {
       <div key={active} className="rustic-banner__img" style={{ backgroundImage: `url(${slide.image})` }} />
       <div className="rustic-banner__overlay" />
       <div key={`c-${active}`} className="rustic-banner__content">
-        <div className="rustic-banner__rule"><span>✦ Welcome to {getRestaurantName() ?? 'Zing'} ✦</span></div>
         <h1 className="rustic-banner__title">{`Welcome to ${getRestaurantName() ?? 'Zing'}`}</h1>
         <p className="rustic-banner__sub">{slide.subtitle}</p>
         <button className="rustic-banner__cta" onClick={openOrder}>{slide.cta}</button>
@@ -253,7 +248,6 @@ const OceanBanner: React.FC = () => {
       <div key={active} className="ocean-banner__img" style={{ backgroundImage: `url(${slide.image})` }} />
       <div className="ocean-banner__overlay" />
       <div key={`c-${active}`} className="ocean-banner__content">
-        <span className="ocean-banner__tag">🌊 WELCOME TO {(getRestaurantName() ?? 'Zing').toUpperCase()}</span>
         <h1 className="ocean-banner__title">{`Welcome to ${getRestaurantName() ?? 'Zing'}`}</h1>
         <p className="ocean-banner__sub">{slide.subtitle}</p>
         <button className="ocean-banner__cta" onClick={openOrder}>{slide.cta}</button>
@@ -284,7 +278,6 @@ const BlossomBanner: React.FC = () => {
       ))}
       <div key={`c-${active}`} className="blossom-banner__content">
         <h1 className="blossom-banner__title">{`Welcome to ${getRestaurantName() ?? 'Zing'}`}</h1>
-        <div className="blossom-banner__hearts">Welcome to {getRestaurantName() ?? 'Zing'}</div>
         <p className="blossom-banner__sub">{slide.subtitle}</p>
         <button className="blossom-banner__cta" onClick={openOrder}>{slide.cta} ♡</button>
       </div>
@@ -312,7 +305,6 @@ const EmberBanner: React.FC = () => {
         <div key={i} className="ember-particle" style={{ '--delay': `${i * 0.35}s`, '--x': `${8 + i * 11}%` } as React.CSSProperties} />
       ))}
       <div key={`c-${active}`} className="ember-banner__content">
-        <div className="ember-banner__chip">🔥 WELCOME TO {(getRestaurantName() ?? 'Zing').toUpperCase()}</div>
         <h1 className="ember-banner__title">{`WELCOME TO ${(getRestaurantName() ?? 'Zing').toUpperCase()}`}</h1>
         <p className="ember-banner__sub">{slide.subtitle}</p>
         <button className="ember-banner__cta" onClick={openOrder}>{(slide.cta ?? 'Order Now').toUpperCase()}</button>
@@ -341,7 +333,6 @@ const CosmicBanner: React.FC = () => {
         <div key={i} className="cosmic-star" style={{ '--sx': `${(i * 17 + 7) % 100}%`, '--sy': `${(i * 13 + 5) % 100}%`, '--sd': `${i * 0.4}s` } as React.CSSProperties} />
       ))}
       <div key={`c-${active}`} className="cosmic-banner__content">
-        <div className="cosmic-banner__chip">🚀 WELCOME TO {(getRestaurantName() ?? 'Zing').toUpperCase()}</div>
         <h1 className="cosmic-banner__title">{`Welcome to ${getRestaurantName() ?? 'Zing'}`}</h1>
         <p className="cosmic-banner__sub">{slide.subtitle}</p>
         <button className="cosmic-banner__cta" onClick={openOrder}>{slide.cta} ›</button>
@@ -368,7 +359,6 @@ const RetroBanner: React.FC = () => {
       <div key={active} className="retro-banner__img" style={{ backgroundImage: `url(${slide.image})` }} />
       <div className="retro-banner__overlay" />
       <div key={`c-${active}`} className="retro-banner__content">
-        <div className="retro-banner__badge">★ WELCOME TO {(getRestaurantName() ?? 'Zing').toUpperCase()} ★</div>
         <h1 className="retro-banner__title">{`Welcome to ${getRestaurantName() ?? 'Zing'}`}</h1>
         <p className="retro-banner__sub">{slide.subtitle}</p>
         <button className="retro-banner__cta" onClick={openOrder}>{slide.cta}</button>
@@ -395,7 +385,6 @@ const RoyalBanner: React.FC = () => {
       <div className="royal-banner__corner tr">✦</div>
       <div key={`c-${active}`} className="royal-banner__content">
         <div className="royal-banner__crest">👑</div>
-        <div className="royal-banner__rule">Welcome to {getRestaurantName() ?? 'Zing'}</div>
         <h1 className="royal-banner__title">{`Welcome to ${getRestaurantName() ?? 'Zing'}`}</h1>
         <p className="royal-banner__sub">{slide.subtitle}</p>
         <button className="royal-banner__cta" onClick={openOrder}>{slide.cta}</button>
@@ -424,7 +413,6 @@ const TropicalBanner: React.FC = () => {
         <span key={i} className="tropical-float" style={{ '--delay': `${i * 0.7}s`, '--x': `${8 + i * 20}%` } as React.CSSProperties}>{e}</span>
       ))}
       <div key={`c-${active}`} className="tropical-banner__content">
-        <div className="tropical-banner__chip">🌴 WELCOME TO {(getRestaurantName() ?? 'Zing').toUpperCase()}</div>
         <h1 className="tropical-banner__title">{`Welcome to ${getRestaurantName() ?? 'Zing'}`}</h1>
         <p className="tropical-banner__sub">{slide.subtitle}</p>
         <button className="tropical-banner__cta" onClick={openOrder}>{slide.cta} 🥥</button>
