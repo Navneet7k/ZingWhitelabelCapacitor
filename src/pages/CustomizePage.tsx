@@ -66,11 +66,44 @@ const TEXT_SWATCHES: Swatch[] = [
   { label: 'Warm Dark',  value: '#2D1B0E' },
 ];
 
-const FONT_OPTIONS: { label: string; size: ThemeOverrides['fontSize']; sample: string }[] = [
-  { label: 'Small',  size: 'sm', sample: 'Aa' },
-  { label: 'Medium', size: 'md', sample: 'Aa' },
-  { label: 'Large',  size: 'lg', sample: 'Aa' },
+type FontSize = 'sm' | 'md' | 'lg';
+const FONT_OPTIONS: { label: string; size: FontSize; sampleSizes: [number, number, number] }[] = [
+  { label: 'S', size: 'sm', sampleSizes: [12, 14, 14] },
+  { label: 'M', size: 'md', sampleSizes: [14, 18, 18] },
+  { label: 'L', size: 'lg', sampleSizes: [17, 22, 22] },
 ];
+
+interface FontSizeRowProps {
+  title: string;
+  currentValue?: string;
+  overrideKey: keyof ThemeOverrides;
+  onSelect: (key: keyof ThemeOverrides, value: string) => void;
+}
+const FontSizeRow: React.FC<FontSizeRowProps> = ({ title, currentValue, overrideKey, onSelect }) => (
+  <div className="cp__section">
+    <div className="cp__section-header">
+      <span className="cp__section-title">{title}</span>
+      {currentValue && (
+        <button className="cp__reset-inline" onClick={() => onSelect(overrideKey, '')}>Reset</button>
+      )}
+    </div>
+    <div className="cp__font-row">
+      {FONT_OPTIONS.map((opt, i) => {
+        const active = currentValue === opt.size || (!currentValue && opt.size === 'md');
+        return (
+          <button
+            key={opt.size}
+            className={`cp__font-btn ${active ? 'cp__font-btn--active' : ''}`}
+            onClick={() => onSelect(overrideKey, opt.size)}
+          >
+            <span className="cp__font-sample" style={{ fontSize: opt.sampleSizes[i] }}>Aa</span>
+            <span className="cp__font-label">{opt.label}</span>
+          </button>
+        );
+      })}
+    </div>
+  </div>
+);
 
 interface SwatchRowProps {
   title: string;
@@ -188,38 +221,30 @@ const CustomizePage: React.FC<Props> = ({ onBack }) => {
         onSelect={setOverride}
       />
 
-      {/* Font Size */}
-      <div className="cp__section">
-        <div className="cp__section-header">
-          <span className="cp__section-title">Font Size</span>
-          {overrides.fontSize && (
-            <button className="cp__reset-inline" onClick={() => setOverride('fontSize', '')}>
-              Reset
-            </button>
-          )}
-        </div>
-        <div className="cp__font-row">
-          {FONT_OPTIONS.map(opt => {
-            const active = overrides.fontSize === opt.size
-              || (!overrides.fontSize && opt.size === 'md');
-            return (
-              <button
-                key={opt.size}
-                className={`cp__font-btn ${active ? 'cp__font-btn--active' : ''}`}
-                onClick={() => setOverride('fontSize', opt.size as string)}
-              >
-                <span
-                  className="cp__font-sample"
-                  style={{ fontSize: opt.size === 'sm' ? 14 : opt.size === 'md' ? 18 : 22 }}
-                >
-                  {opt.sample}
-                </span>
-                <span className="cp__font-label">{opt.label}</span>
-              </button>
-            );
-          })}
-        </div>
-      </div>
+      <FontSizeRow
+        title="Section Titles"
+        currentValue={overrides.sectionTitleSize}
+        overrideKey="sectionTitleSize"
+        onSelect={setOverride}
+      />
+      <FontSizeRow
+        title="Item Names"
+        currentValue={overrides.itemNameSize}
+        overrideKey="itemNameSize"
+        onSelect={setOverride}
+      />
+      <FontSizeRow
+        title="Descriptions"
+        currentValue={overrides.descSize}
+        overrideKey="descSize"
+        onSelect={setOverride}
+      />
+      <FontSizeRow
+        title="Tab Labels"
+        currentValue={overrides.tabSize}
+        overrideKey="tabSize"
+        onSelect={setOverride}
+      />
 
       <div className="cp__bottom-space" />
     </div>

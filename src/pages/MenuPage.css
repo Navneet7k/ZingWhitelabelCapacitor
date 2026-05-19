@@ -54,7 +54,7 @@
 }
 .menu__item-name {
   font-family: var(--t-font-heading);
-  font-size: 16px;
+  font-size: var(--t-item-name-size, 16px);
   font-weight: 700;
   color: var(--t-text);
   margin-bottom: 4px;
@@ -62,7 +62,7 @@
 }
 .menu__item-desc {
   font-family: var(--t-font-body);
-  font-size: 12px;
+  font-size: var(--t-desc-size, 12px);
   color: var(--t-text-muted);
   flex: 1;
   margin-bottom: 10px;

@@ -27,7 +27,7 @@ ion-tab-button {
   --color: var(--t-tab-inactive);
   --color-selected: var(--t-tab-active);
   font-family: var(--t-font-body);
-  font-size: 11px;
+  font-size: var(--t-tab-size, 11px);
   letter-spacing: 0.02em;
 }
 
@@ -58,15 +58,15 @@ ion-title {
 .section { padding: 20px 16px 0; }
 .section-title {
   font-family: var(--t-font-heading);
-  font-size: 20px;
+  font-size: var(--t-section-title-size, 20px);
   font-weight: 700;
   color: var(--t-text);
   margin-bottom: 14px;
 }
-[data-template="luxe"] .section-title { font-size: 22px; letter-spacing: 0.04em; }
-[data-template="zen"] .section-title  { font-size: 24px; font-weight: 300; letter-spacing: 0.06em; }
-[data-template="street"] .section-title { text-transform: uppercase; letter-spacing: 0.1em; font-size: 16px; color: var(--t-primary); }
-[data-template="fiesta"] .section-title { font-size: 22px; }
+[data-template="luxe"] .section-title { font-size: var(--t-section-title-size, 22px); letter-spacing: 0.04em; }
+[data-template="zen"] .section-title  { font-size: var(--t-section-title-size, 24px); font-weight: 300; letter-spacing: 0.06em; }
+[data-template="street"] .section-title { text-transform: uppercase; letter-spacing: 0.1em; font-size: var(--t-section-title-size, 16px); color: var(--t-primary); }
+[data-template="fiesta"] .section-title { font-size: var(--t-section-title-size, 22px); }
 
 /* Stagger animation helpers */
 .stagger-1 { animation-delay: 0.05s; }
