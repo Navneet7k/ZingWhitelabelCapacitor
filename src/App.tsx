@@ -66,9 +66,13 @@ const WebViewLoadingOverlay: React.FC = () => {
   if (!loading) return null;
   return (
     <div className="wv-overlay">
-      <div className="wv-spinner" />
-      <p className="wv-label">Loading…</p>
-      <button className="wv-cancel" onClick={cancelWebView}>← Cancel</button>
+      <div className="wv-header">
+        <button className="wv-back" onClick={cancelWebView}>‹</button>
+      </div>
+      <div className="wv-body">
+        <div className="wv-spinner" />
+        <p className="wv-label">Loading…</p>
+      </div>
     </div>
   );
 };
