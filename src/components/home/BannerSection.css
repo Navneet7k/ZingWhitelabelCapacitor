@@ -375,7 +375,7 @@
 .ocean-banner { position: relative; height: 380px; overflow: hidden; }
 .ocean-banner__img { position: absolute; inset: 0; background-size: cover; background-position: center; animation: fadeIn 0.5s ease; }
 .ocean-banner__overlay { position: absolute; inset: 0; background: linear-gradient(to bottom, rgba(27,79,114,0.5) 0%, rgba(27,79,114,0.75) 100%); }
-.ocean-banner__content { position: absolute; top: 43%; left: 0; right: 0; transform: translateY(-50%); padding: 0 28px; animation: fadeInUp 0.5s ease both; text-align: center; }
+.ocean-banner__content { position: absolute; top: 35%; left: 0; right: 0; transform: translateY(-50%); padding: 0 28px; animation: fadeInUp 0.5s ease both; text-align: center; }
 .ocean-banner__tag { font-family: 'Montserrat', sans-serif; font-size: 11px; font-weight: 600; letter-spacing: 0.15em; color: #48C9B0; background: rgba(72,201,176,0.15); padding: 4px 12px; border-radius: 20px; margin-bottom: 14px; display: inline-block; }
 .ocean-banner__title { font-family: 'Montserrat', sans-serif; font-size: 30px; font-weight: 800; color: #fff; margin-bottom: 8px; line-height: 1.2; }
 .ocean-banner__sub { font-family: 'Montserrat', sans-serif; font-size: 13px; color: rgba(255,255,255,0.8); margin-bottom: 22px; }
