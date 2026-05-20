@@ -941,6 +941,53 @@
   -webkit-tap-highlight-color: transparent;
 }
 
+.dn__auth-field {
+  width: 100%;
+  max-width: 320px;
+  margin-bottom: 4px;
+}
+
+.dn__auth-label {
+  display: block;
+  font-size: 12px;
+  font-weight: 600;
+  color: #73665C;
+  margin-bottom: 4px;
+  letter-spacing: 0.2px;
+}
+
+.dn__auth-input-wrap {
+  position: relative;
+  display: flex;
+  align-items: center;
+}
+
+.dn__auth-input-wrap .dn__input {
+  padding-right: 44px;
+}
+
+.dn__auth-eye {
+  position: absolute;
+  right: 14px;
+  font-size: 16px;
+  cursor: pointer;
+  user-select: none;
+  -webkit-tap-highlight-color: transparent;
+}
+
+.dn__auth-success {
+  width: 100%;
+  max-width: 320px;
+  background: #EBF7EE;
+  border: 1px solid #84BD93;
+  border-radius: 8px;
+  padding: 8px 12px;
+  font-size: 13px;
+  color: #2E7D4F;
+  margin-bottom: 12px;
+  text-align: center;
+}
+
 /* ── Bottom Nav ── */
 .dn__nav {
   position: absolute;

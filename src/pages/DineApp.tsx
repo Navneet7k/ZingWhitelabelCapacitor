@@ -41,12 +41,18 @@ const DineApp: React.FC = () => {
   const [authScreen, setAuthScreen]             = useState<'signin' | 'signup'>('signin');
   const [loginEmail, setEmail]                  = useState('');
   const [loginPassword, setPassword]            = useState('');
+  const [showLoginPass, setShowLoginPass]       = useState(false);
   const [loginError, setLoginError]             = useState('');
   const [loginLoading, setLoading]              = useState(false);
   const [regName, setRegName]                   = useState('');
   const [regEmail, setRegEmail]                 = useState('');
+  const [regMobile, setRegMobile]               = useState('');
   const [regPassword, setRegPassword]           = useState('');
+  const [regConfirm, setRegConfirm]             = useState('');
+  const [showRegPass, setShowRegPass]           = useState(false);
+  const [showRegConf, setShowRegConf]           = useState(false);
   const [regError, setRegError]                 = useState('');
+  const [regSuccess, setRegSuccess]             = useState(false);
   const [regLoading, setRegLoading]             = useState(false);
   const galleryRef = useRef<HTMLDivElement>(null);
 
@@ -82,17 +88,27 @@ const DineApp: React.FC = () => {
     } catch { /* silent */ }
   };
 
+  const EMAIL_RE  = /^[\w.-]+@([\w-]+\.)+[\w-]{2,4}$/;
+  const MOBILE_RE = /^\+?\d{7,15}$/;
+
   const handleRegister = async (e: React.FormEvent) => {
     e.preventDefault();
+    if (!regName.trim())                       { setRegError('Please enter your name'); return; }
+    if (!EMAIL_RE.test(regEmail.trim()))       { setRegError('Please enter a valid email'); return; }
+    if (!MOBILE_RE.test(regMobile.trim()))     { setRegError('Please enter a valid mobile number'); return; }
+    if (regPassword.length < 6)               { setRegError('Password must be at least 6 characters'); return; }
+    if (regPassword !== regConfirm)           { setRegError('Passwords do not match'); return; }
     if (!restaurantId) return;
     setRegLoading(true);
     setRegError('');
     try {
-      await register({ name: regName, email: regEmail, mobile: '', password: regPassword, passwordConfirmation: regPassword, restaurantId });
-      const { token, user } = await login(regEmail, regPassword, restaurantId);
-      saveAuth(token, user);
-      setAuthUser(user);
-      setRegName(''); setRegEmail(''); setRegPassword('');
+      await register({ name: regName.trim(), email: regEmail.trim(), mobile: regMobile.trim(), password: regPassword, passwordConfirmation: regConfirm, restaurantId });
+      setRegSuccess(true);
+      setTimeout(() => {
+        setRegSuccess(false);
+        setRegName(''); setRegEmail(''); setRegMobile(''); setRegPassword(''); setRegConfirm('');
+        setAuthScreen('signin');
+      }, 1500);
     } catch (err: unknown) {
       setRegError(safe((err as { message?: string })?.message, 'Registration failed'));
     } finally {
@@ -450,16 +466,49 @@ const DineApp: React.FC = () => {
                 {authScreen === 'signup' && regError && <p className="dn__login-error">{regError}</p>}
                 {authScreen === 'signin' ? (
                   <form className="dn__auth-form" onSubmit={handleLogin}>
-                    <input className="dn__input" type="email" placeholder="Email address" value={loginEmail} onChange={e => setEmail(e.target.value)} required autoComplete="email" />
-                    <input className="dn__input" type="password" placeholder="Password" value={loginPassword} onChange={e => setPassword(e.target.value)} required autoComplete="current-password" />
+                    <div className="dn__auth-field">
+                      <label className="dn__auth-label">Email</label>
+                      <input className="dn__input" type="email" placeholder="your@email.com" value={loginEmail} onChange={e => setEmail(e.target.value)} required autoComplete="email" />
+                    </div>
+                    <div className="dn__auth-field">
+                      <label className="dn__auth-label">Password</label>
+                      <div className="dn__auth-input-wrap">
+                        <input className="dn__input" type={showLoginPass ? 'text' : 'password'} placeholder="••••••••" value={loginPassword} onChange={e => setPassword(e.target.value)} required autoComplete="current-password" />
+                        <span className="dn__auth-eye" onClick={() => setShowLoginPass(p => !p)}>{showLoginPass ? '🙈' : '👁️'}</span>
+                      </div>
+                    </div>
                     <button className="dn__submit" type="submit" disabled={loginLoading}>{loginLoading ? 'Signing in…' : 'Sign In'}</button>
                   </form>
                 ) : (
                   <form className="dn__auth-form" onSubmit={handleRegister}>
-                    <input className="dn__input" type="text" placeholder="User Name" value={regName} onChange={e => setRegName(e.target.value)} required autoComplete="name" />
-                    <input className="dn__input" type="email" placeholder="Email" value={regEmail} onChange={e => setRegEmail(e.target.value)} required autoComplete="email" />
-                    <input className="dn__input" type="password" placeholder="Password" value={regPassword} onChange={e => setRegPassword(e.target.value)} required autoComplete="new-password" />
-                    <button className="dn__submit" type="submit" disabled={regLoading}>{regLoading ? 'Creating account…' : 'Sign Up'}</button>
+                    {regSuccess && <p className="dn__auth-success">Registration successful! Redirecting to login…</p>}
+                    <div className="dn__auth-field">
+                      <label className="dn__auth-label">Full Name</label>
+                      <input className="dn__input" type="text" placeholder="John Doe" value={regName} onChange={e => setRegName(e.target.value)} autoComplete="name" />
+                    </div>
+                    <div className="dn__auth-field">
+                      <label className="dn__auth-label">Email</label>
+                      <input className="dn__input" type="email" placeholder="your@email.com" value={regEmail} onChange={e => setRegEmail(e.target.value)} autoComplete="email" />
+                    </div>
+                    <div className="dn__auth-field">
+                      <label className="dn__auth-label">Mobile Number</label>
+                      <input className="dn__input" type="tel" placeholder="+1 000 000 0000" value={regMobile} onChange={e => setRegMobile(e.target.value)} autoComplete="tel" />
+                    </div>
+                    <div className="dn__auth-field">
+                      <label className="dn__auth-label">Password</label>
+                      <div className="dn__auth-input-wrap">
+                        <input className="dn__input" type={showRegPass ? 'text' : 'password'} placeholder="Min. 6 characters" value={regPassword} onChange={e => setRegPassword(e.target.value)} autoComplete="new-password" />
+                        <span className="dn__auth-eye" onClick={() => setShowRegPass(p => !p)}>{showRegPass ? '🙈' : '👁️'}</span>
+                      </div>
+                    </div>
+                    <div className="dn__auth-field">
+                      <label className="dn__auth-label">Confirm Password</label>
+                      <div className="dn__auth-input-wrap">
+                        <input className="dn__input" type={showRegConf ? 'text' : 'password'} placeholder="Repeat password" value={regConfirm} onChange={e => setRegConfirm(e.target.value)} autoComplete="new-password" />
+                        <span className="dn__auth-eye" onClick={() => setShowRegConf(p => !p)}>{showRegConf ? '🙈' : '👁️'}</span>
+                      </div>
+                    </div>
+                    <button className="dn__submit" type="submit" disabled={regLoading || regSuccess}>{regLoading ? 'Creating account…' : 'Create Account'}</button>
                   </form>
                 )}
                 <p className="dn__auth-footer">
