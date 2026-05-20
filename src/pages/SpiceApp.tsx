@@ -18,6 +18,41 @@ function safe(v: unknown, fallback = ''): string {
   try { return (v != null && v !== '') ? String(v) : fallback; } catch { return fallback; }
 }
 
+// Shimmer image loader — wrapper div inherits identical dimensions/shape from cls,
+// shimmer fades out as the actual image fades in.
+const SpImg: React.FC<{
+  src: string; alt?: string; cls: string; fallback?: React.ReactNode;
+}> = ({ src, alt = '', cls, fallback }) => {
+  const [loaded,   setLoaded]   = useState(false);
+  const [errored,  setErrored]  = useState(false);
+  if (!src || errored) return fallback ? <>{fallback}</> : null;
+  return (
+    <div className={cls} style={{ position: 'relative', display: 'block', overflow: 'hidden' }}>
+      <div
+        className="sp__shimmer"
+        style={{
+          position: 'absolute', inset: 0, zIndex: 1, borderRadius: 'inherit',
+          opacity: loaded ? 0 : 1,
+          transition: 'opacity 0.45s ease',
+          pointerEvents: 'none',
+        }}
+      />
+      <img
+        src={src} alt={alt}
+        style={{
+          position: 'absolute', inset: 0, width: '100%', height: '100%',
+          objectFit: 'cover', display: 'block', zIndex: 2,
+          opacity: loaded ? 1 : 0,
+          transition: 'opacity 0.45s ease',
+        }}
+        onLoad={() => setLoaded(true)}
+        onError={() => setErrored(true)}
+        loading="lazy" decoding="async"
+      />
+    </div>
+  );
+};
+
 function updateStatusLabel(s: UpdateStatus): { text: string; color: string } {
   switch (s.state) {
     case 'idle':        return { text: 'Idle', color: '#888' };
@@ -185,10 +220,7 @@ const SpiceApp: React.FC = () => {
               const slide = banners[selectedBanner];
               return (
                 <div className="sp__hero" onClick={handleOrder}>
-                  {slide?.image
-                    ? <img className="sp__hero-img" src={slide.image} alt="" loading="lazy" decoding="async" />
-                    : <div className="sp__hero-img sp__hero-img--ph" />
-                  }
+                  <SpImg src={slide?.image ?? ''} cls="sp__hero-img" fallback={<div className="sp__hero-img sp__hero-img--ph" />} />
                   <div className="sp__hero-veil">
                     <p className="sp__hero-welcome">Welcome To</p>
                     <h1 className="sp__hero-name">{restaurantName}</h1>
@@ -208,10 +240,7 @@ const SpiceApp: React.FC = () => {
                     className={`sp__circle${i === selectedBanner ? ' sp__circle--active' : ''}`}
                     onClick={() => setSelectedBanner(i)}
                   >
-                    {banner.image
-                      ? <img className="sp__circle-img" src={banner.image} alt="" loading="lazy" decoding="async" />
-                      : <div className="sp__circle-img sp__circle-ph">🌶</div>
-                    }
+                    <SpImg src={banner.image ?? ''} cls="sp__circle-img" fallback={<div className="sp__circle-ph">🌶</div>} />
                     <span className="sp__circle-label">{safe(banner.title)}</span>
                   </button>
                 ))}
@@ -287,10 +316,7 @@ const SpiceApp: React.FC = () => {
                         }}
                         onClick={abs === 0 ? handleOrder : () => setActiveGallery(i)}
                       >
-                        {b.image
-                          ? <img className="sp__gallery-img" src={b.image} alt="" loading="lazy" decoding="async" />
-                          : <div className="sp__gallery-ph">🌶️</div>
-                        }
+                        <SpImg src={b.image ?? ''} cls="sp__gallery-img" fallback={<div className="sp__gallery-ph">🌶️</div>} />
                       </div>
                     );
                   })}
@@ -352,10 +378,7 @@ const SpiceApp: React.FC = () => {
               <div className="sp__menu-grid">
                 {filteredItems.map(item => (
                   <div key={item.id} className="sp__menu-card" onClick={handleOrder}>
-                    {item.image
-                      ? <img className="sp__menu-img" src={item.image} alt="" loading="lazy" decoding="async" />
-                      : <div className="sp__menu-img-ph">🌶️</div>
-                    }
+                    <SpImg src={item.image ?? ''} cls="sp__menu-img" fallback={<div className="sp__menu-img-ph">🌶️</div>} />
                     <div className="sp__menu-info">
                       <p className="sp__menu-name">{safe(item.name)}</p>
                       {item.description

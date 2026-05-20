@@ -1,3 +1,24 @@
+/* ── Shimmer skeleton animation ── */
+@keyframes sp__shimmer {
+  0%   { background-position: 200% 0; }
+  100% { background-position: -200% 0; }
+}
+
+.sp__shimmer {
+  background: linear-gradient(
+    90deg,
+    rgba(27, 77, 46, 0.9)   0%,
+    rgba(27, 77, 46, 0.9)   28%,
+    rgba(78, 150, 105, 0.92) 44%,
+    rgba(178, 230, 200, 0.96) 50%,
+    rgba(78, 150, 105, 0.92) 56%,
+    rgba(27, 77, 46, 0.9)   72%,
+    rgba(27, 77, 46, 0.9)   100%
+  );
+  background-size: 400% 100%;
+  animation: sp__shimmer 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+}
+
 /* ── SpiceApp ── */
 .sp {
   display: flex;
