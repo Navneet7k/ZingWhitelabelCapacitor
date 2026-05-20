@@ -148,16 +148,17 @@ const DineApp: React.FC = () => {
                   <svg className="dn__wave" viewBox="0 0 845 526" fill="none" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMidYMid slice">
                     <path d="M624.681 165.49C163.339 252.603 27.9485 442.127 17.9212 526L0 467.556V324.213V106.43L49.9233 0H474.911C717.06 18.8663 1086.02 78.3771 624.681 165.49Z" fill="#84BD93" fillOpacity="0.29"/>
                   </svg>
-                  {/* Organic blob — exact SVG from Figma */}
-                  <svg className="dn__blob" viewBox="0 0 349 345" fill="none" xmlns="http://www.w3.org/2000/svg">
-                    <path d="M272.385 38.9189C294.802 56.1067 366.372 92.571 345.095 131.075C320.658 175.297 365.139 256.033 294.443 261.787C248.364 264.578 225.549 323.305 196.439 338.21C166.802 353.228 108.184 345.164 113.051 295.471C117.825 246.733 -56.3113 195.138 18.8588 157.164C63.3352 134.697 14.9014 109.686 36.1603 72.0065C78.3537 -1.58443 182.405 -29.0653 272.385 38.9189Z" fill="#C2D9BA"/>
-                  </svg>
-                  {/* Circular hero image */}
-                  <div className="dn__hero-outer" key={heroIndex}>
-                    {popularDishes[heroIndex]?.image
-                      ? <img className="dn__hero-img" src={popularDishes[heroIndex].image} alt="" loading="lazy" />
-                      : <div className="dn__hero-img dn__hero-ph">🍽️</div>
-                    }
+                  {/* Blob + hero wrapped together so hero is always aligned to blob's visual centroid */}
+                  <div className="dn__banner-center">
+                    <svg className="dn__blob" viewBox="0 0 349 345" fill="none" xmlns="http://www.w3.org/2000/svg">
+                      <path d="M272.385 38.9189C294.802 56.1067 366.372 92.571 345.095 131.075C320.658 175.297 365.139 256.033 294.443 261.787C248.364 264.578 225.549 323.305 196.439 338.21C166.802 353.228 108.184 345.164 113.051 295.471C117.825 246.733 -56.3113 195.138 18.8588 157.164C63.3352 134.697 14.9014 109.686 36.1603 72.0065C78.3537 -1.58443 182.405 -29.0653 272.385 38.9189Z" fill="#C2D9BA"/>
+                    </svg>
+                    <div className="dn__hero-outer" key={heroIndex}>
+                      {popularDishes[heroIndex]?.image
+                        ? <img className="dn__hero-img" src={popularDishes[heroIndex].image} alt="" loading="lazy" />
+                        : <div className="dn__hero-img dn__hero-ph">🍽️</div>
+                      }
+                    </div>
                   </div>
                   {/* Welcome text */}
                   <div className="dn__welcome">
