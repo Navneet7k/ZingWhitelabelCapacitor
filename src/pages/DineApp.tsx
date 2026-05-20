@@ -144,10 +144,6 @@ const DineApp: React.FC = () => {
               <>
                 {/* ── Banner ── */}
                 <div className="dn__banner">
-                  {/* Wave background — exact SVG from Figma */}
-                  <svg className="dn__wave" viewBox="0 0 845 526" fill="none" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMidYMid slice">
-                    <path d="M624.681 165.49C163.339 252.603 27.9485 442.127 17.9212 526L0 467.556V324.213V106.43L49.9233 0H474.911C717.06 18.8663 1086.02 78.3771 624.681 165.49Z" fill="#84BD93" fillOpacity="0.29"/>
-                  </svg>
                   {/* Blob + hero wrapped together so hero is always aligned to blob's visual centroid */}
                   <div className="dn__banner-center">
                     <svg className="dn__blob" viewBox="0 0 349 345" fill="none" xmlns="http://www.w3.org/2000/svg">
