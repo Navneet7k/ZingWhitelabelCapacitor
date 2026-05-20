@@ -22,17 +22,17 @@
 }
 
 .pz__logo-wrap {
-  width: 42px;
-  height: 42px;
+  width: 44px;
+  height: 44px;
   border-radius: 50%;
-  background: #E8F0E8;
+  background: #EEF5EE;
   border: 1.5px solid #C8DECC;
   display: flex;
   align-items: center;
   justify-content: center;
 }
 
-.pz__logo-icon { font-size: 20px; }
+.pz__logo-icon { font-size: 22px; }
 
 .pz__pts-badge {
   font-size: 11px;
@@ -52,61 +52,66 @@
   padding-bottom: calc(env(safe-area-inset-bottom) + 72px);
 }
 
-/* ── Hero ── */
+/* ────────────────────────────────────────────────
+   HERO — large blob + sliding circular image
+   Uses vw-based clamp() so it scales on tablets
+   ──────────────────────────────────────────────── */
 .pz__hero {
   position: relative;
-  height: 230px;
-  margin: 0;
+  height: clamp(260px, 66vw, 380px);
   overflow: visible;
 }
 
+/* Warm peach/salmon organic blob — significantly larger than the image */
 .pz__blob {
   position: absolute;
-  width: 200px;
-  height: 190px;
-  background: #B8D8C4;
-  border-radius: 60% 40% 70% 30% / 45% 55% 45% 55%;
-  top: 18px;
+  width: clamp(248px, 64vw, 370px);
+  height: clamp(230px, 59vw, 345px);
+  background: #E8A890;
+  border-radius: 60% 40% 68% 32% / 46% 54% 46% 54%;
+  top: clamp(14px, 3.5vw, 28px);
   left: 50%;
-  transform: translateX(-44%);
-  opacity: 0.85;
+  transform: translateX(-50%);
+  opacity: 0.82;
 }
 
-/* Small decorative dots */
+/* Decorative dots — positioned from center so they stay near the image on all screens */
 .pz__deco {
   position: absolute;
   border-radius: 50%;
-  background: #8FBF9F;
+  background: #6FA882;
+  z-index: 2;
 }
 
 .pz__deco--1 {
-  width: 14px;
-  height: 14px;
-  top: 26px;
-  right: 46px;
-  opacity: 0.7;
+  width: 13px;
+  height: 13px;
+  top: clamp(22px, 5.5vw, 40px);
+  left: calc(50% + max(96px, 24vw));
+  opacity: 0.75;
 }
 
 .pz__deco--2 {
   width: 8px;
   height: 8px;
-  top: 16px;
-  right: 70px;
-  opacity: 0.5;
+  top: clamp(10px, 2.5vw, 22px);
+  left: calc(50% + max(72px, 18vw));
+  opacity: 0.55;
 }
 
+/* Circular hero image — sits on top of the blob */
 .pz__hero-img {
   position: absolute;
-  width: 172px;
-  height: 172px;
+  width: clamp(196px, 50vw, 290px);
+  height: clamp(196px, 50vw, 290px);
   border-radius: 50%;
   object-fit: cover;
-  top: 28px;
+  top: clamp(22px, 5.5vw, 42px);
   left: 50%;
   transform: translateX(-50%);
   z-index: 1;
-  box-shadow: 0 8px 28px rgba(0, 0, 0, 0.14);
-  animation: pzFadeIn 0.5s ease both;
+  box-shadow: 0 10px 32px rgba(0, 0, 0, 0.16);
+  animation: pzFadeIn 0.45s ease both;
 }
 
 @keyframes pzFadeIn {
@@ -115,17 +120,17 @@
 }
 
 .pz__hero-ph {
-  background: #D4EAD8;
+  background: #E8D8D0;
   display: flex;
   align-items: center;
   justify-content: center;
-  font-size: 52px;
+  font-size: 56px;
 }
 
 /* Slider dot indicators */
 .pz__slider-dots {
   position: absolute;
-  bottom: 6px;
+  bottom: 8px;
   left: 50%;
   transform: translateX(-50%);
   display: flex;
@@ -139,7 +144,7 @@
   height: 7px;
   border-radius: 50%;
   border: none;
-  background: rgba(143, 191, 159, 0.45);
+  background: rgba(143, 191, 159, 0.4);
   cursor: pointer;
   padding: 0;
   transition: all 0.25s ease;
@@ -147,157 +152,252 @@
 }
 
 .pz__slider-dot.active {
-  background: #8FBF9F;
+  background: #6FA882;
   width: 18px;
   border-radius: 4px;
 }
 
 /* ── Welcome text ── */
 .pz__welcome {
-  padding: 4px 22px 16px;
+  padding: 6px 22px 14px;
 }
 
 .pz__welcome-sub {
-  font-size: 16px;
+  font-size: 17px;
   font-weight: 400;
-  color: #444;
+  color: #555;
   margin: 0 0 2px;
   line-height: 1.4;
 }
 
 .pz__welcome-name {
-  font-size: 22px;
+  font-size: 24px;
   font-weight: 800;
   color: #1A1A1A;
   margin: 0;
   line-height: 1.2;
-  letter-spacing: -0.3px;
+  letter-spacing: -0.4px;
+}
+
+/* ── Points banner card ── */
+.pz__pts-card {
+  margin: 0 16px 18px;
+  background: #FDE8DA;
+  border-radius: 18px;
+  padding: 16px 18px;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.pz__pts-star { font-size: 38px; flex-shrink: 0; line-height: 1; }
+
+.pz__pts-text { flex: 1; }
+
+.pz__pts-title {
+  font-size: 13px;
+  font-weight: 700;
+  color: #1A1A1A;
+  margin: 0;
+  line-height: 1.3;
+}
+
+.pz__pts-desc {
+  font-size: 12px;
+  color: #777;
+  margin: 0;
+}
+
+.pz__pts-count {
+  font-size: 22px;
+  font-weight: 800;
+  color: #1A1A1A;
+  margin: 0;
+  white-space: nowrap;
+}
+
+.pz__pts-count span {
+  font-size: 13px;
+  font-weight: 700;
+  color: #888;
+  margin-left: 1px;
 }
 
 /* ── Section title ── */
 .pz__section-title {
-  font-size: 18px;
+  font-size: 19px;
   font-weight: 700;
   color: #1A1A1A;
-  padding: 16px 20px 10px;
+  padding: 14px 20px 10px;
   margin: 0;
 }
 
-/* ── 2-column card grid ── */
-.pz__grid {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 12px;
-  padding: 0 16px;
+/* ────────────────────────────────────────────────
+   POPULAR DISHES — horizontal scroll strip
+   ──────────────────────────────────────────────── */
+.pz__hstrip {
+  display: flex;
+  gap: 14px;
+  overflow-x: auto;
+  padding: 4px 20px 12px;
+  -webkit-overflow-scrolling: touch;
+  scrollbar-width: none;
 }
 
-.pz__card {
+.pz__hstrip::-webkit-scrollbar { display: none; }
+
+.pz__strip-card {
+  flex-shrink: 0;
+  width: 158px;
   background: #FFFFFF;
-  border-radius: 18px;
-  padding: 14px 12px 16px;
+  border-radius: 20px;
+  padding: 14px 12px 14px;
   display: flex;
   flex-direction: column;
   align-items: center;
-  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.06);
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.07);
   cursor: pointer;
   -webkit-tap-highlight-color: transparent;
 }
 
-.pz__card-img-ring {
-  width: 92px;
-  height: 92px;
+.pz__strip-img-ring {
+  width: 110px;
+  height: 110px;
   border-radius: 50%;
   overflow: hidden;
   flex-shrink: 0;
   margin-bottom: 10px;
-  background: #E8F0E8;
+  background: #EDE0D8;
 }
 
-.pz__card-img {
+.pz__strip-img {
   width: 100%;
   height: 100%;
   object-fit: cover;
   display: block;
 }
 
-.pz__card-ph {
-  width: 100%;
-  height: 100%;
+.pz__strip-ph {
   display: flex;
   align-items: center;
   justify-content: center;
-  font-size: 30px;
+  font-size: 32px;
 }
 
-.pz__card-name {
+.pz__strip-name {
   font-size: 13px;
   font-weight: 700;
   color: #1A1A1A;
   text-align: center;
-  margin: 0 0 5px;
+  margin: 0 0 4px;
   line-height: 1.3;
-}
-
-.pz__card-desc {
-  font-size: 11px;
-  color: #888;
-  text-align: center;
-  margin: 0 0 10px;
-  line-height: 1.45;
   display: -webkit-box;
   -webkit-line-clamp: 2;
   -webkit-box-orient: vertical;
   overflow: hidden;
-  flex: 1;
+  width: 100%;
 }
 
-/* Centered add button (home grid — no price) */
-.pz__card-add {
-  width: 36px;
-  height: 36px;
+.pz__strip-desc {
+  font-size: 11px;
+  color: #999;
+  text-align: center;
+  margin: 0 0 8px;
+  line-height: 1.4;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  width: 100%;
+}
+
+.pz__strip-add {
+  width: 34px;
+  height: 34px;
   border-radius: 50%;
   background: #8FBF9F;
   color: #fff;
   border: none;
-  font-size: 24px;
+  font-size: 22px;
   line-height: 1;
   display: flex;
   align-items: center;
   justify-content: center;
   cursor: pointer;
-  margin-top: 10px;
+  margin-top: auto;
   flex-shrink: 0;
   -webkit-tap-highlight-color: transparent;
 }
 
-/* Price + add row (menu grid) */
-.pz__card-foot {
+/* ────────────────────────────────────────────────
+   FEATURED IMAGES — same scale as hero, but with
+   stacked white card backgrounds instead of blob
+   ──────────────────────────────────────────────── */
+.pz__feat-section {
+  position: relative;
+  height: clamp(260px, 66vw, 380px);
   display: flex;
   align-items: center;
-  justify-content: space-between;
-  width: 100%;
-  margin-top: auto;
+  justify-content: center;
+  overflow: visible;
 }
 
-.pz__card-price {
-  font-size: 14px;
-  font-weight: 700;
-  color: #1A1A1A;
+/* Stacked white rectangular cards — mirroring the blob concept */
+.pz__feat-stack {
+  position: absolute;
+  width: clamp(200px, 52vw, 300px);
+  height: clamp(200px, 52vw, 300px);
+  background: #FFFFFF;
+  border-radius: 24px;
+  box-shadow: 0 3px 18px rgba(0, 0, 0, 0.09);
 }
 
-.pz__card-add--sm {
-  width: 30px;
-  height: 30px;
-  font-size: 20px;
-  margin-top: 0;
+.pz__feat-stack--b {
+  transform: rotate(-9deg);
+  z-index: 1;
 }
 
-/* ── Gallery ── */
+.pz__feat-stack--m {
+  transform: rotate(-4deg);
+  z-index: 2;
+}
+
+/* Circular image — same size as hero image, sits on stacked cards */
+.pz__feat-hero-img {
+  position: relative;
+  width: clamp(196px, 50vw, 290px);
+  height: clamp(196px, 50vw, 290px);
+  border-radius: 50%;
+  object-fit: cover;
+  z-index: 3;
+  box-shadow: 0 10px 32px rgba(0, 0, 0, 0.16);
+  animation: pzFadeIn 0.45s ease both;
+  cursor: pointer;
+}
+
+.pz__feat-hero-ph {
+  background: #EDE0D8;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 56px;
+}
+
+/* Featured images slide dots */
+.pz__feat-dots {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 6px;
+  padding: 10px 0 6px;
+}
+
+/* ── Gallery — portrait-orientation images ── */
 .pz__gallery {
   display: flex;
   gap: 10px;
   overflow-x: auto;
-  padding: 0 20px 4px;
+  padding: 0 20px 8px;
   -webkit-overflow-scrolling: touch;
   scrollbar-width: none;
 }
@@ -306,81 +406,12 @@
 
 .pz__gallery-img {
   flex-shrink: 0;
-  width: 210px;
-  height: 130px;
+  width: 110px;
+  height: 160px;
   object-fit: cover;
   border-radius: 14px;
   cursor: pointer;
-  background: #D4EAD8;
-}
-
-/* ── Featured Images — horizontal scroll, stacked polaroid cards ── */
-.pz__featured-scroll {
-  display: flex;
-  gap: 24px;
-  overflow-x: auto;
-  padding: 8px 20px 28px;
-  -webkit-overflow-scrolling: touch;
-  scrollbar-width: none;
-}
-
-.pz__featured-scroll::-webkit-scrollbar { display: none; }
-
-.pz__feat-item {
-  position: relative;
-  flex-shrink: 0;
-  width: 160px;
-  height: 195px;
-  cursor: pointer;
-  -webkit-tap-highlight-color: transparent;
-}
-
-/* Stacked card layers */
-.pz__feat-bg {
-  position: absolute;
-  width: 148px;
-  height: 180px;
-  background: #FFFFFF;
-  border-radius: 16px;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
-}
-
-.feat-bg--2 {
-  top: 14px;
-  left: 6px;
-  transform: rotate(7deg);
-  z-index: 1;
-}
-
-.feat-bg--1 {
-  top: 7px;
-  left: 4px;
-  transform: rotate(3.5deg);
-  z-index: 2;
-}
-
-/* Front card */
-.pz__feat-front {
-  position: absolute;
-  width: 148px;
-  height: 180px;
-  background: #FFFFFF;
-  border-radius: 16px;
-  box-shadow: 0 4px 18px rgba(0, 0, 0, 0.12);
-  top: 0;
-  left: 0;
-  z-index: 3;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
-
-.pz__feat-img {
-  width: 120px;
-  height: 120px;
-  border-radius: 50%;
-  object-fit: cover;
-  display: block;
+  background: #EDE0D8;
 }
 
 /* ── View title (menu / orders / account) ── */
@@ -408,7 +439,7 @@
 .pz__cat-pill {
   flex-shrink: 0;
   background: #fff;
-  border: 1.5px solid #D0E4D8;
+  border: 1.5px solid #DDD0C8;
   border-radius: 20px;
   padding: 6px 16px;
   font-size: 12px;
@@ -425,6 +456,86 @@
   color: #fff;
 }
 
+/* ── Menu items list (row layout) ── */
+.pz__menu-list {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  padding: 0 16px;
+}
+
+.pz__menu-row {
+  background: #FDE8DA;
+  border-radius: 16px;
+  padding: 12px;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  cursor: pointer;
+  -webkit-tap-highlight-color: transparent;
+}
+
+.pz__menu-row-img {
+  width: 72px;
+  height: 72px;
+  border-radius: 12px;
+  object-fit: cover;
+  flex-shrink: 0;
+  background: #EDE0D8;
+}
+
+.pz__menu-row-ph {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 24px;
+}
+
+.pz__menu-row-info { flex: 1; min-width: 0; }
+
+.pz__menu-row-name {
+  font-size: 14px;
+  font-weight: 700;
+  color: #1A1A1A;
+  margin: 0 0 2px;
+  line-height: 1.3;
+}
+
+.pz__menu-row-price {
+  font-size: 13px;
+  font-weight: 700;
+  color: #8FBF9F;
+  margin: 0 0 4px;
+}
+
+.pz__menu-row-desc {
+  font-size: 11px;
+  color: #888;
+  margin: 0;
+  line-height: 1.4;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+.pz__menu-row-add {
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  background: #8FBF9F;
+  color: #fff;
+  border: none;
+  font-size: 20px;
+  line-height: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  flex-shrink: 0;
+  -webkit-tap-highlight-color: transparent;
+}
+
 /* ── Empty state ── */
 .pz__empty {
   text-align: center;
@@ -436,13 +547,12 @@
 /* ── Order rows ── */
 .pz__order-row {
   margin: 0 20px 10px;
-  background: #fff;
+  background: #FDE8DA;
   border-radius: 14px;
   padding: 12px 14px;
   display: flex;
   align-items: center;
   gap: 12px;
-  box-shadow: 0 1px 6px rgba(0, 0, 0, 0.06);
 }
 
 .pz__order-emoji { font-size: 22px; flex-shrink: 0; }
@@ -488,10 +598,9 @@
 /* ── Profile card ── */
 .pz__profile-card {
   margin: 16px 20px;
-  background: #fff;
+  background: #FDE8DA;
   border-radius: 18px;
   padding: 22px 20px;
-  box-shadow: 0 2px 12px rgba(0, 0, 0, 0.07);
   text-align: center;
 }
 
@@ -527,7 +636,7 @@
   align-items: center;
   justify-content: center;
   gap: 6px;
-  background: #F0F7F2;
+  background: rgba(255,255,255,0.6);
   border-radius: 10px;
   padding: 10px;
   font-size: 13px;
@@ -538,8 +647,8 @@
 
 .pz__signout {
   width: 100%;
-  background: #F5F5F0;
-  border: 1.5px solid #E0E8E0;
+  background: rgba(255,255,255,0.5);
+  border: 1.5px solid rgba(0,0,0,0.08);
   border-radius: 10px;
   padding: 11px;
   font-size: 14px;
@@ -552,10 +661,9 @@
 /* ── Login card ── */
 .pz__login-card {
   margin: 16px 20px;
-  background: #fff;
+  background: #FDE8DA;
   border-radius: 18px;
   padding: 22px 20px;
-  box-shadow: 0 2px 12px rgba(0, 0, 0, 0.07);
 }
 
 .pz__login-title {
@@ -583,8 +691,8 @@
 
 .pz__input {
   width: 100%;
-  background: #F8F6F0;
-  border: 1.5px solid #E0E8E0;
+  background: rgba(255,255,255,0.7);
+  border: 1.5px solid rgba(0,0,0,0.08);
   border-radius: 12px;
   padding: 13px 14px;
   font-size: 14px;
@@ -690,9 +798,7 @@
   filter: grayscale(1) opacity(0.45);
 }
 
-.pz__nav-btn.active .pz__nav-icon {
-  filter: none;
-}
+.pz__nav-btn.active .pz__nav-icon { filter: none; }
 
 .pz__nav-label {
   font-size: 10px;
