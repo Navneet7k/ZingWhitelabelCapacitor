@@ -1,0 +1,902 @@
+/* ── DINE TEMPLATE — Warm & earthy food discovery ── */
+/* Font: Poppins (Figma spec) */
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800&display=swap');
+
+.dn {
+  position: fixed;
+  inset: 0;
+  background: var(--t-bg, #FFF5E0);
+  color: var(--t-text, #3F2D20);
+  font-family: 'Poppins', -apple-system, 'Helvetica Neue', Arial, sans-serif;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+}
+
+/* ── Customize view ── */
+.dn__customize-view {
+  position: absolute;
+  inset: 0;
+  overflow-y: auto;
+  -webkit-overflow-scrolling: touch;
+  background: var(--t-bg, #FFF5E0);
+  z-index: 10;
+}
+
+/* ── Header ── */
+.dn__header {
+  flex-shrink: 0;
+  padding: calc(env(safe-area-inset-top) + 8px) 16px 8px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  background: var(--t-bg, #FFF5E0);
+}
+
+.dn__logo-circle {
+  width: 46px;
+  height: 46px;
+  border-radius: 50%;
+  background: #DF1515;
+  color: #fff;
+  font-size: 20px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+.dn__header-name {
+  flex: 1;
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--t-text, #3F2D20);
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.dn__pts-pill {
+  background: #C6D7CB;
+  border-radius: 20px;
+  padding: 5px 12px;
+  display: flex;
+  align-items: center;
+  gap: 3px;
+  flex-shrink: 0;
+}
+
+.dn__pts-num {
+  font-size: 14px;
+  font-weight: 600;
+  color: #030303;
+}
+
+.dn__pts-lbl {
+  font-size: 12px;
+  font-weight: 500;
+  color: #030303;
+}
+
+/* ── Scroll container ── */
+.dn__scroll {
+  flex: 1;
+  overflow-y: auto;
+  -webkit-overflow-scrolling: touch;
+  padding-bottom: calc(env(safe-area-inset-bottom) + 72px);
+}
+
+/* ────────────────────────────────────────────────
+   BANNER — Figma blob + wave SVGs + circular hero image
+   ──────────────────────────────────────────────── */
+.dn__banner {
+  position: relative;
+  height: clamp(340px, 86vw, 430px);
+  overflow: hidden;
+}
+
+/* Semi-transparent green wave — exact Figma path, bottom-right fill */
+.dn__wave {
+  position: absolute;
+  bottom: 0;
+  right: 0;
+  width: 100%;
+  height: 70%;
+  z-index: 0;
+}
+
+/* Organic green blob — exact Figma path, centered */
+.dn__blob {
+  position: absolute;
+  width: clamp(270px, 93vw, 360px);
+  height: auto;
+  top: clamp(50px, 13vw, 80px);
+  left: 50%;
+  transform: translateX(-52%);
+  z-index: 1;
+}
+
+/* Circular hero image — white outer + food inside (matches Figma Ellipse 63/64) */
+.dn__hero-outer {
+  position: absolute;
+  width: clamp(190px, 54vw, 248px);
+  height: clamp(190px, 54vw, 248px);
+  top: clamp(55px, 14vw, 88px);
+  left: 50%;
+  transform: translateX(-10%);
+  border-radius: 50%;
+  background: #fff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 10px 30px rgba(63, 45, 32, 0.18);
+  z-index: 2;
+  animation: dnFadeIn 0.4s ease both;
+}
+
+@keyframes dnFadeIn {
+  from { opacity: 0; transform: translateX(-10%) scale(0.95); }
+  to   { opacity: 1; transform: translateX(-10%) scale(1); }
+}
+
+.dn__hero-img {
+  width: calc(100% - 20px);
+  height: calc(100% - 20px);
+  border-radius: 50%;
+  object-fit: cover;
+  border: 5px solid #fff;
+}
+
+.dn__hero-ph {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 52px;
+  background: #EDE0D8;
+  border-radius: 50%;
+}
+
+/* Welcome text — upper left, above blob */
+.dn__welcome {
+  position: absolute;
+  top: 12px;
+  left: 20px;
+  z-index: 3;
+  max-width: 55%;
+}
+
+.dn__welcome-sub {
+  font-size: 13px;
+  font-weight: 400;
+  color: #73665C;
+  margin: 0 0 2px;
+}
+
+.dn__welcome-name {
+  font-size: clamp(18px, 5.5vw, 28px);
+  font-weight: 700;
+  color: var(--t-text, #3F2D20);
+  margin: 0;
+  line-height: 1.2;
+}
+
+/* Slide dots */
+.dn__banner-dots {
+  position: absolute;
+  bottom: 10px;
+  left: 50%;
+  transform: translateX(-50%);
+  display: flex;
+  gap: 5px;
+  z-index: 3;
+}
+
+.dn__dot {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  border: none;
+  background: rgba(132, 189, 147, 0.4);
+  cursor: pointer;
+  padding: 0;
+  transition: all 0.25s ease;
+  flex-shrink: 0;
+}
+
+.dn__dot.active {
+  background: #84BD93;
+  width: 20px;
+  border-radius: 4px;
+}
+
+/* ── Section titles ── */
+.dn__section-title {
+  font-size: var(--t-section-title-size, 18px);
+  font-weight: 700;
+  color: var(--t-text, #3F2D20);
+  padding: 16px 20px 10px;
+  margin: 0;
+}
+
+/* ────────────────────────────────────────────────
+   POPULAR DISHES — horizontal scroll, portrait cards
+   Peach background, circular image, + button
+   ──────────────────────────────────────────────── */
+.dn__dishes-scroll {
+  display: flex;
+  gap: 14px;
+  overflow-x: auto;
+  padding: 4px 20px 16px;
+  -webkit-overflow-scrolling: touch;
+  scrollbar-width: none;
+}
+
+.dn__dishes-scroll::-webkit-scrollbar { display: none; }
+
+.dn__dish-card {
+  flex-shrink: 0;
+  width: 190px;
+  background: var(--t-surface, #FFE2CD);
+  border-radius: 20px;
+  padding: 14px 14px 14px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  cursor: pointer;
+  -webkit-tap-highlight-color: transparent;
+  box-shadow: 0 2px 10px rgba(63, 45, 32, 0.08);
+}
+
+/* Circular image ring — Figma: border stroke #D3BBAA */
+.dn__dish-img-ring {
+  width: 148px;
+  height: 148px;
+  border-radius: 50%;
+  border: 2px solid #D3BBAA;
+  overflow: hidden;
+  flex-shrink: 0;
+  margin-bottom: 12px;
+  background: #EDE0D8;
+}
+
+.dn__dish-img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+.dn__dish-ph {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 36px;
+}
+
+.dn__dish-name {
+  font-size: var(--t-item-name-size, 15px);
+  font-weight: 700;
+  color: var(--t-text, #3F2D20);
+  text-align: center;
+  margin: 0 0 4px;
+  line-height: 1.3;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  width: 100%;
+}
+
+.dn__dish-desc {
+  font-size: var(--t-desc-size, 12px);
+  color: #73665C;
+  text-align: center;
+  margin: 0 0 10px;
+  line-height: 1.4;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  width: 100%;
+}
+
+/* Add button — Figma: circular outline, border #D3BBAA, + icon #3F2D20 */
+.dn__dish-add {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  background: transparent;
+  border: 1.5px solid #D3BBAA;
+  color: var(--t-text, #3F2D20);
+  font-size: 22px;
+  line-height: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  margin-top: auto;
+  flex-shrink: 0;
+  -webkit-tap-highlight-color: transparent;
+}
+
+/* ────────────────────────────────────────────────
+   FEATURED IMAGES — horizontal scroll
+   Maroon outer ring (Figma #A26161), white inner border
+   ──────────────────────────────────────────────── */
+.dn__feat-scroll {
+  display: flex;
+  gap: 16px;
+  overflow-x: auto;
+  padding: 8px 20px 12px;
+  -webkit-overflow-scrolling: touch;
+  scrollbar-width: none;
+}
+
+.dn__feat-scroll::-webkit-scrollbar { display: none; }
+
+/* Outer ring — filled #A26161 (maroon), inner food image has white border */
+.dn__feat-outer {
+  flex-shrink: 0;
+  width: clamp(150px, 42vw, 190px);
+  height: clamp(150px, 42vw, 190px);
+  border-radius: 50%;
+  background: #A26161;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  -webkit-tap-highlight-color: transparent;
+}
+
+.dn__feat-img {
+  width: calc(100% - 20px);
+  height: calc(100% - 20px);
+  border-radius: 50%;
+  object-fit: cover;
+  border: 8px solid #fff;
+  display: block;
+}
+
+.dn__feat-ph {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 40px;
+  background: #D9C0C0;
+  border-radius: 50%;
+  border: 8px solid #fff;
+  width: calc(100% - 20px);
+  height: calc(100% - 20px);
+}
+
+/* ────────────────────────────────────────────────
+   GALLERY — snap carousel, centered item enlarged
+   ──────────────────────────────────────────────── */
+.dn__gallery {
+  display: flex;
+  gap: 14px;
+  overflow-x: auto;
+  scroll-snap-type: x mandatory;
+  -webkit-overflow-scrolling: touch;
+  scrollbar-width: none;
+  padding: 8px 0 12px;
+}
+
+.dn__gallery::-webkit-scrollbar { display: none; }
+
+.dn__gallery-img {
+  flex-shrink: 0;
+  width: 150px;
+  height: 220px;
+  object-fit: cover;
+  border-radius: 18px;
+  cursor: pointer;
+  background: #EDE0D8;
+  scroll-snap-align: center;
+  transition: transform 0.3s ease, opacity 0.3s ease, box-shadow 0.3s ease;
+  transform: scale(0.82);
+  opacity: 0.55;
+}
+
+.dn__gallery-img.active {
+  transform: scale(1);
+  opacity: 1;
+  box-shadow: 0 8px 28px rgba(63, 45, 32, 0.2);
+}
+
+.dn__gallery-img:first-child { margin-left: calc(50% - 75px); }
+.dn__gallery-img:last-child  { margin-right: calc(50% - 75px); }
+
+/* Generic dots row (gallery) */
+.dn__dots-row {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 6px;
+  padding: 10px 0 6px;
+}
+
+/* ── View title ── */
+.dn__view-title {
+  font-size: 22px;
+  font-weight: 800;
+  color: var(--t-text, #3F2D20);
+  padding: 16px 20px 8px;
+  margin: 0;
+  letter-spacing: -0.3px;
+}
+
+/* ────────────────────────────────────────────────
+   MENU — Category grid (2-col)
+   ──────────────────────────────────────────────── */
+.dn__cat-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 12px;
+  padding: 4px 16px;
+}
+
+.dn__cat-tile {
+  position: relative;
+  height: clamp(140px, 38vw, 180px);
+  border-radius: 16px;
+  overflow: hidden;
+  cursor: pointer;
+  background: #EDE0D8;
+  -webkit-tap-highlight-color: transparent;
+}
+
+.dn__cat-img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+.dn__cat-ph {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 36px;
+  background: #EDE0D8;
+}
+
+.dn__cat-overlay {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  padding: 8px 12px 10px;
+  background: linear-gradient(transparent, rgba(63, 45, 32, 0.72));
+}
+
+.dn__cat-name {
+  font-size: 14px;
+  font-weight: 700;
+  color: #fff;
+  margin: 0 0 1px;
+  line-height: 1.2;
+}
+
+.dn__cat-count {
+  font-size: 11px;
+  color: rgba(255, 255, 255, 0.75);
+  margin: 0;
+}
+
+/* ── Menu header with back button ── */
+.dn__menu-header {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 12px 16px 4px;
+}
+
+.dn__back-btn {
+  font-size: 28px;
+  font-weight: 300;
+  color: var(--t-text, #3F2D20);
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 0 6px 0 0;
+  line-height: 1;
+  -webkit-tap-highlight-color: transparent;
+}
+
+/* ────────────────────────────────────────────────
+   MENU ITEM ROWS — image top, colored strip bottom
+   Alternates green #B4CDAB / peach #F5D3BB
+   ──────────────────────────────────────────────── */
+.dn__item-list {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  padding: 4px 16px;
+}
+
+.dn__item-row {
+  border-radius: 16px;
+  overflow: hidden;
+  cursor: pointer;
+  background: #FFFFFF;
+  box-shadow: 0 2px 10px rgba(63, 45, 32, 0.08);
+  -webkit-tap-highlight-color: transparent;
+}
+
+.dn__item-top {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 12px 12px 10px;
+}
+
+/* Food image — Figma: 108x89, r=20, warm border */
+.dn__item-img {
+  width: 100px;
+  height: 80px;
+  border-radius: 16px;
+  object-fit: cover;
+  flex-shrink: 0;
+  border: 1.5px solid #E8D0C8;
+  background: #EDE0D8;
+}
+
+.dn__item-ph {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 24px;
+  background: #EDE0D8;
+}
+
+.dn__item-info { flex: 1; min-width: 0; }
+
+.dn__item-name {
+  font-size: var(--t-item-name-size, 15px);
+  font-weight: 500;
+  color: var(--t-text, #3F2D20);
+  margin: 0 0 3px;
+  line-height: 1.3;
+}
+
+.dn__item-price {
+  font-size: 14px;
+  font-weight: 600;
+  color: #73665C;
+  margin: 0;
+}
+
+.dn__item-add {
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  background: transparent;
+  border: 1.5px solid #D3BBAA;
+  color: var(--t-text, #3F2D20);
+  font-size: 20px;
+  line-height: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  flex-shrink: 0;
+  -webkit-tap-highlight-color: transparent;
+}
+
+/* Colored strip at bottom — holds description */
+.dn__item-strip {
+  padding: 8px 12px 10px;
+}
+
+.dn__item-strip--green { background: #B4CDAB; }
+.dn__item-strip--peach { background: #F5D3BB; }
+
+.dn__item-desc {
+  font-size: var(--t-desc-size, 13px);
+  color: #3F2D20;
+  margin: 0;
+  line-height: 1.4;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+/* ── Empty state ── */
+.dn__empty {
+  text-align: center;
+  color: #999;
+  padding: 48px 20px;
+  font-size: 14px;
+}
+
+/* ── Order rows ── */
+.dn__order-row {
+  margin: 0 16px 10px;
+  background: var(--t-surface, #FFE2CD);
+  border-radius: 14px;
+  padding: 12px 14px;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.dn__order-emoji { font-size: 22px; flex-shrink: 0; }
+
+.dn__order-info { flex: 1; min-width: 0; }
+
+.dn__order-id {
+  font-size: 13px;
+  font-weight: 700;
+  color: var(--t-text, #3F2D20);
+  margin: 0 0 2px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.dn__order-date { font-size: 11px; color: #999; margin: 0; }
+
+.dn__order-right { text-align: right; flex-shrink: 0; }
+
+.dn__order-total { font-size: 14px; font-weight: 700; color: var(--t-text, #3F2D20); margin: 0 0 2px; }
+
+.dn__order-status { font-size: 11px; font-weight: 600; margin: 0; }
+
+/* ── CTA button ── */
+.dn__cta {
+  display: block;
+  margin: 12px 16px 0;
+  width: calc(100% - 32px);
+  background: var(--t-primary, #84BD93);
+  color: #fff;
+  border: none;
+  border-radius: 14px;
+  padding: 15px;
+  font-size: 15px;
+  font-weight: 700;
+  text-align: center;
+  cursor: pointer;
+  -webkit-tap-highlight-color: transparent;
+}
+
+/* ── Profile card ── */
+.dn__profile-card {
+  margin: 4px 16px 16px;
+  background: var(--t-surface, #FFE2CD);
+  border-radius: 18px;
+  padding: 22px 20px;
+  text-align: center;
+}
+
+.dn__avatar {
+  width: 66px;
+  height: 66px;
+  border-radius: 50%;
+  background: var(--t-primary, #84BD93);
+  color: #fff;
+  font-size: 26px;
+  font-weight: 700;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 0 auto 12px;
+}
+
+.dn__profile-name {
+  font-size: 18px;
+  font-weight: 700;
+  color: var(--t-text, #3F2D20);
+  margin: 0 0 4px;
+}
+
+.dn__profile-email {
+  font-size: 13px;
+  color: #888;
+  margin: 0 0 14px;
+}
+
+.dn__loyalty {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  background: rgba(255,255,255,0.55);
+  border-radius: 10px;
+  padding: 10px;
+  font-size: 13px;
+  font-weight: 700;
+  color: #4A7A5A;
+  margin-bottom: 14px;
+}
+
+.dn__signout {
+  width: 100%;
+  background: rgba(255,255,255,0.5);
+  border: 1.5px solid rgba(0,0,0,0.08);
+  border-radius: 10px;
+  padding: 11px;
+  font-size: 14px;
+  font-weight: 700;
+  color: #555;
+  cursor: pointer;
+  -webkit-tap-highlight-color: transparent;
+}
+
+/* ── Login card ── */
+.dn__login-card {
+  margin: 4px 16px 16px;
+  background: var(--t-surface, #FFE2CD);
+  border-radius: 18px;
+  padding: 22px 20px;
+}
+
+.dn__login-title {
+  font-size: 20px;
+  font-weight: 800;
+  color: var(--t-text, #3F2D20);
+  margin: 0 0 4px;
+}
+
+.dn__login-sub {
+  font-size: 13px;
+  color: #888;
+  margin: 0 0 18px;
+}
+
+.dn__login-error {
+  background: #FFF2F2;
+  border: 1px solid #FFCCCC;
+  border-radius: 8px;
+  padding: 8px 12px;
+  font-size: 13px;
+  color: #CC3333;
+  margin-bottom: 12px;
+}
+
+.dn__input {
+  width: 100%;
+  background: rgba(255,255,255,0.7);
+  border: 1.5px solid rgba(0,0,0,0.08);
+  border-radius: 12px;
+  padding: 13px 14px;
+  font-size: 14px;
+  font-family: 'Poppins', sans-serif;
+  color: var(--t-text, #3F2D20);
+  margin-bottom: 10px;
+  box-sizing: border-box;
+  -webkit-appearance: none;
+}
+
+.dn__input:focus { outline: none; border-color: var(--t-primary, #84BD93); }
+
+.dn__submit {
+  width: 100%;
+  background: var(--t-primary, #84BD93);
+  border: none;
+  border-radius: 12px;
+  padding: 14px;
+  font-size: 15px;
+  font-family: 'Poppins', sans-serif;
+  font-weight: 700;
+  color: #fff;
+  cursor: pointer;
+  -webkit-tap-highlight-color: transparent;
+}
+
+.dn__submit:disabled { opacity: 0.6; }
+
+/* ── Customize button ── */
+.dn__customize-btn {
+  display: block;
+  margin: 0 16px 16px;
+  width: calc(100% - 32px);
+  background: var(--t-primary, #84BD93);
+  color: #fff;
+  border: none;
+  border-radius: 14px;
+  padding: 14px;
+  font-size: 15px;
+  font-family: 'Poppins', sans-serif;
+  font-weight: 600;
+  text-align: center;
+  cursor: pointer;
+  -webkit-tap-highlight-color: transparent;
+  letter-spacing: 0.2px;
+}
+
+/* ── Template switcher ── */
+.dn__tmpl-label {
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 1.8px;
+  text-transform: uppercase;
+  color: #AAAAAA;
+  padding: 4px 20px 8px;
+  margin: 0;
+}
+
+.dn__tmpl-strip {
+  display: flex;
+  gap: 8px;
+  overflow-x: auto;
+  padding: 0 20px 8px;
+  scrollbar-width: none;
+}
+
+.dn__tmpl-strip::-webkit-scrollbar { display: none; }
+
+.dn__tmpl-pill {
+  flex-shrink: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 4px;
+  border-radius: 10px;
+  border: 2px solid transparent;
+  padding: 8px 10px;
+  cursor: pointer;
+  min-width: 54px;
+  -webkit-tap-highlight-color: transparent;
+}
+
+.dn__tmpl-pill.active { border-color: var(--t-primary, #84BD93); }
+.dn__tmpl-emoji { font-size: 18px; }
+.dn__tmpl-name { font-size: 9px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.5px; }
+
+/* ── Bottom Nav ── */
+.dn__nav {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: calc(env(safe-area-inset-bottom) + 60px);
+  background: var(--t-bg, #FFF5E0);
+  border-top: 1px solid rgba(63, 45, 32, 0.08);
+  display: flex;
+  align-items: flex-start;
+  padding: 6px 6px 0;
+  gap: 4px;
+}
+
+.dn__nav-btn {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 3px;
+  background: none;
+  border: none;
+  padding: 7px 4px;
+  border-radius: 14px;
+  cursor: pointer;
+  -webkit-tap-highlight-color: transparent;
+  transition: background 0.15s ease;
+}
+
+.dn__nav-btn.active {
+  background: rgba(132, 189, 147, 0.18);
+}
+
+.dn__nav-icon {
+  font-size: 19px;
+  line-height: 1;
+  filter: grayscale(1) opacity(0.45);
+}
+
+.dn__nav-btn.active .dn__nav-icon { filter: none; }
+
+.dn__nav-label {
+  font-size: var(--t-tab-size, 10px);
+  font-weight: 600;
+  color: #AAAAAA;
+  letter-spacing: 0.2px;
+}
+
+.dn__nav-btn.active .dn__nav-label {
+  color: var(--t-primary, #84BD93);
+  font-weight: 700;
+}

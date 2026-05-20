@@ -31,6 +31,7 @@ import VapourApp from './pages/VapourApp';
 import NoirApp from './pages/NoirApp';
 import DuskApp from './pages/DuskApp';
 import PiazzaApp from './pages/PiazzaApp';
+import DineApp from './pages/DineApp';
 import { isRestaurantMode } from './services/restaurantConfig';
 import HomePage from './pages/HomePage';
 import MenuPage from './pages/MenuPage';
@@ -231,6 +232,7 @@ const AppInner: React.FC = () => {
   if (template.id === 'noir') return <TemplateErrorBoundary onCrash={() => setTemplateIdMemoryOnly('fiesta')}><NoirApp /></TemplateErrorBoundary>;
   if (template.id === 'dusk') return <TemplateErrorBoundary onCrash={() => setTemplateIdMemoryOnly('fiesta')}><DuskApp /></TemplateErrorBoundary>;
   if (template.id === 'piazza') return <TemplateErrorBoundary onCrash={() => setTemplateIdMemoryOnly('fiesta')}><PiazzaApp /></TemplateErrorBoundary>;
+  if (template.id === 'dine')   return <TemplateErrorBoundary onCrash={() => setTemplateIdMemoryOnly('fiesta')}><DineApp /></TemplateErrorBoundary>;
 
   return (
     <IonReactRouter>

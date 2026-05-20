@@ -1,6 +1,6 @@
 import React, { createContext, useContext, useState, useEffect } from 'react';
 
-export type TemplateId = 'luxe' | 'fresh' | 'street' | 'zen' | 'fiesta' | 'neon' | 'rustic' | 'ocean' | 'blossom' | 'ember' | 'cosmic' | 'retro' | 'tropical' | 'royal' | 'brew' | 'dynasty' | 'float' | 'reel' | 'grove' | 'vapour' | 'noir' | 'dusk' | 'piazza';
+export type TemplateId = 'luxe' | 'fresh' | 'street' | 'zen' | 'fiesta' | 'neon' | 'rustic' | 'ocean' | 'blossom' | 'ember' | 'cosmic' | 'retro' | 'tropical' | 'royal' | 'brew' | 'dynasty' | 'float' | 'reel' | 'grove' | 'vapour' | 'noir' | 'dusk' | 'piazza' | 'dine';
 
 export interface Template {
   id: TemplateId;
@@ -157,6 +157,13 @@ export const TEMPLATES: Template[] = [
     tagline: 'Organic artisan warmth',
     emoji: '🌿',
     colors: { bg: '#FAF6EE', primary: '#8FBF9F', accent: '#B8D8C4', text: '#1A1A1A' },
+  },
+  {
+    id: 'dine',
+    name: 'Dine',
+    tagline: 'Warm & earthy food discovery',
+    emoji: '🍃',
+    colors: { bg: '#FFF5E0', primary: '#84BD93', accent: '#FFE2CD', text: '#3F2D20' },
   },
 ];
 
