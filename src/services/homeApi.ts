@@ -1,5 +1,7 @@
-const BASE_URL = 'https://app.zingmyorder.com/api';
-const IMG_BASE  = 'https://zingmyorder.s3.amazonaws.com/';
+const BASE_URL  = 'https://app.zingmyorder.com/api';
+const IMG_BASE  = 'https://app.zingmyorder.com/image/';
+const IMG_SIZE  = 'original'; // change to 'sm' or 'lg' to try different sizes
+const S3_BASE   = 'https://zingmyorder.s3.amazonaws.com/';
 
 // ── Raw API shapes ────────────────────────────────────────────────────────────
 interface ApiOrder {
@@ -12,11 +14,11 @@ interface ApiOrder {
 }
 
 export interface ApiHomeResponse {
-  slider_images:  Array<{ url: string; title: string | null; caption: string; desc: string | null }>;
+  slider_images:  Array<{ url: string; path: string; title: string | null; caption: string; desc: string | null }>;
   points:         { points: number; total_amount: number };
   popular_dishes: Array<{ name: string; description: string; image: string }>;
-  featured_images:Array<{ url: string; caption: string }>;
-  gallery:        Array<{ url: string; caption: string }>;
+  featured_images:Array<{ url: string; path: string; caption: string }>;
+  gallery:        Array<{ url: string; path: string; caption: string }>;
   order_now:      string;
   orders: {
     currorders:  ApiOrder[];
@@ -63,8 +65,17 @@ const SLIDE_GRADIENTS = [
 ];
 const DISH_TAGS = ['Bestseller', "Chef's Pick", 'Popular', 'New', 'Spicy 🌶️', 'Featured'];
 
+// For slider_images / gallery / featured_images — uses app.zingmyorder.com/image/{size}/
+function toZingImg(path: string): string {
+  if (!path) return '';
+  if (path.startsWith('http')) return path;
+  return `${IMG_BASE}${IMG_SIZE}/${path}`;
+}
+
+// For popular_dishes — still served from S3
 function toAbsImg(path: string): string {
-  return path.startsWith('http') ? path : `${IMG_BASE}${path}`;
+  if (!path) return '';
+  return path.startsWith('http') ? path : `${S3_BASE}${path}`;
 }
 
 function fmtDate(dateStr: string): string {
@@ -81,7 +92,7 @@ function fmtDate(dateStr: string): string {
 export function mapHomeResponse(raw: ApiHomeResponse): HomeData {
   const banners: BannerSlide[] = raw.slider_images.map((s, i) => ({
     id: i + 1,
-    image: s.url,
+    image: toZingImg(s.path ?? ''),
     title: s.title ?? s.caption ?? 'Special Offer',
     subtitle: s.desc ?? '',
     cta: 'Order Now',
@@ -99,13 +110,13 @@ export function mapHomeResponse(raw: ApiHomeResponse): HomeData {
   const gallerySrc = raw.gallery.length > 0 ? raw.gallery : raw.featured_images;
   const gallery: GalleryItem[] = gallerySrc.map((g, i) => ({
     id: i + 1,
-    url: g.url,
+    url: toZingImg(g.path ?? ''),
     aspect: 1.0,
   }));
 
   const featuredImages: GalleryItem[] = raw.featured_images.map((g, i) => ({
     id: i + 1,
-    url: g.url,
+    url: toZingImg(g.path ?? ''),
     aspect: 1.0,
   }));
 
