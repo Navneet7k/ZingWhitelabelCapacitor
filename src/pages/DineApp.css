@@ -91,7 +91,7 @@
    ──────────────────────────────────────────────── */
 .dn__banner {
   position: relative;
-  height: clamp(340px, 86vw, 430px);
+  height: clamp(290px, 74vw, 380px);
   overflow: hidden;
 }
 
@@ -105,25 +105,27 @@
   z-index: 0;
 }
 
-/* Organic green blob — exact Figma path, centered */
+/* Organic green blob — exact Figma path, centered.
+   Capped at 300px so it doesn't overwhelm on wider tablets. */
 .dn__blob {
   position: absolute;
-  width: clamp(270px, 93vw, 360px);
+  width: clamp(210px, 68vw, 300px);
   height: auto;
   top: clamp(50px, 13vw, 80px);
   left: 50%;
-  transform: translateX(-52%);
+  transform: translateX(-50%);
   z-index: 1;
 }
 
-/* Circular hero image — white outer + food inside (matches Figma Ellipse 63/64) */
+/* Circular hero image — centered at 54% so it sits right of blob center
+   on all screen widths proportionally. */
 .dn__hero-outer {
   position: absolute;
-  width: clamp(190px, 54vw, 248px);
-  height: clamp(190px, 54vw, 248px);
-  top: clamp(55px, 14vw, 88px);
-  left: 50%;
-  transform: translateX(-10%);
+  width: clamp(160px, 42vw, 210px);
+  height: clamp(160px, 42vw, 210px);
+  top: clamp(55px, 14vw, 85px);
+  left: 54%;
+  transform: translateX(-50%);
   border-radius: 50%;
   background: #fff;
   display: flex;
@@ -135,8 +137,8 @@
 }
 
 @keyframes dnFadeIn {
-  from { opacity: 0; transform: translateX(-10%) scale(0.95); }
-  to   { opacity: 1; transform: translateX(-10%) scale(1); }
+  from { opacity: 0; transform: translateX(-50%) scale(0.95); }
+  to   { opacity: 1; transform: translateX(-50%) scale(1); }
 }
 
 .dn__hero-img {
