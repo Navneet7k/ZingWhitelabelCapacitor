@@ -153,7 +153,7 @@ const AccountPage: React.FC<{ onSignOut?: () => void }> = ({ onSignOut }) => {
               </div>
             </div>
 
-            <div className={`acc__menu acc__menu--${template.id}`}>
+            <div className={`acc__menu acc__menu--${template.id}`} style={{ ['--t-text' as any]: template.colors.text, ['--t-text-muted' as any]: template.colors.text + '99' }}>
               {MENU_ITEMS_ACC.map((item, i) => (
                 <button
                   key={i}
