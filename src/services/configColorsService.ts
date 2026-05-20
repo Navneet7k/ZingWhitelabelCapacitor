@@ -43,9 +43,8 @@ function getStyleTag(): HTMLStyleElement {
 function buildCSSProps(colors: Record<string, string>): string {
   const p: string[] = [];
   const primary = colors['primary-color'] || colors['button-primary'];
-  if (primary)                      p.push(`--t-primary:${primary};--t-tab-active:${primary};`);
+  if (primary)                      p.push(`--t-primary:${primary};`);
   if (colors['secondary-color'])    p.push(`--t-accent:${colors['secondary-color']};`);
-  if (colors['header-color'])       p.push(`--t-tab-bg:${colors['header-color']};`);
   if (colors['body-color'])         p.push(`--t-bg:${colors['body-color']};`);
   if (colors['card-color'])         p.push(`--t-surface:${colors['card-color']};`);
   if (colors['heading-color'])      p.push(`--t-text:${colors['heading-color']};`);
