@@ -8,7 +8,7 @@ import { getOrderUrl, getRestaurantLogo, getRestaurantPhone, getRestaurantAddres
 import { getRestaurantId, getRestaurantName } from '../services/restaurantConfig';
 import { openWebView } from '../services/webviewService';
 import { checkConfigColorsOnTabSwitch } from '../services/configColorsService';
-import { getStatus, onStatusChange, applyIfReady } from '../services/updater';
+import { getStatus, onStatusChange, applyIfReady, checkOnTabSwitch } from '../services/updater';
 import type { UpdateStatus } from '../services/updater';
 import CustomizePage from './CustomizePage';
 import './SpiceApp.css';
@@ -53,7 +53,9 @@ const SpiceApp: React.FC = () => {
 
   const [view, setView]                   = useState<SpiceView>('home');
   const [selectedBanner, setSelectedBanner] = useState(0);
+  const [activeGallery, setActiveGallery] = useState(0);
   const [activeCategory, setCategory]     = useState<number | null>(null);
+  const galleryRef = useRef<HTMLDivElement>(null);
   const [authUser, setAuthUser]           = useState<AuthUser | null>(getInitialUser);
   const [authMode, setAuthMode]           = useState<AuthMode>('login');
   const [showCustomize, setShowCustomize] = useState(false);
@@ -96,6 +98,7 @@ const SpiceApp: React.FC = () => {
   const didMountRef = useRef(false);
   useEffect(() => {
     if (!didMountRef.current) { didMountRef.current = true; return; }
+    checkOnTabSwitch();
     checkConfigColorsOnTabSwitch(restaurantId ?? '');
   }, [view]);
 
@@ -250,20 +253,29 @@ const SpiceApp: React.FC = () => {
             {banners.length > 0 && (
               <div className="sp__section">
                 <p className="sp__section-title">Gallery</p>
-                <div className="sp__gallery">
-                  {banners.slice(0, 5).map((b, i) => {
-                    const total   = Math.min(banners.length, 5);
-                    const midIdx  = Math.floor(total / 2);
-                    const isCenter = i === midIdx;
-                    return (
-                      <div key={b.id} className={`sp__gallery-item${isCenter ? ' sp__gallery-item--center' : ''}`} onClick={handleOrder}>
-                        {b.image
-                          ? <img className="sp__gallery-img" src={b.image} alt="" loading="lazy" decoding="async" />
-                          : <div className="sp__gallery-ph">🌶️</div>
-                        }
-                      </div>
-                    );
-                  })}
+                <div
+                  className="sp__gallery"
+                  ref={galleryRef}
+                  onScroll={() => {
+                    const el = galleryRef.current;
+                    if (!el) return;
+                    const center = el.scrollLeft + el.clientWidth / 2;
+                    let closest = 0, minDist = Infinity;
+                    el.querySelectorAll<HTMLElement>('.sp__gallery-item').forEach((item, i) => {
+                      const dist = Math.abs((item.offsetLeft + item.offsetWidth / 2) - center);
+                      if (dist < minDist) { minDist = dist; closest = i; }
+                    });
+                    setActiveGallery(closest);
+                  }}
+                >
+                  {banners.map((b, i) => (
+                    <div key={b.id} className={`sp__gallery-item${i === activeGallery ? ' active' : ''}`} onClick={handleOrder}>
+                      {b.image
+                        ? <img className="sp__gallery-img" src={b.image} alt="" loading="lazy" decoding="async" />
+                        : <div className="sp__gallery-ph">🌶️</div>
+                      }
+                    </div>
+                  ))}
                 </div>
               </div>
             )}

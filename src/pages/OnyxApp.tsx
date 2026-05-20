@@ -8,7 +8,7 @@ import { getOrderUrl, getRestaurantLogo } from '../services/configApi';
 import { getRestaurantId, getRestaurantName } from '../services/restaurantConfig';
 import { openWebView } from '../services/webviewService';
 import { checkConfigColorsOnTabSwitch } from '../services/configColorsService';
-import { getStatus, onStatusChange, applyIfReady } from '../services/updater';
+import { getStatus, onStatusChange, applyIfReady, checkOnTabSwitch } from '../services/updater';
 import type { UpdateStatus } from '../services/updater';
 import CustomizePage from './CustomizePage';
 import './OnyxApp.css';
@@ -96,6 +96,7 @@ const OnyxApp: React.FC = () => {
   const didMountRef = useRef(false);
   useEffect(() => {
     if (!didMountRef.current) { didMountRef.current = true; return; }
+    checkOnTabSwitch();
     checkConfigColorsOnTabSwitch(restaurantId ?? '');
   }, [view]);
 
