@@ -31,7 +31,7 @@ const SpImg: React.FC<{
       <div
         className="sp__shimmer"
         style={{
-          position: 'absolute', inset: 0, zIndex: 1, borderRadius: 'inherit',
+          position: 'absolute', inset: 0, borderRadius: 'inherit',
           opacity: loaded ? 0 : 1,
           transition: 'opacity 0.45s ease',
           pointerEvents: 'none',
@@ -41,7 +41,7 @@ const SpImg: React.FC<{
         src={src} alt={alt}
         style={{
           position: 'absolute', inset: 0, width: '100%', height: '100%',
-          objectFit: 'cover', display: 'block', zIndex: 2,
+          objectFit: 'cover', display: 'block',
           opacity: loaded ? 1 : 0,
           transition: 'opacity 0.45s ease',
         }}
