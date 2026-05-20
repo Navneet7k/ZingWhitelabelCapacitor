@@ -3,8 +3,8 @@
 .ox {
   position: fixed;
   inset: 0;
-  background: linear-gradient(180deg, #000000 2.4%, #333333 100%);
-  color: #FFFFFF;
+  background: var(--t-bg, #000000);
+  color: var(--t-text, #FFFFFF);
   font-family: 'Poppins', -apple-system, 'Helvetica Neue', Arial, sans-serif;
   overflow: hidden;
   display: flex;
@@ -163,7 +163,7 @@
   width: 65px;
   height: 65px;
   border-radius: 50%;
-  border: 3px solid #4FCB53;
+  border: 3px solid var(--t-primary, #4FCB53);
   overflow: hidden;
   flex-shrink: 0;
   background: #222;
@@ -240,8 +240,8 @@
   display: inline-flex;
   align-items: center;
   gap: 4px;
-  background: #292A2A;
-  color: #FFFFFF;
+  background: var(--t-accent, #292A2A);
+  color: var(--t-text, #FFFFFF);
   border: none;
   border-radius: 20px;
   padding: 6px 14px;
@@ -264,7 +264,7 @@
 .ox__section-title {
   font-size: 14px;
   font-weight: 600;
-  color: #FFFFFF;
+  color: var(--t-text, #FFFFFF);
   padding: 12px 20px 8px;
   margin: 0;
   letter-spacing: 0.1px;
@@ -520,7 +520,7 @@
 .ox__view-title {
   font-size: 20px;
   font-weight: 700;
-  color: #FFFFFF;
+  color: var(--t-text, #FFFFFF);
   padding: 16px 20px 8px;
   margin: 0;
 }
@@ -661,9 +661,9 @@
   width: 34px;
   height: 34px;
   border-radius: 50%;
-  background: #292A2A;
+  background: var(--t-accent, #292A2A);
   border: none;
-  color: #fff;
+  color: var(--t-text, #fff);
   font-size: 20px;
   display: flex;
   align-items: center;
@@ -724,8 +724,8 @@
   display: block;
   margin: 12px 16px 0;
   width: calc(100% - 32px);
-  background: #292A2A;
-  color: #fff;
+  background: var(--t-accent, #292A2A);
+  color: var(--t-text, #fff);
   border: none;
   border-radius: 14px;
   padding: 15px;
@@ -807,8 +807,8 @@
   display: block;
   margin: 0 16px 16px;
   width: calc(100% - 32px);
-  background: #292A2A;
-  color: #fff;
+  background: var(--t-accent, #292A2A);
+  color: var(--t-text, #fff);
   border: none;
   border-radius: 14px;
   padding: 14px;
@@ -865,7 +865,7 @@
   position: absolute;
   inset: 0;
   z-index: 4;
-  background: #111111;
+  background: var(--t-bg, #111111);
   overflow-y: auto;
   -webkit-overflow-scrolling: touch;
 }
@@ -995,7 +995,7 @@
 .ox__submit {
   width: 100%;
   max-width: 320px;
-  background: #292A2A;
+  background: var(--t-accent, #292A2A);
   border: none;
   border-radius: 12px;
   padding: 14px;
@@ -1031,7 +1031,7 @@
   border-radius: 8px;
   padding: 8px 12px;
   font-size: 13px;
-  color: #4FCB53;
+  color: var(--t-primary, #4FCB53);
   margin-bottom: 12px;
   text-align: center;
 }
@@ -1046,7 +1046,7 @@
 .ox__auth-link {
   background: none;
   border: none;
-  color: #4FCB53;
+  color: var(--t-primary, #4FCB53);
   font-size: 14px;
   font-weight: 600;
   font-family: 'Poppins', sans-serif;
@@ -1064,7 +1064,7 @@
   left: 0;
   right: 0;
   height: calc(env(safe-area-inset-bottom) + 64px);
-  background: #FFFFFF;
+  background: var(--t-tab-bg, #FFFFFF);
   z-index: 5;
   display: flex;
   align-items: flex-start;
@@ -1119,7 +1119,7 @@
   width: 54px;
   height: 54px;
   border-radius: 50%;
-  background: #292A2A;
+  background: var(--t-accent, #292A2A);
   display: flex;
   align-items: center;
   justify-content: center;
