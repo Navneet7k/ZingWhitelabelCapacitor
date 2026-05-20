@@ -198,9 +198,6 @@ const SpiceApp: React.FC = () => {
                 <button className="sp__points-btn" onClick={() => setView('account')}>
                   Learn More | ▶
                 </button>
-                <button className="sp__points-edit" onClick={() => setView('account')} aria-label="Points">
-                  ✏️
-                </button>
               </div>
             </div>
 
