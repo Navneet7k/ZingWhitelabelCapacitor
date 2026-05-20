@@ -74,37 +74,87 @@ const WebViewHost: React.FC = () => {
   );
 };
 
+// Tracks how many times we've tried to apply an update and it rolled back.
+// Persists across reloads (localStorage) so the loop counter survives app restarts.
+const RECOVERY_KEY = 'zing_recovery_attempts';
+const MAX_RECOVERY = 3;
+
 // Shown when the stored template isn't in the current bundle (OTA rollback scenario).
-// Listens for the self-healing download and auto-applies it so the correct template loads.
+// Applies the update immediately — but only up to MAX_RECOVERY times. If every
+// attempt rolls back, we stop looping and show a reset screen instead.
 const PendingTemplateScreen: React.FC = () => {
+  const attempts = parseInt(localStorage.getItem(RECOVERY_KEY) ?? '0', 10);
+  const giveUp   = attempts >= MAX_RECOVERY;
+
   const [status, setStatus] = useState<UpdateStatus>(getStatus);
 
   useEffect(() => {
-    if (getStatus().state === 'ready') { applyIfReady(); return; }
+    if (giveUp) return; // too many failed attempts — don't trigger another apply
+    if (getStatus().state === 'ready') {
+      localStorage.setItem(RECOVERY_KEY, String(attempts + 1));
+      applyIfReady();
+      return;
+    }
     recheckForUpdate();
     const unsub = onStatusChange(s => {
       setStatus(s);
-      if (s.state === 'ready') applyIfReady();
+      if (s.state === 'ready') {
+        localStorage.setItem(RECOVERY_KEY, String(attempts + 1));
+        applyIfReady();
+      }
     });
     return unsub;
-  }, []);
+  }, []); // eslint-disable-line react-hooks/exhaustive-deps
+
+  const handleReset = () => {
+    localStorage.removeItem('zing_template');
+    localStorage.removeItem(RECOVERY_KEY);
+    window.location.reload();
+  };
+
+  // After MAX_RECOVERY failed attempts, let the user escape rather than loop forever
+  if (giveUp) {
+    return (
+      <div style={{
+        display: 'flex', flexDirection: 'column', alignItems: 'center',
+        justifyContent: 'center', height: '100vh',
+        background: '#FFF5E0', color: '#3F2D20', gap: 16,
+        fontFamily: 'system-ui, sans-serif', textAlign: 'center', padding: '0 32px',
+      }}>
+        <p style={{ margin: 0, fontSize: 18, fontWeight: 700 }}>Update couldn't be applied</p>
+        <p style={{ margin: 0, fontSize: 14, opacity: 0.6, lineHeight: 1.6 }}>
+          The template update failed to install after several attempts.
+        </p>
+        <button
+          onClick={handleReset}
+          style={{
+            marginTop: 8, padding: '12px 28px', borderRadius: 12,
+            background: '#84BD93', color: '#fff', border: 'none',
+            fontSize: 15, fontWeight: 700, cursor: 'pointer',
+          }}
+        >
+          Reset &amp; Choose Template
+        </button>
+      </div>
+    );
+  }
 
   const msg = status.state === 'downloading' ? 'Downloading update…'
     : status.state === 'ready'               ? 'Applying…'
     : status.state === 'error'               ? 'Update failed — please restart the app.'
-    : 'Syncing your template…';
+    : 'Loading your template…';
 
   return (
     <div style={{
       display: 'flex', flexDirection: 'column', alignItems: 'center',
       justifyContent: 'center', height: '100vh',
-      background: '#0D0D0D', color: '#fff', gap: 12,
+      background: '#FFF5E0', color: '#3F2D20', gap: 12,
       fontFamily: 'system-ui, sans-serif', textAlign: 'center', padding: '0 24px',
     }}>
-      <p style={{ margin: 0, fontSize: 16, opacity: 0.9 }}>{msg}</p>
+      <p style={{ margin: 0, fontSize: 16, fontWeight: 600 }}>{msg}</p>
       {status.state !== 'error' && (
-        <p style={{ margin: 0, fontSize: 13, opacity: 0.45 }}>
-          Your selected template is loading — just a moment
+        <p style={{ margin: 0, fontSize: 13, opacity: 0.5 }}>
+          Your selected template is on its way
         </p>
       )}
     </div>
@@ -143,6 +193,13 @@ const AppInner: React.FC = () => {
   const { hasSelected, template, setTemplateId, setTemplateIdMemoryOnly, isTemplateKnown } = useTemplate();
   // In restaurant mode the template is pre-set — skip the picker entirely
   const [selected, setSelected] = useState(hasSelected || isRestaurantMode());
+
+  // Clear the recovery counter whenever the app is running normally (template known).
+  // This ensures the counter resets after a successful update so future rollbacks
+  // get their full MAX_RECOVERY attempts.
+  useEffect(() => {
+    if (isTemplateKnown) localStorage.removeItem(RECOVERY_KEY);
+  }, [isTemplateKnown]);
 
   useEffect(() => {
     initUpdater();
