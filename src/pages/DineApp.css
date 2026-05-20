@@ -921,17 +921,6 @@
   flex-direction: column;
 }
 
-.dn__auth-forgot {
-  align-self: flex-end;
-  background: none;
-  border: none;
-  font-size: 13px;
-  font-family: 'Poppins', sans-serif;
-  color: #73665C;
-  cursor: pointer;
-  padding: 2px 0 12px;
-  -webkit-tap-highlight-color: transparent;
-}
 
 .dn__auth-footer {
   margin-top: 22px;

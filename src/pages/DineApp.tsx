@@ -450,9 +450,8 @@ const DineApp: React.FC = () => {
                 {authScreen === 'signup' && regError && <p className="dn__login-error">{regError}</p>}
                 {authScreen === 'signin' ? (
                   <form className="dn__auth-form" onSubmit={handleLogin}>
-                    <input className="dn__input" type="email" placeholder="Email" value={loginEmail} onChange={e => setEmail(e.target.value)} required autoComplete="email" />
+                    <input className="dn__input" type="email" placeholder="Email address" value={loginEmail} onChange={e => setEmail(e.target.value)} required autoComplete="email" />
                     <input className="dn__input" type="password" placeholder="Password" value={loginPassword} onChange={e => setPassword(e.target.value)} required autoComplete="current-password" />
-                    <button className="dn__auth-forgot" type="button">Forgot?</button>
                     <button className="dn__submit" type="submit" disabled={loginLoading}>{loginLoading ? 'Signing in…' : 'Sign In'}</button>
                   </form>
                 ) : (
