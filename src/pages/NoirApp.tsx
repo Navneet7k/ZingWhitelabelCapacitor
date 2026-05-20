@@ -2,11 +2,12 @@ import React, { useState } from 'react';
 import { useTemplate, TEMPLATES } from '../context/TemplateContext';
 import { useHomeData } from '../context/HomeDataContext';
 import { useMenuData } from '../context/MenuDataContext';
-import { getSavedUser, isLoggedIn, login, saveAuth, clearAuth } from '../services/authApi';
+import { getSavedUser, isLoggedIn, login, saveAuth, clearAuth, getToken } from '../services/authApi';
 import type { AuthUser } from '../services/authApi';
 import { getOrderUrl } from '../services/configApi';
 import { getRestaurantId, getRestaurantName } from '../services/restaurantConfig';
 import { openWebView } from '../services/webviewService';
+import CustomizePage from './CustomizePage';
 import './NoirApp.css';
 
 function safe(v: unknown, fallback = ''): string {
@@ -31,6 +32,8 @@ const NoirApp: React.FC = () => {
   const [loginPassword, setPassword] = useState('');
   const [loginError, setLoginError]  = useState('');
   const [loginLoading, setLoading]   = useState(false);
+  const [showCustomize, setShowCustomize] = useState(false);
+  const [showDeleteConfirm, setShowDeleteConfirm] = useState(false);
 
   const restaurantId   = getRestaurantId();
   const restaurantName = safe(getRestaurantName(), 'Noir');
@@ -69,6 +72,19 @@ const NoirApp: React.FC = () => {
       setLoading(false);
     }
   };
+
+  function clientUrl(path: string) {
+    const rid   = getRestaurantId() ?? '';
+    const token = getToken() ?? '';
+    return `https://app.zingmyorder.com/client/app/${path}/${rid}?token=${token}`;
+  }
+
+  function handleDeleteConfirmed() {
+    setShowDeleteConfirm(false);
+    const rid   = getRestaurantId() ?? '';
+    const token = getToken() ?? '';
+    openWebView(`https://app.zingmyorder.com/app/delete-user/${rid}?token=${token}`, 'Delete Account', template.colors.primary);
+  }
 
   return (
     <div className="nr">
@@ -237,6 +253,28 @@ const NoirApp: React.FC = () => {
                 <button className="nr__signout" onClick={() => { clearAuth(); setAuthUser(null); }}>
                   Sign Out
                 </button>
+                <div style={{ margin: '12px 0 4px', borderTop: '1px solid rgba(232,200,122,0.2)' }} />
+                <button className="nr__signout" style={{ marginTop: 6 }} onClick={() => openWebView(clientUrl('edit-profile'), 'Edit Profile', template.colors.primary)}>
+                  ✏️ Edit Profile
+                </button>
+                <button className="nr__signout" style={{ marginTop: 6 }} onClick={() => openWebView(clientUrl('favorites'), 'Favorites', template.colors.primary)}>
+                  ❤️ Favorites
+                </button>
+                <button className="nr__signout" style={{ marginTop: 6 }} onClick={() => openWebView(clientUrl('points'), 'Points', template.colors.primary)}>
+                  ⭐ Points
+                </button>
+                <button className="nr__signout" style={{ marginTop: 6 }} onClick={() => openWebView(clientUrl('address'), 'Saved Addresses', template.colors.primary)}>
+                  🏠 Saved Addresses
+                </button>
+                <button className="nr__signout" style={{ marginTop: 6 }} onClick={() => setShowCustomize(true)}>
+                  🎨 Customize
+                </button>
+                <button className="nr__signout" style={{ marginTop: 6 }}>
+                  📋 Terms &amp; Conditions
+                </button>
+                <button className="nr__signout" style={{ marginTop: 6, background: '#EF4444', color: '#fff' }} onClick={() => setShowDeleteConfirm(true)}>
+                  🗑️ Delete Account
+                </button>
               </div>
             ) : (
               <div className="nr__login">
@@ -307,6 +345,37 @@ const NoirApp: React.FC = () => {
           </button>
         ))}
       </nav>
+      {showCustomize && (
+        <div style={{ position: 'fixed', inset: 0, zIndex: 200, background: '#0a0a0a' }}>
+          <CustomizePage onBack={() => setShowCustomize(false)} />
+        </div>
+      )}
+
+      {showDeleteConfirm && (
+        <div
+          style={{ position: 'fixed', inset: 0, zIndex: 300, background: 'rgba(0,0,0,0.7)', display: 'flex', alignItems: 'flex-end' }}
+          onClick={() => setShowDeleteConfirm(false)}
+        >
+          <div
+            style={{ width: '100%', background: '#111', borderRadius: '16px 16px 0 0', padding: '20px 20px 32px', textAlign: 'center' }}
+            onClick={e => e.stopPropagation()}
+          >
+            <div style={{ width: 40, height: 4, background: 'rgba(232,200,122,0.4)', borderRadius: 2, margin: '0 auto 16px' }} />
+            <span style={{ fontSize: 32 }}>⚠️</span>
+            <h3 style={{ margin: '8px 0 4px', fontSize: 18, fontWeight: 700, color: '#E8C87A' }}>Delete Account?</h3>
+            <p style={{ margin: '0 0 16px', fontSize: 14, color: 'rgba(255,255,255,0.6)' }}>
+              This will permanently delete your account and all associated data. This action cannot be undone.
+            </p>
+            <button className="nr__cta" style={{ background: '#EF4444', marginBottom: 8 }} onClick={handleDeleteConfirmed}>
+              Yes, Delete My Account
+            </button>
+            <button className="nr__cta" style={{ background: 'rgba(255,255,255,0.15)' }} onClick={() => setShowDeleteConfirm(false)}>
+              Cancel
+            </button>
+          </div>
+        </div>
+      )}
+
     </div>
   );
 };

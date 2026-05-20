@@ -2,11 +2,12 @@ import React, { useState, useRef } from 'react';
 import { useTemplate, TEMPLATES } from '../context/TemplateContext';
 import { useHomeData } from '../context/HomeDataContext';
 import { useMenuData } from '../context/MenuDataContext';
-import { getSavedUser, isLoggedIn, login, saveAuth, clearAuth } from '../services/authApi';
+import { getSavedUser, isLoggedIn, login, saveAuth, clearAuth, getToken } from '../services/authApi';
 import type { AuthUser } from '../services/authApi';
 import { getOrderUrl } from '../services/configApi';
 import { getRestaurantId, getRestaurantName } from '../services/restaurantConfig';
 import { openWebView } from '../services/webviewService';
+import CustomizePage from './CustomizePage';
 import './CafeApp.css';
 
 function getInitialUser(): AuthUser | null {
@@ -35,6 +36,8 @@ const CafeApp: React.FC = () => {
   const [loginPassword, setLoginPassword]     = useState('');
   const [loginError, setLoginError]           = useState('');
   const [loginLoading, setLoginLoading]       = useState(false);
+  const [showCustomize, setShowCustomize]     = useState(false);
+  const [showDeleteConfirm, setShowDeleteConfirm] = useState(false);
 
   const menuRef = useRef<HTMLElement>(null);
 
@@ -82,6 +85,19 @@ const CafeApp: React.FC = () => {
     setAuthUser(null);
     setActiveSheet(null);
   };
+
+  function clientUrl(path: string) {
+    const rid   = getRestaurantId() ?? '';
+    const token = getToken() ?? '';
+    return `https://app.zingmyorder.com/client/app/${path}/${rid}?token=${token}`;
+  }
+
+  function handleDeleteConfirmed() {
+    setShowDeleteConfirm(false);
+    const rid   = getRestaurantId() ?? '';
+    const token = getToken() ?? '';
+    openWebView(`https://app.zingmyorder.com/app/delete-user/${rid}?token=${token}`, 'Delete Account', template.colors.primary);
+  }
 
   const scrollToMenu = () => {
     setTimeout(() => menuRef.current?.scrollIntoView({ behavior: 'smooth' }), 80);
@@ -365,6 +381,28 @@ const CafeApp: React.FC = () => {
                 <button className="cafe__sheet-signout-btn" onClick={handleSignOut}>
                   Sign Out
                 </button>
+                <div className="cafe__sheet-divider" />
+                <button className="cafe__sheet-menu-item" onClick={() => { openWebView(clientUrl('edit-profile'), 'Edit Profile', template.colors.primary); }}>
+                  <span className="cafe__sheet-menu-icon">✏️</span><span className="cafe__sheet-menu-label">Edit Profile</span><span className="cafe__sheet-menu-arrow">›</span>
+                </button>
+                <button className="cafe__sheet-menu-item" onClick={() => { openWebView(clientUrl('favorites'), 'Favorites', template.colors.primary); }}>
+                  <span className="cafe__sheet-menu-icon">❤️</span><span className="cafe__sheet-menu-label">Favorites</span><span className="cafe__sheet-menu-arrow">›</span>
+                </button>
+                <button className="cafe__sheet-menu-item" onClick={() => { openWebView(clientUrl('points'), 'Points', template.colors.primary); }}>
+                  <span className="cafe__sheet-menu-icon">⭐</span><span className="cafe__sheet-menu-label">Points</span><span className="cafe__sheet-menu-arrow">›</span>
+                </button>
+                <button className="cafe__sheet-menu-item" onClick={() => { openWebView(clientUrl('address'), 'Saved Addresses', template.colors.primary); }}>
+                  <span className="cafe__sheet-menu-icon">🏠</span><span className="cafe__sheet-menu-label">Saved Addresses</span><span className="cafe__sheet-menu-arrow">›</span>
+                </button>
+                <button className="cafe__sheet-menu-item" onClick={() => { setActiveSheet(null); setShowCustomize(true); }}>
+                  <span className="cafe__sheet-menu-icon">🎨</span><span className="cafe__sheet-menu-label">Customize</span><span className="cafe__sheet-menu-arrow">›</span>
+                </button>
+                <button className="cafe__sheet-menu-item">
+                  <span className="cafe__sheet-menu-icon">📋</span><span className="cafe__sheet-menu-label">Terms &amp; Conditions</span><span className="cafe__sheet-menu-arrow">›</span>
+                </button>
+                <button className="cafe__sheet-menu-item cafe__sheet-menu-item--danger" onClick={() => setShowDeleteConfirm(true)}>
+                  <span className="cafe__sheet-menu-icon">🗑️</span><span className="cafe__sheet-menu-label">Delete Account</span><span className="cafe__sheet-menu-arrow">›</span>
+                </button>
               </div>
             ) : (
               <div className="cafe__sheet-login-view">
@@ -416,6 +454,33 @@ const CafeApp: React.FC = () => {
                 </button>
               ))}
             </div>
+          </div>
+        </div>
+      )}
+
+      {showCustomize && (
+        <div style={{ position: 'fixed', inset: 0, zIndex: 200, background: '#fff' }}>
+          <CustomizePage onBack={() => setShowCustomize(false)} />
+        </div>
+      )}
+
+      {showDeleteConfirm && (
+        <div className="cafe__sheet-overlay" onClick={() => setShowDeleteConfirm(false)}>
+          <div className="cafe__sheet" onClick={e => e.stopPropagation()}>
+            <div className="cafe__sheet-handle" />
+            <div style={{ textAlign: 'center', padding: '8px 0 4px' }}>
+              <span style={{ fontSize: 32 }}>⚠️</span>
+              <h3 style={{ margin: '8px 0 4px', fontSize: 18, fontWeight: 700 }}>Delete Account?</h3>
+              <p style={{ margin: '0 0 16px', fontSize: 14, color: '#666' }}>
+                This will permanently delete your account and all associated data. This action cannot be undone.
+              </p>
+            </div>
+            <button className="cafe__sheet-cta" style={{ background: '#EF4444', marginBottom: 8 }} onClick={handleDeleteConfirmed}>
+              Yes, Delete My Account
+            </button>
+            <button className="cafe__sheet-cta" style={{ background: '#aaa' }} onClick={() => setShowDeleteConfirm(false)}>
+              Cancel
+            </button>
           </div>
         </div>
       )}

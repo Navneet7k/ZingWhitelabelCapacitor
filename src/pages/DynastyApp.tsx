@@ -2,11 +2,12 @@ import React, { useState, useRef } from 'react';
 import { useTemplate, TEMPLATES } from '../context/TemplateContext';
 import { useHomeData } from '../context/HomeDataContext';
 import { useMenuData } from '../context/MenuDataContext';
-import { getSavedUser, isLoggedIn, login, saveAuth, clearAuth } from '../services/authApi';
+import { getSavedUser, isLoggedIn, login, saveAuth, clearAuth, getToken } from '../services/authApi';
 import type { AuthUser } from '../services/authApi';
 import { getOrderUrl } from '../services/configApi';
 import { getRestaurantId, getRestaurantName } from '../services/restaurantConfig';
 import { openWebView } from '../services/webviewService';
+import CustomizePage from './CustomizePage';
 import './DynastyApp.css';
 
 function getInitialUser(): AuthUser | null {
@@ -35,6 +36,8 @@ const DynastyApp: React.FC = () => {
   const [loginPassword, setLoginPassword]   = useState('');
   const [loginError, setLoginError]         = useState('');
   const [loginLoading, setLoginLoading]     = useState(false);
+  const [showCustomize, setShowCustomize]   = useState(false);
+  const [showDeleteConfirm, setShowDeleteConfirm] = useState(false);
 
   const menuRef = useRef<HTMLElement>(null);
 
@@ -87,6 +90,19 @@ const DynastyApp: React.FC = () => {
     setSheetTab(tab);
     setSheetOpen(true);
   };
+
+  function clientUrl(path: string) {
+    const rid   = getRestaurantId() ?? '';
+    const token = getToken() ?? '';
+    return `https://app.zingmyorder.com/client/app/${path}/${rid}?token=${token}`;
+  }
+
+  function handleDeleteConfirmed() {
+    setShowDeleteConfirm(false);
+    const rid   = getRestaurantId() ?? '';
+    const token = getToken() ?? '';
+    openWebView(`https://app.zingmyorder.com/app/delete-user/${rid}?token=${token}`, 'Delete Account', template.colors.primary);
+  }
 
   return (
     <div className="dyn">
@@ -301,6 +317,28 @@ const DynastyApp: React.FC = () => {
                     <button className="dyn__sheet-signout" onClick={() => { clearAuth(); setAuthUser(null); setSheetOpen(false); }}>
                       Sign Out
                     </button>
+                    <div className="dyn__sheet-divider" />
+                    <button className="dyn__sheet-nav-item" onClick={() => { openWebView(clientUrl('edit-profile'), 'Edit Profile', template.colors.primary); }}>
+                      <span>✏️</span><span>Edit Profile</span>
+                    </button>
+                    <button className="dyn__sheet-nav-item" onClick={() => { openWebView(clientUrl('favorites'), 'Favorites', template.colors.primary); }}>
+                      <span>❤️</span><span>Favorites</span>
+                    </button>
+                    <button className="dyn__sheet-nav-item" onClick={() => { openWebView(clientUrl('points'), 'Points', template.colors.primary); }}>
+                      <span>⭐</span><span>Points</span>
+                    </button>
+                    <button className="dyn__sheet-nav-item" onClick={() => { openWebView(clientUrl('address'), 'Saved Addresses', template.colors.primary); }}>
+                      <span>🏠</span><span>Saved Addresses</span>
+                    </button>
+                    <button className="dyn__sheet-nav-item" onClick={() => { setSheetOpen(false); setShowCustomize(true); }}>
+                      <span>🎨</span><span>Customize</span>
+                    </button>
+                    <button className="dyn__sheet-nav-item">
+                      <span>📋</span><span>Terms &amp; Conditions</span>
+                    </button>
+                    <button className="dyn__sheet-nav-item" onClick={() => setShowDeleteConfirm(true)}>
+                      <span>🗑️</span><span>Delete Account</span>
+                    </button>
                   </div>
                 ) : (
                   <div className="dyn__sheet-login">
@@ -354,6 +392,33 @@ const DynastyApp: React.FC = () => {
               ))}
             </div>
 
+          </div>
+        </div>
+      )}
+
+      {showCustomize && (
+        <div style={{ position: 'fixed', inset: 0, zIndex: 200, background: '#fff' }}>
+          <CustomizePage onBack={() => setShowCustomize(false)} />
+        </div>
+      )}
+
+      {showDeleteConfirm && (
+        <div className="dyn__sheet-overlay" onClick={() => setShowDeleteConfirm(false)}>
+          <div className="dyn__sheet" onClick={e => e.stopPropagation()}>
+            <div className="dyn__sheet-handle" />
+            <div style={{ textAlign: 'center', padding: '8px 0 4px' }}>
+              <span style={{ fontSize: 32 }}>⚠️</span>
+              <h3 style={{ margin: '8px 0 4px', fontSize: 18, fontWeight: 700 }}>Delete Account?</h3>
+              <p style={{ margin: '0 0 16px', fontSize: 14, color: '#888' }}>
+                This will permanently delete your account and all associated data. This action cannot be undone.
+              </p>
+            </div>
+            <button className="dyn__sheet-cta" style={{ background: '#EF4444', marginBottom: 8 }} onClick={handleDeleteConfirmed}>
+              Yes, Delete My Account
+            </button>
+            <button className="dyn__sheet-cta" style={{ background: '#aaa' }} onClick={() => setShowDeleteConfirm(false)}>
+              Cancel
+            </button>
           </div>
         </div>
       )}

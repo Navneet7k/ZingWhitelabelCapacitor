@@ -2,11 +2,12 @@ import React, { useState } from 'react';
 import { useTemplate, TEMPLATES } from '../context/TemplateContext';
 import { useHomeData } from '../context/HomeDataContext';
 import { useMenuData } from '../context/MenuDataContext';
-import { getSavedUser, isLoggedIn, login, saveAuth, clearAuth } from '../services/authApi';
+import { getSavedUser, isLoggedIn, login, saveAuth, clearAuth, getToken } from '../services/authApi';
 import type { AuthUser } from '../services/authApi';
 import { getOrderUrl } from '../services/configApi';
 import { getRestaurantId, getRestaurantName } from '../services/restaurantConfig';
 import { openWebView } from '../services/webviewService';
+import CustomizePage from './CustomizePage';
 import './GroveApp.css';
 
 // Crash-safe helper: always returns a string, never throws
@@ -39,6 +40,8 @@ const GroveApp: React.FC = () => {
   const [loginPassword, setPassword] = useState('');
   const [loginError, setLoginError]  = useState('');
   const [loginLoading, setLoading]   = useState(false);
+  const [showCustomize, setShowCustomize] = useState(false);
+  const [showDeleteConfirm, setShowDeleteConfirm] = useState(false);
 
   const restaurantId   = getRestaurantId();
   const restaurantName = safe(getRestaurantName(), 'Grove');
@@ -78,6 +81,19 @@ const GroveApp: React.FC = () => {
       setLoading(false);
     }
   };
+
+  function clientUrl(path: string) {
+    const rid   = getRestaurantId() ?? '';
+    const token = getToken() ?? '';
+    return `https://app.zingmyorder.com/client/app/${path}/${rid}?token=${token}`;
+  }
+
+  function handleDeleteConfirmed() {
+    setShowDeleteConfirm(false);
+    const rid   = getRestaurantId() ?? '';
+    const token = getToken() ?? '';
+    openWebView(`https://app.zingmyorder.com/app/delete-user/${rid}?token=${token}`, 'Delete Account', template.colors.primary);
+  }
 
   return (
     <div className="gv">
@@ -293,6 +309,28 @@ const GroveApp: React.FC = () => {
                 <button className="gv__signout" onClick={() => { clearAuth(); setAuthUser(null); }}>
                   Sign Out
                 </button>
+                <div style={{ margin: '12px 0 4px', borderTop: '1px solid rgba(44,95,46,0.2)' }} />
+                <button className="gv__signout" style={{ marginTop: 6 }} onClick={() => openWebView(clientUrl('edit-profile'), 'Edit Profile', template.colors.primary)}>
+                  ✏️ Edit Profile
+                </button>
+                <button className="gv__signout" style={{ marginTop: 6 }} onClick={() => openWebView(clientUrl('favorites'), 'Favorites', template.colors.primary)}>
+                  ❤️ Favorites
+                </button>
+                <button className="gv__signout" style={{ marginTop: 6 }} onClick={() => openWebView(clientUrl('points'), 'Points', template.colors.primary)}>
+                  ⭐ Points
+                </button>
+                <button className="gv__signout" style={{ marginTop: 6 }} onClick={() => openWebView(clientUrl('address'), 'Saved Addresses', template.colors.primary)}>
+                  🏠 Saved Addresses
+                </button>
+                <button className="gv__signout" style={{ marginTop: 6 }} onClick={() => setShowCustomize(true)}>
+                  🎨 Customize
+                </button>
+                <button className="gv__signout" style={{ marginTop: 6 }}>
+                  📋 Terms &amp; Conditions
+                </button>
+                <button className="gv__signout" style={{ marginTop: 6, background: '#EF4444', color: '#fff' }} onClick={() => setShowDeleteConfirm(true)}>
+                  🗑️ Delete Account
+                </button>
               </div>
             ) : (
               <div className="gv__login-card">
@@ -362,6 +400,37 @@ const GroveApp: React.FC = () => {
           </button>
         ))}
       </nav>
+
+      {showCustomize && (
+        <div style={{ position: 'fixed', inset: 0, zIndex: 200, background: '#fff' }}>
+          <CustomizePage onBack={() => setShowCustomize(false)} />
+        </div>
+      )}
+
+      {showDeleteConfirm && (
+        <div
+          style={{ position: 'fixed', inset: 0, zIndex: 300, background: 'rgba(0,0,0,0.5)', display: 'flex', alignItems: 'flex-end' }}
+          onClick={() => setShowDeleteConfirm(false)}
+        >
+          <div
+            style={{ width: '100%', background: '#fff', borderRadius: '16px 16px 0 0', padding: '20px 20px 32px', textAlign: 'center' }}
+            onClick={e => e.stopPropagation()}
+          >
+            <div style={{ width: 40, height: 4, background: '#ddd', borderRadius: 2, margin: '0 auto 16px' }} />
+            <span style={{ fontSize: 32 }}>⚠️</span>
+            <h3 style={{ margin: '8px 0 4px', fontSize: 18, fontWeight: 700 }}>Delete Account?</h3>
+            <p style={{ margin: '0 0 16px', fontSize: 14, color: '#666' }}>
+              This will permanently delete your account and all associated data. This action cannot be undone.
+            </p>
+            <button className="gv__cta" style={{ background: '#EF4444', marginBottom: 8 }} onClick={handleDeleteConfirmed}>
+              Yes, Delete My Account
+            </button>
+            <button className="gv__cta" style={{ background: '#aaa' }} onClick={() => setShowDeleteConfirm(false)}>
+              Cancel
+            </button>
+          </div>
+        </div>
+      )}
 
     </div>
   );

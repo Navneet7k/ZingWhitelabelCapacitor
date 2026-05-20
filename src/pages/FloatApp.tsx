@@ -2,11 +2,12 @@ import React, { useState } from 'react';
 import { useTemplate, TEMPLATES } from '../context/TemplateContext';
 import { useHomeData } from '../context/HomeDataContext';
 import { useMenuData } from '../context/MenuDataContext';
-import { getSavedUser, isLoggedIn, login, saveAuth, clearAuth } from '../services/authApi';
+import { getSavedUser, isLoggedIn, login, saveAuth, clearAuth, getToken } from '../services/authApi';
 import type { AuthUser } from '../services/authApi';
 import { getOrderUrl } from '../services/configApi';
 import { getRestaurantId, getRestaurantName } from '../services/restaurantConfig';
 import { openWebView } from '../services/webviewService';
+import CustomizePage from './CustomizePage';
 import './FloatApp.css';
 
 type FloatView = 'home' | 'menu' | 'orders' | 'account';
@@ -42,6 +43,8 @@ const FloatApp: React.FC = () => {
   const [loginPassword, setPassword]  = useState('');
   const [loginError, setLoginError]   = useState('');
   const [loginLoading, setLoading]    = useState(false);
+  const [showCustomize, setShowCustomize] = useState(false);
+  const [showDeleteConfirm, setShowDeleteConfirm] = useState(false);
 
   const restaurantId   = getRestaurantId();
   const restaurantName = getRestaurantName();
@@ -75,6 +78,19 @@ const FloatApp: React.FC = () => {
       setLoading(false);
     }
   };
+
+  function clientUrl(path: string) {
+    const rid   = getRestaurantId() ?? '';
+    const token = getToken() ?? '';
+    return `https://app.zingmyorder.com/client/app/${path}/${rid}?token=${token}`;
+  }
+
+  function handleDeleteConfirmed() {
+    setShowDeleteConfirm(false);
+    const rid   = getRestaurantId() ?? '';
+    const token = getToken() ?? '';
+    openWebView(`https://app.zingmyorder.com/app/delete-user/${rid}?token=${token}`, 'Delete Account', template.colors.primary);
+  }
 
   const featured   = homeData?.popularDishes[0];
   const heroImage  = featured?.image || homeData?.banners[0]?.image;
@@ -295,6 +311,28 @@ const FloatApp: React.FC = () => {
                   className="fl__signout-btn"
                   onClick={() => { clearAuth(); setAuthUser(null); }}
                 >Sign Out</button>
+                <div style={{ margin: '12px 0 4px', borderTop: '1px solid rgba(255,255,255,0.15)' }} />
+                <button className="fl__signout-btn" style={{ marginTop: 6 }} onClick={() => openWebView(clientUrl('edit-profile'), 'Edit Profile', template.colors.primary)}>
+                  ✏️ Edit Profile
+                </button>
+                <button className="fl__signout-btn" style={{ marginTop: 6 }} onClick={() => openWebView(clientUrl('favorites'), 'Favorites', template.colors.primary)}>
+                  ❤️ Favorites
+                </button>
+                <button className="fl__signout-btn" style={{ marginTop: 6 }} onClick={() => openWebView(clientUrl('points'), 'Points', template.colors.primary)}>
+                  ⭐ Points
+                </button>
+                <button className="fl__signout-btn" style={{ marginTop: 6 }} onClick={() => openWebView(clientUrl('address'), 'Saved Addresses', template.colors.primary)}>
+                  🏠 Saved Addresses
+                </button>
+                <button className="fl__signout-btn" style={{ marginTop: 6 }} onClick={() => setShowCustomize(true)}>
+                  🎨 Customize
+                </button>
+                <button className="fl__signout-btn" style={{ marginTop: 6 }}>
+                  📋 Terms &amp; Conditions
+                </button>
+                <button className="fl__signout-btn" style={{ marginTop: 6, background: '#EF4444' }} onClick={() => setShowDeleteConfirm(true)}>
+                  🗑️ Delete Account
+                </button>
               </div>
             ) : (
               <div className="fl__glass-card fl__login-card">
@@ -368,6 +406,37 @@ const FloatApp: React.FC = () => {
           </button>
         ))}
       </nav>
+
+      {showCustomize && (
+        <div style={{ position: 'fixed', inset: 0, zIndex: 200, background: '#fff' }}>
+          <CustomizePage onBack={() => setShowCustomize(false)} />
+        </div>
+      )}
+
+      {showDeleteConfirm && (
+        <div
+          style={{ position: 'fixed', inset: 0, zIndex: 300, background: 'rgba(0,0,0,0.6)', display: 'flex', alignItems: 'flex-end' }}
+          onClick={() => setShowDeleteConfirm(false)}
+        >
+          <div
+            style={{ width: '100%', background: '#1a1a2e', borderRadius: '16px 16px 0 0', padding: '20px 20px 32px', textAlign: 'center' }}
+            onClick={e => e.stopPropagation()}
+          >
+            <div style={{ width: 40, height: 4, background: 'rgba(255,255,255,0.3)', borderRadius: 2, margin: '0 auto 16px' }} />
+            <span style={{ fontSize: 32 }}>⚠️</span>
+            <h3 style={{ margin: '8px 0 4px', fontSize: 18, fontWeight: 700, color: '#fff' }}>Delete Account?</h3>
+            <p style={{ margin: '0 0 16px', fontSize: 14, color: 'rgba(255,255,255,0.6)' }}>
+              This will permanently delete your account and all associated data. This action cannot be undone.
+            </p>
+            <button className="fl__cta-btn" style={{ background: '#EF4444', marginBottom: 8, width: '100%' }} onClick={handleDeleteConfirmed}>
+              Yes, Delete My Account
+            </button>
+            <button className="fl__cta-btn" style={{ background: 'rgba(255,255,255,0.15)', width: '100%' }} onClick={() => setShowDeleteConfirm(false)}>
+              Cancel
+            </button>
+          </div>
+        </div>
+      )}
 
     </div>
   );

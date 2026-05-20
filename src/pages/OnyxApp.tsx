@@ -2,7 +2,7 @@ import React, { useState, useEffect, useRef } from 'react';
 import { useTemplate, TEMPLATES } from '../context/TemplateContext';
 import { useHomeData } from '../context/HomeDataContext';
 import { useMenuData } from '../context/MenuDataContext';
-import { getSavedUser, isLoggedIn, login, register, saveAuth, clearAuth } from '../services/authApi';
+import { getSavedUser, isLoggedIn, login, register, saveAuth, clearAuth, getToken } from '../services/authApi';
 import type { AuthUser } from '../services/authApi';
 import { getOrderUrl, getRestaurantLogo } from '../services/configApi';
 import { getRestaurantId, getRestaurantName } from '../services/restaurantConfig';
@@ -30,6 +30,7 @@ const OnyxApp: React.FC = () => {
   const [activeGalleryIndex, setGalleryIndex]   = useState(0);
   const [selectedCategory, setSelectedCategory] = useState<number | null>(null);
   const [showCustomize, setShowCustomize]       = useState(false);
+  const [showDeleteConfirm, setShowDeleteConfirm] = useState(false);
   const [authUser, setAuthUser]                 = useState<AuthUser | null>(getInitialUser);
   const [authScreen, setAuthScreen]             = useState<'signin' | 'signup'>('signin');
   const [loginEmail, setEmail]                  = useState('');
@@ -152,6 +153,19 @@ const OnyxApp: React.FC = () => {
       el.scrollTo({ left: items[i].offsetLeft + items[i].offsetWidth / 2 - el.clientWidth / 2, behavior: 'smooth' });
     }
   };
+
+  function clientUrl(path: string) {
+    const rid   = getRestaurantId() ?? '';
+    const token = getToken() ?? '';
+    return `https://app.zingmyorder.com/client/app/${path}/${rid}?token=${token}`;
+  }
+
+  function handleDeleteConfirmed() {
+    setShowDeleteConfirm(false);
+    const rid   = getRestaurantId() ?? '';
+    const token = getToken() ?? '';
+    openWebView(`https://app.zingmyorder.com/app/delete-user/${rid}?token=${token}`, 'Delete Account', template.colors.primary);
+  }
 
   return (
     <div className="ox">
@@ -476,6 +490,25 @@ const OnyxApp: React.FC = () => {
                     <button className="ox__signout" onClick={() => { clearAuth(); setAuthUser(null); }}>
                       Sign Out
                     </button>
+                    <div style={{ margin: '12px 0 4px', borderTop: '1px solid rgba(79,203,83,0.3)' }} />
+                    <button className="ox__signout" style={{ marginTop: 6 }} onClick={() => openWebView(clientUrl('edit-profile'), 'Edit Profile', template.colors.primary)}>
+                      ✏️ Edit Profile
+                    </button>
+                    <button className="ox__signout" style={{ marginTop: 6 }} onClick={() => openWebView(clientUrl('favorites'), 'Favorites', template.colors.primary)}>
+                      ❤️ Favorites
+                    </button>
+                    <button className="ox__signout" style={{ marginTop: 6 }} onClick={() => openWebView(clientUrl('points'), 'Points', template.colors.primary)}>
+                      ⭐ Points
+                    </button>
+                    <button className="ox__signout" style={{ marginTop: 6 }} onClick={() => openWebView(clientUrl('address'), 'Saved Addresses', template.colors.primary)}>
+                      🏠 Saved Addresses
+                    </button>
+                    <button className="ox__signout" style={{ marginTop: 6 }}>
+                      📋 Terms &amp; Conditions
+                    </button>
+                    <button className="ox__signout" style={{ marginTop: 6, background: '#EF4444', color: '#fff' }} onClick={() => setShowDeleteConfirm(true)}>
+                      🗑️ Delete Account
+                    </button>
                   </div>
                 ) : null}
 
@@ -583,6 +616,31 @@ const OnyxApp: React.FC = () => {
                     : <><span>Already a Member? </span><button className="ox__auth-link" type="button" onClick={() => setAuthScreen('signin')}>Sign In</button></>
                   }
                 </p>
+              </div>
+            </div>
+          )}
+
+          {showDeleteConfirm && (
+            <div
+              style={{ position: 'fixed', inset: 0, zIndex: 300, background: 'rgba(0,0,0,0.6)', display: 'flex', alignItems: 'flex-end' }}
+              onClick={() => setShowDeleteConfirm(false)}
+            >
+              <div
+                style={{ width: '100%', background: '#1a1a1a', borderRadius: '16px 16px 0 0', padding: '20px 20px 32px', textAlign: 'center' }}
+                onClick={e => e.stopPropagation()}
+              >
+                <div style={{ width: 40, height: 4, background: 'rgba(79,203,83,0.4)', borderRadius: 2, margin: '0 auto 16px' }} />
+                <span style={{ fontSize: 32 }}>⚠️</span>
+                <h3 style={{ margin: '8px 0 4px', fontSize: 18, fontWeight: 700, color: '#4FCB53' }}>Delete Account?</h3>
+                <p style={{ margin: '0 0 16px', fontSize: 14, color: 'rgba(255,255,255,0.6)' }}>
+                  This will permanently delete your account and all associated data. This action cannot be undone.
+                </p>
+                <button className="ox__cta" style={{ background: '#EF4444', marginBottom: 8 }} onClick={handleDeleteConfirmed}>
+                  Yes, Delete My Account
+                </button>
+                <button className="ox__cta" style={{ background: 'rgba(255,255,255,0.15)' }} onClick={() => setShowDeleteConfirm(false)}>
+                  Cancel
+                </button>
               </div>
             </div>
           )}
