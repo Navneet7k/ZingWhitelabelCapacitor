@@ -188,15 +188,20 @@ const SpiceApp: React.FC = () => {
               </>
             )}
 
-            <div className="sp__points-card">
-              <div className="sp__points-badge">{points > 0 ? `${points} Pts` : '0 Pts'}</div>
-              <div className="sp__points-info">
-                <p className="sp__points-title">Loyalty Points</p>
-                <p className="sp__points-sub">Earn points on every order</p>
+            <div className="sp__points-wrap">
+              <div className="sp__points-circle">
+                <span className="sp__points-num">{points > 0 ? points : '0'}</span>
+                <span className="sp__points-lbl">Pts</span>
               </div>
-              <button className="sp__points-btn" onClick={() => setView('account')}>
-                Learn More ▶
-              </button>
+              <div className="sp__points-card">
+                <p className="sp__points-text">Each Points For Each Orders</p>
+                <button className="sp__points-btn" onClick={() => setView('account')}>
+                  Learn More | ▶
+                </button>
+                <button className="sp__points-edit" onClick={() => setView('account')} aria-label="Points">
+                  ✏️
+                </button>
+              </div>
             </div>
 
             {recentOrders.length > 0 && (
