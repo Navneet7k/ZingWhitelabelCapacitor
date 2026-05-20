@@ -4,7 +4,7 @@ import { useHomeData } from '../context/HomeDataContext';
 import { useMenuData } from '../context/MenuDataContext';
 import { getSavedUser, isLoggedIn, login, register, saveAuth, clearAuth } from '../services/authApi';
 import type { AuthUser } from '../services/authApi';
-import { getOrderUrl } from '../services/configApi';
+import { getOrderUrl, getRestaurantLogo } from '../services/configApi';
 import { getRestaurantId, getRestaurantName } from '../services/restaurantConfig';
 import { openWebView } from '../services/webviewService';
 import CustomizePage from './CustomizePage';
@@ -51,6 +51,7 @@ const OnyxApp: React.FC = () => {
 
   const restaurantId   = getRestaurantId();
   const restaurantName = safe(getRestaurantName(), 'Our Restaurant');
+  const logoUrl        = getRestaurantLogo();
   const allCategories  = menuData?.categories ?? [];
   const popularDishes  = homeData?.popularDishes ?? [];
   const banners        = homeData?.banners ?? [];
@@ -163,7 +164,12 @@ const OnyxApp: React.FC = () => {
         <>
           {/* ── Header ── */}
           <header className="ox__header">
-            <div className="ox__logo-circle">🍽️</div>
+            <div className="ox__logo-circle">
+              {logoUrl
+                ? <img src={logoUrl} alt="" style={{ width: '100%', height: '100%', objectFit: 'cover', borderRadius: '50%' }} />
+                : '🍽️'
+              }
+            </div>
             <span className="ox__header-name">{restaurantName}</span>
             {homeData !== null && (
               <div className="ox__pts-pill">
@@ -513,7 +519,12 @@ const OnyxApp: React.FC = () => {
               </svg>
               <div className="ox__auth-content">
                 <div className="ox__auth-logo-ring">
-                  <div className="ox__logo-circle" style={{ width: 78, height: 78, fontSize: 30 }}>🍽️</div>
+                  <div className="ox__logo-circle" style={{ width: 78, height: 78, fontSize: 30 }}>
+                    {logoUrl
+                      ? <img src={logoUrl} alt="" style={{ width: '100%', height: '100%', objectFit: 'cover', borderRadius: '50%' }} />
+                      : '🍽️'
+                    }
+                  </div>
                 </div>
                 <p className="ox__auth-title">{authScreen === 'signin' ? 'Sign in' : 'Sign up'}</p>
                 <p className="ox__auth-sub">Or with Email</p>
