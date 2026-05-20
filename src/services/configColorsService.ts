@@ -86,9 +86,8 @@ export async function fetchAndStoreConfigColors(restaurantId: string): Promise<b
 // ── Called on every tab switch ────────────────────────────────────────────────
 export function checkConfigColorsOnTabSwitch(restaurantId: string): void {
   if (!isConfigColorsEnabled() || !restaurantId) return;
-  // Always re-apply in case the style tag is empty (e.g. startup race condition).
+  // Apply whatever is currently stored (instant — no network wait).
+  // The fetch below updates localStorage silently; next tab switch picks up new values.
   applyConfigColors(getStoredConfigColors());
-  fetchAndStoreConfigColors(restaurantId).then(changed => {
-    if (changed) applyConfigColors(getStoredConfigColors());
-  });
+  fetchAndStoreConfigColors(restaurantId);
 }
