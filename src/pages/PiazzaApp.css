@@ -53,8 +53,7 @@
 }
 
 /* ────────────────────────────────────────────────
-   HERO — large blob + sliding circular image
-   Uses vw-based clamp() so it scales on tablets
+   HERO — large organic blob + sliding circular image
    ──────────────────────────────────────────────── */
 .pz__hero {
   position: relative;
@@ -62,20 +61,20 @@
   overflow: visible;
 }
 
-/* Warm peach/salmon organic blob — significantly larger than the image */
+/* Warm peach organic blob — more organic asymmetric shape */
 .pz__blob {
   position: absolute;
   width: clamp(248px, 64vw, 370px);
   height: clamp(230px, 59vw, 345px);
   background: #E8A890;
-  border-radius: 60% 40% 68% 32% / 46% 54% 46% 54%;
+  border-radius: 40% 60% 65% 35% / 55% 45% 40% 60%;
   top: clamp(14px, 3.5vw, 28px);
   left: 50%;
   transform: translateX(-50%);
   opacity: 0.82;
 }
 
-/* Decorative dots — positioned from center so they stay near the image on all screens */
+/* Decorative dots — center-relative so they stay near image on all screen sizes */
 .pz__deco {
   position: absolute;
   border-radius: 50%;
@@ -233,40 +232,43 @@
 }
 
 /* ────────────────────────────────────────────────
-   POPULAR DISHES — horizontal scroll strip
+   POPULAR DISHES — horizontal scroll, circular image
+   overflows above the card using negative margin trick.
+   The ring is z-index 2 and sits on top of the card.
    ──────────────────────────────────────────────── */
 .pz__hstrip {
   display: flex;
   gap: 14px;
   overflow-x: auto;
-  padding: 4px 20px 12px;
+  padding: 10px 20px 16px;
   -webkit-overflow-scrolling: touch;
   scrollbar-width: none;
 }
 
 .pz__hstrip::-webkit-scrollbar { display: none; }
 
-.pz__strip-card {
+/* Outer flex column — aligns ring and card on center axis */
+.pz__strip-wrap {
   flex-shrink: 0;
-  width: 158px;
-  background: #FFFFFF;
-  border-radius: 20px;
-  padding: 14px 12px 14px;
+  width: 160px;
   display: flex;
   flex-direction: column;
   align-items: center;
-  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.07);
   cursor: pointer;
   -webkit-tap-highlight-color: transparent;
 }
 
-.pz__strip-img-ring {
-  width: 110px;
-  height: 110px;
+/* Circular image ring — negative margin pulls card up so ring overlaps card top */
+.pz__strip-ring {
+  width: 118px;
+  height: 118px;
   border-radius: 50%;
+  border: 3.5px solid #7B4A4A;
   overflow: hidden;
   flex-shrink: 0;
-  margin-bottom: 10px;
+  margin-bottom: -59px;
+  z-index: 2;
+  position: relative;
   background: #EDE0D8;
 }
 
@@ -278,45 +280,67 @@
 }
 
 .pz__strip-ph {
+  width: 100%;
+  height: 100%;
   display: flex;
   align-items: center;
   justify-content: center;
   font-size: 32px;
+  background: #EDE0D8;
+}
+
+/* Card body — padding-top clears the overflowing ring above */
+.pz__strip-card {
+  background: #FAE8DC;
+  border-radius: 20px;
+  width: 100%;
+  padding: 66px 14px 14px;
+  z-index: 1;
+  position: relative;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.07);
+  box-sizing: border-box;
+}
+
+/* Name + add button row */
+.pz__strip-row {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 6px;
+  margin-bottom: 4px;
 }
 
 .pz__strip-name {
   font-size: 13px;
   font-weight: 700;
   color: #1A1A1A;
-  text-align: center;
-  margin: 0 0 4px;
+  margin: 0;
   line-height: 1.3;
+  flex: 1;
   display: -webkit-box;
   -webkit-line-clamp: 2;
   -webkit-box-orient: vertical;
   overflow: hidden;
-  width: 100%;
 }
 
 .pz__strip-desc {
   font-size: 11px;
   color: #999;
-  text-align: center;
-  margin: 0 0 8px;
+  margin: 0;
   line-height: 1.4;
   display: -webkit-box;
   -webkit-line-clamp: 2;
   -webkit-box-orient: vertical;
   overflow: hidden;
-  width: 100%;
 }
 
+/* Rounded square add button */
 .pz__strip-add {
-  width: 34px;
-  height: 34px;
-  border-radius: 50%;
-  background: #8FBF9F;
-  color: #fff;
+  width: 32px;
+  height: 32px;
+  border-radius: 10px;
+  background: rgba(255, 255, 255, 0.65);
+  color: #4A8A5C;
   border: none;
   font-size: 22px;
   line-height: 1;
@@ -324,31 +348,36 @@
   align-items: center;
   justify-content: center;
   cursor: pointer;
-  margin-top: auto;
   flex-shrink: 0;
   -webkit-tap-highlight-color: transparent;
 }
 
 /* ────────────────────────────────────────────────
-   FEATURED IMAGES — same scale as hero, but with
-   stacked white card backgrounds instead of blob
+   FEATURED IMAGES — stacked card backgrounds with
+   centered circular image overlaid via absolute positioning.
+   All elements share the same center point.
    ──────────────────────────────────────────────── */
 .pz__feat-section {
-  position: relative;
-  height: clamp(260px, 66vw, 380px);
   display: flex;
-  align-items: center;
   justify-content: center;
+  align-items: center;
+  min-height: clamp(260px, 66vw, 380px);
   overflow: visible;
 }
 
-/* Stacked white rectangular cards — mirroring the blob concept */
+/* Bounding box — all children positioned relative to this center */
+.pz__feat-center {
+  position: relative;
+  width: clamp(220px, 56vw, 310px);
+  height: clamp(220px, 56vw, 310px);
+}
+
+/* Stacked pinkish card backgrounds */
 .pz__feat-stack {
   position: absolute;
-  width: clamp(200px, 52vw, 300px);
-  height: clamp(200px, 52vw, 300px);
-  background: #FFFFFF;
-  border-radius: 24px;
+  inset: 0;
+  background: #FAE8DC;
+  border-radius: 22px;
   box-shadow: 0 3px 18px rgba(0, 0, 0, 0.09);
 }
 
@@ -362,28 +391,46 @@
   z-index: 2;
 }
 
-/* Circular image — same size as hero image, sits on stacked cards */
-.pz__feat-hero-img {
-  position: relative;
-  width: clamp(196px, 50vw, 290px);
-  height: clamp(196px, 50vw, 290px);
+/* Circular image ring — centered over the stacked cards */
+.pz__feat-ring {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: clamp(210px, 54vw, 300px);
+  height: clamp(210px, 54vw, 300px);
   border-radius: 50%;
-  object-fit: cover;
+  border: 4px solid #7B4A4A;
+  overflow: hidden;
   z-index: 3;
-  box-shadow: 0 10px 32px rgba(0, 0, 0, 0.16);
-  animation: pzFadeIn 0.45s ease both;
   cursor: pointer;
+  box-shadow: 0 10px 32px rgba(0, 0, 0, 0.16);
+  animation: pzFeatFade 0.45s ease both;
 }
 
-.pz__feat-hero-ph {
-  background: #EDE0D8;
+@keyframes pzFeatFade {
+  from { opacity: 0; transform: translate(-50%, -50%) scale(0.96); }
+  to   { opacity: 1; transform: translate(-50%, -50%) scale(1); }
+}
+
+.pz__feat-img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+.pz__feat-ph {
+  width: 100%;
+  height: 100%;
   display: flex;
   align-items: center;
   justify-content: center;
   font-size: 56px;
+  background: #EDE0D8;
 }
 
-/* Featured images slide dots */
+/* Featured + gallery slide dots */
 .pz__feat-dots {
   display: flex;
   justify-content: center;

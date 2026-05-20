@@ -53,14 +53,12 @@ const PiazzaApp: React.FC = () => {
     ? (allCategories.find(c => c.id === activeCategory)?.items ?? [])
     : allCategories.flatMap(c => c.items ?? []);
 
-  // Hero auto-advance every 3 s
   useEffect(() => {
     if (popularDishes.length <= 1) return;
     const t = setInterval(() => setHeroIndex(i => (i + 1) % popularDishes.length), 3000);
     return () => clearInterval(t);
   }, [popularDishes.length]);
 
-  // Featured images auto-advance every 4 s (offset from hero)
   useEffect(() => {
     if (popularDishes.length <= 1) return;
     const t = setInterval(() => setFeatIndex(i => (i + 1) % popularDishes.length), 4000);
@@ -73,7 +71,7 @@ const PiazzaApp: React.FC = () => {
       const url = getOrderUrl();
       if (!url) return;
       await openWebView(url, 'Place Order', template.colors.primary);
-    } catch { /* silent — never crash on order tap */ }
+    } catch { /* silent */ }
   };
 
   const handleLogin = async (e: React.FormEvent) => {
@@ -105,13 +103,12 @@ const PiazzaApp: React.FC = () => {
         {points > 0 && <span className="pz__pts-badge">{points.toLocaleString()} pts</span>}
       </header>
 
-      {/* ── Scrollable Content ── */}
       <div className="pz__scroll">
 
         {/* ── HOME ── */}
         {view === 'home' && (
           <>
-            {/* ── Hero: large blob + sliding circular image ── */}
+            {/* ── Hero: organic blob + circular slider image ── */}
             <div className="pz__hero">
               <div className="pz__blob" />
               <div className="pz__deco pz__deco--1" />
@@ -145,58 +142,73 @@ const PiazzaApp: React.FC = () => {
               <h1 className="pz__welcome-name">{restaurantName}</h1>
             </div>
 
-            {/* ── Points banner ── */}
-            {points > 0 && (
+            {/* ── Points banner — always show when homeData is loaded ── */}
+            {homeData !== null && (
               <div className="pz__pts-card">
                 <span className="pz__pts-star">⭐</span>
                 <div className="pz__pts-text">
                   <p className="pz__pts-title">Earn Points</p>
                   <p className="pz__pts-desc">for Each Order.</p>
                 </div>
-                <p className="pz__pts-count">{points.toLocaleString()}<span>Pts</span></p>
+                <p className="pz__pts-count">
+                  {points.toLocaleString()}
+                  <span>Pts</span>
+                </p>
               </div>
             )}
 
-            {/* ── Popular dishes — horizontal scroll strip ── */}
+            {/* ── Popular dishes — horizontal scroll, image overflows card top ── */}
             {popularDishes.length > 0 && (
               <div className="pz__hstrip">
                 {popularDishes.map((dish, i) => (
-                  <div key={i} className="pz__strip-card" onClick={handleOrder}>
-                    <div className="pz__strip-img-ring">
+                  <div key={i} className="pz__strip-wrap" onClick={handleOrder}>
+                    {/* Circular image overflows above the card */}
+                    <div className="pz__strip-ring">
                       {dish.image
                         ? <img className="pz__strip-img" src={dish.image} alt="" loading="lazy" />
                         : <div className="pz__strip-img pz__strip-ph">🍕</div>
                       }
                     </div>
-                    {safe(dish.name) && <p className="pz__strip-name">{safe(dish.name)}</p>}
-                    {dish.description && <p className="pz__strip-desc">{dish.description}</p>}
-                    <button
-                      className="pz__strip-add"
-                      onClick={e => { e.stopPropagation(); handleOrder(); }}
-                    >+</button>
+                    {/* Card body — sits below, padded to clear the overflowing image */}
+                    <div className="pz__strip-card">
+                      <div className="pz__strip-row">
+                        <p className="pz__strip-name">
+                          {safe(dish.name) || 'Featured Dish'}
+                        </p>
+                        <button
+                          className="pz__strip-add"
+                          onClick={e => { e.stopPropagation(); handleOrder(); }}
+                        >+</button>
+                      </div>
+                      {dish.description && (
+                        <p className="pz__strip-desc">{dish.description}</p>
+                      )}
+                    </div>
                   </div>
                 ))}
               </div>
             )}
 
-            {/* ── Featured Images — same scale as hero, stacked cards instead of blob ── */}
+            {/* ── Featured Images — stacked cards with centered circular image ── */}
             {popularDishes.length > 0 && (
               <>
                 <p className="pz__section-title">Featured Images</p>
                 <div className="pz__feat-section">
-                  <div className="pz__feat-stack pz__feat-stack--b" />
-                  <div className="pz__feat-stack pz__feat-stack--m" />
-                  {popularDishes[featIndex]?.image
-                    ? <img
-                        key={featIndex}
-                        className="pz__feat-hero-img"
-                        src={popularDishes[featIndex].image}
-                        alt=""
-                        loading="lazy"
-                        onClick={handleOrder}
-                      />
-                    : <div className="pz__feat-hero-img pz__feat-hero-ph">🍕</div>
-                  }
+                  {/* All elements share the same center point via absolute positioning */}
+                  <div className="pz__feat-center">
+                    <div className="pz__feat-stack pz__feat-stack--b" />
+                    <div className="pz__feat-stack pz__feat-stack--m" />
+                    <div
+                      key={featIndex}
+                      className="pz__feat-ring"
+                      onClick={handleOrder}
+                    >
+                      {popularDishes[featIndex]?.image
+                        ? <img className="pz__feat-img" src={popularDishes[featIndex].image} alt="" loading="lazy" />
+                        : <div className="pz__feat-img pz__feat-ph">🍕</div>
+                      }
+                    </div>
+                  </div>
                 </div>
                 {popularDishes.length > 1 && (
                   <div className="pz__feat-dots">
@@ -222,6 +234,11 @@ const PiazzaApp: React.FC = () => {
                       ? <img key={i} className="pz__gallery-img" src={b.image} alt="" loading="lazy" onClick={handleOrder} />
                       : null
                   ))}
+                </div>
+                <div className="pz__feat-dots">
+                  <button className="pz__slider-dot active" />
+                  <button className="pz__slider-dot" />
+                  <button className="pz__slider-dot" />
                 </div>
               </>
             )}
