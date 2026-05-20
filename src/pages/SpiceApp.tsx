@@ -39,6 +39,7 @@ const SpiceApp: React.FC = () => {
   const { data: menuData } = useMenuData();
 
   const [view, setView]                   = useState<SpiceView>('home');
+  const [selectedBanner, setSelectedBanner] = useState(0);
   const [activeCategory, setCategory]     = useState<number | null>(null);
   const [authUser, setAuthUser]           = useState<AuthUser | null>(getInitialUser);
   const [authMode, setAuthMode]           = useState<AuthMode>('login');
@@ -157,35 +158,41 @@ const SpiceApp: React.FC = () => {
         {/* ── HOME ── */}
         {view === 'home' && (
           <>
-            <div className="sp__hero" onClick={handleOrder}>
-              {popularDishes[0]?.image
-                ? <img className="sp__hero-img" src={popularDishes[0].image} alt="" loading="lazy" decoding="async" />
-                : <div className="sp__hero-img sp__hero-img--ph" />
-              }
-              <div className="sp__hero-veil">
-                <p className="sp__hero-welcome">Welcome To</p>
-                <h1 className="sp__hero-name">{restaurantName}</h1>
-                <button className="sp__hero-btn" onClick={e => { e.stopPropagation(); handleOrder(); }}>
-                  Order Now
-                </button>
-              </div>
-            </div>
-
-            {popularDishes.length > 0 && (
-              <>
-                <p className="sp__section-title">Popular Dishes</p>
-                <div className="sp__circles">
-                  {popularDishes.slice(0, 6).map((dish, i) => (
-                    <button key={i} className={`sp__circle${i === 0 ? ' sp__circle--active' : ''}`} onClick={handleOrder}>
-                      {dish.image
-                        ? <img className="sp__circle-img" src={dish.image} alt="" loading="lazy" decoding="async" />
-                        : <div className="sp__circle-img sp__circle-ph">{safe(dish.name?.[0], '🌶')}</div>
-                      }
-                      <span className="sp__circle-label">{safe(dish.name)}</span>
+            {(() => {
+              const slide = banners[selectedBanner];
+              return (
+                <div className="sp__hero" onClick={handleOrder}>
+                  {slide?.image
+                    ? <img className="sp__hero-img" src={slide.image} alt="" loading="lazy" decoding="async" />
+                    : <div className="sp__hero-img sp__hero-img--ph" />
+                  }
+                  <div className="sp__hero-veil">
+                    <p className="sp__hero-welcome">Welcome To</p>
+                    <h1 className="sp__hero-name">{restaurantName}</h1>
+                    <button className="sp__hero-btn" onClick={e => { e.stopPropagation(); handleOrder(); }}>
+                      Order Now
                     </button>
-                  ))}
+                  </div>
                 </div>
-              </>
+              );
+            })()}
+
+            {banners.length > 0 && (
+              <div className="sp__circles">
+                {banners.map((banner, i) => (
+                  <button
+                    key={i}
+                    className={`sp__circle${i === selectedBanner ? ' sp__circle--active' : ''}`}
+                    onClick={() => setSelectedBanner(i)}
+                  >
+                    {banner.image
+                      ? <img className="sp__circle-img" src={banner.image} alt="" loading="lazy" decoding="async" />
+                      : <div className="sp__circle-img sp__circle-ph">🌶</div>
+                    }
+                    <span className="sp__circle-label">{safe(banner.title)}</span>
+                  </button>
+                ))}
+              </div>
             )}
 
             <div className="sp__points-wrap">
