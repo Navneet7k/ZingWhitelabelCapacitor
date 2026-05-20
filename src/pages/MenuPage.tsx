@@ -116,7 +116,7 @@ const MenuPage: React.FC = () => {
           {items.map((item, i) => (
             <div key={item.id} className="menu__item" style={{ animationDelay: `${i * 0.06}s` }}>
               {item.image
-                ? <img src={item.image} alt={item.name} className="menu__item-img" />
+                ? <img src={item.image} alt={item.name} className="menu__item-img" loading="lazy" decoding="async" />
                 : <div className="menu__item-img menu__item-img--placeholder" />
               }
               <div className="menu__item-body">
