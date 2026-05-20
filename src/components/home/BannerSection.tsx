@@ -151,15 +151,31 @@ const ZenBanner: React.FC = () => {
 /* ── FIESTA ── */
 const FiestaBanner: React.FC = () => {
   const BANNER_SLIDES = useContext(BannerCtx);
-  const [active, setActive] = useState(0);
+  const [active, setActive]     = useState(0);
+  const [imgLoaded, setImgLoaded] = useState(false);
+
   useEffect(() => {
     const t = setInterval(() => setActive(i => (i + 1) % BANNER_SLIDES.length), 3800);
     return () => clearInterval(t);
   }, [BANNER_SLIDES.length]);
+
+  useEffect(() => {
+    setImgLoaded(false);
+    let cancelled = false;
+    const img = new window.Image();
+    img.src = BANNER_SLIDES[active]?.image ?? '';
+    img.onload  = () => { if (!cancelled) setImgLoaded(true); };
+    img.onerror = () => { if (!cancelled) setImgLoaded(true); };
+    return () => { cancelled = true; };
+  }, [active, BANNER_SLIDES]);
+
   const slide = BANNER_SLIDES[active] ?? BANNER_SLIDES[0];
   return (
     <div className="fiesta-banner">
-      <div key={active} className="fiesta-banner__img" style={{ backgroundImage: `url(${slide.image})` }} />
+      <div key={active} className="fiesta-banner__img"
+        style={{ backgroundImage: `url(${slide.image})`, opacity: imgLoaded ? 1 : 0, transition: 'opacity 0.4s ease' }} />
+      <div className="fiesta-shimmer"
+        style={{ position: 'absolute', inset: 0, pointerEvents: 'none', opacity: imgLoaded ? 0 : 1, transition: 'opacity 0.4s ease' }} />
       <div className="fiesta-banner__gradient" style={{ background: slide.gradient }} />
       <div key={`c-${active}`} className="fiesta-banner__content">
         <h1 className="fiesta-banner__title">{`Welcome to ${getRestaurantName() ?? 'Zing'}`}</h1>

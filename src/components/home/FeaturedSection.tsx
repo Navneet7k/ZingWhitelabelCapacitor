@@ -86,6 +86,20 @@ const ZenFeatured: React.FC = () => {
   );
 };
 
+const FiestaImg: React.FC<{ src: string; cls?: string }> = ({ src, cls }) => {
+  const [loaded, setLoaded]   = React.useState(false);
+  const [errored, setErrored] = React.useState(false);
+  if (!src || errored) return null;
+  return (
+    <div className={cls} style={{ position: 'relative', overflow: 'hidden' }}>
+      <div className="fiesta-shimmer" style={{ position: 'absolute', inset: 0, borderRadius: 'inherit', opacity: loaded ? 0 : 1, transition: 'opacity 0.4s ease', pointerEvents: 'none' }} />
+      <img src={src} alt=""
+        style={{ position: 'absolute', inset: 0, width: '100%', height: '100%', objectFit: 'cover', display: 'block', opacity: loaded ? 1 : 0, transition: 'opacity 0.4s ease' }}
+        onLoad={() => setLoaded(true)} onError={() => setErrored(true)} loading="lazy" decoding="async" />
+    </div>
+  );
+};
+
 /* ── Fiesta ── colorful gradient badge + bold border */
 const FiestaFeatured: React.FC = () => {
   const items = useContext(FeaturedCtx);
@@ -96,7 +110,7 @@ const FiestaFeatured: React.FC = () => {
       <div className="feat-scroll feat-scroll--fiesta">
         {items.map((item, i) => (
           <div key={item.id} className="feat-card feat-card--fiesta" style={{ animationDelay: `${i * 0.06}s` }}>
-            <img src={item.url} alt="" className="feat-card__img" />
+            <FiestaImg src={item.url} cls="feat-card__img" />
             <span className="feat-card--fiesta__badge">{BADGES[i % BADGES.length]}</span>
           </div>
         ))}

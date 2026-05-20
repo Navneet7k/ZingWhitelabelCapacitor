@@ -142,6 +142,20 @@ const ZenDishes: React.FC = () => {
   );
 };
 
+const FiestaImg: React.FC<{ src: string; alt?: string; cls?: string }> = ({ src, alt = '', cls }) => {
+  const [loaded, setLoaded]   = React.useState(false);
+  const [errored, setErrored] = React.useState(false);
+  if (!src || errored) return null;
+  return (
+    <div className={cls} style={{ position: 'relative', overflow: 'hidden' }}>
+      <div className="fiesta-shimmer" style={{ position: 'absolute', inset: 0, borderRadius: 'inherit', opacity: loaded ? 0 : 1, transition: 'opacity 0.4s ease', pointerEvents: 'none' }} />
+      <img src={src} alt={alt}
+        style={{ position: 'absolute', inset: 0, width: '100%', height: '100%', objectFit: 'cover', display: 'block', opacity: loaded ? 1 : 0, transition: 'opacity 0.4s ease' }}
+        onLoad={() => setLoaded(true)} onError={() => setErrored(true)} loading="lazy" decoding="async" />
+    </div>
+  );
+};
+
 const FiestaDishes: React.FC = () => {
   const POPULAR_DISHES = useContext(DishesCtx);
   return (
@@ -150,7 +164,7 @@ const FiestaDishes: React.FC = () => {
       <div className="fiesta-dishes__track">
         {POPULAR_DISHES.map((dish, i) => (
           <div key={dish.id} className="fiesta-dish-card" style={{ animationDelay: `${i * 0.07}s` }}>
-            <img src={dish.image} alt={dish.name} className="fiesta-dish-card__img" />
+            <FiestaImg src={dish.image} alt={dish.name} cls="fiesta-dish-card__img" />
             <div className="fiesta-dish-card__gradient" style={{ background: FIESTA_GRADIENTS[i % FIESTA_GRADIENTS.length] }} />
             <div className="fiesta-dish-card__content">
               <span className="fiesta-dish-card__tag">{dish.tag}</span>
