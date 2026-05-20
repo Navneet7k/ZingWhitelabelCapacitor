@@ -140,32 +140,23 @@
 }
 
 .sp__circle-img {
-  width: 64px;
-  height: 64px;
+  width: 76px;
+  height: 76px;
   border-radius: 50%;
   object-fit: cover;
-  border: 2px solid transparent;
-  transition: border-color 0.2s, width 0.2s, height 0.2s;
+  border: 2px solid rgba(255,255,255,0.7);
 }
 
 .sp__circle-ph {
-  width: 64px;
-  height: 64px;
+  width: 76px;
+  height: 76px;
   border-radius: 50%;
   background: var(--t-primary, #1B4D2E);
   display: flex;
   align-items: center;
   justify-content: center;
   font-size: 22px;
-  border: 2px solid transparent;
-  transition: border-color 0.2s, width 0.2s, height 0.2s;
-}
-
-.sp__circle--active .sp__circle-img,
-.sp__circle--active .sp__circle-ph {
-  border-color: #fff;
-  width: 78px;
-  height: 78px;
+  border: 2px solid rgba(255,255,255,0.7);
 }
 
 .sp__circle-label {
@@ -191,8 +182,7 @@
   height: 130px;
   border-radius: 50%;
   border: 2.5px solid rgba(255,255,255,0.6);
-  background-color: var(--t-bg, #2C5F3E);
-  background-image: linear-gradient(rgba(255,255,255,0.18), rgba(255,255,255,0.18));
+  background: rgba(255,255,255,0.18);
   display: flex;
   flex-direction: column;
   align-items: center;
