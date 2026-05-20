@@ -8,8 +8,21 @@ import { getOrderUrl } from '../services/configApi';
 import { getRestaurantId, getRestaurantName } from '../services/restaurantConfig';
 import { openWebView } from '../services/webviewService';
 import { checkConfigColorsOnTabSwitch } from '../services/configColorsService';
+import { getStatus, onStatusChange, applyIfReady } from '../services/updater';
+import type { UpdateStatus } from '../services/updater';
 import CustomizePage from './CustomizePage';
 import './ReelApp.css';
+
+function updateStatusLabel(s: UpdateStatus): { text: string; color: string } {
+  switch (s.state) {
+    case 'idle':        return { text: 'Idle', color: '#888' };
+    case 'checking':    return { text: 'Checking for updates…', color: '#F5A623' };
+    case 'up_to_date':  return { text: `Up to date (${s.version})`, color: '#4CAF50' };
+    case 'downloading': return { text: `Downloading update ${s.from} → ${s.to}…`, color: '#2196F3' };
+    case 'ready':       return { text: `Update ready (v${s.version}) — restart app to apply`, color: '#9C27B0' };
+    case 'error':       return { text: `Update error: ${s.reason}`, color: '#F44336' };
+  }
+}
 
 type Sheet = 'none' | 'menu' | 'account';
 
@@ -41,6 +54,8 @@ const ReelApp: React.FC = () => {
   const [hasScrolled, setHasScrolled] = useState(false);
   const [showCustomize, setShowCustomize] = useState(false);
   const [showDeleteConfirm, setShowDeleteConfirm] = useState(false);
+  const [updateStatus, setUpdateStatus] = useState<UpdateStatus>(getStatus);
+  useEffect(() => onStatusChange(setUpdateStatus), []);
 
   const feedRef        = useRef<HTMLDivElement>(null);
   const restaurantId   = getRestaurantId();
@@ -312,6 +327,28 @@ const ReelApp: React.FC = () => {
                         </form>
                       </>
                     )}
+
+                    <div style={{ margin: '16px 16px 4px', background: 'rgba(0,0,0,0.15)', borderRadius: 12, padding: '14px 16px' }}>
+                      <div style={{ display: 'flex', alignItems: 'center', gap: 8, marginBottom: 6 }}>
+                        <span style={{ fontSize: 18 }}>
+                          {updateStatus.state === 'checking' || updateStatus.state === 'downloading' ? '🔄' :
+                           updateStatus.state === 'ready' ? '⬆️' :
+                           updateStatus.state === 'error' ? '❌' : '🔃'}
+                        </span>
+                        <span style={{ fontSize: 14, fontWeight: 700, color: 'var(--t-text, #fff)' }}>App Updates</span>
+                      </div>
+                      <p style={{ margin: '0 0 8px', fontSize: 12, color: updateStatusLabel(updateStatus).color }}>
+                        {updateStatus.state === 'ready'
+                          ? `v${(updateStatus as any).version} downloaded — tap to install`
+                          : updateStatusLabel(updateStatus).text}
+                      </p>
+                      {updateStatus.state === 'ready' && (
+                        <button
+                          style={{ padding: '8px 16px', background: template.colors.primary, color: '#fff', border: 'none', borderRadius: 8, fontSize: 13, fontWeight: 700, cursor: 'pointer' }}
+                          onClick={() => applyIfReady()}
+                        >Apply Update Now</button>
+                      )}
+                    </div>
 
                     <p className="rl__tmpl-label">Switch Template</p>
                     <div className="rl__tmpl-strip">
