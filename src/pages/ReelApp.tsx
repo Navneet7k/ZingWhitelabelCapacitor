@@ -7,6 +7,7 @@ import type { AuthUser } from '../services/authApi';
 import { getOrderUrl } from '../services/configApi';
 import { getRestaurantId, getRestaurantName } from '../services/restaurantConfig';
 import { openWebView } from '../services/webviewService';
+import { checkConfigColorsOnTabSwitch } from '../services/configColorsService';
 import CustomizePage from './CustomizePage';
 import './ReelApp.css';
 
@@ -57,6 +58,12 @@ const ReelApp: React.FC = () => {
     el.addEventListener('scroll', onScroll, { passive: true });
     return () => el.removeEventListener('scroll', onScroll);
   }, [hasScrolled]);
+
+  const didMountRef = useRef(false);
+  useEffect(() => {
+    if (!didMountRef.current) { didMountRef.current = true; return; }
+    checkConfigColorsOnTabSwitch(restaurantId ?? '');
+  }, [sheet]);
 
   const handleOrder = async () => {
     if (!authUser) { setSheet('account'); return; }

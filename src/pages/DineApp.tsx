@@ -7,6 +7,7 @@ import type { AuthUser } from '../services/authApi';
 import { getOrderUrl } from '../services/configApi';
 import { getRestaurantId, getRestaurantName } from '../services/restaurantConfig';
 import { openWebView } from '../services/webviewService';
+import { checkConfigColorsOnTabSwitch } from '../services/configColorsService';
 import CustomizePage from './CustomizePage';
 import './DineApp.css';
 
@@ -78,6 +79,12 @@ const DineApp: React.FC = () => {
 
   useEffect(() => {
     if (view !== 'menu') setSelectedCategory(null);
+  }, [view]);
+
+  const didMountRef = useRef(false);
+  useEffect(() => {
+    if (!didMountRef.current) { didMountRef.current = true; return; }
+    checkConfigColorsOnTabSwitch(restaurantId ?? '');
   }, [view]);
 
   const handleOrder = async () => {

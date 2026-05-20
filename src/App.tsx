@@ -34,6 +34,7 @@ import PiazzaApp from './pages/PiazzaApp';
 import DineApp from './pages/DineApp';
 import OnyxApp from './pages/OnyxApp';
 import { isRestaurantMode } from './services/restaurantConfig';
+import { checkConfigColorsOnTabSwitch } from './services/configColorsService';
 import HomePage from './pages/HomePage';
 import MenuPage from './pages/MenuPage';
 import OrdersPage from './pages/OrdersPage';
@@ -303,7 +304,7 @@ const AppInner: React.FC = () => {
           <Route exact path="/account" component={AccountGate} />
           <Route exact path="/" render={() => <Redirect to="/home" />} />
         </IonRouterOutlet>
-        <IonTabBar slot="bottom" onClick={() => checkOnTabSwitch()}>
+        <IonTabBar slot="bottom" onClick={() => { checkOnTabSwitch(); const rid = getRestaurantId(); if (rid) checkConfigColorsOnTabSwitch(rid); }}>
           <IonTabButton tab="home" href="/home">
             <IonIcon icon={homeOutline} />
             <IonLabel>Home</IonLabel>

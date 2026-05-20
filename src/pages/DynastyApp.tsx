@@ -1,4 +1,4 @@
-import React, { useState, useRef } from 'react';
+import React, { useState, useRef, useEffect } from 'react';
 import { useTemplate, TEMPLATES } from '../context/TemplateContext';
 import { useHomeData } from '../context/HomeDataContext';
 import { useMenuData } from '../context/MenuDataContext';
@@ -7,6 +7,7 @@ import type { AuthUser } from '../services/authApi';
 import { getOrderUrl } from '../services/configApi';
 import { getRestaurantId, getRestaurantName } from '../services/restaurantConfig';
 import { openWebView } from '../services/webviewService';
+import { checkConfigColorsOnTabSwitch } from '../services/configColorsService';
 import CustomizePage from './CustomizePage';
 import './DynastyApp.css';
 
@@ -56,6 +57,12 @@ const DynastyApp: React.FC = () => {
   const groupedSections = activeCategory
     ? [{ id: activeCategory, name: allCategories.find(c => c.id === activeCategory)?.name ?? '', items: visibleItems }]
     : allCategories.filter(c => c.items.length > 0);
+
+  const didMountRef = useRef(false);
+  useEffect(() => {
+    if (!didMountRef.current) { didMountRef.current = true; return; }
+    checkConfigColorsOnTabSwitch(restaurantId ?? '');
+  }, [sheetTab]);
 
   const handleOrder = async () => {
     if (!authUser) {

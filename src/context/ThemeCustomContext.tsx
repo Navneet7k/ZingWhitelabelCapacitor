@@ -1,5 +1,14 @@
 import React, { createContext, useContext, useState, useEffect } from 'react';
 import { useTemplate, type TemplateId } from './TemplateContext';
+import {
+  isConfigColorsEnabled,
+  persistConfigColorsEnabled,
+  getStoredConfigColors,
+  applyConfigColors,
+  clearConfigColors,
+  fetchAndStoreConfigColors,
+} from '../services/configColorsService';
+import { getRestaurantId } from '../services/restaurantConfig';
 
 export interface ThemeOverrides {
   primary?: string;
@@ -57,22 +66,26 @@ interface ThemeCustomCtxValue {
   overrides: ThemeOverrides;
   setOverride: (key: keyof ThemeOverrides, value: string) => void;
   resetOverrides: () => void;
+  configColorsEnabled: boolean;
+  setConfigColorsEnabled: (enabled: boolean) => void;
 }
 
 const ThemeCustomCtx = createContext<ThemeCustomCtxValue | null>(null);
 
 export const ThemeCustomProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
   const { template } = useTemplate();
-  const [overrides, setOverrides] = useState<ThemeOverrides>(() => loadOverrides(template.id));
+  const [overrides, setOverrides]               = useState<ThemeOverrides>(() => loadOverrides(template.id));
+  const [configColorsEnabled, setConfigColorsState] = useState(isConfigColorsEnabled);
 
-  // When template changes, load that template's saved overrides
+  // When template changes, reload overrides and re-apply config colors for the new template
   useEffect(() => {
     const o = loadOverrides(template.id);
     setOverrides(o);
     applyCSS(template.id, o);
+    if (isConfigColorsEnabled()) applyConfigColors(getStoredConfigColors());
   }, [template.id]);
 
-  // Re-apply whenever overrides change
+  // Re-apply manual overrides whenever they change
   useEffect(() => {
     applyCSS(template.id, overrides);
   }, [template.id, overrides]);
@@ -95,8 +108,26 @@ export const ThemeCustomProvider: React.FC<{ children: React.ReactNode }> = ({ c
     localStorage.removeItem(storageKey(template.id));
   };
 
+  const setConfigColorsEnabled = (enabled: boolean) => {
+    persistConfigColorsEnabled(enabled);
+    setConfigColorsState(enabled);
+    if (enabled) {
+      // Apply stored colors immediately for instant feedback
+      applyConfigColors(getStoredConfigColors());
+      // Fetch fresh colors in the background; apply if changed
+      const rid = getRestaurantId();
+      if (rid) {
+        fetchAndStoreConfigColors(rid).then(changed => {
+          if (changed) applyConfigColors(getStoredConfigColors());
+        });
+      }
+    } else {
+      clearConfigColors();
+    }
+  };
+
   return (
-    <ThemeCustomCtx.Provider value={{ overrides, setOverride, resetOverrides }}>
+    <ThemeCustomCtx.Provider value={{ overrides, setOverride, resetOverrides, configColorsEnabled, setConfigColorsEnabled }}>
       {children}
     </ThemeCustomCtx.Provider>
   );

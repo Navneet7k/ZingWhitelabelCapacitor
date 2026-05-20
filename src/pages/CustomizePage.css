@@ -193,6 +193,78 @@
   opacity: 0.75;
 }
 
+/* ── Brand Colors Toggle ── */
+.cp__section--toggle {
+  border-bottom: 1px solid var(--t-border, rgba(128,128,128,0.15));
+  padding-bottom: 16px;
+  margin-bottom: 4px;
+}
+
+.cp__toggle-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+}
+
+.cp__toggle-info {
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+}
+
+.cp__toggle-desc {
+  font-family: var(--t-font-body, sans-serif);
+  font-size: 11px;
+  color: var(--t-text-muted, #888);
+  margin: 0;
+}
+
+.cp__toggle-hint {
+  font-family: var(--t-font-body, sans-serif);
+  font-size: 11px;
+  color: var(--t-primary, #007aff);
+  margin: 10px 0 0;
+  padding: 8px 10px;
+  background: rgba(79, 203, 83, 0.08);
+  border-radius: 8px;
+  border-left: 3px solid var(--t-primary, #4FCB53);
+}
+
+.cp__toggle-btn {
+  flex-shrink: 0;
+  width: 50px;
+  height: 28px;
+  border-radius: 14px;
+  background: rgba(120,120,128,0.3);
+  border: none;
+  cursor: pointer;
+  position: relative;
+  transition: background 200ms ease;
+  padding: 0;
+}
+
+.cp__toggle-btn--on {
+  background: var(--t-primary, #4FCB53);
+}
+
+.cp__toggle-knob {
+  position: absolute;
+  top: 3px;
+  left: 3px;
+  width: 22px;
+  height: 22px;
+  border-radius: 50%;
+  background: #ffffff;
+  box-shadow: 0 1px 4px rgba(0,0,0,0.25);
+  transition: transform 200ms ease;
+  display: block;
+}
+
+.cp__toggle-btn--on .cp__toggle-knob {
+  transform: translateX(22px);
+}
+
 /* ── Bottom space ── */
 .cp__bottom-space {
   height: 40px;

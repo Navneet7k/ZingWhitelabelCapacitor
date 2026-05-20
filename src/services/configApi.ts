@@ -5,11 +5,16 @@ const IMG_BASE   = 'https://app.zingmyorder.com/image/original/';
 const ORDER_BASE = 'https://app.zingmyorder.com/order/eatery';
 const SLUG_KEY   = 'zing_restaurant_slug';
 const LOGO_KEY   = 'zing_restaurant_logo';
+const COLORS_KEY = 'zing_config_colors';
 
 interface ApiConfigResponse {
   restaurant?: {
     slug?: string;
     logo?: { path?: string }[];
+    [key: string]: unknown;
+  };
+  app?: {
+    colors?: Record<string, string>;
     [key: string]: unknown;
   };
   [key: string]: unknown;
@@ -24,6 +29,8 @@ export async function fetchRestaurantConfig(restaurantId: string): Promise<void>
     if (slug) localStorage.setItem(SLUG_KEY, slug as string);
     const logoPath = data?.restaurant?.logo?.[0]?.path;
     if (logoPath) localStorage.setItem(LOGO_KEY, `${IMG_BASE}${logoPath}`);
+    const colors = data?.app?.colors;
+    if (colors && typeof colors === 'object') localStorage.setItem(COLORS_KEY, JSON.stringify(colors));
   } catch { /* non-critical */ }
 }
 

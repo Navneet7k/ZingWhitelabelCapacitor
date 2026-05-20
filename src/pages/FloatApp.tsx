@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { useTemplate, TEMPLATES } from '../context/TemplateContext';
 import { useHomeData } from '../context/HomeDataContext';
 import { useMenuData } from '../context/MenuDataContext';
@@ -7,6 +7,7 @@ import type { AuthUser } from '../services/authApi';
 import { getOrderUrl } from '../services/configApi';
 import { getRestaurantId, getRestaurantName } from '../services/restaurantConfig';
 import { openWebView } from '../services/webviewService';
+import { checkConfigColorsOnTabSwitch } from '../services/configColorsService';
 import CustomizePage from './CustomizePage';
 import './FloatApp.css';
 
@@ -53,6 +54,12 @@ const FloatApp: React.FC = () => {
   const filteredItems = activeCategory
     ? (allCategories.find(c => c.id === activeCategory)?.items ?? [])
     : allCategories.flatMap(c => c.items);
+
+  const didMountRef = useRef(false);
+  useEffect(() => {
+    if (!didMountRef.current) { didMountRef.current = true; return; }
+    checkConfigColorsOnTabSwitch(restaurantId ?? '');
+  }, [view]);
 
   const handleOrder = async () => {
     if (!authUser) { setView('account'); return; }

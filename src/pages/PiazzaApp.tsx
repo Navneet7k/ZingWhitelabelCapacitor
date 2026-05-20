@@ -7,6 +7,7 @@ import type { AuthUser } from '../services/authApi';
 import { getOrderUrl } from '../services/configApi';
 import { getRestaurantId, getRestaurantName } from '../services/restaurantConfig';
 import { openWebView } from '../services/webviewService';
+import { checkConfigColorsOnTabSwitch } from '../services/configColorsService';
 import CustomizePage from './CustomizePage';
 import './PiazzaApp.css';
 
@@ -70,6 +71,12 @@ const PiazzaApp: React.FC = () => {
     const t = setInterval(() => setFeatIndex(i => (i + 1) % popularDishes.length), 4000);
     return () => clearInterval(t);
   }, [popularDishes.length]);
+
+  const didMountRef = useRef(false);
+  useEffect(() => {
+    if (!didMountRef.current) { didMountRef.current = true; return; }
+    checkConfigColorsOnTabSwitch(restaurantId ?? '');
+  }, [view]);
 
   const handleOrder = async () => {
     try {
