@@ -5,7 +5,7 @@ import { useMenuData } from '../context/MenuDataContext';
 import { getSavedUser, isLoggedIn, login, register, saveAuth, clearAuth, getToken } from '../services/authApi';
 import type { AuthUser } from '../services/authApi';
 import { getOrderUrl, getRestaurantLogo } from '../services/configApi';
-import { getRestaurantId, getRestaurantName, isRestaurantMode } from '../services/restaurantConfig';
+import { getRestaurantId, getRestaurantName } from '../services/restaurantConfig';
 import { openWebView } from '../services/webviewService';
 import { checkConfigColorsOnTabSwitch } from '../services/configColorsService';
 import CustomizePage from './CustomizePage';
@@ -470,24 +470,20 @@ const SpiceApp: React.FC = () => {
               </div>
             )}
 
-            {!isRestaurantMode() && (
-              <>
-                <p className="sp__tmpl-label">Switch Template</p>
-                <div className="sp__tmpl-strip">
-                  {TEMPLATES.map(t => (
-                    <button
-                      key={t.id}
-                      className={`sp__tmpl-pill${t.id === template.id ? ' active' : ''}`}
-                      style={{ background: t.colors.bg, borderColor: t.id === template.id ? t.colors.primary : 'transparent' }}
-                      onClick={() => setTemplateId(t.id)}
-                    >
-                      <span className="sp__tmpl-emoji">{t.emoji}</span>
-                      <span className="sp__tmpl-name" style={{ color: t.colors.text }}>{t.name}</span>
-                    </button>
-                  ))}
-                </div>
-              </>
-            )}
+            <p className="sp__tmpl-label">Switch Template</p>
+            <div className="sp__tmpl-strip">
+              {TEMPLATES.map(t => (
+                <button
+                  key={t.id}
+                  className={`sp__tmpl-pill${t.id === template.id ? ' active' : ''}`}
+                  style={{ background: t.colors.bg, borderColor: t.id === template.id ? t.colors.primary : 'transparent' }}
+                  onClick={() => setTemplateId(t.id)}
+                >
+                  <span className="sp__tmpl-emoji">{t.emoji}</span>
+                  <span className="sp__tmpl-name" style={{ color: t.colors.text }}>{t.name}</span>
+                </button>
+              ))}
+            </div>
 
             <div style={{ height: 20 }} />
           </>
