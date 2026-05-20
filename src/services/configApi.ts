@@ -6,19 +6,30 @@ const ORDER_BASE  = 'https://app.zingmyorder.com/order/eatery';
 const SLUG_KEY    = 'zing_restaurant_slug';
 const LOGO_KEY    = 'zing_restaurant_logo';
 const COLORS_KEY  = 'zing_config_colors';
-const PHONE_KEY   = 'zing_restaurant_phone';
-const ADDRESS_KEY = 'zing_restaurant_address';
+const PHONE_KEY     = 'zing_restaurant_phone';
+const ADDRESS_KEY   = 'zing_restaurant_address';
+const LOCATIONS_KEY = 'zing_restaurant_locations';
+
+export interface RestaurantLocation {
+  text?:    string;
+  address?: string;
+  phone?:   string;
+  email?:   string;
+  url?:     string;
+}
 
 interface ApiConfigResponse {
   restaurant?: {
-    slug?:    string;
-    phone?:   string;
-    address?: string;
-    logo?: { path?: string }[];
+    slug?:      string;
+    phone?:     string;
+    address?:   string;
+    logo?:      { path?: string }[];
+    locations?: RestaurantLocation[] | null;
     [key: string]: unknown;
   };
   app?: {
-    colors?: Record<string, string>;
+    colors?:    Record<string, string>;
+    locations?: RestaurantLocation[] | null;
     [key: string]: unknown;
   };
   [key: string]: unknown;
@@ -39,6 +50,8 @@ export async function fetchRestaurantConfig(restaurantId: string): Promise<void>
     if (address) localStorage.setItem(ADDRESS_KEY, String(address));
     const colors = data?.app?.colors;
     if (colors && typeof colors === 'object') localStorage.setItem(COLORS_KEY, JSON.stringify(colors));
+    const locs = data?.restaurant?.locations ?? data?.app?.locations;
+    if (Array.isArray(locs) && locs.length > 0) localStorage.setItem(LOCATIONS_KEY, JSON.stringify(locs));
   } catch { /* non-critical */ }
 }
 
@@ -56,6 +69,13 @@ export function getRestaurantPhone(): string | null {
 
 export function getRestaurantAddress(): string | null {
   return localStorage.getItem(ADDRESS_KEY);
+}
+
+export function getRestaurantLocations(): RestaurantLocation[] {
+  try {
+    const raw = localStorage.getItem(LOCATIONS_KEY);
+    return raw ? JSON.parse(raw) : [];
+  } catch { return []; }
 }
 
 export function getOrderUrl(): string | null {

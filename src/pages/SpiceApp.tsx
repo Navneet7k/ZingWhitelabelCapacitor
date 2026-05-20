@@ -4,7 +4,8 @@ import { useHomeData } from '../context/HomeDataContext';
 import { useMenuData } from '../context/MenuDataContext';
 import { getSavedUser, isLoggedIn, login, register, saveAuth, clearAuth, getToken } from '../services/authApi';
 import type { AuthUser } from '../services/authApi';
-import { getOrderUrl, getRestaurantLogo, getRestaurantPhone, getRestaurantAddress } from '../services/configApi';
+import { getOrderUrl, getRestaurantLogo, getRestaurantPhone, getRestaurantAddress, getRestaurantLocations } from '../services/configApi';
+import type { RestaurantLocation } from '../services/configApi';
 import { getRestaurantId, getRestaurantName } from '../services/restaurantConfig';
 import { openWebView } from '../services/webviewService';
 import { checkConfigColorsOnTabSwitch } from '../services/configColorsService';
@@ -85,6 +86,7 @@ const SpiceApp: React.FC = () => {
   const logoUrl           = getRestaurantLogo();
   const restaurantPhone   = getRestaurantPhone();
   const restaurantAddress = getRestaurantAddress();
+  const locations         = getRestaurantLocations();
   const allCategories  = menuData?.categories ?? [];
   const popularDishes  = homeData?.popularDishes ?? [];
   const banners        = homeData?.banners ?? [];
@@ -573,14 +575,66 @@ const SpiceApp: React.FC = () => {
         {/* ── LOCATION ── */}
         {view === 'location' && (
           <>
-            <p className="sp__view-title">Find Us</p>
-            <div className="sp__location-card">
-              <div className="sp__location-map-ph">📍</div>
-              <h3 className="sp__location-name">{restaurantName}</h3>
-              <p className="sp__location-sub">Come visit us for the best dining experience</p>
-              <button className="sp__cta sp__cta--flush" onClick={handleOrder}>Order Online 🛒</button>
+            <div className="sp__loc-header">
+              <span className="sp__loc-header-text">LOCATIONS</span>
             </div>
-            <div style={{ height: 20 }} />
+
+            {locations.length > 0 ? locations.map((loc: RestaurantLocation, i: number) => (
+              <div key={i} className="sp__loc-item">
+                <div className="sp__loc-title-bar">
+                  <p className="sp__loc-title-text">{i + 1}.{safe(loc.text, restaurantName)}</p>
+                </div>
+                <div className="sp__loc-detail-card">
+                  {loc.address && (
+                    <div className="sp__loc-row">
+                      <span className="sp__loc-icon">📍</span>
+                      <p className="sp__loc-detail-text">{loc.address}</p>
+                    </div>
+                  )}
+                  {loc.phone && (
+                    <div className="sp__loc-row">
+                      <span className="sp__loc-icon">📞</span>
+                      <p className="sp__loc-detail-text">{loc.phone}</p>
+                    </div>
+                  )}
+                  {loc.email && (
+                    <div className="sp__loc-row">
+                      <span className="sp__loc-icon">✉️</span>
+                      <p className="sp__loc-detail-text">{loc.email}</p>
+                    </div>
+                  )}
+                  {loc.url && (
+                    <button
+                      className="sp__loc-order-btn"
+                      onClick={() => openWebView(loc.url!, 'Order Now', template.colors.primary)}
+                    >Order Now</button>
+                  )}
+                </div>
+              </div>
+            )) : (
+              <div className="sp__loc-item">
+                <div className="sp__loc-title-bar">
+                  <p className="sp__loc-title-text">{restaurantName}</p>
+                </div>
+                <div className="sp__loc-detail-card">
+                  {restaurantAddress && (
+                    <div className="sp__loc-row">
+                      <span className="sp__loc-icon">📍</span>
+                      <p className="sp__loc-detail-text">{restaurantAddress}</p>
+                    </div>
+                  )}
+                  {restaurantPhone && (
+                    <div className="sp__loc-row">
+                      <span className="sp__loc-icon">📞</span>
+                      <p className="sp__loc-detail-text">{restaurantPhone}</p>
+                    </div>
+                  )}
+                  <button className="sp__loc-order-btn" onClick={handleOrder}>Order Now</button>
+                </div>
+              </div>
+            )}
+
+            <div style={{ height: 24 }} />
           </>
         )}
 
