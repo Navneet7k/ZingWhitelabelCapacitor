@@ -33,6 +33,7 @@ import DuskApp from './pages/DuskApp';
 import PiazzaApp from './pages/PiazzaApp';
 import DineApp from './pages/DineApp';
 import OnyxApp from './pages/OnyxApp';
+import SpiceApp from './pages/SpiceApp';
 import { isRestaurantMode } from './services/restaurantConfig';
 import { checkConfigColorsOnTabSwitch } from './services/configColorsService';
 import HomePage from './pages/HomePage';
@@ -293,6 +294,7 @@ const AppInner: React.FC = () => {
   if (template.id === 'piazza') return <TemplateErrorBoundary onCrash={() => setTemplateIdMemoryOnly('fiesta')}><PiazzaApp /></TemplateErrorBoundary>;
   if (template.id === 'dine')   return <TemplateErrorBoundary onCrash={() => setTemplateIdMemoryOnly('fiesta')}><DineApp /></TemplateErrorBoundary>;
   if (template.id === 'onyx')   return <TemplateErrorBoundary onCrash={() => setTemplateIdMemoryOnly('fiesta')}><OnyxApp /></TemplateErrorBoundary>;
+  if (template.id === 'spice')  return <TemplateErrorBoundary onCrash={() => setTemplateIdMemoryOnly('fiesta')}><SpiceApp /></TemplateErrorBoundary>;
 
   return (
     <IonReactRouter>

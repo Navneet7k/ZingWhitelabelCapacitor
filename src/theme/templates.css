@@ -503,3 +503,26 @@
   --t-tab-active: #FFB347;
   --t-tab-inactive: rgba(255,248,240,0.35);
 }
+
+/* ── SPICE: Rich & aromatic ── */
+[data-template="spice"] {
+  --t-bg: #2C5F3E;
+  --t-surface: #FFFFFF;
+  --t-surface2: #E8F4ED;
+  --t-primary: #1B4D2E;
+  --t-primary-light: #2C7A4C;
+  --t-accent: #a8d5b5;
+  --t-text: #FFFFFF;
+  --t-text-muted: rgba(255,255,255,0.6);
+  --t-border: rgba(255,255,255,0.18);
+  --t-font-heading: system-ui, -apple-system, sans-serif;
+  --t-font-body: system-ui, -apple-system, sans-serif;
+  --t-radius: 14px;
+  --t-radius-lg: 20px;
+  --t-shadow: 0 4px 20px rgba(0,0,0,0.2);
+  --t-transition: 200ms ease;
+  --t-tab-bg: #FFFFFF;
+  --t-tab-active: #1B4D2E;
+  --t-tab-inactive: #9E9E9E;
+  --t-primary-text: #E8604C;
+}
