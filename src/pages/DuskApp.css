@@ -29,8 +29,9 @@
   margin: 0;
   background: linear-gradient(90deg, #FFD580, #FF8C42);
   -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
+  -webkit-text-fill-color: var(--t-primary-text, transparent);
   background-clip: text;
+  color: var(--t-primary-text, transparent);
 }
 
 /* ── Scroll area ── */

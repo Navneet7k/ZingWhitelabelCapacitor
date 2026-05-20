@@ -111,7 +111,7 @@
   font-family: var(--t-font-heading);
   font-size: 30px;
   font-weight: 700;
-  color: #fff;
+  color: var(--t-primary-text, #fff);
   margin: 0 0 5px;
   line-height: 1.1;
   letter-spacing: -0.02em;

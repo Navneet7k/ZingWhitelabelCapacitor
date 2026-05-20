@@ -1,3 +1,7 @@
+ion-title {
+  --color: var(--t-primary-text, var(--t-text, inherit));
+}
+
 .home__toolbar-logo {
   width: 34px;
   height: 34px;

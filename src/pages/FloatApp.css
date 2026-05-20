@@ -110,7 +110,7 @@
   font-family: var(--t-font-heading);
   font-size: 22px;
   font-weight: 700;
-  color: #fff;
+  color: var(--t-primary-text, #fff);
   margin: 0;
   letter-spacing: -0.02em;
   line-height: 1.1;

@@ -52,6 +52,7 @@
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
+  color: var(--t-primary-text, #FFFFFF);
 }
 
 .ox__pts-pill {

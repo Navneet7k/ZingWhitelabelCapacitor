@@ -25,7 +25,7 @@
   font-family: 'Outfit', sans-serif;
   font-size: 20px;
   font-weight: 700;
-  color: #fff;
+  color: var(--t-primary-text, #fff);
   margin: 0;
   letter-spacing: 0.3px;
 }

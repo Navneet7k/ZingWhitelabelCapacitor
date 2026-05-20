@@ -53,7 +53,7 @@
 .dyn__topbar-name {
   font-family: var(--t-font-heading);
   font-size: 20px;
-  color: var(--t-accent);
+  color: var(--t-primary-text, var(--t-accent));
   margin: 0;
   letter-spacing: 0.02em;
   text-align: center;
@@ -124,7 +124,7 @@
   font-family: var(--t-font-body);
   font-size: 11px;
   font-weight: 500;
-  color: var(--t-accent);
+  color: var(--t-primary-text, var(--t-accent));
   letter-spacing: 0.12em;
   text-transform: uppercase;
   margin: 0 0 6px;
@@ -133,7 +133,7 @@
 .dyn__hero-title {
   font-family: var(--t-font-heading);
   font-size: 28px;
-  color: #fff;
+  color: var(--t-primary-text, #fff);
   margin: 0 0 4px;
   line-height: 1.1;
   letter-spacing: 0.01em;

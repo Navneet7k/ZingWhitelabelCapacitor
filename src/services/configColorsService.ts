@@ -50,6 +50,7 @@ function buildCSSProps(colors: Record<string, string>): string {
   if (colors['card-color'])         p.push(`--t-surface:${colors['card-color']};`);
   if (colors['heading-color'])      p.push(`--t-text:${colors['heading-color']};`);
   if (colors['card-text-muted'])    p.push(`--t-text-muted:${colors['card-text-muted']};`);
+  if (colors['primary-text-color']) p.push(`--t-primary-text:${colors['primary-text-color']};`);
   return p.join('');
 }
 

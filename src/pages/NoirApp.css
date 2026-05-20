@@ -19,7 +19,7 @@
   font-size: 22px;
   font-weight: 700;
   letter-spacing: 0.04em;
-  color: #F0F0F0;
+  color: var(--t-primary-text, #F0F0F0);
   display: block;
   padding-bottom: 12px;
 }

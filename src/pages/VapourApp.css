@@ -50,7 +50,7 @@
   font-family: 'Orbitron', sans-serif;
   font-size: 17px;
   font-weight: 900;
-  color: #E040FB;
+  color: var(--t-primary-text, #E040FB);
   text-shadow: 0 0 10px rgba(224,64,251,0.8), 0 0 22px rgba(224,64,251,0.4);
   letter-spacing: 2px;
   text-transform: uppercase;

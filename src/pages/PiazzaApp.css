@@ -164,7 +164,7 @@
 .pz__welcome-sub {
   font-size: 17px;
   font-weight: 400;
-  color: #555;
+  color: var(--t-primary-text, #555);
   margin: 0 0 2px;
   line-height: 1.4;
 }
@@ -172,7 +172,7 @@
 .pz__welcome-name {
   font-size: 24px;
   font-weight: 800;
-  color: #1A1A1A;
+  color: var(--t-primary-text, #1A1A1A);
   margin: 0;
   line-height: 1.2;
   letter-spacing: -0.4px;
