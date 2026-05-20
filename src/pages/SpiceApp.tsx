@@ -4,7 +4,7 @@ import { useHomeData } from '../context/HomeDataContext';
 import { useMenuData } from '../context/MenuDataContext';
 import { getSavedUser, isLoggedIn, login, register, saveAuth, clearAuth, getToken } from '../services/authApi';
 import type { AuthUser } from '../services/authApi';
-import { getOrderUrl, getRestaurantLogo } from '../services/configApi';
+import { getOrderUrl, getRestaurantLogo, getRestaurantPhone, getRestaurantAddress } from '../services/configApi';
 import { getRestaurantId, getRestaurantName } from '../services/restaurantConfig';
 import { openWebView } from '../services/webviewService';
 import { checkConfigColorsOnTabSwitch } from '../services/configColorsService';
@@ -79,8 +79,10 @@ const SpiceApp: React.FC = () => {
   useEffect(() => onStatusChange(setUpdateStatus), []);
 
   const restaurantId   = getRestaurantId();
-  const restaurantName = safe(getRestaurantName(), 'Spice Kitchen');
-  const logoUrl        = getRestaurantLogo();
+  const restaurantName    = safe(getRestaurantName(), 'Spice Kitchen');
+  const logoUrl           = getRestaurantLogo();
+  const restaurantPhone   = getRestaurantPhone();
+  const restaurantAddress = getRestaurantAddress();
   const allCategories  = menuData?.categories ?? [];
   const popularDishes  = homeData?.popularDishes ?? [];
   const banners        = homeData?.banners ?? [];
@@ -269,14 +271,24 @@ const SpiceApp: React.FC = () => {
             <div className="sp__section">
               <p className="sp__section-title">Contact Us</p>
               <div className="sp__contact-card">
-                <div className="sp__contact-row">
-                  <span className="sp__contact-icon">📞</span>
-                  <span className="sp__contact-text">{restaurantName}</span>
-                </div>
-                <div className="sp__contact-row">
-                  <span className="sp__contact-icon">🏠</span>
-                  <span className="sp__contact-text">Visit us for the best dining experience</span>
-                </div>
+                {restaurantPhone && (
+                  <div className="sp__contact-row">
+                    <span className="sp__contact-icon">📞</span>
+                    <span className="sp__contact-text">{restaurantPhone}</span>
+                  </div>
+                )}
+                {restaurantAddress && (
+                  <div className="sp__contact-row">
+                    <span className="sp__contact-icon">🏠</span>
+                    <span className="sp__contact-text">{restaurantAddress}</span>
+                  </div>
+                )}
+                {!restaurantPhone && !restaurantAddress && (
+                  <div className="sp__contact-row">
+                    <span className="sp__contact-icon">🍽️</span>
+                    <span className="sp__contact-text">{restaurantName}</span>
+                  </div>
+                )}
                 <button className="sp__contact-btn" onClick={handleOrder}>Order Again 🛒</button>
               </div>
             </div>
