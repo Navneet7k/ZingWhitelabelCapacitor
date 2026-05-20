@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { useTemplate, TEMPLATES } from '../context/TemplateContext';
 import { useHomeData } from '../context/HomeDataContext';
 import { useMenuData } from '../context/MenuDataContext';
@@ -39,15 +39,18 @@ const PiazzaApp: React.FC = () => {
   const [loginEmail, setEmail]        = useState('');
   const [loginPassword, setPassword]  = useState('');
   const [loginError, setLoginError]   = useState('');
-  const [loginLoading, setLoading]    = useState(false);
+  const [loginLoading, setLoading]           = useState(false);
+  const [activeGalleryIndex, setGalleryIndex] = useState(0);
+  const galleryRef = useRef<HTMLDivElement>(null);
 
-  const restaurantId   = getRestaurantId();
-  const restaurantName = safe(getRestaurantName(), 'Our Restaurant');
-  const allCategories  = menuData?.categories ?? [];
-  const popularDishes  = homeData?.popularDishes ?? [];
-  const banners        = homeData?.banners ?? [];
-  const recentOrders   = homeData?.recentOrders ?? [];
-  const points         = homeData?.points ?? 0;
+  const restaurantId    = getRestaurantId();
+  const restaurantName  = safe(getRestaurantName(), 'Our Restaurant');
+  const allCategories   = menuData?.categories ?? [];
+  const popularDishes   = homeData?.popularDishes ?? [];
+  const banners         = homeData?.banners ?? [];
+  const galleryBanners  = banners.slice(0, 8).filter(b => b.image);
+  const recentOrders    = homeData?.recentOrders ?? [];
+  const points          = homeData?.points ?? 0;
 
   const filteredItems = activeCategory
     ? (allCategories.find(c => c.id === activeCategory)?.items ?? [])
@@ -89,6 +92,28 @@ const PiazzaApp: React.FC = () => {
       setLoginError(safe((err as { message?: string })?.message, 'Login failed'));
     } finally {
       setLoading(false);
+    }
+  };
+
+  const handleGalleryScroll = () => {
+    const el = galleryRef.current;
+    if (!el) return;
+    const center = el.scrollLeft + el.clientWidth / 2;
+    const items = Array.from(el.children) as HTMLElement[];
+    let closest = 0, minDist = Infinity;
+    items.forEach((item, i) => {
+      const dist = Math.abs(item.offsetLeft + item.offsetWidth / 2 - center);
+      if (dist < minDist) { minDist = dist; closest = i; }
+    });
+    setGalleryIndex(closest);
+  };
+
+  const scrollGalleryTo = (i: number) => {
+    const el = galleryRef.current;
+    if (!el) return;
+    const items = Array.from(el.children) as HTMLElement[];
+    if (items[i]) {
+      el.scrollTo({ left: items[i].offsetLeft + items[i].offsetWidth / 2 - el.clientWidth / 2, behavior: 'smooth' });
     }
   };
 
@@ -224,22 +249,33 @@ const PiazzaApp: React.FC = () => {
               </>
             )}
 
-            {/* ── Gallery ── */}
-            {banners.length > 0 && (
+            {/* ── Gallery — snap carousel, centered item enlarged ── */}
+            {galleryBanners.length > 0 && (
               <>
                 <p className="pz__section-title">Gallery</p>
-                <div className="pz__gallery">
-                  {banners.slice(0, 8).map((b, i) => (
-                    b.image
-                      ? <img key={i} className="pz__gallery-img" src={b.image} alt="" loading="lazy" onClick={handleOrder} />
-                      : null
+                <div className="pz__gallery" ref={galleryRef} onScroll={handleGalleryScroll}>
+                  {galleryBanners.map((b, i) => (
+                    <img
+                      key={i}
+                      className={`pz__gallery-img${i === activeGalleryIndex ? ' active' : ''}`}
+                      src={b.image!}
+                      alt=""
+                      loading="lazy"
+                      onClick={handleOrder}
+                    />
                   ))}
                 </div>
-                <div className="pz__feat-dots">
-                  <button className="pz__slider-dot active" />
-                  <button className="pz__slider-dot" />
-                  <button className="pz__slider-dot" />
-                </div>
+                {galleryBanners.length > 1 && (
+                  <div className="pz__feat-dots">
+                    {galleryBanners.map((_, i) => (
+                      <button
+                        key={i}
+                        className={`pz__slider-dot${i === activeGalleryIndex ? ' active' : ''}`}
+                        onClick={() => scrollGalleryTo(i)}
+                      />
+                    ))}
+                  </div>
+                )}
               </>
             )}
 

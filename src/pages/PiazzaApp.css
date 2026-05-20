@@ -67,7 +67,7 @@
   width: clamp(248px, 64vw, 370px);
   height: clamp(230px, 59vw, 345px);
   background: #E8A890;
-  border-radius: 40% 60% 65% 35% / 55% 45% 40% 60%;
+  border-radius: 55% 45% 38% 62% / 60% 38% 62% 40%;
   top: clamp(14px, 3.5vw, 28px);
   left: 50%;
   transform: translateX(-50%);
@@ -361,15 +361,15 @@
   display: flex;
   justify-content: center;
   align-items: center;
-  min-height: clamp(260px, 66vw, 380px);
+  min-height: clamp(190px, 48vw, 270px);
   overflow: visible;
 }
 
 /* Bounding box — all children positioned relative to this center */
 .pz__feat-center {
   position: relative;
-  width: clamp(220px, 56vw, 310px);
-  height: clamp(220px, 56vw, 310px);
+  width: clamp(160px, 40vw, 220px);
+  height: clamp(160px, 40vw, 220px);
 }
 
 /* Stacked pinkish card backgrounds */
@@ -397,8 +397,8 @@
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
-  width: clamp(210px, 54vw, 300px);
-  height: clamp(210px, 54vw, 300px);
+  width: clamp(150px, 38vw, 210px);
+  height: clamp(150px, 38vw, 210px);
   border-radius: 50%;
   border: 4px solid #7B4A4A;
   overflow: hidden;
@@ -439,27 +439,42 @@
   padding: 10px 0 6px;
 }
 
-/* ── Gallery — portrait-orientation images ── */
+/* ── Gallery — snap carousel, centered item enlarged ── */
 .pz__gallery {
   display: flex;
-  gap: 10px;
+  gap: 14px;
   overflow-x: auto;
-  padding: 0 20px 8px;
+  scroll-snap-type: x mandatory;
   -webkit-overflow-scrolling: touch;
   scrollbar-width: none;
+  padding: 8px 0 12px;
 }
 
 .pz__gallery::-webkit-scrollbar { display: none; }
 
 .pz__gallery-img {
   flex-shrink: 0;
-  width: 110px;
-  height: 160px;
+  width: 140px;
+  height: 190px;
   object-fit: cover;
-  border-radius: 14px;
+  border-radius: 18px;
   cursor: pointer;
   background: #EDE0D8;
+  scroll-snap-align: center;
+  transition: transform 0.3s ease, opacity 0.3s ease, box-shadow 0.3s ease;
+  transform: scale(0.82);
+  opacity: 0.55;
 }
+
+.pz__gallery-img.active {
+  transform: scale(1);
+  opacity: 1;
+  box-shadow: 0 8px 28px rgba(0, 0, 0, 0.18);
+}
+
+/* Allow first/last items to snap to center */
+.pz__gallery-img:first-child { margin-left: calc(50% - 70px); }
+.pz__gallery-img:last-child  { margin-right: calc(50% - 70px); }
 
 /* ── View title (menu / orders / account) ── */
 .pz__view-title {
