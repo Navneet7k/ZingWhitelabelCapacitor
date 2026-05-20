@@ -87,22 +87,21 @@
 }
 
 /* ────────────────────────────────────────────────
-   BANNER — blob SVG + circular hero image
+   BANNER — flex-column: welcome text top, blob below
    ──────────────────────────────────────────────── */
 .dn__banner {
   position: relative;
-  height: clamp(290px, 74vw, 380px);
+  display: flex;
+  flex-direction: column;
   overflow: hidden;
+  padding-bottom: 28px;
 }
 
-/* Wrapper that holds blob + hero as a unit, centered in the banner.
-   Hero is positioned absolutely within at the blob's visual centroid. */
+/* Blob+hero container — normal flow, centered by the flex parent */
 .dn__banner-center {
-  position: absolute;
-  top: clamp(20px, 5vw, 50px);
-  left: 50%;
-  transform: translateX(-50%);
+  align-self: center;
   width: clamp(230px, 72vw, 320px);
+  flex-shrink: 0;
   z-index: 1;
 }
 
@@ -116,13 +115,13 @@
 }
 
 /* Hero sits at the blob's visual centroid (50% x, 50% y).
-   Width is 55% of the blob container so it scales proportionally on all screens. */
+   Width is 65% of the blob container so it scales proportionally on all screens. */
 .dn__hero-outer {
   position: absolute;
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
-  width: 55%;
+  width: 65%;
   aspect-ratio: 1 / 1;
   border-radius: 50%;
   background: #fff;
@@ -156,13 +155,10 @@
   border-radius: 50%;
 }
 
-/* Welcome text — upper left, above blob */
+/* Welcome text — normal flow at top of flex-column banner */
 .dn__welcome {
-  position: absolute;
-  top: 12px;
-  left: 20px;
+  padding: 12px 20px 8px;
   z-index: 3;
-  max-width: 55%;
 }
 
 .dn__welcome-sub {

@@ -144,7 +144,12 @@ const DineApp: React.FC = () => {
               <>
                 {/* ── Banner ── */}
                 <div className="dn__banner">
-                  {/* Blob + hero wrapped together so hero is always aligned to blob's visual centroid */}
+                  {/* Welcome text — sits above the blob in flex-column flow */}
+                  <div className="dn__welcome">
+                    <p className="dn__welcome-sub">Welcome to</p>
+                    <h1 className="dn__welcome-name">{restaurantName}</h1>
+                  </div>
+                  {/* Blob + hero below the text */}
                   <div className="dn__banner-center">
                     <svg className="dn__blob" viewBox="0 0 349 345" fill="none" xmlns="http://www.w3.org/2000/svg">
                       <path d="M272.385 38.9189C294.802 56.1067 366.372 92.571 345.095 131.075C320.658 175.297 365.139 256.033 294.443 261.787C248.364 264.578 225.549 323.305 196.439 338.21C166.802 353.228 108.184 345.164 113.051 295.471C117.825 246.733 -56.3113 195.138 18.8588 157.164C63.3352 134.697 14.9014 109.686 36.1603 72.0065C78.3537 -1.58443 182.405 -29.0653 272.385 38.9189Z" fill="#C2D9BA"/>
@@ -155,11 +160,6 @@ const DineApp: React.FC = () => {
                         : <div className="dn__hero-img dn__hero-ph">🍽️</div>
                       }
                     </div>
-                  </div>
-                  {/* Welcome text */}
-                  <div className="dn__welcome">
-                    <p className="dn__welcome-sub">Welcome to</p>
-                    <h1 className="dn__welcome-name">{restaurantName}</h1>
                   </div>
                   {/* Slide dots */}
                   {popularDishes.length > 1 && (
