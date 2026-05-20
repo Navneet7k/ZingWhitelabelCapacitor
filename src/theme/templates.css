@@ -460,6 +460,28 @@
   --t-tab-inactive: #585858;
 }
 
+/* ── ONYX: Dark & moody food discovery ── */
+[data-template="onyx"] {
+  --t-bg: #111111;
+  --t-surface: #FFFFFF;
+  --t-surface2: #1A1A1A;
+  --t-primary: #4FCB53;
+  --t-primary-light: #6FDB77;
+  --t-accent: #292A2A;
+  --t-text: #FFFFFF;
+  --t-text-muted: #6D6F72;
+  --t-border: rgba(255,255,255,0.1);
+  --t-font-heading: 'Poppins', system-ui, sans-serif;
+  --t-font-body: 'Poppins', system-ui, sans-serif;
+  --t-radius: 12px;
+  --t-radius-lg: 16px;
+  --t-shadow: 0 4px 20px rgba(0,0,0,0.4);
+  --t-transition: 180ms ease;
+  --t-tab-bg: #FFFFFF;
+  --t-tab-active: #292A2A;
+  --t-tab-inactive: #9E9E9E;
+}
+
 /* ── DUSK: Golden hour dining ── */
 [data-template="dusk"] {
   --t-bg: #18063A;

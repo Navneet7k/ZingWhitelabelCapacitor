@@ -1,6 +1,6 @@
 import React, { createContext, useContext, useState, useEffect } from 'react';
 
-export type TemplateId = 'luxe' | 'fresh' | 'street' | 'zen' | 'fiesta' | 'neon' | 'rustic' | 'ocean' | 'blossom' | 'ember' | 'cosmic' | 'retro' | 'tropical' | 'royal' | 'brew' | 'dynasty' | 'float' | 'reel' | 'grove' | 'vapour' | 'noir' | 'dusk' | 'piazza' | 'dine';
+export type TemplateId = 'luxe' | 'fresh' | 'street' | 'zen' | 'fiesta' | 'neon' | 'rustic' | 'ocean' | 'blossom' | 'ember' | 'cosmic' | 'retro' | 'tropical' | 'royal' | 'brew' | 'dynasty' | 'float' | 'reel' | 'grove' | 'vapour' | 'noir' | 'dusk' | 'piazza' | 'dine' | 'onyx';
 
 export interface Template {
   id: TemplateId;
@@ -164,6 +164,13 @@ export const TEMPLATES: Template[] = [
     tagline: 'Warm & earthy food discovery',
     emoji: '🍃',
     colors: { bg: '#FFF5E0', primary: '#84BD93', accent: '#FFE2CD', text: '#3F2D20' },
+  },
+  {
+    id: 'onyx',
+    name: 'Onyx',
+    tagline: 'Dark & moody food discovery',
+    emoji: '🖤',
+    colors: { bg: '#111111', primary: '#4FCB53', accent: '#292A2A', text: '#FFFFFF' },
   },
 ];
 
