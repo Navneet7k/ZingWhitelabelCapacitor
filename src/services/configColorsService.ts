@@ -54,10 +54,16 @@ function buildCSSProps(colors: Record<string, string>): string {
   return p.join('');
 }
 
-export function applyConfigColors(colors: Record<string, string> | null): void {
+export function applyConfigColors(colors: Record<string, string> | null, _retry = false): void {
   const tag  = getStyleTag();
+  if (!colors) { tag.textContent = ''; return; }
   const tmpl = document.documentElement.getAttribute('data-template') ?? '';
-  if (!colors || !tmpl) { tag.textContent = ''; return; }
+  if (!tmpl) {
+    // data-template not set yet (startup race — TemplateProvider effect fires after child effects).
+    // Retry once in the next animation frame, by which time it will be set.
+    if (!_retry) requestAnimationFrame(() => applyConfigColors(colors, true));
+    return;
+  }
   const props = buildCSSProps(colors);
   tag.textContent = props ? `[data-template="${tmpl}"]{${props}}` : '';
 }
@@ -81,6 +87,8 @@ export async function fetchAndStoreConfigColors(restaurantId: string): Promise<b
 // ── Called on every tab switch ────────────────────────────────────────────────
 export function checkConfigColorsOnTabSwitch(restaurantId: string): void {
   if (!isConfigColorsEnabled() || !restaurantId) return;
+  // Always re-apply in case the style tag is empty (e.g. startup race condition).
+  applyConfigColors(getStoredConfigColors());
   fetchAndStoreConfigColors(restaurantId).then(changed => {
     if (changed) applyConfigColors(getStoredConfigColors());
   });
