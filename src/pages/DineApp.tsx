@@ -2,7 +2,7 @@ import React, { useState, useEffect, useRef } from 'react';
 import { useTemplate, TEMPLATES } from '../context/TemplateContext';
 import { useHomeData } from '../context/HomeDataContext';
 import { useMenuData } from '../context/MenuDataContext';
-import { getSavedUser, isLoggedIn, login, saveAuth, clearAuth } from '../services/authApi';
+import { getSavedUser, isLoggedIn, login, register, saveAuth, clearAuth } from '../services/authApi';
 import type { AuthUser } from '../services/authApi';
 import { getOrderUrl } from '../services/configApi';
 import { getRestaurantId, getRestaurantName } from '../services/restaurantConfig';
@@ -38,10 +38,16 @@ const DineApp: React.FC = () => {
   const [selectedCategory, setSelectedCategory] = useState<number | null>(null);
   const [showCustomize, setShowCustomize]       = useState(false);
   const [authUser, setAuthUser]                 = useState<AuthUser | null>(getInitialUser);
+  const [authScreen, setAuthScreen]             = useState<'signin' | 'signup'>('signin');
   const [loginEmail, setEmail]                  = useState('');
   const [loginPassword, setPassword]            = useState('');
   const [loginError, setLoginError]             = useState('');
   const [loginLoading, setLoading]              = useState(false);
+  const [regName, setRegName]                   = useState('');
+  const [regEmail, setRegEmail]                 = useState('');
+  const [regPassword, setRegPassword]           = useState('');
+  const [regError, setRegError]                 = useState('');
+  const [regLoading, setRegLoading]             = useState(false);
   const galleryRef = useRef<HTMLDivElement>(null);
 
   const restaurantId   = getRestaurantId();
@@ -74,6 +80,24 @@ const DineApp: React.FC = () => {
       if (!url) return;
       await openWebView(url, 'Place Order', template.colors.primary);
     } catch { /* silent */ }
+  };
+
+  const handleRegister = async (e: React.FormEvent) => {
+    e.preventDefault();
+    if (!restaurantId) return;
+    setRegLoading(true);
+    setRegError('');
+    try {
+      await register({ name: regName, email: regEmail, mobile: '', password: regPassword, passwordConfirmation: regPassword, restaurantId });
+      const { token, user } = await login(regEmail, regPassword, restaurantId);
+      saveAuth(token, user);
+      setAuthUser(user);
+      setRegName(''); setRegEmail(''); setRegPassword('');
+    } catch (err: unknown) {
+      setRegError(safe((err as { message?: string })?.message, 'Registration failed'));
+    } finally {
+      setRegLoading(false);
+    }
   };
 
   const handleLogin = async (e: React.FormEvent) => {
@@ -376,36 +400,7 @@ const DineApp: React.FC = () => {
                       Sign Out
                     </button>
                   </div>
-                ) : (
-                  <div className="dn__login-card">
-                    <p className="dn__login-title">Welcome Back</p>
-                    <p className="dn__login-sub">Sign in to track your orders</p>
-                    {loginError && <p className="dn__login-error">{loginError}</p>}
-                    <form onSubmit={handleLogin}>
-                      <input
-                        className="dn__input"
-                        type="email"
-                        placeholder="Email address"
-                        value={loginEmail}
-                        onChange={e => setEmail(e.target.value)}
-                        required
-                        autoComplete="email"
-                      />
-                      <input
-                        className="dn__input"
-                        type="password"
-                        placeholder="Password"
-                        value={loginPassword}
-                        onChange={e => setPassword(e.target.value)}
-                        required
-                        autoComplete="current-password"
-                      />
-                      <button className="dn__submit" type="submit" disabled={loginLoading}>
-                        {loginLoading ? 'Signing in…' : 'Sign In'}
-                      </button>
-                    </form>
-                  </div>
-                )}
+                ) : null}
 
                 {/* ── Customize ── */}
                 <button className="dn__customize-btn" onClick={() => setShowCustomize(true)}>
@@ -435,6 +430,48 @@ const DineApp: React.FC = () => {
             )}
 
           </div>
+
+          {/* ── Full-screen auth overlay ── */}
+          {!authUser && view === 'account' && (
+            <div className="dn__auth">
+              <svg className="dn__auth-blob dn__auth-blob--tr" viewBox="0 0 349 345" fill="none" aria-hidden="true">
+                <path d="M272.385 38.9189C294.802 56.1067 366.372 92.571 345.095 131.075C320.658 175.297 365.139 256.033 294.443 261.787C248.364 264.578 225.549 323.305 196.439 338.21C166.802 353.228 108.184 345.164 113.051 295.471C117.825 246.733 -56.3113 195.138 18.8588 157.164C63.3352 134.697 14.9014 109.686 36.1603 72.0065C78.3537 -1.58443 182.405 -29.0653 272.385 38.9189Z" fill="#C2D9BA"/>
+              </svg>
+              <svg className="dn__auth-blob dn__auth-blob--bl" viewBox="0 0 349 345" fill="none" aria-hidden="true">
+                <path d="M272.385 38.9189C294.802 56.1067 366.372 92.571 345.095 131.075C320.658 175.297 365.139 256.033 294.443 261.787C248.364 264.578 225.549 323.305 196.439 338.21C166.802 353.228 108.184 345.164 113.051 295.471C117.825 246.733 -56.3113 195.138 18.8588 157.164C63.3352 134.697 14.9014 109.686 36.1603 72.0065C78.3537 -1.58443 182.405 -29.0653 272.385 38.9189Z" fill="#C2D9BA"/>
+              </svg>
+              <div className="dn__auth-content">
+                <div className="dn__auth-logo-ring">
+                  <div className="dn__logo-circle" style={{ width: 78, height: 78, fontSize: 30 }}>🍃</div>
+                </div>
+                <p className="dn__auth-title">{authScreen === 'signin' ? 'Sign in' : 'Sign up'}</p>
+                <p className="dn__auth-sub">Or with Email</p>
+                {authScreen === 'signin' && loginError && <p className="dn__login-error">{loginError}</p>}
+                {authScreen === 'signup' && regError && <p className="dn__login-error">{regError}</p>}
+                {authScreen === 'signin' ? (
+                  <form className="dn__auth-form" onSubmit={handleLogin}>
+                    <input className="dn__input" type="email" placeholder="Email" value={loginEmail} onChange={e => setEmail(e.target.value)} required autoComplete="email" />
+                    <input className="dn__input" type="password" placeholder="Password" value={loginPassword} onChange={e => setPassword(e.target.value)} required autoComplete="current-password" />
+                    <button className="dn__auth-forgot" type="button">Forgot?</button>
+                    <button className="dn__submit" type="submit" disabled={loginLoading}>{loginLoading ? 'Signing in…' : 'Sign In'}</button>
+                  </form>
+                ) : (
+                  <form className="dn__auth-form" onSubmit={handleRegister}>
+                    <input className="dn__input" type="text" placeholder="User Name" value={regName} onChange={e => setRegName(e.target.value)} required autoComplete="name" />
+                    <input className="dn__input" type="email" placeholder="Email" value={regEmail} onChange={e => setRegEmail(e.target.value)} required autoComplete="email" />
+                    <input className="dn__input" type="password" placeholder="Password" value={regPassword} onChange={e => setRegPassword(e.target.value)} required autoComplete="new-password" />
+                    <button className="dn__submit" type="submit" disabled={regLoading}>{regLoading ? 'Creating account…' : 'Sign Up'}</button>
+                  </form>
+                )}
+                <p className="dn__auth-footer">
+                  {authScreen === 'signin'
+                    ? <><span>New User? </span><button className="dn__auth-link" type="button" onClick={() => setAuthScreen('signup')}>Sign Up</button></>
+                    : <><span>Already a Member? </span><button className="dn__auth-link" type="button" onClick={() => setAuthScreen('signin')}>Sign In</button></>
+                  }
+                </p>
+              </div>
+            </div>
+          )}
 
           {/* ── Bottom Nav ── */}
           <nav className="dn__nav">
