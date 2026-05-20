@@ -55,7 +55,7 @@ const SpiceApp: React.FC = () => {
   const [selectedBanner, setSelectedBanner] = useState(0);
   const [activeGallery, setActiveGallery] = useState(0);
   const [activeCategory, setCategory]     = useState<number | null>(null);
-  const galleryRef = useRef<HTMLDivElement>(null);
+  const galleryTouchX = useRef(0);
   const [authUser, setAuthUser]           = useState<AuthUser | null>(getInitialUser);
   const [authMode, setAuthMode]           = useState<AuthMode>('login');
   const [showCustomize, setShowCustomize] = useState(false);
@@ -256,27 +256,42 @@ const SpiceApp: React.FC = () => {
                 <p className="sp__section-title">Gallery</p>
                 <div
                   className="sp__gallery"
-                  ref={galleryRef}
-                  onScroll={() => {
-                    const el = galleryRef.current;
-                    if (!el) return;
-                    const center = el.scrollLeft + el.clientWidth / 2;
-                    let closest = 0, minDist = Infinity;
-                    el.querySelectorAll<HTMLElement>('.sp__gallery-item').forEach((item, i) => {
-                      const dist = Math.abs((item.offsetLeft + item.offsetWidth / 2) - center);
-                      if (dist < minDist) { minDist = dist; closest = i; }
-                    });
-                    setActiveGallery(closest);
+                  onTouchStart={e => { galleryTouchX.current = e.touches[0].clientX; }}
+                  onTouchEnd={e => {
+                    const dx = galleryTouchX.current - e.changedTouches[0].clientX;
+                    if (Math.abs(dx) > 40) {
+                      if (dx > 0) setActiveGallery(g => Math.min(g + 1, banners.length - 1));
+                      else        setActiveGallery(g => Math.max(g - 1, 0));
+                    }
                   }}
                 >
-                  {banners.map((b, i) => (
-                    <div key={b.id} className={`sp__gallery-item${i === activeGallery ? ' active' : ''}`} onClick={handleOrder}>
-                      {b.image
-                        ? <img className="sp__gallery-img" src={b.image} alt="" loading="lazy" decoding="async" />
-                        : <div className="sp__gallery-ph">🌶️</div>
-                      }
-                    </div>
-                  ))}
+                  {banners.map((b, i) => {
+                    const off = i - activeGallery;
+                    const abs = Math.abs(off);
+                    if (abs > 2) return null;
+                    const scale   = abs === 0 ? 1 : abs === 1 ? 0.88 : 0.78;
+                    const opacity = abs === 0 ? 1 : abs === 1 ? 0.52 : 0.28;
+                    const blur    = abs === 0 ? 'none' : abs === 1 ? 'blur(2px) brightness(0.62)' : 'blur(4px) brightness(0.48)';
+                    return (
+                      <div
+                        key={b.id}
+                        className="sp__gallery-item"
+                        style={{
+                          transform: `translateX(${off * 55}px) scale(${scale})`,
+                          zIndex:    abs === 0 ? 10 : abs === 1 ? 8 : 6,
+                          opacity,
+                          filter: blur,
+                          cursor: 'pointer',
+                        }}
+                        onClick={abs === 0 ? handleOrder : () => setActiveGallery(i)}
+                      >
+                        {b.image
+                          ? <img className="sp__gallery-img" src={b.image} alt="" loading="lazy" decoding="async" />
+                          : <div className="sp__gallery-ph">🌶️</div>
+                        }
+                      </div>
+                    );
+                  })}
                 </div>
               </div>
             )}
