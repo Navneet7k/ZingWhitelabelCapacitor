@@ -197,7 +197,7 @@ const CustomizePage: React.FC<Props> = ({ onBack }) => {
           </button>
         </div>
         {configColorsEnabled && (
-          <p className="cp__toggle-hint">Brand colors are active. Manual swatches below override them.</p>
+          <p className="cp__toggle-hint">Brand colors are active and override manual swatches below.</p>
         )}
       </div>
 

@@ -32,9 +32,9 @@ function getStyleTag(): HTMLStyleElement {
   if (!_styleTag) {
     _styleTag = document.createElement('style');
     _styleTag.id = 'zing-config-colors';
-    // Insert before zing-theme-overrides so manual swatch picks always win
+    // Insert AFTER zing-theme-overrides so brand colors win over manual swatch picks
     const overrides = document.getElementById('zing-theme-overrides');
-    if (overrides) document.head.insertBefore(_styleTag, overrides);
+    if (overrides) overrides.insertAdjacentElement('afterend', _styleTag);
     else document.head.appendChild(_styleTag);
   }
   return _styleTag;
