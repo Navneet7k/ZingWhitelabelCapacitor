@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useTemplate, TEMPLATES } from '../context/TemplateContext';
 import { useHomeData } from '../context/HomeDataContext';
 import { useMenuData } from '../context/MenuDataContext';
@@ -32,6 +32,7 @@ const PiazzaApp: React.FC = () => {
   const { data: menuData }          = useMenuData();
 
   const [view, setView]               = useState<PiazzaView>('home');
+  const [heroIndex, setHeroIndex]     = useState(0);
   const [activeCategory, setCategory] = useState<number | null>(null);
   const [authUser, setAuthUser]       = useState<AuthUser | null>(getInitialUser);
   const [loginEmail, setEmail]        = useState('');
@@ -50,6 +51,13 @@ const PiazzaApp: React.FC = () => {
   const filteredItems = activeCategory
     ? (allCategories.find(c => c.id === activeCategory)?.items ?? [])
     : allCategories.flatMap(c => c.items ?? []);
+
+  // Auto-advance hero slider every 3 s
+  useEffect(() => {
+    if (popularDishes.length <= 1) return;
+    const t = setInterval(() => setHeroIndex(i => (i + 1) % popularDishes.length), 3000);
+    return () => clearInterval(t);
+  }, [popularDishes.length]);
 
   const handleOrder = async () => {
     try {
@@ -95,15 +103,32 @@ const PiazzaApp: React.FC = () => {
         {/* ── HOME ── */}
         {view === 'home' && (
           <>
-            {/* Hero blob + circular image */}
+            {/* Hero blob + sliding circular image */}
             <div className="pz__hero">
               <div className="pz__blob" />
-              <div className="pz__dot pz__dot--1" />
-              <div className="pz__dot pz__dot--2" />
-              {popularDishes[0]?.image
-                ? <img className="pz__hero-img" src={popularDishes[0].image} alt="" loading="lazy" />
+              <div className="pz__deco pz__deco--1" />
+              <div className="pz__deco pz__deco--2" />
+              {popularDishes[heroIndex]?.image
+                ? <img
+                    key={heroIndex}
+                    className="pz__hero-img"
+                    src={popularDishes[heroIndex].image}
+                    alt=""
+                    loading="lazy"
+                  />
                 : <div className="pz__hero-img pz__hero-ph">🍕</div>
               }
+              {popularDishes.length > 1 && (
+                <div className="pz__slider-dots">
+                  {popularDishes.map((_, i) => (
+                    <button
+                      key={i}
+                      className={`pz__slider-dot${i === heroIndex ? ' active' : ''}`}
+                      onClick={() => setHeroIndex(i)}
+                    />
+                  ))}
+                </div>
+              )}
             </div>
 
             {/* Welcome text */}
@@ -150,15 +175,19 @@ const PiazzaApp: React.FC = () => {
               </>
             )}
 
-            {/* Featured Images — overlapping stacked circles */}
+            {/* Featured Images — horizontal scroll, stacked-card effect */}
             {popularDishes.length > 1 && (
               <>
                 <p className="pz__section-title">Featured Images</p>
-                <div className="pz__featured">
-                  {popularDishes.slice(1, 4).map((dish, i) =>
+                <div className="pz__featured-scroll">
+                  {popularDishes.slice(1).map((dish, i) =>
                     dish.image ? (
-                      <div key={i} className={`pz__feat-frame pz__feat-frame--${i}`} onClick={handleOrder}>
-                        <img className="pz__feat-img" src={dish.image} alt="" loading="lazy" />
+                      <div key={i} className="pz__feat-item" onClick={handleOrder}>
+                        <div className="pz__feat-bg feat-bg--2" />
+                        <div className="pz__feat-bg feat-bg--1" />
+                        <div className="pz__feat-front">
+                          <img className="pz__feat-img" src={dish.image} alt="" loading="lazy" />
+                        </div>
                       </div>
                     ) : null
                   )}

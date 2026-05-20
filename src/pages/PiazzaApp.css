@@ -73,13 +73,13 @@
 }
 
 /* Small decorative dots */
-.pz__dot {
+.pz__deco {
   position: absolute;
   border-radius: 50%;
   background: #8FBF9F;
 }
 
-.pz__dot--1 {
+.pz__deco--1 {
   width: 14px;
   height: 14px;
   top: 26px;
@@ -87,7 +87,7 @@
   opacity: 0.7;
 }
 
-.pz__dot--2 {
+.pz__deco--2 {
   width: 8px;
   height: 8px;
   top: 16px;
@@ -106,6 +106,12 @@
   transform: translateX(-50%);
   z-index: 1;
   box-shadow: 0 8px 28px rgba(0, 0, 0, 0.14);
+  animation: pzFadeIn 0.5s ease both;
+}
+
+@keyframes pzFadeIn {
+  from { opacity: 0; transform: translateX(-50%) scale(0.96); }
+  to   { opacity: 1; transform: translateX(-50%) scale(1); }
 }
 
 .pz__hero-ph {
@@ -114,6 +120,36 @@
   align-items: center;
   justify-content: center;
   font-size: 52px;
+}
+
+/* Slider dot indicators */
+.pz__slider-dots {
+  position: absolute;
+  bottom: 6px;
+  left: 50%;
+  transform: translateX(-50%);
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  z-index: 2;
+}
+
+.pz__slider-dot {
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  border: none;
+  background: rgba(143, 191, 159, 0.45);
+  cursor: pointer;
+  padding: 0;
+  transition: all 0.25s ease;
+  flex-shrink: 0;
+}
+
+.pz__slider-dot.active {
+  background: #8FBF9F;
+  width: 18px;
+  border-radius: 4px;
 }
 
 /* ── Welcome text ── */
@@ -158,14 +194,13 @@
 .pz__card {
   background: #FFFFFF;
   border-radius: 18px;
-  padding: 14px 12px 14px;
+  padding: 14px 12px 16px;
   display: flex;
   flex-direction: column;
   align-items: center;
   box-shadow: 0 2px 10px rgba(0, 0, 0, 0.06);
   cursor: pointer;
   -webkit-tap-highlight-color: transparent;
-  min-height: 190px;
 }
 
 .pz__card-img-ring {
@@ -230,7 +265,7 @@
   align-items: center;
   justify-content: center;
   cursor: pointer;
-  margin-top: auto;
+  margin-top: 10px;
   flex-shrink: 0;
   -webkit-tap-highlight-color: transparent;
 }
@@ -279,53 +314,71 @@
   background: #D4EAD8;
 }
 
-/* ── Featured Images (overlapping stacked circles) ── */
-.pz__featured {
-  position: relative;
-  height: 210px;
-  margin: 0 20px 8px;
+/* ── Featured Images — horizontal scroll, stacked polaroid cards ── */
+.pz__featured-scroll {
+  display: flex;
+  gap: 24px;
+  overflow-x: auto;
+  padding: 8px 20px 28px;
+  -webkit-overflow-scrolling: touch;
+  scrollbar-width: none;
 }
 
-.pz__feat-frame {
-  position: absolute;
-  border-radius: 50%;
-  overflow: hidden;
-  box-shadow: 0 6px 24px rgba(0, 0, 0, 0.13);
+.pz__featured-scroll::-webkit-scrollbar { display: none; }
+
+.pz__feat-item {
+  position: relative;
+  flex-shrink: 0;
+  width: 160px;
+  height: 195px;
   cursor: pointer;
   -webkit-tap-highlight-color: transparent;
-  background: #E8F0E8;
 }
 
-.pz__feat-frame--0 {
-  width: 140px;
-  height: 140px;
-  left: 10px;
-  top: 35px;
-  transform: rotate(-8deg);
-  z-index: 1;
+/* Stacked card layers */
+.pz__feat-bg {
+  position: absolute;
+  width: 148px;
+  height: 180px;
+  background: #FFFFFF;
+  border-radius: 16px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
 }
 
-.pz__feat-frame--1 {
-  width: 130px;
-  height: 130px;
-  right: 8px;
-  top: 30px;
+.feat-bg--2 {
+  top: 14px;
+  left: 6px;
   transform: rotate(7deg);
   z-index: 1;
 }
 
-.pz__feat-frame--2 {
-  width: 158px;
-  height: 158px;
-  left: 50%;
-  top: 18px;
-  transform: translateX(-50%) rotate(-2deg);
+.feat-bg--1 {
+  top: 7px;
+  left: 4px;
+  transform: rotate(3.5deg);
   z-index: 2;
 }
 
+/* Front card */
+.pz__feat-front {
+  position: absolute;
+  width: 148px;
+  height: 180px;
+  background: #FFFFFF;
+  border-radius: 16px;
+  box-shadow: 0 4px 18px rgba(0, 0, 0, 0.12);
+  top: 0;
+  left: 0;
+  z-index: 3;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
 .pz__feat-img {
-  width: 100%;
-  height: 100%;
+  width: 120px;
+  height: 120px;
+  border-radius: 50%;
   object-fit: cover;
   display: block;
 }
