@@ -313,26 +313,26 @@
 /* ── Gallery viewpager ── */
 .sp__gallery {
   display: flex;
-  gap: 12px;
+  gap: 10px;
   overflow-x: auto;
-  padding: 8px 14% 16px;
+  padding: 8px 7% 16px;
   -webkit-overflow-scrolling: touch;
   scrollbar-width: none;
   scroll-snap-type: x mandatory;
+  scroll-padding-inline: 7%;
   align-items: center;
 }
 .sp__gallery::-webkit-scrollbar { display: none; }
 
 .sp__gallery-item {
-  flex-shrink: 0;
-  width: 72%;
+  flex: 0 0 86%;
   scroll-snap-align: center;
   border-radius: 16px;
   overflow: hidden;
   cursor: pointer;
   opacity: 0.45;
-  filter: blur(1.5px) brightness(0.7);
-  transform: scale(0.92);
+  filter: blur(2px) brightness(0.65);
+  transform: scale(0.95);
   transition: opacity 0.3s ease, filter 0.3s ease, transform 0.3s ease;
 }
 

@@ -97,6 +97,7 @@ const OnyxApp: React.FC = () => {
   useEffect(() => {
     if (!didMountRef.current) { didMountRef.current = true; return; }
     checkOnTabSwitch();
+    applyIfReady();
     checkConfigColorsOnTabSwitch(restaurantId ?? '');
   }, [view]);
 
