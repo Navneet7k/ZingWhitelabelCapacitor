@@ -102,7 +102,7 @@ const AccountPage: React.FC<{ onSignOut?: () => void }> = ({ onSignOut }) => {
           <CustomizePage onBack={() => setShowCustomize(false)} />
         ) : showHistory ? (
           <>
-            <div className="acc__orders-banner" style={{ background: template.colors.primary }}>
+            <div className="acc__orders-banner" style={{ background: `var(--t-primary, ${template.colors.primary})` }}>
               <div className="acc__orders-stat">
                 <span className="acc__orders-stat-val">{orders.filter(o => o.status === 'In Progress').length}</span>
                 <span className="acc__orders-stat-lbl">In Progress</span>
@@ -134,7 +134,7 @@ const AccountPage: React.FC<{ onSignOut?: () => void }> = ({ onSignOut }) => {
                   </div>
                   <div className="acc__order-footer">
                     <span className="acc__order-date">{order.date}</span>
-                    <span className="acc__order-total" style={{ color: template.colors.primary }}>${order.total.toFixed(2)}</span>
+                    <span className="acc__order-total" style={{ color: `var(--t-primary, ${template.colors.primary})` }}>${order.total.toFixed(2)}</span>
                   </div>
                 </div>
               ))}
@@ -143,7 +143,7 @@ const AccountPage: React.FC<{ onSignOut?: () => void }> = ({ onSignOut }) => {
           </>
         ) : (
           <>
-            <div className="acc__profile" style={{ background: template.colors.primary }}>
+            <div className="acc__profile" style={{ background: `var(--t-primary, ${template.colors.primary})` }}>
               <div className="acc__avatar">{initials}</div>
               <h2 className="acc__name">{displayName}</h2>
               <p className="acc__email">{displayEmail}</p>
@@ -217,7 +217,7 @@ const AccountPage: React.FC<{ onSignOut?: () => void }> = ({ onSignOut }) => {
               {updateStatus.state === 'ready' && (
                 <button
                   className="acc__update-apply-btn"
-                  style={{ background: template.colors.primary }}
+                  style={{ background: `var(--t-primary, ${template.colors.primary})` }}
                   onClick={() => applyIfReady()}
                 >
                   Apply Update Now
