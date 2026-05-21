@@ -104,11 +104,15 @@ const ZenGallery: React.FC = () => {
 const FiestaImg: React.FC<{ src: string; alt?: string; height?: string }> = ({ src, alt = '', height }) => {
   const [loaded, setLoaded]   = React.useState(false);
   const [errored, setErrored] = React.useState(false);
+  const imgRef = React.useRef<HTMLImageElement>(null);
+  React.useEffect(() => {
+    if (imgRef.current?.complete) setLoaded(true);
+  }, []);
   if (!src || errored) return null;
   return (
     <div style={{ position: 'relative', overflow: 'hidden', width: '100%', height: height ?? '100%', display: 'block' }}>
       <div className="fiesta-shimmer" style={{ position: 'absolute', inset: 0, borderRadius: 'inherit', opacity: loaded ? 0 : 1, transition: 'opacity 0.4s ease', pointerEvents: 'none' }} />
-      <img src={src} alt={alt}
+      <img ref={imgRef} src={src} alt={alt}
         style={{ position: 'absolute', inset: 0, width: '100%', height: '100%', objectFit: 'cover', display: 'block', opacity: loaded ? 1 : 0, transition: 'opacity 0.4s ease' }}
         onLoad={() => setLoaded(true)} onError={() => setErrored(true)} loading="lazy" decoding="async" />
     </div>

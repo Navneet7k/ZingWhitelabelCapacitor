@@ -1,3 +1,18 @@
+/* ── FIESTA SHIMMER ── */
+@keyframes fiesta__shimmer {
+  0%   { background-position: 200% 0; }
+  100% { background-position: -200% 0; }
+}
+.fiesta-shimmer {
+  background: linear-gradient(90deg,
+    rgba(255,228,196,0.92) 0%,  rgba(255,228,196,0.92) 28%,
+    rgba(255,245,228,0.97) 44%, rgba(255,255,248,0.99) 50%,
+    rgba(255,245,228,0.97) 56%, rgba(255,228,196,0.92) 72%,
+    rgba(255,228,196,0.92) 100%);
+  background-size: 400% 100%;
+  animation: fiesta__shimmer 1.8s cubic-bezier(0.4,0,0.6,1) infinite;
+}
+
 /* ── Shared layout ─────────────────────────────────────────────────────────── */
 .feat-section { padding-bottom: 8px; }
 
