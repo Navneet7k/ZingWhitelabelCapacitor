@@ -463,23 +463,32 @@ const SpiceApp: React.FC = () => {
           <>
             {authUser ? (
               <>
+                {/* Primary-colour header band */}
                 <div className="sp__profile-hero">
-                  <div className="sp__profile-avatar">
-                    {safe(authUser.name?.[0], '?').toUpperCase()}
-                  </div>
                   <h2 className="sp__profile-name">{safe(authUser.name)}</h2>
                   <p className="sp__profile-email">{safe(authUser.email)}</p>
-                  {points > 0 && (
-                    <div className="sp__profile-pts">{points} pts</div>
-                  )}
                 </div>
 
+                {/* Quick-action card — overlaps the colour boundary */}
+                <div className="sp__acc-quick">
+                  <button className="sp__acc-quick-item" onClick={() => setView('orders')}>
+                    <span className="sp__acc-quick-icon">🛍️</span>
+                    <span className="sp__acc-quick-label">My Orders</span>
+                  </button>
+                  <button className="sp__acc-quick-item" onClick={() => openWebView(clientUrl('favorites'), 'Favorites', template.colors.primary)}>
+                    <span className="sp__acc-quick-icon">♡</span>
+                    <span className="sp__acc-quick-label">Favorites</span>
+                  </button>
+                  <button className="sp__acc-quick-item" onClick={() => openWebView(clientUrl('points'), 'Points', template.colors.primary)}>
+                    <span className="sp__acc-quick-icon">☆</span>
+                    <span className="sp__acc-quick-label">Points</span>
+                  </button>
+                </div>
+
+                {/* Settings card */}
                 <div className="sp__acc-menu">
                   {([
                     { icon: '✏️', label: 'Edit Profile',       action: () => openWebView(clientUrl('edit-profile'), 'Edit Profile', template.colors.primary) },
-                    { icon: '🛍️', label: 'My Orders',          action: () => setView('orders') },
-                    { icon: '❤️', label: 'Favorites',          action: () => openWebView(clientUrl('favorites'), 'Favorites', template.colors.primary) },
-                    { icon: '⭐', label: 'Points',             action: () => openWebView(clientUrl('points'), 'Points', template.colors.primary) },
                     { icon: '🏠', label: 'Saved Addresses',    action: () => openWebView(clientUrl('address'), 'Saved Addresses', template.colors.primary) },
                     { icon: '🎨', label: 'Customize',          action: () => setShowCustomize(true) },
                     { icon: '📋', label: 'Terms & Conditions', action: () => {} },
