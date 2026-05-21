@@ -465,6 +465,9 @@ const SpiceApp: React.FC = () => {
               <>
                 {/* Primary-colour header band */}
                 <div className="sp__profile-hero">
+                  <div className="sp__profile-avatar">
+                    {safe(authUser.name?.[0], '?').toUpperCase()}
+                  </div>
                   <h2 className="sp__profile-name">{safe(authUser.name)}</h2>
                   <p className="sp__profile-email">{safe(authUser.email)}</p>
                 </div>
