@@ -90,7 +90,7 @@ const SpiceApp2: React.FC = () => {
   const [view, setView]                   = useState<Spice2View>('home');
   const [selectedBanner, setSelectedBanner] = useState(0);
   const [activeGallery, setActiveGallery] = useState(0);
-  const [activeCategory, setCategory]     = useState<number | null>(null);
+  const [expandedCatId, setExpandedCatId] = useState<number | null>(null);
   const [orderTab, setOrderTab]           = useState<'current' | 'past' | 'favorite'>('current');
   const galleryTouchX = useRef(0);
   const [authUser, setAuthUser]           = useState<AuthUser | null>(getInitialUser);
@@ -133,9 +133,18 @@ const SpiceApp2: React.FC = () => {
   const pastOrders     = homeData?.pastOrders      ?? [];
   const favoriteOrders = homeData?.favoriteOrders  ?? [];
 
-  const filteredItems = activeCategory
-    ? (allCategories.find(c => c.id === activeCategory)?.items ?? [])
-    : allCategories.flatMap(c => c.items ?? []);
+  const groups = menuData?.groups ?? [];
+  const menuSections = (() => {
+    const secs: Array<{ group: typeof groups[number] | null; categories: typeof allCategories }> = [];
+    groups.forEach(g => {
+      const cats = allCategories.filter(c => c.groupId === g.id);
+      if (cats.length > 0) secs.push({ group: g, categories: cats });
+    });
+    const placed = new Set(secs.flatMap(s => s.categories.map(c => c.id)));
+    const remaining = allCategories.filter(c => !placed.has(c.id));
+    if (remaining.length > 0) secs.push({ group: null, categories: remaining });
+    return secs;
+  })();
 
   const didMountRef = useRef(false);
   useEffect(() => {
@@ -388,40 +397,62 @@ const SpiceApp2: React.FC = () => {
         {view === 'menu' && (
           <>
             <p className="sp2__view-title">Menu</p>
-            {allCategories.length > 0 && (
-              <div className="sp2__cats">
-                <button
-                  className={`sp2__cat-pill${activeCategory === null ? ' active' : ''}`}
-                  onClick={() => setCategory(null)}
-                >All</button>
-                {allCategories.map(cat => (
-                  <button
-                    key={cat.id}
-                    className={`sp2__cat-pill${activeCategory === cat.id ? ' active' : ''}`}
-                    onClick={() => setCategory(cat.id)}
-                  >{safe(cat.name)}</button>
-                ))}
-              </div>
-            )}
-            {filteredItems.length === 0 ? (
-              <p className="sp2__empty">{!menuData ? 'Loading…' : 'No items'}</p>
+            {!menuData ? (
+              <p className="sp2__empty">Loading…</p>
+            ) : allCategories.length === 0 ? (
+              <p className="sp2__empty">No items available</p>
             ) : (
-              <div className="sp2__menu-grid">
-                {filteredItems.map(item => (
-                  <div key={item.id} className="sp2__menu-card" onClick={handleOrder}>
-                    <Sp2Img src={item.image ?? ''} cls="sp2__menu-img" fallback={<div className="sp2__menu-img-ph">🌶️</div>} />
-                    <div className="sp2__menu-info">
-                      <p className="sp2__menu-name">{safe(item.name)}</p>
-                      {item.description
-                        ? <p className="sp2__menu-desc">{item.description}</p>
-                        : null
-                      }
-                      <div className="sp2__menu-footer">
-                        <span className="sp2__menu-price">${safe(String(item.price))}</span>
-                        <button className="sp2__menu-add" onClick={e => { e.stopPropagation(); handleOrder(); }}>+</button>
+              <div className="sp2__accordion">
+                {menuSections.map((section, si) => (
+                  <React.Fragment key={si}>
+                    {section.group && (
+                      <p className="sp2__acc-group-hdr">{safe(section.group.name)}</p>
+                    )}
+                    {section.categories.map(cat => (
+                      <div key={cat.id} className="sp2__acc-cat-wrap">
+                        <button
+                          className={`sp2__acc-cat-row${expandedCatId === cat.id ? ' expanded' : ''}`}
+                          onClick={() => setExpandedCatId(prev => prev === cat.id ? null : cat.id)}
+                        >
+                          <span className="sp2__acc-cat-name">{safe(cat.name)}</span>
+                          <span className="sp2__acc-cat-badges">
+                            {cat.stockStatus === 0 && <span className="sp2__acc-oos">Sold Out</span>}
+                            {cat.isLocked && <span className="sp2__acc-locked">🔒</span>}
+                          </span>
+                          <span className="sp2__acc-cat-toggle">{expandedCatId === cat.id ? '−' : '+'}</span>
+                        </button>
+                        {expandedCatId === cat.id && (
+                          <div className="sp2__acc-items">
+                            {cat.items.length === 0 ? (
+                              <p className="sp2__acc-no-items">No items in this category</p>
+                            ) : cat.items.map(item => (
+                              <div key={item.id} className="sp2__acc-item-row">
+                                <div className="sp2__acc-item-info">
+                                  <p className="sp2__acc-item-name">{safe(item.name)}</p>
+                                  {item.description && (
+                                    <p className="sp2__acc-item-desc">{item.description}</p>
+                                  )}
+                                  <p className="sp2__acc-item-price">${item.price.toFixed(2)}</p>
+                                </div>
+                                <div className="sp2__acc-item-right">
+                                  <Sp2Img
+                                    src={item.image ?? ''}
+                                    cls="sp2__acc-item-img"
+                                    fallback={<div className="sp2__acc-item-img sp2__acc-item-img--ph" />}
+                                  />
+                                  <button
+                                    className="sp2__acc-item-add"
+                                    disabled={cat.stockStatus === 0}
+                                    onClick={e => { e.stopPropagation(); handleOrder(); }}
+                                  >+</button>
+                                </div>
+                              </div>
+                            ))}
+                          </div>
+                        )}
                       </div>
-                    </div>
-                  </div>
+                    ))}
+                  </React.Fragment>
                 ))}
               </div>
             )}

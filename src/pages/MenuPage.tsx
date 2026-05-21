@@ -12,6 +12,9 @@ const MOCK_CATEGORIES: MenuCategory[] = MENU_CATEGORIES
   .map((name, i) => ({
     id: i + 1,
     name,
+    groupId: null,
+    stockStatus: 1,
+    isLocked: false,
     items: MENU_ITEMS
       .filter(m => m.category === name)
       .map(m => ({

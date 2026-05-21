@@ -11,12 +11,17 @@ interface ApiMenuItem {
   description?: string;
   price: number | string;
   category_id: number;
+  status?: string;
   image?: ApiImage[];
 }
 
 interface ApiCategory {
   id: number;
   name: string;
+  group_id?: number | null;
+  show_status?: string;
+  stock_status?: number;
+  is_locked?: string;
   menu: ApiMenuItem[];
 }
 
@@ -46,6 +51,9 @@ export interface MenuItem {
 export interface MenuCategory {
   id: number;
   name: string;
+  groupId: number | null;
+  stockStatus: 0 | 1;
+  isLocked: boolean;
   items: MenuItem[];
 }
 
@@ -75,18 +83,25 @@ function toPrice(raw: number | string): number {
 
 // ── Mapper ─────────────────────────────────────────────────────────────────────
 export function mapMenuResponse(raw: ApiMenuResponse): MenuData {
-  const categories: MenuCategory[] = (raw.category ?? []).map(cat => ({
-    id: cat.id,
-    name: cat.name,
-    items: (cat.menu ?? []).map(item => ({
-      id: item.id,
-      name: item.name,
-      description: item.description ?? '',
-      price: toPrice(item.price),
-      categoryId: item.category_id,
-      image: toAbsImg(item.image?.[0]?.path ?? ''),
-    })),
-  }));
+  const categories: MenuCategory[] = (raw.category ?? [])
+    .filter(cat => (cat.show_status ?? 'Show') === 'Show')
+    .map(cat => ({
+      id: cat.id,
+      name: cat.name,
+      groupId: cat.group_id ?? null,
+      stockStatus: cat.stock_status === 0 ? 0 : 1,
+      isLocked: cat.is_locked === 'Yes',
+      items: (cat.menu ?? [])
+        .filter(item => (item.status ?? 'Show') === 'Show')
+        .map(item => ({
+          id: item.id,
+          name: item.name,
+          description: item.description ?? '',
+          price: toPrice(item.price),
+          categoryId: item.category_id,
+          image: toAbsImg(item.image?.[0]?.path ?? ''),
+        })),
+    }));
 
   const groups: MenuGroup[] = (raw.group ?? []).map(g => ({
     id: g.id,
