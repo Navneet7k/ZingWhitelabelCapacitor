@@ -302,3 +302,30 @@
   color: var(--t-text-muted, #888);
   margin: 0;
 }
+
+/* ── Account cards: lock to template defaults, ignore config-JSON color overrides ──
+   Specificity (0,2,0) beats the config-color rule (0,1,0) so these always win.      */
+[data-template="luxe"]     .acc__menu { --t-surface:#181818; --t-text:#F5F0E8; --t-text-muted:#888; }
+[data-template="fresh"]    .acc__menu { --t-surface:#FFFFFF; --t-text:#1A1A1A; --t-text-muted:#666; }
+[data-template="street"]   .acc__menu { --t-surface:#1C1C1E; --t-text:#FFFFFF; --t-text-muted:#888; }
+[data-template="zen"]      .acc__menu { --t-surface:#FFFFFF; --t-text:#2D2D2D; --t-text-muted:#9E8C7D; }
+[data-template="neon"]     .acc__menu { --t-surface:#120020; --t-text:#FFFFFF; --t-text-muted:#8877AA; }
+[data-template="rustic"]   .acc__menu { --t-surface:#FFF8F0; --t-text:#3E1F00; --t-text-muted:#8B6B4A; }
+[data-template="ocean"]    .acc__menu { --t-surface:#FFFFFF; --t-text:#1A2F3E; --t-text-muted:#6B8A9E; }
+[data-template="blossom"]  .acc__menu { --t-surface:#FFFFFF; --t-text:#2D1B2D; --t-text-muted:#B07090; }
+[data-template="ember"]    .acc__menu { --t-surface:#241200; --t-text:#F5E6D3; --t-text-muted:#8B7355; }
+[data-template="fiesta"]   .acc__menu { --t-surface:#FFFFFF; --t-text:#292F36; --t-text-muted:#7A7A7A; }
+[data-template="cosmic"]   .acc__menu { --t-surface:#0D1530; --t-text:#E8F4FF; --t-text-muted:#5577AA; }
+[data-template="tropical"] .acc__menu { --t-surface:#FFFFFF; --t-text:#2D1F0E; --t-text-muted:#8B7A5E; }
+[data-template="royal"]    .acc__menu { --t-surface:#200D18; --t-text:#F5ECD7; --t-text-muted:#9E8470; }
+[data-template="retro"]    .acc__menu { --t-surface:#FFFBF0; --t-text:#1A0A00; --t-text-muted:#7A5C30; }
+[data-template="float"]    .acc__menu { --t-surface:rgba(255,255,255,0.09); --t-text:#FFFFFF; --t-text-muted:rgba(255,255,255,0.52); }
+[data-template="dynasty"]  .acc__menu { --t-surface:#1E0505; --t-text:#F5ECD7; --t-text-muted:#9B7A5A; }
+[data-template="reel"]     .acc__menu { --t-surface:#111111; --t-text:#FFFFFF; --t-text-muted:rgba(255,255,255,0.5); }
+[data-template="vapour"]   .acc__menu { --t-surface:rgba(255,255,255,0.04); --t-text:#F3F0FF; --t-text-muted:rgba(243,240,255,0.45); }
+[data-template="grove"]    .acc__menu { --t-surface:#FFFFFF; --t-text:#1A2E1A; --t-text-muted:#6B7C6B; }
+[data-template="brew"]     .acc__menu { --t-surface:#FFFFFF; --t-text:#1A0E0A; --t-text-muted:#8B7355; }
+[data-template="noir"]     .acc__menu { --t-surface:#161616; --t-text:#F0F0F0; --t-text-muted:rgba(240,240,240,0.45); }
+[data-template="onyx"]     .acc__menu { --t-surface:#FFFFFF; --t-text:#FFFFFF; --t-text-muted:#6D6F72; }
+[data-template="dusk"]     .acc__menu { --t-surface:rgba(255,255,255,0.08); --t-text:#FFF8F0; --t-text-muted:rgba(255,248,240,0.45); }
+[data-template="spice"]    .acc__menu { --t-surface:#FFFFFF; --t-text:#FFFFFF; --t-text-muted:rgba(255,255,255,0.6); }
