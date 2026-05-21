@@ -211,7 +211,7 @@
   flex-shrink: 0;
   position: relative;
   z-index: 2;
-  margin-right: -22px;
+  margin-right: -32px;
 }
 .sp__points-circle::before {
   content: '';
@@ -242,7 +242,7 @@
 .sp__points-card {
   flex: 1;
   background: var(--t-surface, #fff);
-  border-radius: var(--t-radius-lg, 20px);
+  border-radius: 44px 20px 20px 44px;
   padding: 20px 16px 20px 34px;
   position: relative;
   z-index: 1;
@@ -351,8 +351,8 @@
 
 .sp__gallery-item {
   position: absolute;
-  width: 72%;
-  left: 14%;
+  width: 50%;
+  left: 25%;
   top: 0;
   bottom: 0;
   border-radius: 16px;
