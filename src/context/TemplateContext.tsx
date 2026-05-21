@@ -1,6 +1,6 @@
 import React, { createContext, useContext, useState, useEffect } from 'react';
 
-export type TemplateId = 'luxe' | 'fresh' | 'street' | 'zen' | 'fiesta' | 'neon' | 'rustic' | 'ocean' | 'blossom' | 'ember' | 'cosmic' | 'retro' | 'tropical' | 'royal' | 'brew' | 'dynasty' | 'float' | 'reel' | 'grove' | 'vapour' | 'noir' | 'dusk' | 'piazza' | 'dine' | 'onyx' | 'spice';
+export type TemplateId = 'luxe' | 'fresh' | 'street' | 'zen' | 'fiesta' | 'neon' | 'rustic' | 'ocean' | 'blossom' | 'ember' | 'cosmic' | 'retro' | 'tropical' | 'royal' | 'brew' | 'dynasty' | 'float' | 'reel' | 'grove' | 'vapour' | 'noir' | 'dusk' | 'piazza' | 'dine' | 'onyx' | 'spice' | 'spice2';
 
 export interface Template {
   id: TemplateId;
@@ -175,6 +175,13 @@ export const TEMPLATES: Template[] = [
   {
     id: 'spice',
     name: 'Spice',
+    tagline: 'Rich & aromatic',
+    emoji: '🌶️',
+    colors: { bg: '#2C5F3E', primary: '#1B4D2E', accent: '#a8d5b5', text: '#FFFFFF' },
+  },
+  {
+    id: 'spice2',
+    name: 'Spice 2',
     tagline: 'Rich & aromatic',
     emoji: '🌶️',
     colors: { bg: '#2C5F3E', primary: '#1B4D2E', accent: '#a8d5b5', text: '#FFFFFF' },
