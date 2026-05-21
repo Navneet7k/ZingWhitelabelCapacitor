@@ -48,6 +48,7 @@ const DineApp: React.FC = () => {
 
   const [view, setView]                         = useState<DineView>('home');
   const [heroIndex, setHeroIndex]               = useState(0);
+  const [featuredIndex, setFeaturedIndex]       = useState(0);
   const [activeGalleryIndex, setGalleryIndex]   = useState(0);
   const [selectedCategory, setSelectedCategory] = useState<number | null>(null);
   const [showCustomize, setShowCustomize]       = useState(false);
@@ -71,7 +72,8 @@ const DineApp: React.FC = () => {
   const [regLoading, setRegLoading]             = useState(false);
   const [updateStatus, setUpdateStatus] = useState<UpdateStatus>(getStatus);
   useEffect(() => onStatusChange(setUpdateStatus), []);
-  const galleryRef = useRef<HTMLDivElement>(null);
+  const galleryRef  = useRef<HTMLDivElement>(null);
+  const featTouchX  = useRef(0);
 
   const restaurantId   = getRestaurantId();
   const restaurantName = safe(getRestaurantName(), 'Our Restaurant');
@@ -89,6 +91,12 @@ const DineApp: React.FC = () => {
   useEffect(() => {
     if (popularDishes.length <= 1) return;
     const t = setInterval(() => setHeroIndex(i => (i + 1) % popularDishes.length), 3500);
+    return () => clearInterval(t);
+  }, [popularDishes.length]);
+
+  useEffect(() => {
+    if (popularDishes.length <= 1) return;
+    const t = setInterval(() => setFeaturedIndex(i => (i + 1) % popularDishes.length), 3500);
     return () => clearInterval(t);
   }, [popularDishes.length]);
 
@@ -230,7 +238,7 @@ const DineApp: React.FC = () => {
                   {/* Blob + hero below the text */}
                   <div className="dn__banner-center">
                     <svg className="dn__blob" viewBox="0 0 349 345" fill="none" xmlns="http://www.w3.org/2000/svg">
-                      <path d="M272.385 38.9189C294.802 56.1067 366.372 92.571 345.095 131.075C320.658 175.297 365.139 256.033 294.443 261.787C248.364 264.578 225.549 323.305 196.439 338.21C166.802 353.228 108.184 345.164 113.051 295.471C117.825 246.733 -56.3113 195.138 18.8588 157.164C63.3352 134.697 14.9014 109.686 36.1603 72.0065C78.3537 -1.58443 182.405 -29.0653 272.385 38.9189Z" fill="#C2D9BA"/>
+                      <path d="M272.385 38.9189C294.802 56.1067 366.372 92.571 345.095 131.075C320.658 175.297 365.139 256.033 294.443 261.787C248.364 264.578 225.549 323.305 196.439 338.21C166.802 353.228 108.184 345.164 113.051 295.471C117.825 246.733 -56.3113 195.138 18.8588 157.164C63.3352 134.697 14.9014 109.686 36.1603 72.0065C78.3537 -1.58443 182.405 -29.0653 272.385 38.9189Z" fill={template.colors.primary} fillOpacity="0.4"/>
                     </svg>
                     <div className="dn__hero-outer" key={heroIndex}>
                       {popularDishes[heroIndex]?.image
@@ -280,19 +288,43 @@ const DineApp: React.FC = () => {
                   </>
                 )}
 
-                {/* ── Featured Images ── */}
+                {/* ── Featured Images — stacked card slider ── */}
                 {popularDishes.length > 0 && (
                   <>
                     <p className="dn__section-title">Featured Images</p>
-                    <div className="dn__feat-scroll">
-                      {popularDishes.map((dish, i) => (
-                        <div key={i} className="dn__feat-outer" onClick={handleOrder}>
-                          {dish.image
-                            ? <img className="dn__feat-img" src={dish.image} alt="" loading="lazy" />
+                    <div
+                      className="dn__feat-slider"
+                      onTouchStart={e => { featTouchX.current = e.touches[0].clientX; }}
+                      onTouchEnd={e => {
+                        const dx = featTouchX.current - e.changedTouches[0].clientX;
+                        if (Math.abs(dx) > 40) {
+                          if (dx > 0) setFeaturedIndex(i => (i + 1) % popularDishes.length);
+                          else        setFeaturedIndex(i => (i - 1 + popularDishes.length) % popularDishes.length);
+                        }
+                      }}
+                    >
+                      <div className="dn__feat-stack">
+                        <div className="dn__feat-bg-card dn__feat-bg-card--1" />
+                        <div className="dn__feat-bg-card dn__feat-bg-card--2" />
+                        <div className="dn__feat-bg-card dn__feat-bg-card--3" />
+                        <div className="dn__feat-circle" onClick={handleOrder}>
+                          {popularDishes[featuredIndex]?.image
+                            ? <img className="dn__feat-img" src={popularDishes[featuredIndex].image} alt="" loading="lazy" />
                             : <div className="dn__feat-img dn__feat-ph">🍽️</div>
                           }
                         </div>
-                      ))}
+                      </div>
+                      {popularDishes.length > 1 && (
+                        <div className="dn__dots-row">
+                          {popularDishes.map((_, i) => (
+                            <button
+                              key={i}
+                              className={`dn__dot${i === featuredIndex ? ' active' : ''}`}
+                              onClick={() => setFeaturedIndex(i)}
+                            />
+                          ))}
+                        </div>
+                      )}
                     </div>
                   </>
                 )}
@@ -531,10 +563,10 @@ const DineApp: React.FC = () => {
           {!authUser && view === 'account' && (
             <div className="dn__auth">
               <svg className="dn__auth-blob dn__auth-blob--tr" viewBox="0 0 349 345" fill="none" aria-hidden="true">
-                <path d="M272.385 38.9189C294.802 56.1067 366.372 92.571 345.095 131.075C320.658 175.297 365.139 256.033 294.443 261.787C248.364 264.578 225.549 323.305 196.439 338.21C166.802 353.228 108.184 345.164 113.051 295.471C117.825 246.733 -56.3113 195.138 18.8588 157.164C63.3352 134.697 14.9014 109.686 36.1603 72.0065C78.3537 -1.58443 182.405 -29.0653 272.385 38.9189Z" fill="#C2D9BA"/>
+                <path d="M272.385 38.9189C294.802 56.1067 366.372 92.571 345.095 131.075C320.658 175.297 365.139 256.033 294.443 261.787C248.364 264.578 225.549 323.305 196.439 338.21C166.802 353.228 108.184 345.164 113.051 295.471C117.825 246.733 -56.3113 195.138 18.8588 157.164C63.3352 134.697 14.9014 109.686 36.1603 72.0065C78.3537 -1.58443 182.405 -29.0653 272.385 38.9189Z" fill={template.colors.primary} fillOpacity="0.4"/>
               </svg>
               <svg className="dn__auth-blob dn__auth-blob--bl" viewBox="0 0 349 345" fill="none" aria-hidden="true">
-                <path d="M272.385 38.9189C294.802 56.1067 366.372 92.571 345.095 131.075C320.658 175.297 365.139 256.033 294.443 261.787C248.364 264.578 225.549 323.305 196.439 338.21C166.802 353.228 108.184 345.164 113.051 295.471C117.825 246.733 -56.3113 195.138 18.8588 157.164C63.3352 134.697 14.9014 109.686 36.1603 72.0065C78.3537 -1.58443 182.405 -29.0653 272.385 38.9189Z" fill="#C2D9BA"/>
+                <path d="M272.385 38.9189C294.802 56.1067 366.372 92.571 345.095 131.075C320.658 175.297 365.139 256.033 294.443 261.787C248.364 264.578 225.549 323.305 196.439 338.21C166.802 353.228 108.184 345.164 113.051 295.471C117.825 246.733 -56.3113 195.138 18.8588 157.164C63.3352 134.697 14.9014 109.686 36.1603 72.0065C78.3537 -1.58443 182.405 -29.0653 272.385 38.9189Z" fill={template.colors.primary} fillOpacity="0.4"/>
               </svg>
               <div className="dn__auth-content">
                 <div className="dn__auth-logo-ring">
