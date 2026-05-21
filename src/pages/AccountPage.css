@@ -329,3 +329,6 @@
 [data-template="onyx"]     .acc__menu { --t-surface:#FFFFFF; --t-text:#FFFFFF; --t-text-muted:#6D6F72; }
 [data-template="dusk"]     .acc__menu { --t-surface:rgba(255,255,255,0.08); --t-text:#FFF8F0; --t-text-muted:rgba(255,248,240,0.45); }
 [data-template="spice"]    .acc__menu { --t-surface:#FFFFFF; --t-text:#FFFFFF; --t-text-muted:rgba(255,255,255,0.6); }
+[data-template="spice2"]   .acc__menu { --t-surface:#FFFFFF; --t-text:#1A2E1A; --t-text-muted:#6B7C6B; }
+[data-template="piazza"]   .acc__menu { --t-surface:#FFFFFF; --t-text:#1A1A1A; --t-text-muted:#777; }
+[data-template="dine"]     .acc__menu { --t-surface:#FFFFFF; --t-text:#3F2D20; --t-text-muted:#8B6B4A; }
