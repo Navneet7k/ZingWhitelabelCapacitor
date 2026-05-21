@@ -403,56 +403,49 @@ const SpiceApp2: React.FC = () => {
               <p className="sp2__empty">No items available</p>
             ) : (
               <div className="sp2__accordion">
-                {menuSections.map((section, si) => (
-                  <React.Fragment key={si}>
-                    {section.group && (
-                      <p className="sp2__acc-group-hdr">{safe(section.group.name)}</p>
-                    )}
-                    {section.categories.map(cat => (
-                      <div key={cat.id} className="sp2__acc-cat-wrap">
-                        <button
-                          className={`sp2__acc-cat-row${expandedCatId === cat.id ? ' expanded' : ''}`}
-                          onClick={() => setExpandedCatId(prev => prev === cat.id ? null : cat.id)}
-                        >
-                          <span className="sp2__acc-cat-name">{safe(cat.name)}</span>
-                          <span className="sp2__acc-cat-badges">
-                            {cat.stockStatus === 0 && <span className="sp2__acc-oos">Sold Out</span>}
-                            {cat.isLocked && <span className="sp2__acc-locked">🔒</span>}
-                          </span>
-                          <span className="sp2__acc-cat-toggle">{expandedCatId === cat.id ? '−' : '+'}</span>
-                        </button>
-                        {expandedCatId === cat.id && (
-                          <div className="sp2__acc-items">
-                            {cat.items.length === 0 ? (
-                              <p className="sp2__acc-no-items">No items in this category</p>
-                            ) : cat.items.map(item => (
-                              <div key={item.id} className="sp2__acc-item-row">
-                                <div className="sp2__acc-item-info">
-                                  <p className="sp2__acc-item-name">{safe(item.name)}</p>
-                                  {item.description && (
-                                    <p className="sp2__acc-item-desc">{item.description}</p>
-                                  )}
-                                  <p className="sp2__acc-item-price">${item.price.toFixed(2)}</p>
-                                </div>
-                                <div className="sp2__acc-item-right">
-                                  <Sp2Img
-                                    src={item.image ?? ''}
-                                    cls="sp2__acc-item-img"
-                                    fallback={<div className="sp2__acc-item-img sp2__acc-item-img--ph" />}
-                                  />
-                                  <button
-                                    className="sp2__acc-item-add"
-                                    disabled={cat.stockStatus === 0}
-                                    onClick={e => { e.stopPropagation(); handleOrder(); }}
-                                  >+</button>
-                                </div>
-                              </div>
-                            ))}
+                {allCategories.map(cat => (
+                  <div key={cat.id} className="sp2__acc-cat-wrap">
+                    <button
+                      className={`sp2__acc-cat-row${expandedCatId === cat.id ? ' expanded' : ''}`}
+                      onClick={() => setExpandedCatId(prev => prev === cat.id ? null : cat.id)}
+                    >
+                      <span className="sp2__acc-cat-name">{safe(cat.name)}</span>
+                      <span className="sp2__acc-cat-badges">
+                        {cat.stockStatus === 0 && <span className="sp2__acc-oos">Sold Out</span>}
+                        {cat.isLocked && <span className="sp2__acc-locked">🔒</span>}
+                      </span>
+                      <span className="sp2__acc-cat-toggle">{expandedCatId === cat.id ? '−' : '+'}</span>
+                    </button>
+                    {expandedCatId === cat.id && (
+                      <div className="sp2__acc-items">
+                        {cat.items.length === 0 ? (
+                          <p className="sp2__acc-no-items">No items in this category</p>
+                        ) : cat.items.map(item => (
+                          <div key={item.id} className="sp2__acc-item-row">
+                            <div className="sp2__acc-item-info">
+                              <p className="sp2__acc-item-name">{safe(item.name)}</p>
+                              {item.description && (
+                                <p className="sp2__acc-item-desc">{item.description}</p>
+                              )}
+                              <p className="sp2__acc-item-price">${item.price.toFixed(2)}</p>
+                            </div>
+                            <div className="sp2__acc-item-right">
+                              <Sp2Img
+                                src={item.image ?? ''}
+                                cls="sp2__acc-item-img"
+                                fallback={<div className="sp2__acc-item-img sp2__acc-item-img--ph" />}
+                              />
+                              <button
+                                className="sp2__acc-item-add"
+                                disabled={cat.stockStatus === 0}
+                                onClick={e => { e.stopPropagation(); handleOrder(); }}
+                              >+</button>
+                            </div>
                           </div>
-                        )}
+                        ))}
                       </div>
-                    ))}
-                  </React.Fragment>
+                    )}
+                  </div>
                 ))}
               </div>
             )}
