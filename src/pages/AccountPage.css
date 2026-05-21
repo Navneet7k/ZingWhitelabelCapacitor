@@ -332,3 +332,4 @@
 [data-template="spice2"]   .acc__menu { --t-surface:#FFFFFF; --t-text:#1A2E1A; --t-text-muted:#6B7C6B; }
 [data-template="piazza"]   .acc__menu { --t-surface:#FFFFFF; --t-text:#1A1A1A; --t-text-muted:#777; }
 [data-template="dine"]     .acc__menu { --t-surface:#FFFFFF; --t-text:#3F2D20; --t-text-muted:#8B6B4A; }
+[data-template="pulse"]    .acc__menu { --t-surface:#FFFFFF; --t-text:#1A1A1A; --t-text-muted:#666666; }

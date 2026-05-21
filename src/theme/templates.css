@@ -526,3 +526,25 @@
   --t-tab-inactive: #9E9E9E;
   --t-primary-text: #E8604C;
 }
+
+/* ── PULSE: Fresh & modern food discovery ── */
+[data-template="pulse"] {
+  --t-bg: #F4F9F6;
+  --t-surface: #FFFFFF;
+  --t-surface2: #E8F5EE;
+  --t-primary: #28A96B;
+  --t-primary-light: #4EBF84;
+  --t-accent: #E8F5EE;
+  --t-text: #1A1A1A;
+  --t-text-muted: #666666;
+  --t-border: rgba(40,169,107,0.15);
+  --t-font-heading: 'Poppins', system-ui, sans-serif;
+  --t-font-body: 'Poppins', system-ui, sans-serif;
+  --t-radius: 14px;
+  --t-radius-lg: 20px;
+  --t-shadow: 0 4px 16px rgba(40,169,107,0.1);
+  --t-transition: 200ms ease;
+  --t-tab-bg: #FFFFFF;
+  --t-tab-active: #28A96B;
+  --t-tab-inactive: #AAAAAA;
+}

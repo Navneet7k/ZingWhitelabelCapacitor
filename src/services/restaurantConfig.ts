@@ -10,6 +10,7 @@ const TEMPLATE_MAP: Record<number, TemplateId> = {
   9: 'blossom',10: 'ember', 11: 'cosmic',12: 'retro',13: 'tropical',14: 'royal',15: 'brew',16: 'dynasty',17: 'float',18: 'reel',19: 'grove',20: 'vapour',21: 'noir',22: 'dusk',
   25: 'onyx',
   26: 'spice',
+  27: 'pulse',
 };
 
 /**
