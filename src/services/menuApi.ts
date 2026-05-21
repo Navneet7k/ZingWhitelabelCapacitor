@@ -84,7 +84,6 @@ function toPrice(raw: number | string): number {
 // ── Mapper ─────────────────────────────────────────────────────────────────────
 export function mapMenuResponse(raw: ApiMenuResponse): MenuData {
   const categories: MenuCategory[] = (raw.category ?? [])
-    .filter(cat => (cat.show_status ?? 'Show') === 'Show')
     .map(cat => ({
       id: cat.id,
       name: cat.name,
@@ -92,7 +91,6 @@ export function mapMenuResponse(raw: ApiMenuResponse): MenuData {
       stockStatus: cat.stock_status === 0 ? 0 : 1,
       isLocked: cat.is_locked === 'Yes',
       items: (cat.menu ?? [])
-        .filter(item => (item.status ?? 'Show') === 'Show')
         .map(item => ({
           id: item.id,
           name: item.name,
