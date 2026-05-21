@@ -1,3 +1,24 @@
+@keyframes pl__shimmer {
+  0%   { background-position: 200% 0; }
+  100% { background-position: -200% 0; }
+}
+.pl__shimmer {
+  background: linear-gradient(90deg,
+    #ddf2e8 0%, #ddf2e8 28%,
+    #ecf9f2 44%, #f5fcf9 50%,
+    #ecf9f2 56%, #ddf2e8 72%,
+    #ddf2e8 100%);
+  background-size: 400% 100%;
+  animation: pl__shimmer 1.8s cubic-bezier(0.4,0,0.6,1) infinite;
+}
+.pl__img-ph {
+  background: var(--t-accent, #E8F5EE);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 28px;
+}
+
 /* ── ROOT ── */
 .pl {
   display: flex;
@@ -50,16 +71,15 @@
   white-space: pre-wrap;
 }
 .pl__banner-btn {
-  background: var(--t-primary, #28A96B);
+  background: transparent;
   color: #fff;
-  border: none;
+  border: 1.5px solid rgba(255,255,255,0.85);
   border-radius: 50px;
-  padding: 10px 24px;
+  padding: 9px 22px;
   font-family: var(--t-font-body, 'Poppins', sans-serif);
   font-size: 13px;
   font-weight: 600;
   cursor: pointer;
-  box-shadow: 0 4px 14px rgba(40,169,107,0.35);
 }
 .pl__banner-dots {
   position: absolute;
@@ -149,15 +169,6 @@
 .pl__dish-img {
   width: 100%;
   height: 120px;
-  object-fit: cover;
-  display: block;
-}
-.pl__dish-img--ph {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-size: 32px;
-  background: var(--t-accent, #E8F5EE);
 }
 .pl__dish-info {
   padding: 10px 10px 12px;
@@ -239,34 +250,23 @@
 }
 .pl__feat-scroll::-webkit-scrollbar { display: none; }
 .pl__feat-card {
-  flex: 0 0 150px;
-  height: 100px;
+  flex: 0 0 130px;
+  height: 130px;
   border-radius: 10px;
   overflow: hidden;
-}
-.pl__feat-card img {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-  display: block;
 }
 
 /* ── GALLERY ── */
 .pl__gallery-grid {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 6px;
+  columns: 3;
+  column-gap: 5px;
 }
 .pl__gallery-tile {
+  position: relative;
+  break-inside: avoid;
+  margin-bottom: 5px;
   border-radius: 10px;
   overflow: hidden;
-  aspect-ratio: 1;
-}
-.pl__gallery-tile img {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-  display: block;
 }
 
 /* ── VIEW TITLE ── */

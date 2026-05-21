@@ -17,6 +17,36 @@ function safe(v: unknown, fallback = ''): string {
   try { return (v != null && v !== '') ? String(v) : fallback; } catch { return fallback; }
 }
 
+const PlImg: React.FC<{ src: string; cls: string }> = ({ src, cls }) => {
+  const [loaded, setLoaded]   = React.useState(false);
+  const [errored, setErrored] = React.useState(false);
+  const imgRef = React.useRef<HTMLImageElement>(null);
+  React.useEffect(() => { if (imgRef.current?.complete) setLoaded(true); }, []);
+  if (!src || errored) return <div className={`${cls} pl__img-ph`} />;
+  return (
+    <div className={cls} style={{ position: 'relative', overflow: 'hidden' }}>
+      <div className="pl__shimmer" style={{ position: 'absolute', inset: 0, borderRadius: 'inherit', opacity: loaded ? 0 : 1, transition: 'opacity 0.4s ease', pointerEvents: 'none' }} />
+      <img ref={imgRef} src={src} alt=""
+        style={{ position: 'absolute', inset: 0, width: '100%', height: '100%', objectFit: 'cover', display: 'block', opacity: loaded ? 1 : 0, transition: 'opacity 0.4s ease' }}
+        onLoad={() => setLoaded(true)} onError={() => setErrored(true)} loading="lazy" decoding="async" />
+    </div>
+  );
+};
+
+const PlGalleryImg: React.FC<{ src: string }> = ({ src }) => {
+  const [loaded, setLoaded] = React.useState(false);
+  const imgRef = React.useRef<HTMLImageElement>(null);
+  React.useEffect(() => { if (imgRef.current?.complete) setLoaded(true); }, []);
+  return (
+    <div className="pl__gallery-tile">
+      <div className="pl__shimmer" style={{ position: 'absolute', inset: 0, borderRadius: 'inherit', opacity: loaded ? 0 : 1, transition: 'opacity 0.4s ease', pointerEvents: 'none' }} />
+      <img ref={imgRef} src={src} alt=""
+        style={{ width: '100%', height: 'auto', display: 'block', opacity: loaded ? 1 : 0, minHeight: loaded ? 0 : 80, transition: 'opacity 0.4s ease' }}
+        onLoad={() => setLoaded(true)} loading="lazy" decoding="async" />
+    </div>
+  );
+};
+
 function updateStatusLabel(s: UpdateStatus): { text: string; color: string } {
   switch (s.state) {
     case 'idle':        return { text: 'Idle',                                              color: '#888' };
@@ -151,7 +181,7 @@ const PulseApp: React.FC = () => {
                 }
                 <div className="pl__banner-overlay" />
                 <div className="pl__banner-content">
-                  <p className="pl__banner-title">{safe(cur.title, `Welcome To\n${restaurantName}`)}</p>
+                  <p className="pl__banner-title">{`Welcome To\n${restaurantName}`}</p>
                   <button className="pl__banner-btn" onClick={handleOrder}>Order Now</button>
                 </div>
                 {sliderItems.length > 1 && (
@@ -165,30 +195,25 @@ const PulseApp: React.FC = () => {
             )}
 
             {/* Points card */}
-            {points > 0 && (
-              <div className="pl__pts-card">
-                <div className="pl__pts-left">
-                  <span className="pl__pts-val">{points}</span>
-                  <span className="pl__pts-suf">Pts</span>
-                </div>
-                <div className="pl__pts-right">
-                  <p className="pl__pts-text">Earn Points for Each Order.</p>
-                  <button className="pl__pts-link" onClick={() => openWebView(clientUrl('points'), 'Points', '#fff')}>
-                    Learn More
-                  </button>
-                </div>
+            <div className="pl__pts-card">
+              <div className="pl__pts-left">
+                <span className="pl__pts-val">{points}</span>
+                <span className="pl__pts-suf">Pts</span>
               </div>
-            )}
+              <div className="pl__pts-right">
+                <p className="pl__pts-text">Earn Points for Each Order.</p>
+                <button className="pl__pts-link" onClick={() => openWebView(clientUrl('points'), 'Points', '#fff')}>
+                  Learn More
+                </button>
+              </div>
+            </div>
 
             {/* Popular dishes 2-col grid */}
             {popularDishes.length > 0 && (
               <div className="pl__dishes-grid">
                 {popularDishes.slice(0, 6).map((dish, i) => (
                   <div key={i} className="pl__dish-card" onClick={handleOrder}>
-                    {dish.image
-                      ? <img className="pl__dish-img" src={dish.image} alt="" loading="lazy" />
-                      : <div className="pl__dish-img pl__dish-img--ph">🍽️</div>
-                    }
+                    <PlImg cls="pl__dish-img" src={dish.image ?? ''} />
                     <div className="pl__dish-info">
                       <p className="pl__dish-name">{safe(dish.name)}</p>
                       {dish.description
@@ -213,9 +238,7 @@ const PulseApp: React.FC = () => {
                 </div>
                 <div className="pl__feat-scroll">
                   {featuredImages.map(item => (
-                    <div key={item.id} className="pl__feat-card">
-                      <img src={item.url} alt="" loading="lazy" />
-                    </div>
+                    <PlImg key={item.id} cls="pl__feat-card" src={item.url ?? ''} />
                   ))}
                 </div>
               </div>
@@ -229,10 +252,8 @@ const PulseApp: React.FC = () => {
                   <button className="pl__view-all" onClick={handleOrder}>View all ›</button>
                 </div>
                 <div className="pl__gallery-grid">
-                  {gallery.slice(0, 6).map(item => (
-                    <div key={item.id} className="pl__gallery-tile">
-                      <img src={item.url} alt="" loading="lazy" />
-                    </div>
+                  {gallery.slice(0, 9).map(item => (
+                    <PlGalleryImg key={item.id} src={item.url ?? ''} />
                   ))}
                 </div>
               </div>
