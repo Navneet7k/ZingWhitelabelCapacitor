@@ -203,7 +203,7 @@
   height: 130px;
   border-radius: 50%;
   border: 2.5px solid rgba(255,255,255,0.6);
-  background: rgba(44, 95, 62, 0.72);
+  background: none;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -212,6 +212,16 @@
   position: relative;
   z-index: 2;
   margin-right: -22px;
+}
+.sp__points-circle::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  border-radius: 50%;
+  background: var(--t-bg, #1B4D2E);
+  opacity: 0.72;
+  pointer-events: none;
+  z-index: -1;
 }
 
 .sp__points-num {
