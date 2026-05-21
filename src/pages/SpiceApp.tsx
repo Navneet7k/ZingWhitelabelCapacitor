@@ -91,6 +91,7 @@ const SpiceApp: React.FC = () => {
   const [selectedBanner, setSelectedBanner] = useState(0);
   const [activeGallery, setActiveGallery] = useState(0);
   const [activeCategory, setCategory]     = useState<number | null>(null);
+  const [orderTab, setOrderTab]           = useState<'current' | 'past' | 'favorite'>('current');
   const galleryTouchX = useRef(0);
   const [authUser, setAuthUser]           = useState<AuthUser | null>(getInitialUser);
   const [authMode, setAuthMode]           = useState<AuthMode>('login');
@@ -127,6 +128,10 @@ const SpiceApp: React.FC = () => {
   const banners        = homeData?.banners ?? [];
   const recentOrders   = homeData?.recentOrders ?? [];
   const points         = homeData?.points ?? 0;
+
+  const currentOrders  = homeData?.currentOrders  ?? [];
+  const pastOrders     = homeData?.pastOrders      ?? [];
+  const favoriteOrders = homeData?.favoriteOrders  ?? [];
 
   const filteredItems = activeCategory
     ? (allCategories.find(c => c.id === activeCategory)?.items ?? [])
@@ -260,25 +265,51 @@ const SpiceApp: React.FC = () => {
               </div>
             </div>
 
-            {recentOrders.length > 0 && (
+            {(currentOrders.length > 0 || pastOrders.length > 0 || favoriteOrders.length > 0) && (
               <div className="sp__section">
                 <div className="sp__section-header">
                   <p className="sp__section-title sp__section-title--flush">My Orders</p>
                   <button className="sp__text-link" onClick={() => setView('orders')}>View all</button>
                 </div>
-                <div className="sp__order-grid">
-                  {recentOrders.slice(0, 4).map(o => (
-                    <div key={o.id} className="sp__order-card">
-                      <div className="sp__order-card-img-ph">🍽️</div>
-                      <p className="sp__order-card-date">{safe(o.date)}</p>
-                      <p className="sp__order-card-id">{safe(String(o.id))}</p>
-                      <p className="sp__order-card-total">${Number(o.total).toFixed(2)}</p>
-                      <button className="sp__order-status-btn">
-                        {safe(o.statusEmoji, '●')} {safe(o.status)}
-                      </button>
-                    </div>
+                <div className="sp__ord-tabs">
+                  {(['current', 'past', 'favorite'] as const).map(tab => (
+                    <button
+                      key={tab}
+                      className={`sp__ord-tab${orderTab === tab ? ' active' : ''}`}
+                      onClick={() => setOrderTab(tab)}
+                    >
+                      {tab.charAt(0).toUpperCase() + tab.slice(1)}
+                    </button>
                   ))}
                 </div>
+                {(() => {
+                  const list = orderTab === 'current' ? currentOrders : orderTab === 'past' ? pastOrders : favoriteOrders;
+                  const o = list[0];
+                  if (!o) return (
+                    <div className="sp__ord-empty">No {orderTab} orders</div>
+                  );
+                  return (
+                    <div className="sp__ord-card">
+                      <SpImg
+                        src={o.image ?? ''}
+                        cls="sp__ord-img"
+                        fallback={<div className="sp__ord-img-ph"><span>Order Image</span></div>}
+                      />
+                      <div className="sp__ord-info">
+                        <p className="sp__ord-date">{safe(o.date)}</p>
+                        <p className="sp__ord-id">Order #{safe(String(o.id)).replace('ORD-', '')}</p>
+                        <p className="sp__ord-items">{safe(o.items?.[0])}</p>
+                        <p className="sp__ord-price">${Number(o.total).toFixed(2)}</p>
+                      </div>
+                      <button
+                        className="sp__ord-status-btn"
+                        onClick={() => o.orderStatusUrl && openWebView(o.orderStatusUrl, 'Order Status', template.colors.primary)}
+                      >
+                        Order Status | 🔔
+                      </button>
+                    </div>
+                  );
+                })()}
               </div>
             )}
 

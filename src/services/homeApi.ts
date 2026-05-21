@@ -45,6 +45,7 @@ export interface RecentOrder {
   id: string; items: string[]; total: number;
   status: string; statusEmoji: string; date: string; color: string;
   orderStatusUrl?: string;
+  image?: string;
 }
 
 export interface HomeData {
@@ -53,6 +54,9 @@ export interface HomeData {
   gallery:        GalleryItem[];
   featuredImages: GalleryItem[];
   recentOrders:   RecentOrder[];
+  currentOrders:  RecentOrder[];
+  pastOrders:     RecentOrder[];
+  favoriteOrders: RecentOrder[];
   points:         number;
   orderNowUrl:    string;
 }
@@ -129,17 +133,22 @@ export function mapHomeResponse(raw: ApiHomeResponse): HomeData {
     date:  fmtDate(o.created_at),
     color: current ? '#FF6B35' : '#00B87C',
     orderStatusUrl: o.order_status,
+    image: o.image ? toAbsImg(o.image) : undefined,
   });
+
+  const currentOrders  = raw.orders.currorders.map(o  => mapOrder(o, true));
+  const pastOrders     = raw.orders.pastorders.map(o  => mapOrder(o, false));
+  const favoriteOrders = (raw.orders.favourites ?? []).map(o => mapOrder(o, false));
 
   return {
     banners:        banners,
     popularDishes:  popularDishes,
     gallery:        gallery,
     featuredImages: featuredImages,
-    recentOrders:   [
-      ...raw.orders.currorders.map(o => mapOrder(o, true)),
-      ...raw.orders.pastorders.map(o => mapOrder(o, false)),
-    ],
+    recentOrders:   [...currentOrders, ...pastOrders],
+    currentOrders,
+    pastOrders,
+    favoriteOrders,
     points:      raw.points.points,
     orderNowUrl: raw.order_now,
   };

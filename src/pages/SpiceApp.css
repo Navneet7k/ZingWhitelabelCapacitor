@@ -341,6 +341,115 @@
   margin-top: 2px;
 }
 
+/* ── My Orders tabbed view ── */
+.sp__ord-tabs {
+  display: flex;
+  gap: 8px;
+  padding: 2px 16px 12px;
+}
+
+.sp__ord-tab {
+  padding: 7px 18px;
+  border-radius: 50px;
+  border: none;
+  background: rgba(255,255,255,0.88);
+  color: #333;
+  font-size: 13px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background 0.2s ease, color 0.2s ease;
+}
+
+.sp__ord-tab.active {
+  background: #5BBD6E;
+  color: #fff;
+}
+
+.sp__ord-card {
+  margin: 0 16px;
+  background: var(--t-surface, #fff);
+  border-radius: 18px;
+  overflow: hidden;
+  box-shadow: 0 4px 20px rgba(0,0,0,0.18);
+}
+
+.sp__ord-img {
+  width: 100%;
+  height: 210px;
+  object-fit: cover;
+  display: block;
+}
+
+.sp__ord-img-ph {
+  width: 100%;
+  height: 210px;
+  background: #e4e4e4;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #aaa;
+  font-size: 16px;
+  font-weight: 500;
+  letter-spacing: 0.02em;
+}
+
+.sp__ord-info {
+  padding: 12px 14px 10px;
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+}
+
+.sp__ord-date {
+  margin: 0;
+  font-size: 12px;
+  color: #999;
+}
+
+.sp__ord-id {
+  margin: 0;
+  font-size: 14px;
+  font-weight: 700;
+  color: #1A1A1A;
+}
+
+.sp__ord-items {
+  margin: 0;
+  font-size: 13px;
+  color: #666;
+}
+
+.sp__ord-price {
+  margin: 0;
+  font-size: 14px;
+  font-weight: 700;
+  color: #1A1A1A;
+}
+
+.sp__ord-status-btn {
+  display: block;
+  width: 100%;
+  padding: 14px;
+  background: var(--t-primary, #1B4D2E);
+  color: #fff;
+  border: none;
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+  text-align: center;
+  letter-spacing: 0.02em;
+}
+
+.sp__ord-empty {
+  margin: 0 16px;
+  padding: 24px 16px;
+  text-align: center;
+  color: rgba(255,255,255,0.55);
+  font-size: 14px;
+  background: rgba(255,255,255,0.08);
+  border-radius: 14px;
+}
+
 /* ── Gallery viewpager (stacked card carousel) ── */
 .sp__gallery {
   position: relative;
