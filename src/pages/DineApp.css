@@ -364,7 +364,7 @@
 /* Main circle — sits on top of stacked cards */
 .dn__feat-circle {
   position: absolute;
-  inset: 22px;
+  inset: 44px;
   border-radius: 50%;
   background: #A26161;
   display: flex;
