@@ -34,9 +34,22 @@
 }
 .menu__item-img {
   width: 110px;
-  height: 110px;
-  object-fit: cover;
+  min-height: 110px;
+  align-self: stretch;
   flex-shrink: 0;
+}
+.menu__item-img--placeholder {
+  background: #f0f0f0;
+}
+
+@keyframes menu__shimmer {
+  0%   { background-position: 200% 0; }
+  100% { background-position: -200% 0; }
+}
+.menu__shimmer {
+  background: linear-gradient(90deg, #e8e8e8 0%, #e8e8e8 28%, #f5f5f5 44%, #fafafa 50%, #f5f5f5 56%, #e8e8e8 72%, #e8e8e8 100%);
+  background-size: 400% 100%;
+  animation: menu__shimmer 1.6s cubic-bezier(0.4, 0, 0.6, 1) infinite;
 }
 .menu__item-body {
   flex: 1;

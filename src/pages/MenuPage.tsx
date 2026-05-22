@@ -1,10 +1,34 @@
-import React, { useState, useMemo } from 'react';
+import React, { useState, useMemo, useRef, useEffect } from 'react';
 import { IonContent, IonHeader, IonPage, IonToolbar, IonTitle } from '@ionic/react';
 import { MENU_ITEMS, MENU_CATEGORIES } from '../config/mockData';
 import { useTemplate } from '../context/TemplateContext';
 import { useMenuData } from '../context/MenuDataContext';
 import type { MenuItem, MenuCategory } from '../services/menuApi';
 import './MenuPage.css';
+
+// ── Shimmer image loader ───────────────────────────────────────────────────────
+const MenuImg: React.FC<{ src: string }> = ({ src }) => {
+  const [loaded,  setLoaded]  = useState(false);
+  const [errored, setErrored] = useState(false);
+  const imgRef = useRef<HTMLImageElement>(null);
+  useEffect(() => { if (imgRef.current?.complete) setLoaded(true); }, []);
+  if (!src || errored) return <div className="menu__item-img menu__item-img--placeholder" />;
+  return (
+    <div className="menu__item-img" style={{ position: 'relative', overflow: 'hidden', flexShrink: 0 }}>
+      <div className="menu__shimmer" style={{ position: 'absolute', inset: 0, opacity: loaded ? 0 : 1, transition: 'opacity 0.4s ease', pointerEvents: 'none' }} />
+      <img
+        ref={imgRef}
+        src={src}
+        alt=""
+        style={{ position: 'absolute', inset: 0, width: '100%', height: '100%', objectFit: 'cover', display: 'block', opacity: loaded ? 1 : 0, transition: 'opacity 0.4s ease' }}
+        onLoad={() => setLoaded(true)}
+        onError={() => setErrored(true)}
+        loading="lazy"
+        decoding="async"
+      />
+    </div>
+  );
+};
 
 // ── Mock fallback ──────────────────────────────────────────────────────────────
 const MOCK_CATEGORIES: MenuCategory[] = MENU_CATEGORIES
@@ -118,10 +142,7 @@ const MenuPage: React.FC = () => {
         <div className={`menu__list menu__list--${template.id}`}>
           {items.map((item, i) => (
             <div key={item.id} className="menu__item" style={{ animationDelay: `${i * 0.06}s` }}>
-              {item.image
-                ? <img src={item.image} alt={item.name} className="menu__item-img" loading="lazy" decoding="async" />
-                : <div className="menu__item-img menu__item-img--placeholder" />
-              }
+              <MenuImg src={item.image ?? ''} />
               <div className="menu__item-body">
                 <span className="menu__item-cat">
                   {categories.find(c => c.id === item.categoryId)?.name ?? ''}
