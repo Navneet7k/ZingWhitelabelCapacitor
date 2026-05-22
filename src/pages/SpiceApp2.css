@@ -68,15 +68,18 @@
 
 .sp2__hero-welcome {
   margin: 0;
-  font-size: 13px;
-  color: rgba(255,255,255,0.85);
-  letter-spacing: 0.05em;
+  font-family: Georgia, 'Palatino Linotype', Palatino, serif;
+  font-size: 14px;
+  font-weight: 700;
+  color: var(--t-primary-text, #E8604C);
+  letter-spacing: 0.08em;
   text-transform: uppercase;
 }
 
 .sp2__hero-name {
   margin: 4px 0 14px;
-  font-size: 26px;
+  font-family: Georgia, 'Palatino Linotype', Palatino, serif;
+  font-size: 28px;
   font-weight: 800;
   color: var(--t-primary-text, #E8604C);
   line-height: 1.2;
