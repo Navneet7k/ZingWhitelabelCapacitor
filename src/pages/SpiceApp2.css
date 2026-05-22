@@ -428,17 +428,18 @@
 
 .sp2__ord-status-btn {
   display: block;
-  width: 100%;
+  width: calc(100% - 28px);
+  margin: 0 14px 14px;
   padding: 14px;
   background: var(--t-bg, #2C5F3E);
   color: #fff;
   border: none;
+  border-radius: 10px;
   font-size: 14px;
   font-weight: 600;
   cursor: pointer;
   text-align: center;
   letter-spacing: 0.02em;
-  border-radius: 0 0 18px 18px;
 }
 
 .sp2__ord-empty {
