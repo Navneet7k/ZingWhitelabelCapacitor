@@ -34,7 +34,16 @@ export async function openWebView(
       handle.remove();
       onClose?.();
     });
-    await InAppBrowser.open({ url, toolbarColor });
+    await InAppBrowser.open({
+      url,
+      toolbarColor,
+      showTitle: true,
+      showArrow: true,
+      disableShare: true,
+      disableBookmark: true,
+      disableDownload: true,
+      urlBarHidingEnabled: true,
+    });
   } else {
     _current = { url, title, onClose };
     _listener?.(_current);
