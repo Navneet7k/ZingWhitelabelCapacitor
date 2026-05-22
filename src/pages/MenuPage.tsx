@@ -3,8 +3,30 @@ import { IonContent, IonHeader, IonPage, IonToolbar, IonTitle } from '@ionic/rea
 import { MENU_ITEMS, MENU_CATEGORIES } from '../config/mockData';
 import { useTemplate } from '../context/TemplateContext';
 import { useMenuData } from '../context/MenuDataContext';
+import { useVirtualizer } from '@tanstack/react-virtual';
 import type { MenuItem, MenuCategory } from '../services/menuApi';
 import './MenuPage.css';
+
+// ── Mock fallback ──────────────────────────────────────────────────────────────
+const MOCK_CATEGORIES: MenuCategory[] = MENU_CATEGORIES
+  .filter(c => c !== 'All')
+  .map((name, i) => ({
+    id: i + 1,
+    name,
+    groupId: null,
+    stockStatus: 1,
+    isLocked: false,
+    items: MENU_ITEMS
+      .filter(m => m.category === name)
+      .map(m => ({
+        id: m.id,
+        name: m.name,
+        description: m.desc,
+        price: m.price,
+        categoryId: i + 1,
+        image: m.image,
+      })),
+  }));
 
 // ── Shimmer image loader ───────────────────────────────────────────────────────
 const MenuImg: React.FC<{ src: string }> = ({ src }) => {
@@ -29,27 +51,6 @@ const MenuImg: React.FC<{ src: string }> = ({ src }) => {
     </div>
   );
 };
-
-// ── Mock fallback ──────────────────────────────────────────────────────────────
-const MOCK_CATEGORIES: MenuCategory[] = MENU_CATEGORIES
-  .filter(c => c !== 'All')
-  .map((name, i) => ({
-    id: i + 1,
-    name,
-    groupId: null,
-    stockStatus: 1,
-    isLocked: false,
-    items: MENU_ITEMS
-      .filter(m => m.category === name)
-      .map(m => ({
-        id: m.id,
-        name: m.name,
-        description: m.desc,
-        price: m.price,
-        categoryId: i + 1,
-        image: m.image,
-      })),
-  }));
 
 const MenuPage: React.FC = () => {
   const { template } = useTemplate();
@@ -86,6 +87,25 @@ const MenuPage: React.FC = () => {
     setActiveCategoryId(null);
   };
 
+  // ── Virtual list setup ─────────────────────────────────────────────────────
+  const contentRef = useRef<HTMLIonContentElement>(null);
+  const listRef    = useRef<HTMLDivElement>(null);
+  const [scrollEl, setScrollEl] = useState<HTMLElement | null>(null);
+
+  useEffect(() => {
+    contentRef.current?.getScrollElement().then(el => setScrollEl(el));
+  }, []);
+
+  const virtualizer = useVirtualizer({
+    count: items.length,
+    getScrollElement: () => scrollEl,
+    estimateSize: () => 130,
+    overscan: 5,
+    scrollMargin: listRef.current?.offsetTop ?? 0,
+  });
+
+  const virtualItems = virtualizer.getVirtualItems();
+
   return (
     <IonPage>
       <IonHeader>
@@ -93,7 +113,7 @@ const MenuPage: React.FC = () => {
           <IonTitle>Menu</IonTitle>
         </IonToolbar>
       </IonHeader>
-      <IonContent>
+      <IonContent ref={contentRef}>
 
         {/* Group pills — only in group mode */}
         {isGroupMode && groups.length > 0 && (
@@ -138,34 +158,55 @@ const MenuPage: React.FC = () => {
           ))}
         </div>
 
-        {/* Items */}
-        <div className={`menu__list menu__list--${template.id}`}>
-          {items.map((item, i) => (
-            <div key={item.id} className="menu__item" style={{ animationDelay: `${i * 0.06}s` }}>
-              <MenuImg src={item.image ?? ''} />
-              <div className="menu__item-body">
-                <span className="menu__item-cat">
-                  {categories.find(c => c.id === item.categoryId)?.name ?? ''}
-                </span>
-                <h3 className="menu__item-name">{item.name}</h3>
-                {item.description
-                  ? <p className="menu__item-desc">{item.description}</p>
-                  : null
-                }
-                <div className="menu__item-row">
-                  <span className="menu__item-price" style={{ color: primary }}>
-                    ${item.price.toFixed(2)}
-                  </span>
-                  <button className="menu__item-add" style={{ background: primary }}>
-                    Add +
-                  </button>
+        {/* Virtual item list */}
+        <div
+          ref={listRef}
+          className={`menu__list menu__list--${template.id}`}
+          style={{ height: `${virtualizer.getTotalSize()}px`, position: 'relative' }}
+        >
+          {virtualItems.map(virtualItem => {
+            const item = items[virtualItem.index];
+            return (
+              <div
+                key={virtualItem.key}
+                data-index={virtualItem.index}
+                ref={virtualizer.measureElement}
+                style={{
+                  position: 'absolute',
+                  top: 0,
+                  left: 0,
+                  width: '100%',
+                  transform: `translateY(${virtualItem.start - virtualizer.options.scrollMargin}px)`,
+                  padding: '0 16px 14px',
+                  boxSizing: 'border-box',
+                }}
+              >
+                <div className="menu__item">
+                  <MenuImg src={item.image ?? ''} />
+                  <div className="menu__item-body">
+                    <span className="menu__item-cat">
+                      {categories.find(c => c.id === item.categoryId)?.name ?? ''}
+                    </span>
+                    <h3 className="menu__item-name">{item.name}</h3>
+                    {item.description
+                      ? <p className="menu__item-desc">{item.description}</p>
+                      : null
+                    }
+                    <div className="menu__item-row">
+                      <span className="menu__item-price" style={{ color: primary }}>
+                        ${item.price.toFixed(2)}
+                      </span>
+                      <button className="menu__item-add" style={{ background: primary }}>
+                        Add +
+                      </button>
+                    </div>
+                  </div>
                 </div>
               </div>
-            </div>
-          ))}
+            );
+          })}
         </div>
 
-        <div style={{ height: 24 }} />
       </IonContent>
     </IonPage>
   );

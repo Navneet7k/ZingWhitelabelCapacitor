@@ -1,7 +1,7 @@
 {
   "name": "ZingWhitelabelCapacitor",
   "private": true,
-  "version": "2.4.30",
+  "version": "2.4.31",
   "type": "module",
   "scripts": {
     "dev": "vite",
@@ -22,6 +22,7 @@
     "@capgo/inappbrowser": "^8.6.6",
     "@ionic/react": "^8.5.0",
     "@ionic/react-router": "^8.5.0",
+    "@tanstack/react-virtual": "^3.13.25",
     "@types/react-router": "^5.1.20",
     "@types/react-router-dom": "^5.3.3",
     "ionicons": "^7.4.0",
