@@ -67,13 +67,41 @@ function updateStatusLabel(s: UpdateStatus): { text: string; color: string } {
 type Spice2View = 'home' | 'menu' | 'orders' | 'account' | 'location';
 type Auth2Mode = 'login' | 'register';
 
-const NAV: { id: Spice2View; icon: string; label: string }[] = [
-  { id: 'home',     icon: '🏠', label: 'Home'     },
-  { id: 'menu',     icon: '🍽️', label: 'Menu'     },
-  { id: 'orders',   icon: '🛒', label: 'Order'    },
-  { id: 'account',  icon: '👤', label: 'Account'  },
-  { id: 'location', icon: '📍', label: 'Location' },
+const NAV: { id: Spice2View; label: string }[] = [
+  { id: 'home',     label: 'Home'     },
+  { id: 'menu',     label: 'Menu'     },
+  { id: 'orders',   label: 'Order'    },
+  { id: 'account',  label: 'Account'  },
+  { id: 'location', label: 'Location' },
 ];
+
+const NAV_ICONS: Record<Spice2View, React.ReactNode> = {
+  home: (
+    <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+      <path d="M3 9.5L12 3l9 6.5V20a1 1 0 0 1-1 1H4a1 1 0 0 1-1-1V9.5z"/><path d="M9 21V12h6v9"/>
+    </svg>
+  ),
+  menu: (
+    <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round">
+      <line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="18" x2="21" y2="18"/>
+    </svg>
+  ),
+  orders: (
+    <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+      <path d="M6 2L3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"/><line x1="3" y1="6" x2="21" y2="6"/><path d="M16 10a4 4 0 0 1-8 0"/>
+    </svg>
+  ),
+  account: (
+    <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+      <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/>
+    </svg>
+  ),
+  location: (
+    <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+      <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/>
+    </svg>
+  ),
+};
 
 const EMAIL_RE  = /^[\w.-]+@([\w-]+\.)+[\w-]{2,4}$/;
 const MOBILE_RE = /^\+?\d{7,15}$/;
@@ -736,7 +764,7 @@ const SpiceApp2: React.FC = () => {
             onClick={() => setView(n.id)}
             aria-label={n.label}
           >
-            <span className="sp2__nav-icon">{n.icon}</span>
+            <span className="sp2__nav-icon">{NAV_ICONS[n.id]}</span>
             <span className="sp2__nav-label">{n.label}</span>
           </button>
         ))}
