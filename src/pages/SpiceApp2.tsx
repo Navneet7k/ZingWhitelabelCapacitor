@@ -582,8 +582,11 @@ const SpiceApp2: React.FC = () => {
                 <div className="sp2__auth-header">
                   {logoUrl
                     ? <img src={logoUrl} alt={restaurantName} className="sp2__auth-logo" />
-                    : <div className="sp2__auth-brand">{restaurantName}</div>
+                    : <div className="sp2__auth-logo-ph">
+                        {safe(restaurantName[0], '🍽').toUpperCase()}
+                      </div>
                   }
+                  <p className="sp2__auth-brand">{restaurantName}</p>
                 </div>
 
                 <div className="sp2__auth-tabs">
