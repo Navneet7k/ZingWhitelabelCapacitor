@@ -1,6 +1,6 @@
 const BASE_URL  = 'https://app.zingmyorder.com/api';
 const IMG_BASE  = 'https://app.zingmyorder.com/image/';
-const IMG_SIZE  = 'original'; // change to 'sm' or 'lg' to try different sizes
+const IMG_SIZE  = 'sm';
 const S3_BASE   = 'https://zingmyorder.s3.amazonaws.com/';
 
 // ── Raw API shapes ────────────────────────────────────────────────────────────
