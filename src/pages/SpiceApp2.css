@@ -264,7 +264,7 @@
 
 .sp2__points-btn {
   align-self: flex-start;
-  background: var(--t-primary, #1B4D2E);
+  background: var(--t-bg, #2C5F3E);
   color: #fff;
   border: none;
   border-radius: 22px;
@@ -430,7 +430,7 @@
   display: block;
   width: 100%;
   padding: 14px;
-  background: var(--t-primary, #1B4D2E);
+  background: var(--t-bg, #2C5F3E);
   color: #fff;
   border: none;
   font-size: 14px;
@@ -522,7 +522,7 @@
 .sp2__contact-btn {
   width: 100%;
   padding: 13px;
-  background: var(--t-primary, #1B4D2E);
+  background: var(--t-bg, #2C5F3E);
   color: #fff;
   border: none;
   border-radius: 12px;
