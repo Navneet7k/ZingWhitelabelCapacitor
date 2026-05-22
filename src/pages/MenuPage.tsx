@@ -87,24 +87,15 @@ const MenuPage: React.FC = () => {
     setActiveCategoryId(null);
   };
 
-  // ── Virtual list setup ─────────────────────────────────────────────────────
-  const contentRef = useRef<HTMLIonContentElement>(null);
-  const listRef    = useRef<HTMLDivElement>(null);
-  const [scrollEl, setScrollEl] = useState<HTMLElement | null>(null);
-
-  useEffect(() => {
-    contentRef.current?.getScrollElement().then(el => setScrollEl(el));
-  }, []);
+  // ── Virtual list — uses a plain div as scroll container so scrollMargin = 0 ──
+  const [scrollEl, setScrollEl] = useState<HTMLDivElement | null>(null);
 
   const virtualizer = useVirtualizer({
     count: items.length,
     getScrollElement: () => scrollEl,
     estimateSize: () => 130,
     overscan: 5,
-    scrollMargin: listRef.current?.offsetTop ?? 0,
   });
-
-  const virtualItems = virtualizer.getVirtualItems();
 
   return (
     <IonPage>
@@ -113,100 +104,108 @@ const MenuPage: React.FC = () => {
           <IonTitle>Menu</IonTitle>
         </IonToolbar>
       </IonHeader>
-      <IonContent ref={contentRef}>
 
-        {/* Group pills — only in group mode */}
-        {isGroupMode && groups.length > 0 && (
-          <div className="menu__cats menu__groups">
-            {groups.map(g => (
+      {/* scrollY=false — our own div handles scrolling */}
+      <IonContent scrollY={false}>
+        <div className="menu__shell">
+
+          {/* Pills sit above the scroll area — never scroll away */}
+          <div className="menu__pills-wrap">
+            {isGroupMode && groups.length > 0 && (
+              <div className="menu__cats menu__groups">
+                {groups.map(g => (
+                  <button
+                    key={g.id}
+                    className={`menu__cat-btn ${g.id === activeGroupId ? 'active' : ''}`}
+                    style={g.id === activeGroupId
+                      ? { background: primary, color: '#fff', borderColor: primary }
+                      : {}}
+                    onClick={() => handleGroupSelect(g.id)}
+                  >
+                    {g.name}
+                  </button>
+                ))}
+              </div>
+            )}
+            <div className="menu__cats">
               <button
-                key={g.id}
-                className={`menu__cat-btn ${g.id === activeGroupId ? 'active' : ''}`}
-                style={g.id === activeGroupId
+                className={`menu__cat-btn ${resolvedCategoryId === null ? 'active' : ''}`}
+                style={resolvedCategoryId === null
                   ? { background: primary, color: '#fff', borderColor: primary }
                   : {}}
-                onClick={() => handleGroupSelect(g.id)}
+                onClick={() => setActiveCategoryId(null)}
               >
-                {g.name}
+                All
               </button>
-            ))}
+              {visibleCategories.map(cat => (
+                <button
+                  key={cat.id}
+                  className={`menu__cat-btn ${cat.id === resolvedCategoryId ? 'active' : ''}`}
+                  style={cat.id === resolvedCategoryId
+                    ? { background: primary, color: '#fff', borderColor: primary }
+                    : {}}
+                  onClick={() => setActiveCategoryId(cat.id)}
+                >
+                  {cat.name}
+                </button>
+              ))}
+            </div>
           </div>
-        )}
 
-        {/* Category pills */}
-        <div className="menu__cats">
-          <button
-            className={`menu__cat-btn ${resolvedCategoryId === null ? 'active' : ''}`}
-            style={resolvedCategoryId === null
-              ? { background: primary, color: '#fff', borderColor: primary }
-              : {}}
-            onClick={() => setActiveCategoryId(null)}
+          {/* Scroll container — virtualizer anchors here, starts at y=0 */}
+          <div
+            ref={setScrollEl}
+            className="menu__scroll"
           >
-            All
-          </button>
-          {visibleCategories.map(cat => (
-            <button
-              key={cat.id}
-              className={`menu__cat-btn ${cat.id === resolvedCategoryId ? 'active' : ''}`}
-              style={cat.id === resolvedCategoryId
-                ? { background: primary, color: '#fff', borderColor: primary }
-                : {}}
-              onClick={() => setActiveCategoryId(cat.id)}
+            <div
+              className={`menu__list menu__list--${template.id}`}
+              style={{ height: `${virtualizer.getTotalSize()}px`, position: 'relative' }}
             >
-              {cat.name}
-            </button>
-          ))}
-        </div>
-
-        {/* Virtual item list */}
-        <div
-          ref={listRef}
-          className={`menu__list menu__list--${template.id}`}
-          style={{ height: `${virtualizer.getTotalSize()}px`, position: 'relative' }}
-        >
-          {virtualItems.map(virtualItem => {
-            const item = items[virtualItem.index];
-            return (
-              <div
-                key={virtualItem.key}
-                data-index={virtualItem.index}
-                ref={virtualizer.measureElement}
-                style={{
-                  position: 'absolute',
-                  top: 0,
-                  left: 0,
-                  width: '100%',
-                  transform: `translateY(${virtualItem.start - virtualizer.options.scrollMargin}px)`,
-                  padding: '0 16px 14px',
-                  boxSizing: 'border-box',
-                }}
-              >
-                <div className="menu__item">
-                  <MenuImg src={item.image ?? ''} />
-                  <div className="menu__item-body">
-                    <span className="menu__item-cat">
-                      {categories.find(c => c.id === item.categoryId)?.name ?? ''}
-                    </span>
-                    <h3 className="menu__item-name">{item.name}</h3>
-                    {item.description
-                      ? <p className="menu__item-desc">{item.description}</p>
-                      : null
-                    }
-                    <div className="menu__item-row">
-                      <span className="menu__item-price" style={{ color: primary }}>
-                        ${item.price.toFixed(2)}
-                      </span>
-                      <button className="menu__item-add" style={{ background: primary }}>
-                        Add +
-                      </button>
+              {virtualizer.getVirtualItems().map(virtualItem => {
+                const item = items[virtualItem.index];
+                return (
+                  <div
+                    key={virtualItem.key}
+                    data-index={virtualItem.index}
+                    ref={virtualizer.measureElement}
+                    style={{
+                      position: 'absolute',
+                      top: 0,
+                      left: 0,
+                      width: '100%',
+                      transform: `translateY(${virtualItem.start}px)`,
+                      padding: '0 16px 14px',
+                      boxSizing: 'border-box',
+                    }}
+                  >
+                    <div className="menu__item">
+                      <MenuImg src={item.image ?? ''} />
+                      <div className="menu__item-body">
+                        <span className="menu__item-cat">
+                          {categories.find(c => c.id === item.categoryId)?.name ?? ''}
+                        </span>
+                        <h3 className="menu__item-name">{item.name}</h3>
+                        {item.description
+                          ? <p className="menu__item-desc">{item.description}</p>
+                          : null
+                        }
+                        <div className="menu__item-row">
+                          <span className="menu__item-price" style={{ color: primary }}>
+                            ${item.price.toFixed(2)}
+                          </span>
+                          <button className="menu__item-add" style={{ background: primary }}>
+                            Add +
+                          </button>
+                        </div>
+                      </div>
                     </div>
                   </div>
-                </div>
-              </div>
-            );
-          })}
-        </div>
+                );
+              })}
+            </div>
+          </div>
 
+        </div>
       </IonContent>
     </IonPage>
   );

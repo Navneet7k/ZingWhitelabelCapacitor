@@ -17,6 +17,19 @@
   cursor: pointer;
   transition: all 0.2s ease;
 }
+.menu__shell {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+}
+.menu__pills-wrap {
+  flex-shrink: 0;
+}
+.menu__scroll {
+  flex: 1;
+  overflow-y: auto;
+  -webkit-overflow-scrolling: touch;
+}
 .menu__list {
   padding: 0;
 }
