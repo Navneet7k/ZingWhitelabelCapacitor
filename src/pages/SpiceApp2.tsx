@@ -307,7 +307,7 @@ const SpiceApp2: React.FC = () => {
               </div>
               <div className="sp2__points-card">
                 <p className="sp2__points-text">Each Points For Each Orders</p>
-                <button className="sp2__points-btn" onClick={() => setView('account')}>
+                <button className="sp2__points-btn" onClick={() => openWebView(clientUrl('points'), 'Points', template.colors.primary)}>
                   Learn More | ▶
                 </button>
               </div>
@@ -351,7 +351,7 @@ const SpiceApp2: React.FC = () => {
                       </div>
                       <button
                         className="sp2__ord-status-btn"
-                        onClick={() => o.orderStatusUrl && openWebView(o.orderStatusUrl, 'Order Status', template.colors.primary)}
+                        onClick={() => setView('orders')}
                       >
                         Order Status | 🔔
                       </button>
