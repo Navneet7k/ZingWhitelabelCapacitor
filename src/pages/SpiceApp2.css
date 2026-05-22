@@ -241,7 +241,7 @@
 
 .sp2__points-card {
   flex: 1;
-  background: var(--t-surface, #fff);
+  background: #ffffff;
   border-radius: 44px 20px 20px 44px;
   padding: 20px 16px 20px 34px;
   position: relative;
@@ -438,6 +438,7 @@
   cursor: pointer;
   text-align: center;
   letter-spacing: 0.02em;
+  border-radius: 0 0 18px 18px;
 }
 
 .sp2__ord-empty {
@@ -492,7 +493,7 @@
 /* ── Contact card ── */
 .sp2__contact-card {
   margin: 0 16px 4px;
-  background: var(--t-surface, #fff);
+  background: #ffffff;
   border-radius: var(--t-radius-lg, 20px);
   padding: 18px;
   box-shadow: var(--t-shadow, 0 4px 20px rgba(0,0,0,0.2));

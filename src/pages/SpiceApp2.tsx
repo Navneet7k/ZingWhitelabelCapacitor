@@ -238,9 +238,6 @@ const SpiceApp2: React.FC = () => {
                   <div className="sp2__hero-veil">
                     <p className="sp2__hero-welcome">Welcome To</p>
                     <h1 className="sp2__hero-name">{restaurantName}</h1>
-                    <button className="sp2__hero-btn" onClick={e => { e.stopPropagation(); handleOrder(); }}>
-                      Order Now
-                    </button>
                   </div>
                 </div>
               );
@@ -307,7 +304,7 @@ const SpiceApp2: React.FC = () => {
                       <div className="sp2__ord-info">
                         <p className="sp2__ord-date">{safe(o.date)}</p>
                         <p className="sp2__ord-id">Order #{safe(String(o.id)).replace('ORD-', '')}</p>
-                        <p className="sp2__ord-items">{safe(o.items?.[0])}</p>
+                        <p className="sp2__ord-items">{o.items?.length ?? 0} Items</p>
                         <p className="sp2__ord-price">${Number(o.total).toFixed(2)}</p>
                       </div>
                       <button
