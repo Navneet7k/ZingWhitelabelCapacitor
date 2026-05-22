@@ -20,6 +20,7 @@ export function openWebView(
   _toolbarColor?: string,
   onClose?: () => void,
 ): void {
+  console.log(`[WebView] Opening — title: "${title}" | url: ${url}`);
   _current = { url, title, onClose };
   _listener?.(_current);
 }
