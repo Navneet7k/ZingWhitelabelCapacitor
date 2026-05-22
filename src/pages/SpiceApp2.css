@@ -807,7 +807,7 @@
 .sp2__acc-quick {
   display: flex;
   margin: -40px 16px 14px;
-  background: var(--t-surface, #fff);
+  background: #ffffff;
   border-radius: 16px;
   box-shadow: 0 4px 20px rgba(0,0,0,0.14);
   position: relative;
