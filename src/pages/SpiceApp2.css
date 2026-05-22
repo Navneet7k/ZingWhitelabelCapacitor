@@ -36,6 +36,38 @@
   -webkit-overflow-scrolling: touch;
 }
 
+/* ── Home Header / Action Bar ── */
+.sp2__header {
+  background: #ffffff;
+  padding: 10px 16px;
+  display: flex;
+  align-items: center;
+  position: sticky;
+  top: 0;
+  z-index: 10;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.12);
+}
+
+.sp2__header-logo {
+  width: 42px;
+  height: 42px;
+  border-radius: 50%;
+  object-fit: cover;
+  display: block;
+  border: 2px solid rgba(0,0,0,0.06);
+}
+
+.sp2__header-logo--ph {
+  background: var(--t-primary, #1B4D2E);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 18px;
+  font-weight: 700;
+  color: #fff;
+  font-family: Georgia, serif;
+}
+
 /* ── Hero ── */
 .sp2__hero {
   position: relative;

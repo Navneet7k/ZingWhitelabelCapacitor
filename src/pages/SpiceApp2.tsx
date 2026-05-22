@@ -262,6 +262,16 @@ const SpiceApp2: React.FC = () => {
         {/* ── HOME ── */}
         {view === 'home' && (
           <>
+            {/* Header / Action Bar */}
+            <div className="sp2__header">
+              {logoUrl
+                ? <img src={logoUrl} alt={restaurantName} className="sp2__header-logo" />
+                : <div className="sp2__header-logo sp2__header-logo--ph">
+                    {safe(restaurantName[0], '🍽').toUpperCase()}
+                  </div>
+              }
+            </div>
+
             {(() => {
               const slide = banners[selectedBanner];
               return (
