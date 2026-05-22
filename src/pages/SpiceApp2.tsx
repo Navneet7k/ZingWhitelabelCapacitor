@@ -308,7 +308,7 @@ const SpiceApp2: React.FC = () => {
                 <span className="sp2__points-lbl">Pts</span>
               </div>
               <div className="sp2__points-card">
-                <p className="sp2__points-text">Each Points For Each Orders</p>
+                <p className="sp2__points-text">Earn Points for each Order</p>
                 <button className="sp2__points-btn" onClick={() => openWebView(clientUrl('points'), 'Points', template.colors.primary)}>
                   Learn More | ▶
                 </button>
