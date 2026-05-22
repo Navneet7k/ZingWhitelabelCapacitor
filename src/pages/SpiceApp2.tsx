@@ -300,6 +300,8 @@ const SpiceApp2: React.FC = () => {
               </div>
             )}
 
+            <div className="sp2__divider" />
+
             <div className="sp2__points-wrap">
               <div className="sp2__points-circle">
                 <span className="sp2__points-num">{points > 0 ? points : '0'}</span>
@@ -312,6 +314,8 @@ const SpiceApp2: React.FC = () => {
                 </button>
               </div>
             </div>
+
+            <div className="sp2__divider" />
 
             {(currentOrders.length > 0 || pastOrders.length > 0 || favoriteOrders.length > 0) && (
               <div className="sp2__section">
@@ -361,6 +365,8 @@ const SpiceApp2: React.FC = () => {
               </div>
             )}
 
+            <div className="sp2__divider" />
+
             {banners.length > 0 && (
               <div className="sp2__section">
                 <p className="sp2__section-title">Gallery</p>
@@ -402,6 +408,8 @@ const SpiceApp2: React.FC = () => {
                 </div>
               </div>
             )}
+
+            <div className="sp2__divider" />
 
             <div className="sp2__section">
               <p className="sp2__section-title">Contact Us</p>
