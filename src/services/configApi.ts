@@ -3,12 +3,13 @@ import { getToken } from './authApi';
 const BASE_URL    = 'https://app.zingmyorder.com/api';
 const IMG_BASE    = 'https://app.zingmyorder.com/image/original/';
 const ORDER_BASE  = 'https://app.zingmyorder.com/order/eatery';
-const SLUG_KEY    = 'zing_restaurant_slug';
-const LOGO_KEY    = 'zing_restaurant_logo';
-const COLORS_KEY  = 'zing_config_colors';
-const PHONE_KEY     = 'zing_restaurant_phone';
-const ADDRESS_KEY   = 'zing_restaurant_address';
-const LOCATIONS_KEY = 'zing_restaurant_locations';
+const SLUG_KEY        = 'zing_restaurant_slug';
+const LOGO_KEY        = 'zing_restaurant_logo';
+const COLORS_KEY      = 'zing_config_colors';
+const PHONE_KEY       = 'zing_restaurant_phone';
+const ADDRESS_KEY     = 'zing_restaurant_address';
+const LOCATIONS_KEY   = 'zing_restaurant_locations';
+const THEME_DESIGN_KEY = 'zing_theme_design';
 
 export interface RestaurantLocation {
   text?:    string;
@@ -28,8 +29,9 @@ interface ApiConfigResponse {
     [key: string]: unknown;
   };
   app?: {
-    colors?:    Record<string, string>;
-    locations?: RestaurantLocation[] | null;
+    colors?:       Record<string, string>;
+    locations?:    RestaurantLocation[] | null;
+    theme_design?: string;
     [key: string]: unknown;
   };
   [key: string]: unknown;
@@ -52,6 +54,8 @@ export async function fetchRestaurantConfig(restaurantId: string): Promise<void>
     if (colors && typeof colors === 'object') localStorage.setItem(COLORS_KEY, JSON.stringify(colors));
     const locs = data?.restaurant?.locations ?? data?.app?.locations;
     if (Array.isArray(locs) && locs.length > 0) localStorage.setItem(LOCATIONS_KEY, JSON.stringify(locs));
+    const themeDesign = data?.app?.theme_design;
+    if (themeDesign) localStorage.setItem(THEME_DESIGN_KEY, String(themeDesign));
   } catch { /* non-critical */ }
 }
 
@@ -69,6 +73,10 @@ export function getRestaurantPhone(): string | null {
 
 export function getRestaurantAddress(): string | null {
   return localStorage.getItem(ADDRESS_KEY);
+}
+
+export function getThemeDesign(): string | null {
+  return localStorage.getItem(THEME_DESIGN_KEY);
 }
 
 export function getRestaurantLocations(): RestaurantLocation[] {

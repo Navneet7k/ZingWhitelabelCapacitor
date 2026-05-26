@@ -2,6 +2,16 @@ import React, { createContext, useContext, useState, useEffect } from 'react';
 
 export type TemplateId = 'luxe' | 'fresh' | 'street' | 'zen' | 'fiesta' | 'neon' | 'rustic' | 'ocean' | 'blossom' | 'ember' | 'cosmic' | 'retro' | 'tropical' | 'royal' | 'brew' | 'dynasty' | 'float' | 'reel' | 'grove' | 'vapour' | 'noir' | 'dusk' | 'piazza' | 'dine' | 'onyx' | 'spice' | 'spice2' | 'pulse';
 
+const DESIGN_TO_TEMPLATE: Record<string, TemplateId> = {
+  design3: 'spice2',
+  design6: 'pulse',
+  design7: 'dine',
+};
+
+export function themeDesignToTemplateId(design: string | null): TemplateId {
+  return (design && DESIGN_TO_TEMPLATE[design]) || 'fiesta';
+}
+
 export interface Template {
   id: TemplateId;
   name: string;
@@ -206,9 +216,11 @@ interface TemplateContextValue {
 const TemplateContext = createContext<TemplateContextValue | null>(null);
 
 export const TemplateProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
-  const [templateId, setTemplateIdState] = useState<TemplateId | null>(
-    () => (localStorage.getItem('zing_template') as TemplateId) || null
-  );
+  const [templateId, setTemplateIdState] = useState<TemplateId | null>(() => {
+    const design = localStorage.getItem('zing_theme_design');
+    if (design) return themeDesignToTemplateId(design);
+    return (localStorage.getItem('zing_template') as TemplateId) || null;
+  });
 
   const setTemplateId = (id: TemplateId) => {
     localStorage.setItem('zing_template', id);

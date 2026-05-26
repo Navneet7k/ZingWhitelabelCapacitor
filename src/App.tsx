@@ -12,12 +12,12 @@ import { IonReactRouter } from '@ionic/react-router';
 import { Redirect, Route } from 'react-router-dom';
 import { homeOutline, fastFoodOutline, listOutline, personOutline } from 'ionicons/icons';
 
-import { TemplateProvider, useTemplate } from './context/TemplateContext';
+import { TemplateProvider, useTemplate, themeDesignToTemplateId } from './context/TemplateContext';
 import { ThemeCustomProvider } from './context/ThemeCustomContext';
 import WebViewModal from './components/WebViewModal';
 import { isLoggedIn, updateFcmToken, getToken, getSavedUser } from './services/authApi';
 import { initFcm } from './services/fcmService';
-import { fetchRestaurantConfig } from './services/configApi';
+import { fetchRestaurantConfig, getThemeDesign } from './services/configApi';
 import { getRestaurantId } from './services/restaurantConfig';
 import { HomeDataProvider } from './context/HomeDataContext';
 import { MenuDataProvider } from './context/MenuDataContext';
@@ -209,7 +209,10 @@ const AppInner: React.FC = () => {
   useEffect(() => {
     initUpdater();
     const rid = getRestaurantId();
-    if (rid) fetchRestaurantConfig(rid);
+    if (rid) fetchRestaurantConfig(rid).then(() => {
+      const design = getThemeDesign();
+      if (design) setTemplateId(themeDesignToTemplateId(design));
+    });
     initFcm().then(token => {
       if (token) {
         const apiToken = getToken();
