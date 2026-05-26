@@ -1,4 +1,10 @@
 import React, { useState, useEffect, useRef } from 'react';
+import { IonIcon } from '@ionic/react';
+import {
+  bagOutline, heartOutline, ribbonOutline,
+  personOutline, locationOutline, colorPaletteOutline,
+  documentTextOutline, trashOutline, logOutOutline,
+} from 'ionicons/icons';
 import { useTemplate, TEMPLATES } from '../context/TemplateContext';
 import { useHomeData } from '../context/HomeDataContext';
 import { useMenuData } from '../context/MenuDataContext';
@@ -546,15 +552,15 @@ const SpiceApp2: React.FC = () => {
                 {/* Quick-action card — overlaps the colour boundary */}
                 <div className="sp2__acc-quick">
                   <button className="sp2__acc-quick-item" onClick={() => setView('orders')}>
-                    <span className="sp2__acc-quick-icon">🛍️</span>
+                    <span className="sp2__acc-quick-icon"><IonIcon icon={bagOutline} /></span>
                     <span className="sp2__acc-quick-label">My Orders</span>
                   </button>
                   <button className="sp2__acc-quick-item" onClick={() => openWebView(clientUrl('favorites'), 'Favorites', template.colors.primary)}>
-                    <span className="sp2__acc-quick-icon">♡</span>
+                    <span className="sp2__acc-quick-icon"><IonIcon icon={heartOutline} /></span>
                     <span className="sp2__acc-quick-label">Favorites</span>
                   </button>
                   <button className="sp2__acc-quick-item" onClick={() => openWebView(clientUrl('points'), 'Points', template.colors.primary)}>
-                    <span className="sp2__acc-quick-icon">☆</span>
+                    <span className="sp2__acc-quick-icon"><IonIcon icon={ribbonOutline} /></span>
                     <span className="sp2__acc-quick-label">Points</span>
                   </button>
                 </div>
@@ -562,15 +568,15 @@ const SpiceApp2: React.FC = () => {
                 {/* Settings card */}
                 <div className="sp2__acc-menu">
                   {([
-                    { icon: '✏️', label: 'Edit Profile',       action: () => openWebView(clientUrl('edit-profile'), 'Edit Profile', template.colors.primary) },
-                    { icon: '🏠', label: 'Saved Addresses',    action: () => openWebView(clientUrl('address'), 'Saved Addresses', template.colors.primary) },
-                    { icon: '🎨', label: 'Customize',          action: () => setShowCustomize(true) },
-                    { icon: '📋', label: 'Terms & Conditions', action: () => {} },
-                    { icon: '🗑️', label: 'Delete Account',     action: () => setShowDeleteConfirm(true) },
-                    { icon: '🚪', label: 'Sign Out',           action: () => { clearAuth(); setAuthUser(null); } },
+                    { icon: personOutline,        label: 'Edit Profile',       action: () => openWebView(clientUrl('edit-profile'), 'Edit Profile', template.colors.primary) },
+                    { icon: locationOutline,      label: 'Saved Addresses',    action: () => openWebView(clientUrl('address'), 'Saved Addresses', template.colors.primary) },
+                    { icon: colorPaletteOutline,  label: 'Customize',          action: () => setShowCustomize(true) },
+                    { icon: documentTextOutline,  label: 'Terms & Conditions', action: () => {} },
+                    { icon: trashOutline,         label: 'Delete Account',     action: () => setShowDeleteConfirm(true) },
+                    { icon: logOutOutline,        label: 'Sign Out',           action: () => { clearAuth(); setAuthUser(null); } },
                   ] as { icon: string; label: string; action: () => void }[]).map((item, i) => (
                     <button key={i} className="sp2__acc-item" onClick={item.action}>
-                      <span className="sp2__acc-icon">{item.icon}</span>
+                      <span className="sp2__acc-icon"><IonIcon icon={item.icon} /></span>
                       <span className="sp2__acc-label">{item.label}</span>
                       <span className="sp2__acc-arrow">›</span>
                     </button>

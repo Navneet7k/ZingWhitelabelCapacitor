@@ -837,6 +837,9 @@
   font-size: 26px;
   line-height: 1;
   color: var(--t-primary, #1B4D2E);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
 }
 
 .sp2__acc-quick-label {
@@ -874,8 +877,11 @@
 .sp2__acc-icon {
   font-size: 20px;
   width: 26px;
-  text-align: center;
   flex-shrink: 0;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--t-primary, #1B4D2E);
 }
 
 .sp2__acc-label {
