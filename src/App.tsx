@@ -17,7 +17,7 @@ import { ThemeCustomProvider } from './context/ThemeCustomContext';
 import WebViewModal from './components/WebViewModal';
 import { isLoggedIn, updateFcmToken, getToken, getSavedUser } from './services/authApi';
 import { initFcm } from './services/fcmService';
-import { fetchRestaurantConfig, getThemeDesign } from './services/configApi';
+import { fetchRestaurantConfig, getThemeDesign, fetchAndStoreThemeDesign } from './services/configApi';
 import { getRestaurantId } from './services/restaurantConfig';
 import { HomeDataProvider } from './context/HomeDataContext';
 import { MenuDataProvider } from './context/MenuDataContext';
@@ -313,7 +313,17 @@ const AppInner: React.FC = () => {
           <Route exact path="/account" component={AccountGate} />
           <Route exact path="/" render={() => <Redirect to="/home" />} />
         </IonRouterOutlet>
-        <IonTabBar slot="bottom" onClick={() => { checkOnTabSwitch(); const rid = getRestaurantId(); if (rid) checkConfigColorsOnTabSwitch(rid); }}>
+        <IonTabBar slot="bottom" onClick={() => {
+          checkOnTabSwitch();
+          const rid = getRestaurantId();
+          if (rid) {
+            checkConfigColorsOnTabSwitch(rid);
+            // Apply stored theme_design instantly, then fetch latest in background
+            const design = getThemeDesign();
+            if (design) setTemplateId(themeDesignToTemplateId(design));
+            fetchAndStoreThemeDesign(rid);
+          }
+        }}>
           <IonTabButton tab="home" href="/home">
             <IonIcon icon={homeOutline} />
             <IonLabel>Home</IonLabel>

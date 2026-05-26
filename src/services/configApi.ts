@@ -79,6 +79,16 @@ export function getThemeDesign(): string | null {
   return localStorage.getItem(THEME_DESIGN_KEY);
 }
 
+export async function fetchAndStoreThemeDesign(restaurantId: string): Promise<void> {
+  try {
+    const res = await fetch(`${BASE_URL}/config/${restaurantId}`, { cache: 'no-store' });
+    if (!res.ok) return;
+    const data = await res.json() as { app?: { theme_design?: string } };
+    const design = data?.app?.theme_design;
+    if (design) localStorage.setItem(THEME_DESIGN_KEY, String(design));
+  } catch { /* non-critical */ }
+}
+
 export function getRestaurantLocations(): RestaurantLocation[] {
   try {
     const raw = localStorage.getItem(LOCATIONS_KEY);
