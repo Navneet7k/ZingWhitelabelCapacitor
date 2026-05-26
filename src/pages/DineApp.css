@@ -1019,6 +1019,142 @@
   text-align: center;
 }
 
+/* ── My Orders section ── */
+.dn__ord-section {
+  padding: 0 16px 20px;
+}
+
+.dn__section-title--flush {
+  margin-bottom: 0;
+}
+
+.dn__ord-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 12px;
+}
+
+.dn__ord-view-all {
+  background: none;
+  border: none;
+  font-family: 'Poppins', sans-serif;
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--t-primary, #84BD93);
+  cursor: pointer;
+  padding: 0;
+}
+
+.dn__ord-tabs {
+  display: flex;
+  gap: 8px;
+  margin-bottom: 14px;
+}
+
+.dn__ord-tab {
+  flex: 1;
+  background: #fff;
+  border: 1.5px solid rgba(63, 45, 32, 0.12);
+  border-radius: 20px;
+  padding: 6px 0;
+  font-family: 'Poppins', sans-serif;
+  font-size: 12px;
+  font-weight: 600;
+  color: #8D7B70;
+  cursor: pointer;
+  transition: all 0.18s ease;
+}
+
+.dn__ord-tab.active {
+  background: var(--t-primary, #84BD93);
+  border-color: var(--t-primary, #84BD93);
+  color: #fff;
+}
+
+.dn__ord-empty {
+  text-align: center;
+  padding: 20px 0;
+  font-size: 13px;
+  color: #8D7B70;
+}
+
+.dn__ord-card {
+  background: #fff;
+  border-radius: 16px;
+  box-shadow: 0 4px 16px rgba(63, 45, 32, 0.08);
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 12px;
+  position: relative;
+}
+
+.dn__ord-img {
+  width: 60px;
+  height: 60px;
+  border-radius: 12px;
+  object-fit: cover;
+  flex-shrink: 0;
+}
+
+.dn__ord-img-ph {
+  width: 60px;
+  height: 60px;
+  border-radius: 12px;
+  background: rgba(63, 45, 32, 0.06);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 24px;
+  flex-shrink: 0;
+}
+
+.dn__ord-info {
+  flex: 1;
+  min-width: 0;
+}
+
+.dn__ord-date {
+  font-size: 11px;
+  color: #8D7B70;
+  margin: 0 0 2px;
+}
+
+.dn__ord-id {
+  font-size: 13px;
+  font-weight: 700;
+  color: #3F2D20;
+  margin: 0 0 2px;
+}
+
+.dn__ord-items {
+  font-size: 12px;
+  color: #8D7B70;
+  margin: 0 0 2px;
+}
+
+.dn__ord-price {
+  font-size: 14px;
+  font-weight: 700;
+  color: var(--t-primary, #84BD93);
+  margin: 0;
+}
+
+.dn__ord-status-btn {
+  background: none;
+  border: 1.5px solid var(--t-primary, #84BD93);
+  border-radius: 20px;
+  padding: 5px 10px;
+  font-family: 'Poppins', sans-serif;
+  font-size: 11px;
+  font-weight: 600;
+  color: var(--t-primary, #84BD93);
+  cursor: pointer;
+  white-space: nowrap;
+  flex-shrink: 0;
+}
+
 /* ── Bottom Nav ── */
 .dn__nav {
   position: absolute;

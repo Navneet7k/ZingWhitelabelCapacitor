@@ -48,6 +48,7 @@ const DineApp: React.FC = () => {
 
   const [view, setView]                         = useState<DineView>('home');
   const [heroIndex, setHeroIndex]               = useState(0);
+  const [orderTab, setOrderTab]                 = useState<'current' | 'past' | 'favorite'>('current');
   const [featuredIndex, setFeaturedIndex]       = useState(0);
   const [activeGalleryIndex, setGalleryIndex]   = useState(0);
   const [selectedCategory, setSelectedCategory] = useState<number | null>(null);
@@ -82,6 +83,9 @@ const DineApp: React.FC = () => {
   const banners        = homeData?.banners ?? [];
   const galleryBanners = banners.slice(0, 8).filter(b => b.image);
   const recentOrders   = homeData?.recentOrders ?? [];
+  const currentOrders  = homeData?.currentOrders  ?? [];
+  const pastOrders     = homeData?.pastOrders      ?? [];
+  const favoriteOrders = homeData?.favoriteOrders  ?? [];
   const points         = homeData?.points ?? 0;
 
   const menuItems = selectedCategory !== null
@@ -260,6 +264,54 @@ const DineApp: React.FC = () => {
                     </div>
                   )}
                 </div>
+
+                {/* ── My Orders ── */}
+                {(currentOrders.length > 0 || pastOrders.length > 0 || favoriteOrders.length > 0) && (
+                  <div className="dn__ord-section">
+                    <div className="dn__ord-header">
+                      <p className="dn__section-title dn__section-title--flush">My Orders</p>
+                      <button className="dn__ord-view-all" onClick={() => setView('orders')}>View all</button>
+                    </div>
+                    <div className="dn__ord-tabs">
+                      {(['current', 'past', 'favorite'] as const).map(tab => (
+                        <button
+                          key={tab}
+                          className={`dn__ord-tab${orderTab === tab ? ' active' : ''}`}
+                          onClick={() => setOrderTab(tab)}
+                        >
+                          {tab.charAt(0).toUpperCase() + tab.slice(1)}
+                        </button>
+                      ))}
+                    </div>
+                    {(() => {
+                      const list = orderTab === 'current' ? currentOrders : orderTab === 'past' ? pastOrders : favoriteOrders;
+                      const o = list[0];
+                      if (!o) return (
+                        <div className="dn__ord-empty">No {orderTab} orders</div>
+                      );
+                      return (
+                        <div className="dn__ord-card">
+                          {o.image
+                            ? <img className="dn__ord-img" src={o.image} alt="" loading="lazy" />
+                            : <div className="dn__ord-img dn__ord-img-ph"><span>🍽️</span></div>
+                          }
+                          <div className="dn__ord-info">
+                            <p className="dn__ord-date">{safe(o.date)}</p>
+                            <p className="dn__ord-id">Order #{safe(String(o.id)).replace('ORD-', '')}</p>
+                            <p className="dn__ord-items">{o.items?.length ?? 0} Items</p>
+                            <p className="dn__ord-price">${Number(o.total).toFixed(2)}</p>
+                          </div>
+                          <button
+                            className="dn__ord-status-btn"
+                            onClick={() => setView('orders')}
+                          >
+                            Order Status | 🔔
+                          </button>
+                        </div>
+                      );
+                    })()}
+                  </div>
+                )}
 
                 {/* ── Popular Dishes ── */}
                 {popularDishes.length > 0 && (
