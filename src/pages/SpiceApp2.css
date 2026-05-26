@@ -836,7 +836,7 @@
 .sp2__acc-quick-icon {
   font-size: 26px;
   line-height: 1;
-  color: var(--t-primary, #1B4D2E);
+  color: #1A1A1A;
   display: inline-flex;
   align-items: center;
   justify-content: center;
@@ -881,7 +881,7 @@
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  color: var(--t-primary, #1B4D2E);
+  color: #1A1A1A;
 }
 
 .sp2__acc-label {
