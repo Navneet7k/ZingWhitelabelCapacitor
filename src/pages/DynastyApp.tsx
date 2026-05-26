@@ -51,6 +51,7 @@ const DynastyApp: React.FC = () => {
   const [loginError, setLoginError]         = useState('');
   const [loginLoading, setLoginLoading]     = useState(false);
   const [showCustomize, setShowCustomize]   = useState(false);
+  const [showDevOptions, setShowDevOptions] = useState(false);
   const [showDeleteConfirm, setShowDeleteConfirm] = useState(false);
   const [updateStatus, setUpdateStatus] = useState<UpdateStatus>(getStatus);
   useEffect(() => onStatusChange(setUpdateStatus), []);
@@ -354,9 +355,11 @@ const DynastyApp: React.FC = () => {
                     <button className="dyn__sheet-nav-item" onClick={() => { openWebView(clientUrl('address'), 'Saved Addresses', template.colors.primary); }}>
                       <span>🏠</span><span>Saved Addresses</span>
                     </button>
+                    {showDevOptions && (
                     <button className="dyn__sheet-nav-item" onClick={() => { setSheetOpen(false); setShowCustomize(true); }}>
                       <span>🎨</span><span>Customize</span>
                     </button>
+                    )}
                     <button className="dyn__sheet-nav-item">
                       <span>📋</span><span>Terms &amp; Conditions</span>
                     </button>
@@ -404,7 +407,7 @@ const DynastyApp: React.FC = () => {
                    updateStatus.state === 'ready' ? '⬆️' :
                    updateStatus.state === 'error' ? '❌' : '🔃'}
                 </span>
-                <span style={{ fontSize: 14, fontWeight: 700, color: 'var(--t-text, #fff)' }}>App Updates</span>
+                <span style={{ fontSize: 14, fontWeight: 700, color: 'var(--t-text, #fff)', cursor: 'pointer' }} onClick={() => setShowDevOptions(d => !d)}>App Updates</span>
               </div>
               <p style={{ margin: '0 0 8px', fontSize: 12, color: updateStatusLabel(updateStatus).color }}>
                 {updateStatus.state === 'ready'
@@ -420,6 +423,7 @@ const DynastyApp: React.FC = () => {
             </div>
 
             {/* Template switcher — always visible */}
+            {showDevOptions && (<>
             <div className="dyn__sheet-divider" />
             <p className="dyn__sheet-section-label">Switch Template</p>
             <div className="dyn__template-strip">
@@ -438,6 +442,7 @@ const DynastyApp: React.FC = () => {
                 </button>
               ))}
             </div>
+            </>)}
 
           </div>
         </div>

@@ -55,6 +55,7 @@ const GroveApp: React.FC = () => {
   const [loginError, setLoginError]  = useState('');
   const [loginLoading, setLoading]   = useState(false);
   const [showCustomize, setShowCustomize] = useState(false);
+  const [showDevOptions, setShowDevOptions] = useState(false);
   const [showDeleteConfirm, setShowDeleteConfirm] = useState(false);
   const [updateStatus, setUpdateStatus] = useState<UpdateStatus>(getStatus);
   useEffect(() => onStatusChange(setUpdateStatus), []);
@@ -346,9 +347,11 @@ const GroveApp: React.FC = () => {
                 <button className="gv__signout" style={{ marginTop: 6 }} onClick={() => openWebView(clientUrl('address'), 'Saved Addresses', template.colors.primary)}>
                   🏠 Saved Addresses
                 </button>
+                {showDevOptions && (
                 <button className="gv__signout" style={{ marginTop: 6 }} onClick={() => setShowCustomize(true)}>
                   🎨 Customize
                 </button>
+                )}
                 <button className="gv__signout" style={{ marginTop: 6 }}>
                   📋 Terms &amp; Conditions
                 </button>
@@ -394,7 +397,7 @@ const GroveApp: React.FC = () => {
                    updateStatus.state === 'ready' ? '⬆️' :
                    updateStatus.state === 'error' ? '❌' : '🔃'}
                 </span>
-                <span style={{ fontSize: 14, fontWeight: 700, color: 'var(--t-text, #fff)' }}>App Updates</span>
+                <span style={{ fontSize: 14, fontWeight: 700, color: 'var(--t-text, #fff)', cursor: 'pointer' }} onClick={() => setShowDevOptions(d => !d)}>App Updates</span>
               </div>
               <p style={{ margin: '0 0 8px', fontSize: 12, color: updateStatusLabel(updateStatus).color }}>
                 {updateStatus.state === 'ready'
@@ -409,6 +412,7 @@ const GroveApp: React.FC = () => {
               )}
             </div>
 
+            {showDevOptions && (<>
             <p className="gv__tmpl-label">Switch Template</p>
             <div className="gv__tmpl-strip">
               {TEMPLATES.map(t => (
@@ -427,6 +431,7 @@ const GroveApp: React.FC = () => {
               ))}
             </div>
             <div style={{ height: 20 }} />
+            </>)}
           </>
         )}
 

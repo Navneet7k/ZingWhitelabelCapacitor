@@ -85,6 +85,7 @@ const PulseApp: React.FC = () => {
   const [loginError, setLoginError]  = useState('');
   const [loginLoading, setLoading]   = useState(false);
   const [showCustomize, setShowCustomize]       = useState(false);
+  const [showDevOptions, setShowDevOptions] = useState(false);
   const [showDeleteConfirm, setShowDeleteConfirm] = useState(false);
   const [updateStatus, setUpdateStatus] = useState<UpdateStatus>(getStatus);
   useEffect(() => onStatusChange(setUpdateStatus), []);
@@ -361,9 +362,11 @@ const PulseApp: React.FC = () => {
                     {item.label}
                   </button>
                 ))}
+                {showDevOptions && (
                 <button className="pl__signout" style={{ marginTop: 6 }} onClick={() => setShowCustomize(true)}>
                   🎨 Customize
                 </button>
+                )}
                 <button className="pl__signout" style={{ marginTop: 6, background: '#EF4444', color: '#fff' }}
                   onClick={() => setShowDeleteConfirm(true)}>
                   🗑️ Delete Account
@@ -395,7 +398,7 @@ const PulseApp: React.FC = () => {
                    : updateStatus.state === 'ready' ? '⬆️'
                    : updateStatus.state === 'error'  ? '❌' : '🔃'}
                 </span>
-                <span className="pl__update-title">App Updates</span>
+                <span className="pl__update-title" onClick={() => setShowDevOptions(d => !d)} style={{ cursor: 'pointer' }}>App Updates</span>
               </div>
               <p className="pl__update-text" style={{ color: updateStatusLabel(updateStatus).color }}>
                 {updateStatus.state === 'ready'
@@ -409,6 +412,7 @@ const PulseApp: React.FC = () => {
               )}
             </div>
 
+            {showDevOptions && (<>
             <p className="pl__tmpl-label">Switch Template</p>
             <div className="pl__tmpl-strip">
               {TEMPLATES.map(t => (
@@ -422,6 +426,7 @@ const PulseApp: React.FC = () => {
               ))}
             </div>
             <div style={{ height: 20 }} />
+            </>)}
           </>
         )}
       </div>

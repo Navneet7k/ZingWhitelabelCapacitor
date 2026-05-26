@@ -44,6 +44,7 @@ const OnyxApp: React.FC = () => {
   const [activeGalleryIndex, setGalleryIndex]   = useState(0);
   const [selectedCategory, setSelectedCategory] = useState<number | null>(null);
   const [showCustomize, setShowCustomize]       = useState(false);
+  const [showDevOptions, setShowDevOptions] = useState(false);
   const [showDeleteConfirm, setShowDeleteConfirm] = useState(false);
   const [authUser, setAuthUser]                 = useState<AuthUser | null>(getInitialUser);
   const [authScreen, setAuthScreen]             = useState<'signin' | 'signup'>('signin');
@@ -537,9 +538,11 @@ const OnyxApp: React.FC = () => {
                 ) : null}
 
                 {/* ── Customize ── */}
+                {showDevOptions && (
                 <button className="ox__customize-btn" onClick={() => setShowCustomize(true)}>
                   🎨 Customize
                 </button>
+                )}
 
                 {/* ── OTA Update panel ── */}
                 <div style={{ margin: '16px 16px 4px', background: 'rgba(0,0,0,0.15)', borderRadius: 12, padding: '14px 16px' }}>
@@ -549,7 +552,7 @@ const OnyxApp: React.FC = () => {
                        updateStatus.state === 'ready' ? '⬆️' :
                        updateStatus.state === 'error' ? '❌' : '🔃'}
                     </span>
-                    <span style={{ fontSize: 14, fontWeight: 700, color: 'var(--t-text, #fff)' }}>App Updates</span>
+                    <span style={{ fontSize: 14, fontWeight: 700, color: 'var(--t-text, #fff)', cursor: 'pointer' }} onClick={() => setShowDevOptions(d => !d)}>App Updates</span>
                   </div>
                   <p style={{ margin: '0 0 8px', fontSize: 12, color: updateStatusLabel(updateStatus).color }}>
                     {updateStatus.state === 'ready'
@@ -565,6 +568,7 @@ const OnyxApp: React.FC = () => {
                 </div>
 
                 {/* ── Template Switcher ── */}
+                {showDevOptions && (<>
                 <p className="ox__tmpl-label">Switch Template</p>
                 <div className="ox__tmpl-strip">
                   {TEMPLATES.map(t => (
@@ -583,6 +587,7 @@ const OnyxApp: React.FC = () => {
                   ))}
                 </div>
                 <div style={{ height: 20 }} />
+                </>)}
               </>
             )}
 

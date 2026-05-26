@@ -53,6 +53,7 @@ const ReelApp: React.FC = () => {
   const [loginLoading, setLoading]    = useState(false);
   const [hasScrolled, setHasScrolled] = useState(false);
   const [showCustomize, setShowCustomize] = useState(false);
+  const [showDevOptions, setShowDevOptions] = useState(false);
   const [showDeleteConfirm, setShowDeleteConfirm] = useState(false);
   const [updateStatus, setUpdateStatus] = useState<UpdateStatus>(getStatus);
   useEffect(() => onStatusChange(setUpdateStatus), []);
@@ -289,9 +290,11 @@ const ReelApp: React.FC = () => {
                         <button className="rl__sign-out-btn" style={{ marginTop: 6 }} onClick={() => openWebView(clientUrl('address'), 'Saved Addresses', template.colors.primary)}>
                           🏠 Saved Addresses
                         </button>
+                        {showDevOptions && (
                         <button className="rl__sign-out-btn" style={{ marginTop: 6 }} onClick={() => { closeSheet(); setShowCustomize(true); }}>
                           🎨 Customize
                         </button>
+                        )}
                         <button className="rl__sign-out-btn" style={{ marginTop: 6 }}>
                           📋 Terms &amp; Conditions
                         </button>
@@ -337,7 +340,7 @@ const ReelApp: React.FC = () => {
                            updateStatus.state === 'ready' ? '⬆️' :
                            updateStatus.state === 'error' ? '❌' : '🔃'}
                         </span>
-                        <span style={{ fontSize: 14, fontWeight: 700, color: 'var(--t-text, #fff)' }}>App Updates</span>
+                        <span style={{ fontSize: 14, fontWeight: 700, color: 'var(--t-text, #fff)', cursor: 'pointer' }} onClick={() => setShowDevOptions(d => !d)}>App Updates</span>
                       </div>
                       <p style={{ margin: '0 0 8px', fontSize: 12, color: updateStatusLabel(updateStatus).color }}>
                         {updateStatus.state === 'ready'
@@ -352,6 +355,7 @@ const ReelApp: React.FC = () => {
                       )}
                     </div>
 
+                    {showDevOptions && (<>
                     <p className="rl__tmpl-label">Switch Template</p>
                     <div className="rl__tmpl-strip">
                       {TEMPLATES.map(t => (
@@ -369,6 +373,7 @@ const ReelApp: React.FC = () => {
                         </button>
                       ))}
                     </div>
+                    </>)}
                   </div>
                 </div>
               </>

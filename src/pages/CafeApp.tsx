@@ -51,6 +51,7 @@ const CafeApp: React.FC = () => {
   const [loginError, setLoginError]           = useState('');
   const [loginLoading, setLoginLoading]       = useState(false);
   const [showCustomize, setShowCustomize]     = useState(false);
+  const [showDevOptions, setShowDevOptions] = useState(false);
   const [showDeleteConfirm, setShowDeleteConfirm] = useState(false);
   const [updateStatus, setUpdateStatus] = useState<UpdateStatus>(getStatus);
   useEffect(() => onStatusChange(setUpdateStatus), []);
@@ -418,9 +419,11 @@ const CafeApp: React.FC = () => {
                 <button className="cafe__sheet-menu-item" onClick={() => { openWebView(clientUrl('address'), 'Saved Addresses', template.colors.primary); }}>
                   <span className="cafe__sheet-menu-icon">🏠</span><span className="cafe__sheet-menu-label">Saved Addresses</span><span className="cafe__sheet-menu-arrow">›</span>
                 </button>
+                {showDevOptions && (
                 <button className="cafe__sheet-menu-item" onClick={() => { setActiveSheet(null); setShowCustomize(true); }}>
                   <span className="cafe__sheet-menu-icon">🎨</span><span className="cafe__sheet-menu-label">Customize</span><span className="cafe__sheet-menu-arrow">›</span>
                 </button>
+                )}
                 <button className="cafe__sheet-menu-item">
                   <span className="cafe__sheet-menu-icon">📋</span><span className="cafe__sheet-menu-label">Terms &amp; Conditions</span><span className="cafe__sheet-menu-arrow">›</span>
                 </button>
@@ -467,7 +470,7 @@ const CafeApp: React.FC = () => {
                    updateStatus.state === 'ready' ? '⬆️' :
                    updateStatus.state === 'error' ? '❌' : '🔃'}
                 </span>
-                <span style={{ fontSize: 14, fontWeight: 700, color: 'var(--t-text, #fff)' }}>App Updates</span>
+                <span style={{ fontSize: 14, fontWeight: 700, color: 'var(--t-text, #fff)', cursor: 'pointer' }} onClick={() => setShowDevOptions(d => !d)}>App Updates</span>
               </div>
               <p style={{ margin: '0 0 8px', fontSize: 12, color: updateStatusLabel(updateStatus).color }}>
                 {updateStatus.state === 'ready'
@@ -483,6 +486,7 @@ const CafeApp: React.FC = () => {
             </div>
 
             {/* ── Template switcher ── */}
+            {showDevOptions && (<>
             <div className="cafe__sheet-divider" />
             <p className="cafe__sheet-section-label">Switch Template</p>
             <div className="cafe__template-strip">
@@ -501,6 +505,7 @@ const CafeApp: React.FC = () => {
                 </button>
               ))}
             </div>
+            </>)}
           </div>
         </div>
       )}

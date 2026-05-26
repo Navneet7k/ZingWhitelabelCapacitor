@@ -96,6 +96,7 @@ const SpiceApp: React.FC = () => {
   const [authUser, setAuthUser]           = useState<AuthUser | null>(getInitialUser);
   const [authMode, setAuthMode]           = useState<AuthMode>('login');
   const [showCustomize, setShowCustomize] = useState(false);
+  const [showDevOptions, setShowDevOptions] = useState(false);
   const [showDeleteConfirm, setShowDeleteConfirm] = useState(false);
 
   const [loginEmail,    setLoginEmail]    = useState('');
@@ -497,7 +498,7 @@ const SpiceApp: React.FC = () => {
                     { icon: '📋', label: 'Terms & Conditions', action: () => {} },
                     { icon: '🗑️', label: 'Delete Account',     action: () => setShowDeleteConfirm(true) },
                     { icon: '🚪', label: 'Sign Out',           action: () => { clearAuth(); setAuthUser(null); } },
-                  ] as { icon: string; label: string; action: () => void }[]).map((item, i) => (
+                  ] as { icon: string; label: string; action: () => void }[]).filter(item => showDevOptions || item.label !== 'Customize').map((item, i) => (
                     <button key={i} className="sp__acc-item" onClick={item.action}>
                       <span className="sp__acc-icon">{item.icon}</span>
                       <span className="sp__acc-label">{item.label}</span>
@@ -604,7 +605,7 @@ const SpiceApp: React.FC = () => {
                    updateStatus.state === 'ready' ? '⬆️' :
                    updateStatus.state === 'error' ? '❌' : '🔃'}
                 </span>
-                <span style={{ fontSize: 14, fontWeight: 700, color: 'var(--t-text, #fff)' }}>App Updates</span>
+                <span style={{ fontSize: 14, fontWeight: 700, color: 'var(--t-text, #fff)', cursor: 'pointer' }} onClick={() => setShowDevOptions(d => !d)}>App Updates</span>
               </div>
               <p style={{ margin: '0 0 8px', fontSize: 12, color: updateStatusLabel(updateStatus).color }}>
                 {updateStatus.state === 'ready'
@@ -619,6 +620,7 @@ const SpiceApp: React.FC = () => {
               )}
             </div>
 
+            {showDevOptions && (<>
             <p className="sp__tmpl-label">Switch Template</p>
             <div className="sp__tmpl-strip">
               {TEMPLATES.map(t => (
@@ -635,6 +637,7 @@ const SpiceApp: React.FC = () => {
             </div>
 
             <div style={{ height: 20 }} />
+            </>)}
           </>
         )}
 

@@ -48,6 +48,7 @@ const AccountPage: React.FC<{ onSignOut?: () => void }> = ({ onSignOut }) => {
   const [showHistory, setShowHistory]       = useState(false);
   const [showCustomize, setShowCustomize]   = useState(false);
   const [showDeleteConfirm, setShowDeleteConfirm] = useState(false);
+  const [showDevOptions, setShowDevOptions] = useState(false);
 
   useEffect(() => { return onStatusChange(setUpdateStatus); }, []);
 
@@ -154,7 +155,7 @@ const AccountPage: React.FC<{ onSignOut?: () => void }> = ({ onSignOut }) => {
             </div>
 
             <div className={`acc__menu acc__menu--${template.id}`}>
-              {MENU_ITEMS_ACC.map((item, i) => (
+              {MENU_ITEMS_ACC.filter(item => showDevOptions || item.label !== 'Customize').map((item, i) => (
                 <button
                   key={i}
                   className="acc__menu-item"
@@ -168,7 +169,7 @@ const AccountPage: React.FC<{ onSignOut?: () => void }> = ({ onSignOut }) => {
               ))}
             </div>
 
-            {!isRestaurantMode() && (
+            {showDevOptions && !isRestaurantMode() && (
               <div className="acc__template-section">
                 <h3 className="acc__template-title">App Template</h3>
                 <div className="acc__template-grid">
@@ -207,7 +208,7 @@ const AccountPage: React.FC<{ onSignOut?: () => void }> = ({ onSignOut }) => {
                    updateStatus.state === 'ready' ? '⬆️' :
                    updateStatus.state === 'error' ? '❌' : '🔃'}
                 </span>
-                <span className="acc__update-title">App Updates</span>
+                <span className="acc__update-title" onClick={() => setShowDevOptions(d => !d)} style={{ cursor: 'pointer' }}>App Updates</span>
               </div>
               <p className="acc__update-text" style={{ color: updateStatusLabel(updateStatus).color }}>
                 {updateStatus.state === 'ready'

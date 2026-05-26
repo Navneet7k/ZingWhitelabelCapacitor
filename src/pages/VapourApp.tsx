@@ -54,6 +54,7 @@ const VapourApp: React.FC = () => {
   const [loginError, setLoginError]  = useState('');
   const [loginLoading, setLoading]   = useState(false);
   const [showCustomize, setShowCustomize] = useState(false);
+  const [showDevOptions, setShowDevOptions] = useState(false);
   const [showDeleteConfirm, setShowDeleteConfirm] = useState(false);
   const [updateStatus, setUpdateStatus] = useState<UpdateStatus>(getStatus);
   useEffect(() => onStatusChange(setUpdateStatus), []);
@@ -326,9 +327,11 @@ const VapourApp: React.FC = () => {
                 <button className="vp__signout" style={{ marginTop: 6 }} onClick={() => openWebView(clientUrl('address'), 'Saved Addresses', template.colors.primary)}>
                   🏠 Saved Addresses
                 </button>
+                {showDevOptions && (
                 <button className="vp__signout" style={{ marginTop: 6 }} onClick={() => setShowCustomize(true)}>
                   🎨 Customize
                 </button>
+                )}
                 <button className="vp__signout" style={{ marginTop: 6 }}>
                   📋 Terms &amp; Conditions
                 </button>
@@ -374,7 +377,7 @@ const VapourApp: React.FC = () => {
                    updateStatus.state === 'ready' ? '⬆️' :
                    updateStatus.state === 'error' ? '❌' : '🔃'}
                 </span>
-                <span style={{ fontSize: 14, fontWeight: 700, color: 'var(--t-text, #fff)' }}>App Updates</span>
+                <span style={{ fontSize: 14, fontWeight: 700, color: 'var(--t-text, #fff)', cursor: 'pointer' }} onClick={() => setShowDevOptions(d => !d)}>App Updates</span>
               </div>
               <p style={{ margin: '0 0 8px', fontSize: 12, color: updateStatusLabel(updateStatus).color }}>
                 {updateStatus.state === 'ready'
@@ -389,6 +392,7 @@ const VapourApp: React.FC = () => {
               )}
             </div>
 
+            {showDevOptions && (<>
             <p className="vp__tmpl-label">Switch Template</p>
             <div className="vp__tmpl-strip">
               {TEMPLATES.map(t => (
@@ -407,6 +411,7 @@ const VapourApp: React.FC = () => {
               ))}
             </div>
             <div style={{ height: 20 }} />
+            </>)}
           </>
         )}
 
