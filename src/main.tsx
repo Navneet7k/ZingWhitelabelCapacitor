@@ -9,6 +9,7 @@ import App from './App';
 // execution, before any async code, React rendering, or user interaction.
 // This is the absolute earliest possible moment — Capgo cannot time out and roll back.
 if (Capacitor.isNativePlatform()) {
+  console.log('[OTA] main.tsx — notifyAppReady() fired (synchronous, before React)');
   CapacitorUpdater.notifyAppReady();
 }
 

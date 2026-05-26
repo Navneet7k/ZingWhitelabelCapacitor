@@ -52,52 +52,50 @@ export async function initUpdater(): Promise<void> {
     setStatus({ state: 'up_to_date', version: 'browser-dev' });
     return;
   }
+
+  console.log('[OTA] initUpdater() — start');
+
   // Eager display of last-known version to avoid flicker before async completes
   const stored = localStorage.getItem(VERSION_KEY);
+  console.log(`[OTA] initUpdater() — localStorage version: ${stored ?? '(none)'}`);
   if (stored) setStatus({ state: 'up_to_date', version: stored });
 
   try {
     const { CapacitorUpdater } = await import('@capgo/capacitor-updater');
 
     // ── Second notifyAppReady confirmation ────────────────────────────────
-    // main.tsx calls notifyAppReady() synchronously (fire-and-forget) before
-    // React renders. On some devices the native bridge processes that message
-    // too late and Capgo's rollback timer fires anyway. Calling it again here
-    // — awaited, after React has mounted — gives the native layer a confirmed
-    // signal and eliminates the race condition that causes repeated rollbacks.
-    await CapacitorUpdater.notifyAppReady().catch(() => {});
+    console.log('[OTA] initUpdater() — calling notifyAppReady() (awaited)');
+    await CapacitorUpdater.notifyAppReady().catch((e: any) => {
+      console.error('[OTA] initUpdater() — notifyAppReady() FAILED:', e?.message ?? e);
+    });
+    console.log('[OTA] initUpdater() — notifyAppReady() confirmed by native layer');
 
     // ── Ground-truth version sync ──────────────────────────────────────────
-    // CapacitorUpdater.current() returns what Capgo is ACTUALLY running,
-    // not what localStorage says was downloaded. If a rollback happened,
-    // localStorage would still show the old downloaded version while the
-    // native layer is running an older bundle. Reading current() here corrects
-    // that mismatch so _checkAndDownload re-downloads the latest bundle
-    // automatically — this is the self-healing mechanism.
     try {
       const { bundle } = await CapacitorUpdater.current();
       const isBuiltin = !bundle.version || bundle.version === '0.0.0' || bundle.id === 'builtin';
+      console.log(`[OTA] initUpdater() — current bundle: id=${bundle.id} version=${bundle.version} isBuiltin=${isBuiltin}`);
+
       if (isBuiltin) {
-        // Running built-in APK bundle — clear stored version so
-        // _checkAndDownload treats it as unversioned and downloads latest.
+        console.log('[OTA] initUpdater() — running built-in APK bundle, clearing stored version');
         localStorage.removeItem(VERSION_KEY);
-        _lastCheckAt = 0; // ensure PendingTemplateScreen recheck is never throttled
+        _lastCheckAt = 0;
       } else if (bundle.version !== localStorage.getItem(VERSION_KEY)) {
-        // Rollback detected: Capgo is running an older version than what
-        // localStorage claims was installed. Correct the record so
-        // _checkAndDownload sees the real installed version and re-downloads.
+        console.warn(`[OTA] initUpdater() — ROLLBACK DETECTED: Capgo running v${bundle.version} but localStorage says v${localStorage.getItem(VERSION_KEY)}. Correcting.`);
         localStorage.setItem(VERSION_KEY, bundle.version);
         setStatus({ state: 'up_to_date', version: bundle.version });
-        _lastCheckAt = 0; // bypass cooldown — PendingTemplateScreen needs immediate recheck
+        _lastCheckAt = 0;
+      } else {
+        console.log(`[OTA] initUpdater() — version match confirmed: v${bundle.version}`);
       }
-    } catch {
-      // current() unavailable on this device/version — use stored as fallback
+    } catch (e: any) {
+      console.warn('[OTA] initUpdater() — current() unavailable, using localStorage as fallback:', e?.message ?? e);
     }
 
     await _checkAndDownload(CapacitorUpdater);
   } catch (e: any) {
     setStatus({ state: 'error', reason: e?.message ?? String(e) });
-    console.warn('[Updater] init failed', e);
+    console.error('[OTA] initUpdater() — FAILED:', e?.message ?? e);
   }
 }
 
@@ -107,14 +105,18 @@ export async function initUpdater(): Promise<void> {
  */
 export async function recheckForUpdate(): Promise<void> {
   if (!Capacitor.isNativePlatform()) return;
-  if (_isChecking) return;
-  if (_status.state === 'ready') return;           // already have a bundle waiting
-  if (Date.now() - _lastCheckAt < RECHECK_COOLDOWN_MS) return;
+  if (_isChecking) { console.log('[OTA] recheckForUpdate() — skipped (already checking)'); return; }
+  if (_status.state === 'ready') { console.log('[OTA] recheckForUpdate() — skipped (bundle already ready)'); return; }
+  if (Date.now() - _lastCheckAt < RECHECK_COOLDOWN_MS) {
+    console.log(`[OTA] recheckForUpdate() — skipped (cooldown, next check in ${Math.round((RECHECK_COOLDOWN_MS - (Date.now() - _lastCheckAt)) / 1000)}s)`);
+    return;
+  }
+  console.log('[OTA] recheckForUpdate() — checking...');
   try {
     const { CapacitorUpdater } = await import('@capgo/capacitor-updater');
     await _checkAndDownload(CapacitorUpdater);
-  } catch (e) {
-    console.warn('[Updater] recheck failed', e);
+  } catch (e: any) {
+    console.warn('[OTA] recheckForUpdate() — failed:', e?.message ?? e);
   }
 }
 
@@ -142,16 +144,18 @@ export async function checkOnTabSwitch(): Promise<void> {
  * No-op if no bundle is pending.
  */
 export async function applyIfReady(): Promise<void> {
-  if (!_pendingBundle) return;
+  if (!_pendingBundle) { console.log('[OTA] applyIfReady() — no pending bundle, skipping'); return; }
   if (!Capacitor.isNativePlatform()) return;
   const bundle = _pendingBundle;
   _pendingBundle = null;
+  console.log(`[OTA] applyIfReady() — calling set() to apply bundle v${bundle.version ?? '?'}. App will reload.`);
   try {
     const { CapacitorUpdater } = await import('@capgo/capacitor-updater');
-    await CapacitorUpdater.set(bundle); // triggers immediate reload
-  } catch (e) {
-    console.warn('[Updater] apply failed', e);
-    _pendingBundle = bundle; // restore so it can be retried
+    await CapacitorUpdater.set(bundle);
+    console.log('[OTA] applyIfReady() — set() resolved (reload in progress)');
+  } catch (e: any) {
+    console.error('[OTA] applyIfReady() — set() FAILED, restoring bundle for retry:', e?.message ?? e);
+    _pendingBundle = bundle;
   }
 }
 
@@ -162,23 +166,26 @@ async function _checkAndDownload(updater: any): Promise<void> {
   _isChecking = true;
   _lastCheckAt = Date.now();
   setStatus({ state: 'checking' });
+  console.log('[OTA] _checkAndDownload() — fetching manifest...');
 
   try {
     const res = await fetch(MANIFEST_URL, { cache: 'no-store' });
     if (!res.ok) {
+      console.error(`[OTA] _checkAndDownload() — manifest fetch failed: HTTP ${res.status}`);
       setStatus({ state: 'error', reason: `manifest HTTP ${res.status}` });
       return;
     }
     const manifest: Manifest = await res.json();
-    // Use '0.0.0' default so a missing key (built-in bundle, cleared above)
-    // always triggers a download rather than a false "up to date".
     const installed = localStorage.getItem(VERSION_KEY) ?? '0.0.0';
+    console.log(`[OTA] _checkAndDownload() — manifest v${manifest.version} | installed v${installed}`);
 
     if (manifest.version === installed) {
+      console.log('[OTA] _checkAndDownload() — already up to date');
       setStatus({ state: 'up_to_date', version: installed });
       return;
     }
 
+    console.log(`[OTA] _checkAndDownload() — NEW VERSION AVAILABLE: v${installed} → v${manifest.version}. Downloading...`);
     setStatus({ state: 'downloading', from: installed, to: manifest.version });
 
     const bundle = await updater.download({
@@ -186,15 +193,13 @@ async function _checkAndDownload(updater: any): Promise<void> {
       version: manifest.version,
     });
 
-    // Store downloaded version. initUpdater() will overwrite this with the
-    // REAL running version on the next cold start, so any rollback after
-    // apply will be caught immediately.
+    console.log(`[OTA] _checkAndDownload() — download complete. Bundle ready: v${manifest.version}`);
     localStorage.setItem(VERSION_KEY, manifest.version);
     _pendingBundle = bundle;
     setStatus({ state: 'ready', version: manifest.version });
   } catch (e: any) {
+    console.error('[OTA] _checkAndDownload() — FAILED:', e?.message ?? e);
     setStatus({ state: 'error', reason: `download failed: ${e?.message}` });
-    console.warn('[Updater] download failed', e);
   } finally {
     _isChecking = false;
   }

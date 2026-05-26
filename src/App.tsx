@@ -94,16 +94,24 @@ const PendingTemplateScreen: React.FC = () => {
   const [status, setStatus] = useState<UpdateStatus>(getStatus);
 
   useEffect(() => {
-    if (giveUp) return; // too many failed attempts — don't trigger another apply
+    console.log(`[OTA] PendingTemplateScreen mounted — attempts so far: ${attempts}, giveUp: ${giveUp}`);
+    if (giveUp) {
+      console.warn('[OTA] PendingTemplateScreen — MAX_RECOVERY reached, showing reset screen');
+      return;
+    }
     if (getStatus().state === 'ready') {
+      console.log(`[OTA] PendingTemplateScreen — bundle already ready, applying immediately (attempt ${attempts + 1})`);
       localStorage.setItem(RECOVERY_KEY, String(attempts + 1));
       applyIfReady();
       return;
     }
+    console.log('[OTA] PendingTemplateScreen — waiting for bundle download...');
     recheckForUpdate();
     const unsub = onStatusChange(s => {
       setStatus(s);
+      console.log(`[OTA] PendingTemplateScreen — status changed: ${s.state}`);
       if (s.state === 'ready') {
+        console.log(`[OTA] PendingTemplateScreen — bundle ready, applying (attempt ${attempts + 1})`);
         localStorage.setItem(RECOVERY_KEY, String(attempts + 1));
         applyIfReady();
       }
@@ -206,7 +214,12 @@ const AppInner: React.FC = () => {
   // This ensures the counter resets after a successful update so future rollbacks
   // get their full MAX_RECOVERY attempts.
   useEffect(() => {
-    if (isTemplateKnown) localStorage.removeItem(RECOVERY_KEY);
+    if (isTemplateKnown) {
+      console.log(`[OTA] template is known (${template.id}) — clearing RECOVERY_KEY`);
+      localStorage.removeItem(RECOVERY_KEY);
+    } else {
+      console.warn(`[OTA] template is UNKNOWN (stored: ${localStorage.getItem('zing_template')}) — PendingTemplateScreen will show`);
+    }
   }, [isTemplateKnown]);
 
   useEffect(() => {
@@ -279,17 +292,27 @@ const AppInner: React.FC = () => {
       if (idleTimer) clearTimeout(idleTimer);
       idleTimer = setTimeout(() => {
         if (Date.now() - lastActivity >= IDLE_MS) {
-          if (!hasOpenBrowsers()) applyIfReady();
-          else scheduleIdleApply(); // browser is open — wait another cycle
+          if (!hasOpenBrowsers()) {
+            console.log('[OTA] idle timer fired — app idle 15+ min, applying update');
+            applyIfReady();
+          } else {
+            console.log('[OTA] idle timer fired — browser open, rescheduling');
+            scheduleIdleApply();
+          }
         } else {
-          scheduleIdleApply(); // user was active — reschedule
+          console.log('[OTA] idle timer fired — user was active, rescheduling');
+          scheduleIdleApply();
         }
       }, IDLE_MS);
     }
 
     // When a bundle finishes downloading, start the idle countdown
     const unsubStatus = onStatusChange(s => {
-      if (s.state === 'ready') scheduleIdleApply();
+      console.log(`[OTA] status changed → ${s.state}${'version' in s ? ` v${s.version}` : ''}${'reason' in s ? ` (${s.reason})` : ''}`);
+      if (s.state === 'ready') {
+        console.log('[OTA] bundle ready — scheduling idle apply (15 min of no activity)');
+        scheduleIdleApply();
+      }
     });
 
     // Periodic poll — catches releases while app stays open without any
@@ -302,8 +325,12 @@ const AppInner: React.FC = () => {
         // InAppBrowser opening ALSO fires hidden — guard against that case
         // because set() racing with a native browser launch causes a crash
         // identical to the close-race we fixed in v2.2.2.
-        if (!hasOpenBrowsers()) applyIfReady();
+        const browsers = hasOpenBrowsers();
+        console.log(`[OTA] visibilitychange → hidden | hasOpenBrowsers=${browsers}`);
+        if (!browsers) applyIfReady();
+        else console.log('[OTA] visibilitychange hidden — skipping apply (browser open)');
       } else {
+        console.log('[OTA] visibilitychange → visible (foreground)');
         recheckForUpdate();
         // Re-check config when app comes to foreground (covers ALL templates)
         if (rid) {
