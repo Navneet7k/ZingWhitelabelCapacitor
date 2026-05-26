@@ -240,8 +240,24 @@ const AppInner: React.FC = () => {
       }
     });
 
-    // ── Config poll — works for ALL templates, no tab-bar dependency ─────
-    // Fetches theme_design + colors every 60 s while the app is open.
+    // ── Config check on any tap — fires for ALL templates, no tab-bar dependency ──
+    // touchstart fires on every button/tab tap regardless of which template is active.
+    // Throttled so at most one API call per 30 s no matter how fast the user taps.
+    const CONFIG_THROTTLE_MS = 30 * 1000;
+    let lastConfigCheck = 0;
+    const onUserTouch = () => {
+      if (!rid) return;
+      const now = Date.now();
+      if (now - lastConfigCheck < CONFIG_THROTTLE_MS) return;
+      lastConfigCheck = now;
+      fetchAndStoreThemeDesign(rid).then(newDesign => {
+        if (newDesign) setTemplateId(themeDesignToTemplateId(newDesign));
+        applyConfigColors(getStoredConfigColors());
+      });
+    };
+    document.addEventListener('touchstart', onUserTouch, { passive: true });
+
+    // ── Fallback poll — catches updates when app is idle (no taps) ────────
     const CONFIG_POLL_MS = 60 * 1000;
     const configPoll = setInterval(() => {
       if (!rid) return;
@@ -308,6 +324,7 @@ const AppInner: React.FC = () => {
       clearInterval(configPoll);
       clearInterval(pollInterval);
       document.removeEventListener('visibilitychange', onVisibility);
+      document.removeEventListener('touchstart', onUserTouch);
       document.removeEventListener('touchstart',  resetActivity);
       document.removeEventListener('pointermove', resetActivity);
       unsubStatus();
