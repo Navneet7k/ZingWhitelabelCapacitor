@@ -10,7 +10,9 @@ import App from './App';
 // This is the absolute earliest possible moment — Capgo cannot time out and roll back.
 if (Capacitor.isNativePlatform()) {
   console.log('[OTA] main.tsx — notifyAppReady() fired (synchronous, before React)');
-  CapacitorUpdater.notifyAppReady();
+  CapacitorUpdater.notifyAppReady().catch((e: any) => {
+    console.error('[OTA] main.tsx — notifyAppReady() FAILED:', e?.message ?? e);
+  });
 }
 
 // Seed restaurant ID + template into localStorage before anything renders.

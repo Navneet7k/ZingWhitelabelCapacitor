@@ -99,24 +99,38 @@ const PendingTemplateScreen: React.FC = () => {
       console.warn('[OTA] PendingTemplateScreen — MAX_RECOVERY reached, showing reset screen');
       return;
     }
+
+    let applyTimer: ReturnType<typeof setTimeout> | null = null;
+
+    // Delay before calling set() so notifyAppReady() for the CURRENT bundle
+    // has time to be fully confirmed by the native layer (prevents the rollback
+    // loop where set() is called before the current bundle is marked stable).
+    const scheduleApply = () => {
+      if (applyTimer) return;
+      console.log(`[OTA] PendingTemplateScreen — scheduling apply in 5 s (attempt ${attempts + 1})`);
+      applyTimer = setTimeout(() => {
+        console.log(`[OTA] PendingTemplateScreen — applying now (attempt ${attempts + 1})`);
+        localStorage.setItem(RECOVERY_KEY, String(attempts + 1));
+        applyIfReady();
+      }, 5000);
+    };
+
     if (getStatus().state === 'ready') {
-      console.log(`[OTA] PendingTemplateScreen — bundle already ready, applying immediately (attempt ${attempts + 1})`);
-      localStorage.setItem(RECOVERY_KEY, String(attempts + 1));
-      applyIfReady();
-      return;
+      scheduleApply();
+      return () => { if (applyTimer) clearTimeout(applyTimer); };
     }
+
     console.log('[OTA] PendingTemplateScreen — waiting for bundle download...');
     recheckForUpdate();
     const unsub = onStatusChange(s => {
       setStatus(s);
       console.log(`[OTA] PendingTemplateScreen — status changed: ${s.state}`);
-      if (s.state === 'ready') {
-        console.log(`[OTA] PendingTemplateScreen — bundle ready, applying (attempt ${attempts + 1})`);
-        localStorage.setItem(RECOVERY_KEY, String(attempts + 1));
-        applyIfReady();
-      }
+      if (s.state === 'ready') scheduleApply();
     });
-    return unsub;
+    return () => {
+      unsub();
+      if (applyTimer) clearTimeout(applyTimer);
+    };
   }, []); // eslint-disable-line react-hooks/exhaustive-deps
 
   const handleReset = () => {
@@ -210,16 +224,24 @@ const AppInner: React.FC = () => {
   // template never flashes on screen. Immediately ready in demo mode (no rid).
   const [configReady, setConfigReady] = useState(!isRestaurantMode());
 
-  // Clear the recovery counter whenever the app is running normally (template known).
-  // This ensures the counter resets after a successful update so future rollbacks
-  // get their full MAX_RECOVERY attempts.
+  // Clear the recovery counter only after the template has been running stably
+  // for 60 s. Clearing it immediately (on every render) was the bug: the counter
+  // never reached MAX_RECOVERY because it was zeroed out right after each apply,
+  // causing an infinite rollback loop.
   useEffect(() => {
-    if (isTemplateKnown) {
-      console.log(`[OTA] template is known (${template.id}) — clearing RECOVERY_KEY`);
-      localStorage.removeItem(RECOVERY_KEY);
-    } else {
+    if (!isTemplateKnown) {
       console.warn(`[OTA] template is UNKNOWN (stored: ${localStorage.getItem('zing_template')}) — PendingTemplateScreen will show`);
+      return;
     }
+    console.log(`[OTA] template is known (${template.id}) — will clear RECOVERY_KEY after 60 s of stable operation`);
+    const t = setTimeout(() => {
+      const curr = parseInt(localStorage.getItem(RECOVERY_KEY) ?? '0', 10);
+      if (curr > 0) {
+        console.log('[OTA] template stable 60 s — resetting RECOVERY_KEY');
+        localStorage.removeItem(RECOVERY_KEY);
+      }
+    }, 60_000);
+    return () => clearTimeout(t);
   }, [isTemplateKnown]);
 
   useEffect(() => {

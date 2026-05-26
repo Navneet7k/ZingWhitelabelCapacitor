@@ -1,8 +1,8 @@
 import type { CapacitorConfig } from '@capacitor/cli';
 
 const config: CapacitorConfig = {
-  appId: 'com.cafedolce.zingmyorder',
-  appName: 'Cafe Dolce Amore',
+  appId: 'com.zingmyorder.testrestaurant',
+  appName: 'Test Center',
   webDir: 'dist',
   plugins: {
     CapacitorUpdater: {
@@ -10,6 +10,9 @@ const config: CapacitorConfig = {
       // Prevent Capgo from resetting to the built-in APK bundle when
       // a native app update is installed from the Play Store.
       resetWhenUpdate: false,
+      // Give the app 30 s to confirm notifyAppReady (default is 10 s which
+      // is too tight when the bridge or config fetch is slow on first load).
+      appReadyTimeout: 30000,
     },
   },
 };
