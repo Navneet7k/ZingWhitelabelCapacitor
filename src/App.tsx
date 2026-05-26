@@ -37,7 +37,7 @@ import SpiceApp from './pages/SpiceApp';
 import SpiceApp2 from './pages/SpiceApp2';
 import PulseApp from './pages/PulseApp';
 import { isRestaurantMode } from './services/restaurantConfig';
-import { checkConfigColorsOnTabSwitch } from './services/configColorsService';
+import { checkConfigColorsOnTabSwitch, applyConfigColors, getStoredConfigColors } from './services/configColorsService';
 import HomePage from './pages/HomePage';
 import MenuPage from './pages/MenuPage';
 import OrdersPage from './pages/OrdersPage';
@@ -198,6 +198,9 @@ const AppInner: React.FC = () => {
   const { hasSelected, template, setTemplateId, setTemplateIdMemoryOnly, isTemplateKnown } = useTemplate();
   // In restaurant mode the template is pre-set — skip the picker entirely
   const [selected, setSelected] = useState(hasSelected || isRestaurantMode());
+  // Block rendering until initial config fetch completes so the wrong cached
+  // template never flashes on screen. Immediately ready in demo mode (no rid).
+  const [configReady, setConfigReady] = useState(!isRestaurantMode());
 
   // Clear the recovery counter whenever the app is running normally (template known).
   // This ensures the counter resets after a successful update so future rollbacks
@@ -209,16 +212,44 @@ const AppInner: React.FC = () => {
   useEffect(() => {
     initUpdater();
     const rid = getRestaurantId();
-    if (rid) fetchRestaurantConfig(rid).then(() => {
+
+    // ── Config fetch helper: apply theme_design + colors ─────────────────
+    const applyConfigDesign = () => {
       const design = getThemeDesign();
       if (design) setTemplateId(themeDesignToTemplateId(design));
-    });
+      applyConfigColors(getStoredConfigColors());
+    };
+
+    // ── Initial config fetch — sets configReady when done ────────────────
+    // Fallback timeout so a slow/failed network never blocks the app.
+    const configTimeout = setTimeout(() => setConfigReady(true), 6000);
+    if (rid) {
+      fetchRestaurantConfig(rid).then(() => {
+        clearTimeout(configTimeout);
+        applyConfigDesign();
+        setConfigReady(true);
+      }).catch(() => { clearTimeout(configTimeout); setConfigReady(true); });
+    } else {
+      clearTimeout(configTimeout);
+    }
+
     initFcm().then(token => {
       if (token) {
         const apiToken = getToken();
         if (apiToken) updateFcmToken(token, apiToken);
       }
     });
+
+    // ── Config poll — works for ALL templates, no tab-bar dependency ─────
+    // Fetches theme_design + colors every 60 s while the app is open.
+    const CONFIG_POLL_MS = 60 * 1000;
+    const configPoll = setInterval(() => {
+      if (!rid) return;
+      fetchAndStoreThemeDesign(rid).then(newDesign => {
+        if (newDesign) setTemplateId(themeDesignToTemplateId(newDesign));
+        applyConfigColors(getStoredConfigColors());
+      });
+    }, CONFIG_POLL_MS);
 
     // ── OTA auto-update lifecycle ─────────────────────────────────────────
     const IDLE_MS     = 15 * 60 * 1000; // apply after 15 min of no interaction
@@ -258,6 +289,13 @@ const AppInner: React.FC = () => {
         if (!hasOpenBrowsers()) applyIfReady();
       } else {
         recheckForUpdate();
+        // Re-check config when app comes to foreground (covers ALL templates)
+        if (rid) {
+          fetchAndStoreThemeDesign(rid).then(newDesign => {
+            if (newDesign) setTemplateId(themeDesignToTemplateId(newDesign));
+            applyConfigColors(getStoredConfigColors());
+          });
+        }
       }
     };
 
@@ -266,6 +304,8 @@ const AppInner: React.FC = () => {
     document.addEventListener('pointermove', resetActivity, { passive: true });
 
     return () => {
+      clearTimeout(configTimeout);
+      clearInterval(configPoll);
       clearInterval(pollInterval);
       document.removeEventListener('visibilitychange', onVisibility);
       document.removeEventListener('touchstart',  resetActivity);
@@ -277,6 +317,11 @@ const AppInner: React.FC = () => {
 
   if (!selected) {
     return <TemplateSelectPage onSelect={() => setSelected(true)} />;
+  }
+
+  // Block on initial config fetch so the wrong cached template never flashes.
+  if (!configReady) {
+    return <div style={{ position: 'fixed', inset: 0, background: '#ffffff', zIndex: 9999 }} />;
   }
 
   // Template was stored from a newer bundle that isn't running right now (OTA rollback).
