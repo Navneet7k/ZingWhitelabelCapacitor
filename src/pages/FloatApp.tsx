@@ -106,14 +106,14 @@ const FloatApp: React.FC = () => {
   function clientUrl(path: string) {
     const rid   = getRestaurantId() ?? '';
     const token = getToken() ?? '';
-    return `https://app.zingmyorder.com/client/app/${path}/${rid}?token=${token}`;
+    return `https://app.zingmyorder.com/client/app/${path}/${rid}?token=${encodeURIComponent(token)}`;
   }
 
   function handleDeleteConfirmed() {
     setShowDeleteConfirm(false);
     const rid   = getRestaurantId() ?? '';
     const token = getToken() ?? '';
-    openWebView(`https://app.zingmyorder.com/app/delete-user/${rid}?token=${token}`, 'Delete Account', template.colors.primary);
+    openWebView(`https://app.zingmyorder.com/app/delete-user/${rid}?token=${encodeURIComponent(token)}`, 'Delete Account', template.colors.primary);
   }
 
   const featured   = homeData?.popularDishes[0];

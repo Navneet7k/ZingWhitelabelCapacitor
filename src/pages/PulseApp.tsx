@@ -148,7 +148,7 @@ const PulseApp: React.FC = () => {
   };
 
   function clientUrl(path: string) {
-    return `https://app.zingmyorder.com/client/app/${path}/${getRestaurantId() ?? ''}?token=${getToken() ?? ''}`;
+    return `https://app.zingmyorder.com/client/app/${path}/${getRestaurantId() ?? ''}?token=${encodeURIComponent(getToken() ?? '')}`;
   }
 
   function handleDeleteConfirmed() {
