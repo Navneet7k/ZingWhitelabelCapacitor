@@ -364,7 +364,7 @@ const SpiceApp2: React.FC = () => {
                         className="sp2__ord-status-btn"
                         onClick={() => setView('orders')}
                       >
-                        Order Status | 🔔
+                        Order Status | 🕐
                       </button>
                     </div>
                   );
