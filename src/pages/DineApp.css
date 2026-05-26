@@ -1021,7 +1021,7 @@
 
 /* ── My Orders section ── */
 .dn__ord-section {
-  padding: 0 16px 20px;
+  padding: 0 0 20px;
 }
 
 .dn__section-title--flush {
@@ -1032,7 +1032,8 @@
   display: flex;
   align-items: center;
   justify-content: space-between;
-  margin-bottom: 12px;
+  padding: 0 16px;
+  margin-bottom: 4px;
 }
 
 .dn__ord-view-all {
@@ -1049,110 +1050,111 @@
 .dn__ord-tabs {
   display: flex;
   gap: 8px;
-  margin-bottom: 14px;
+  padding: 2px 16px 12px;
 }
 
 .dn__ord-tab {
-  flex: 1;
-  background: #fff;
-  border: 1.5px solid rgba(63, 45, 32, 0.12);
-  border-radius: 20px;
-  padding: 6px 0;
+  padding: 7px 18px;
+  border-radius: 50px;
+  border: none;
+  background: rgba(255, 255, 255, 0.88);
+  color: #333;
   font-family: 'Poppins', sans-serif;
-  font-size: 12px;
+  font-size: 13px;
   font-weight: 600;
-  color: #8D7B70;
   cursor: pointer;
-  transition: all 0.18s ease;
+  transition: background 0.2s ease, color 0.2s ease;
 }
 
 .dn__ord-tab.active {
   background: var(--t-primary, #84BD93);
-  border-color: var(--t-primary, #84BD93);
   color: #fff;
 }
 
 .dn__ord-empty {
+  margin: 0 16px;
+  padding: 24px 16px;
   text-align: center;
-  padding: 20px 0;
   font-size: 13px;
   color: #8D7B70;
 }
 
 .dn__ord-card {
-  background: #fff;
-  border-radius: 16px;
-  box-shadow: 0 4px 16px rgba(63, 45, 32, 0.08);
-  display: flex;
-  align-items: center;
-  gap: 12px;
-  padding: 12px;
-  position: relative;
+  margin: 0 16px;
+  background: #ffffff;
+  border-radius: 18px;
+  overflow: hidden;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.18);
 }
 
 .dn__ord-img {
-  width: 60px;
-  height: 60px;
-  border-radius: 12px;
+  width: 100%;
+  height: 210px;
   object-fit: cover;
-  flex-shrink: 0;
+  display: block;
 }
 
 .dn__ord-img-ph {
-  width: 60px;
-  height: 60px;
-  border-radius: 12px;
-  background: rgba(63, 45, 32, 0.06);
+  width: 100%;
+  height: 210px;
+  background: #e4e4e4;
   display: flex;
   align-items: center;
   justify-content: center;
-  font-size: 24px;
-  flex-shrink: 0;
+  color: #aaa;
+  font-size: 16px;
+  font-weight: 500;
+  letter-spacing: 0.02em;
 }
 
 .dn__ord-info {
-  flex: 1;
-  min-width: 0;
+  padding: 12px 14px 10px;
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
 }
 
 .dn__ord-date {
-  font-size: 11px;
-  color: #8D7B70;
-  margin: 0 0 2px;
+  margin: 0;
+  font-size: 12px;
+  color: #999;
 }
 
 .dn__ord-id {
-  font-size: 13px;
+  margin: 0;
+  font-size: 14px;
   font-weight: 700;
-  color: #3F2D20;
-  margin: 0 0 2px;
+  color: #1A1A1A;
 }
 
 .dn__ord-items {
-  font-size: 12px;
-  color: #8D7B70;
-  margin: 0 0 2px;
+  margin: 0;
+  font-size: 13px;
+  color: #666;
 }
 
 .dn__ord-price {
+  margin: 0;
   font-size: 14px;
   font-weight: 700;
-  color: var(--t-primary, #84BD93);
-  margin: 0;
+  color: #1A1A1A;
 }
 
 .dn__ord-status-btn {
-  background: none;
-  border: 1.5px solid var(--t-primary, #84BD93);
-  border-radius: 20px;
-  padding: 5px 10px;
+  display: block;
+  width: calc(100% - 28px);
+  margin: 0 14px 14px;
+  padding: 14px;
+  background: #1A1A1A;
+  color: #fff;
+  border: none;
+  border-radius: 10px;
   font-family: 'Poppins', sans-serif;
-  font-size: 11px;
+  font-size: 14px;
   font-weight: 600;
-  color: var(--t-primary, #84BD93);
   cursor: pointer;
-  white-space: nowrap;
-  flex-shrink: 0;
+  text-align: center;
+  letter-spacing: 0.02em;
 }
 
 /* ── Bottom Nav ── */

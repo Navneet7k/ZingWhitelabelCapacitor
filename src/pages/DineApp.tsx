@@ -293,19 +293,19 @@ const DineApp: React.FC = () => {
                         <div className="dn__ord-card">
                           {o.image
                             ? <img className="dn__ord-img" src={o.image} alt="" loading="lazy" />
-                            : <div className="dn__ord-img dn__ord-img-ph"><span>🍽️</span></div>
+                            : <div className="dn__ord-img-ph"><span>Order Image</span></div>
                           }
                           <div className="dn__ord-info">
                             <p className="dn__ord-date">{safe(o.date)}</p>
                             <p className="dn__ord-id">Order #{safe(String(o.id)).replace('ORD-', '')}</p>
                             <p className="dn__ord-items">{o.items?.length ?? 0} Items</p>
-                            <p className="dn__ord-price">${Number(o.total).toFixed(2)}</p>
+                            <p className="dn__ord-price">$ {Number(o.total).toFixed(2)}</p>
                           </div>
                           <button
                             className="dn__ord-status-btn"
                             onClick={() => setView('orders')}
                           >
-                            Order Status | 🔔
+                            Order Status | 🕐
                           </button>
                         </div>
                       );
