@@ -318,10 +318,13 @@ const AppInner: React.FC = () => {
           const rid = getRestaurantId();
           if (rid) {
             checkConfigColorsOnTabSwitch(rid);
-            // Apply stored theme_design instantly, then fetch latest in background
+            // Apply stored theme_design instantly (covers subsequent switches)
             const design = getThemeDesign();
             if (design) setTemplateId(themeDesignToTemplateId(design));
-            fetchAndStoreThemeDesign(rid);
+            // Fetch latest from server; apply as soon as it lands (no extra tab switch needed)
+            fetchAndStoreThemeDesign(rid).then(newDesign => {
+              if (newDesign) setTemplateId(themeDesignToTemplateId(newDesign));
+            });
           }
         }}>
           <IonTabButton tab="home" href="/home">

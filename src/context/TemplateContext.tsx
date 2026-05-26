@@ -1,4 +1,5 @@
 import React, { createContext, useContext, useState, useEffect } from 'react';
+import { applyConfigColors, getStoredConfigColors } from '../services/configColorsService';
 
 export type TemplateId = 'luxe' | 'fresh' | 'street' | 'zen' | 'fiesta' | 'neon' | 'rustic' | 'ocean' | 'blossom' | 'ember' | 'cosmic' | 'retro' | 'tropical' | 'royal' | 'brew' | 'dynasty' | 'float' | 'reel' | 'grove' | 'vapour' | 'noir' | 'dusk' | 'piazza' | 'dine' | 'onyx' | 'spice' | 'spice2' | 'pulse';
 
@@ -242,6 +243,9 @@ export const TemplateProvider: React.FC<{ children: React.ReactNode }> = ({ chil
 
   useEffect(() => {
     document.documentElement.setAttribute('data-template', template.id);
+    // Re-apply stored config colors scoped to the new template.
+    // data-template is already updated above so applyConfigColors picks it up correctly.
+    applyConfigColors(getStoredConfigColors());
   }, [template.id]);
 
   return (
