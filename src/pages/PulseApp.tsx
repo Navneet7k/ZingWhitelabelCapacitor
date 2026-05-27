@@ -343,40 +343,57 @@ const PulseApp: React.FC = () => {
         {/* ── MENU ── */}
         {view === 'menu' && (
           <>
-            <p className="pl__view-title">Menu</p>
-            {allCategories.length > 0 && (
-              <div className="pl__cats">
-                <button className={`pl__cat-pill${activeCategory === null ? ' active' : ''}`}
-                  onClick={() => setCategory(null)}>All</button>
-                {allCategories.map(cat => (
-                  <button key={cat.id}
-                    className={`pl__cat-pill${activeCategory === cat.id ? ' active' : ''}`}
-                    onClick={() => setCategory(cat.id)}>{safe(cat.name)}</button>
-                ))}
-              </div>
-            )}
-            {filteredItems.length === 0
-              ? <p className="pl__empty">{!menuData ? 'Loading…' : 'No items'}</p>
-              : (
-                <div className="pl__menu-grid">
-                  {filteredItems.map(item => (
-                    <div key={item.id} className="pl__menu-card" onClick={handleOrder}>
-                      <PlImg cls="pl__menu-img" src={item.image ?? ''}
-                        fallback={<div className="pl__menu-img pl__menu-img--ph">🍽️</div>} />
-                      <div className="pl__menu-info">
-                        <p className="pl__menu-name">{safe(item.name)}</p>
-                        {item.description && <p className="pl__menu-desc">{item.description}</p>}
-                        <div className="pl__menu-footer">
-                          <span className="pl__menu-price">${safe(String(item.price ?? 0))}</span>
-                          <button className="pl__menu-add"
-                            onClick={e => { e.stopPropagation(); handleOrder(); }}>+</button>
-                        </div>
+            {activeCategory === null ? (
+              <>
+                <p className="pl__view-title">Menu</p>
+                {!menuData
+                  ? <p className="pl__empty">Loading…</p>
+                  : allCategories.length === 0
+                    ? <p className="pl__empty">No categories</p>
+                    : (
+                      <div className="pl__cat-grid">
+                        {allCategories.map(cat => (
+                          <button key={cat.id} className="pl__cat-cell"
+                            onClick={() => setCategory(cat.id)}>
+                            {safe(cat.name)}
+                          </button>
+                        ))}
                       </div>
-                    </div>
-                  ))}
+                    )
+                }
+              </>
+            ) : (
+              <>
+                <div className="pl__items-header">
+                  <button className="pl__items-back" onClick={() => setCategory(null)}>
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round">
+                      <path d="M15 18l-6-6 6-6"/>
+                    </svg>
+                  </button>
+                  <p className="pl__items-title">
+                    {safe(allCategories.find(c => c.id === activeCategory)?.name)}
+                  </p>
                 </div>
-              )
-            }
+                {filteredItems.length === 0
+                  ? <p className="pl__empty">No items</p>
+                  : (
+                    <div className="pl__item-list">
+                      {filteredItems.map(item => (
+                        <div key={item.id} className="pl__item-row" onClick={handleOrder}>
+                          <div className="pl__item-left">
+                            <p className="pl__item-name">{safe(item.name)}</p>
+                            {item.description && <p className="pl__item-desc">{item.description}</p>}
+                            <p className="pl__item-price">${safe(String(item.price ?? 0))}</p>
+                          </div>
+                          <PlImg cls="pl__item-thumb" src={item.image ?? ''}
+                            fallback={<div className="pl__item-thumb pl__item-thumb--ph" />} />
+                        </div>
+                      ))}
+                    </div>
+                  )
+                }
+              </>
+            )}
             <div style={{ height: 20 }} />
           </>
         )}
