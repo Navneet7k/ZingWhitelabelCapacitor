@@ -18,17 +18,17 @@ function safe(v: unknown, fallback = ''): string {
   try { return (v != null && v !== '') ? String(v) : fallback; } catch { return fallback; }
 }
 
-const PlImg: React.FC<{ src: string; cls: string }> = ({ src, cls }) => {
+const PlImg: React.FC<{ src: string; cls: string; fallback?: React.ReactNode }> = ({ src, cls, fallback }) => {
   const [loaded, setLoaded]   = React.useState(false);
   const [errored, setErrored] = React.useState(false);
   const imgRef = React.useRef<HTMLImageElement>(null);
   React.useEffect(() => { if (imgRef.current?.complete) setLoaded(true); }, []);
-  if (!src || errored) return <div className={`${cls} pl__img-ph`} />;
+  if (!src || errored) return fallback ? <>{fallback}</> : <div className={`${cls} pl__img-ph`} />;
   return (
     <div className={cls} style={{ position: 'relative', overflow: 'hidden' }}>
-      <div className="pl__shimmer" style={{ position: 'absolute', inset: 0, borderRadius: 'inherit', opacity: loaded ? 0 : 1, transition: 'opacity 0.4s ease', pointerEvents: 'none' }} />
+      <div className="pl__shimmer" style={{ position: 'absolute', inset: 0, borderRadius: 'inherit', opacity: loaded ? 0 : 1, transition: 'opacity 0.45s ease', pointerEvents: 'none' }} />
       <img ref={imgRef} src={src} alt=""
-        style={{ position: 'absolute', inset: 0, width: '100%', height: '100%', objectFit: 'cover', display: 'block', opacity: loaded ? 1 : 0, transition: 'opacity 0.4s ease' }}
+        style={{ position: 'absolute', inset: 0, width: '100%', height: '100%', objectFit: 'cover', display: 'block', opacity: loaded ? 1 : 0, transition: 'opacity 0.45s ease' }}
         onLoad={() => setLoaded(true)} onError={() => setErrored(true)} loading="lazy" decoding="async" />
     </div>
   );
@@ -289,10 +289,8 @@ const PulseApp: React.FC = () => {
                   if (!o) return <div className="pl__ord-empty">No {orderTab} orders</div>;
                   return (
                     <div className="pl__ord-card">
-                      {o.image
-                        ? <img className="pl__ord-img" src={o.image} alt="" loading="lazy" />
-                        : <div className="pl__ord-img-ph"><span>Order Image</span></div>
-                      }
+                      <PlImg cls="pl__ord-img" src={o.image ?? ''}
+                        fallback={<div className="pl__ord-img-ph"><span>Order Image</span></div>} />
                       <div className="pl__ord-info">
                         <p className="pl__ord-date">{safe(o.date)}</p>
                         <p className="pl__ord-id">Order #{safe(String(o.id)).replace('ORD-', '')}</p>
@@ -363,10 +361,8 @@ const PulseApp: React.FC = () => {
                 <div className="pl__menu-grid">
                   {filteredItems.map(item => (
                     <div key={item.id} className="pl__menu-card" onClick={handleOrder}>
-                      {item.image
-                        ? <img className="pl__menu-img" src={item.image} alt="" loading="lazy" />
-                        : <div className="pl__menu-img pl__menu-img--ph">🍽️</div>
-                      }
+                      <PlImg cls="pl__menu-img" src={item.image ?? ''}
+                        fallback={<div className="pl__menu-img pl__menu-img--ph">🍽️</div>} />
                       <div className="pl__menu-info">
                         <p className="pl__menu-name">{safe(item.name)}</p>
                         {item.description && <p className="pl__menu-desc">{item.description}</p>}
