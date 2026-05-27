@@ -105,7 +105,7 @@
 .dn__banner-center {
   position: relative;
   align-self: center;
-  width: clamp(230px, 72vw, 320px);
+  width: clamp(300px, 94vw, 416px);
   flex-shrink: 0;
   z-index: 1;
 }
