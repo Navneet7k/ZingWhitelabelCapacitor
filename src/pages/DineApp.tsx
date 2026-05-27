@@ -87,6 +87,12 @@ const DineApp: React.FC = () => {
   const [regLoading, setRegLoading]             = useState(false);
   const [updateStatus, setUpdateStatus] = useState<UpdateStatus>(getStatus);
   useEffect(() => onStatusChange(setUpdateStatus), []);
+
+  useEffect(() => {
+    const handler = () => { setAuthUser(null); setView('account'); };
+    window.addEventListener('zing:force-logout', handler);
+    return () => window.removeEventListener('zing:force-logout', handler);
+  }, []);
   const galleryRef  = useRef<HTMLDivElement>(null);
   const featTouchX  = useRef(0);
 

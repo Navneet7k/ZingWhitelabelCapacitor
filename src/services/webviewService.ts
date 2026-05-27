@@ -123,7 +123,7 @@ export function openWebView(
           InAppBrowser.close({}).catch(() => {});
           _nativeBrowserOpen = false;
           clearAuth();
-          setTimeout(() => window.location.reload(), 150);
+          window.dispatchEvent(new CustomEvent('zing:force-logout'));
         }
       });
 
