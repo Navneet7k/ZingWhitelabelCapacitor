@@ -376,6 +376,7 @@ const PulseApp: React.FC = () => {
           <>
             {activeCategory === null ? (
               <>
+                <p className="pl__view-title">Menu</p>
                 {!menuData
                   ? <p className="pl__empty">Loading…</p>
                   : allCategories.length === 0
