@@ -802,8 +802,8 @@
   padding: 13px 14px;
   font-size: 14px;
   font-family: 'Poppins', sans-serif;
-  color: var(--t-text, #3F2D20);
-  -webkit-text-fill-color: var(--t-text, #3F2D20);
+  color: #3F2D20;
+  -webkit-text-fill-color: #3F2D20;
   margin-bottom: 10px;
   box-sizing: border-box;
   -webkit-appearance: none;
