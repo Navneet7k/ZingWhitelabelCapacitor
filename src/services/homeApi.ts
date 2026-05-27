@@ -163,9 +163,15 @@ export function getCachedHomeData(restaurantId: string): HomeData | null {
 }
 
 export async function fetchHomeData(restaurantId: string): Promise<HomeData> {
-  const res = await fetch(`${BASE_URL}/home/${restaurantId}`, { cache: 'no-store' });
-  if (!res.ok) throw new Error(`HTTP ${res.status}`);
+  const url = `${BASE_URL}/home/${restaurantId}`;
+  console.log('[Home] Request:', url);
+  const res = await fetch(url, { cache: 'no-store' });
+  if (!res.ok) {
+    console.warn('[Home] Response error:', res.status);
+    throw new Error(`HTTP ${res.status}`);
+  }
   const raw: ApiHomeResponse = await res.json();
+  console.log('[Home] Response:', res.status, raw);
   const data = mapHomeResponse(raw);
   localStorage.setItem(`zing_home_v3_${restaurantId}`, JSON.stringify(data));
   return data;
