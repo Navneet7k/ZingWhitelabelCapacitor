@@ -1,4 +1,5 @@
 import { getSavedFcmToken } from './fcmService';
+import { log, warn, error } from './logger';
 
 const BASE_URL = 'https://app.zingmyorder.com/api';
 
@@ -18,14 +19,14 @@ export async function login(
   restaurantId: string,
 ): Promise<{ token: string; user: AuthUser }> {
   const body = { email, password: '***', restaurant_id: restaurantId, is_app: '1', flag: 'app', fcm_token: getSavedFcmToken() };
-  console.log('[Login] Request:', `${BASE_URL}/clientlogin`, body);
+  log('[Login] Request:', `${BASE_URL}/clientlogin`, body);
   const res = await fetch(`${BASE_URL}/clientlogin`, {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify({ ...body, password }),
   });
   const data = await res.json();
-  console.log('[Login] Response:', res.status, data);
+  log('[Login] Response:', res.status, data);
   if (!data.status) throw new Error(data.message ?? 'Login failed');
   return { token: data.token, user: data.user };
 }
@@ -39,7 +40,7 @@ export async function register(params: {
   restaurantId: string;
 }): Promise<void> {
   const logBody = { name: params.name, email: params.email, mobile: params.mobile, password: '***', password_confirmation: '***', restaurant_id: params.restaurantId, is_app: '1', fcm_token: getSavedFcmToken() };
-  console.log('[Register] Request:', `${BASE_URL}/clientregister`, logBody);
+  log('[Register] Request:', `${BASE_URL}/clientregister`, logBody);
   const res = await fetch(`${BASE_URL}/clientregister`, {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
@@ -55,7 +56,7 @@ export async function register(params: {
     }),
   });
   const data = await res.json();
-  console.log('[Register] Response:', res.status, data);
+  log('[Register] Response:', res.status, data);
   if (!data.status) {
     const errors = data.errors as Record<string, string[]> | undefined;
     let message = data.message ?? 'Registration failed';
@@ -76,12 +77,12 @@ export async function updateFcmToken(fcmToken: string, apiToken: string): Promis
       data: { fcm_token: fcmToken },
     });
     if (res.status >= 200 && res.status < 300) {
-      console.log('[FCM] Token updated to backend successfully:', res.data);
+      log('[FCM] Token updated to backend successfully:', res.data);
     } else {
-      console.warn('[FCM] Backend token update failed:', res.status, res.data);
+      warn('[FCM] Backend token update failed:', res.status, res.data);
     }
   } catch (err) {
-    console.error('[FCM] Token update request error:', err);
+    error('[FCM] Token update request error:', err);
   }
 }
 

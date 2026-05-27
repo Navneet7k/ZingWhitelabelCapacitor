@@ -1,3 +1,5 @@
+import { log, warn } from './logger';
+
 const BASE_URL  = 'https://app.zingmyorder.com/api';
 const IMG_BASE  = 'https://app.zingmyorder.com/image/';
 const IMG_SIZE  = 'lg';
@@ -164,14 +166,14 @@ export function getCachedHomeData(restaurantId: string): HomeData | null {
 
 export async function fetchHomeData(restaurantId: string): Promise<HomeData> {
   const url = `${BASE_URL}/home/${restaurantId}`;
-  console.log('[Home] Request:', url);
+  log('[Home] Request:', url);
   const res = await fetch(url, { cache: 'no-store' });
   if (!res.ok) {
-    console.warn('[Home] Response error:', res.status);
+    warn('[Home] Response error:', res.status);
     throw new Error(`HTTP ${res.status}`);
   }
   const raw: ApiHomeResponse = await res.json();
-  console.log('[Home] Response:', res.status, raw);
+  log('[Home] Response:', res.status, raw);
   const data = mapHomeResponse(raw);
   localStorage.setItem(`zing_home_v3_${restaurantId}`, JSON.stringify(data));
   return data;
