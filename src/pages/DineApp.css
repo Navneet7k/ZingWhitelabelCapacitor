@@ -231,7 +231,7 @@
 
 .dn__dish-card {
   flex-shrink: 0;
-  width: 190px;
+  width: 228px;
   background: var(--t-surface, #FFE2CD);
   border-radius: 20px;
   padding: 14px 14px 14px;
@@ -245,8 +245,8 @@
 
 /* Circular image ring — Figma: border stroke #D3BBAA */
 .dn__dish-img-ring {
-  width: 148px;
-  height: 148px;
+  width: 178px;
+  height: 178px;
   border-radius: 50%;
   border: 2px solid #D3BBAA;
   overflow: hidden;
@@ -413,8 +413,8 @@
 
 .dn__gallery-img {
   flex-shrink: 0;
-  width: 225px;
-  height: 330px;
+  width: 259px;
+  height: 380px;
   object-fit: cover;
   border-radius: 18px;
   cursor: pointer;
@@ -431,8 +431,8 @@
   box-shadow: 0 8px 28px rgba(63, 45, 32, 0.2);
 }
 
-.dn__gallery-img:first-child { margin-left: calc(50% - 112px); }
-.dn__gallery-img:last-child  { margin-right: calc(50% - 112px); }
+.dn__gallery-img:first-child { margin-left: calc(50% - 130px); }
+.dn__gallery-img:last-child  { margin-right: calc(50% - 130px); }
 
 /* Generic dots row (gallery) */
 .dn__dots-row {
@@ -1067,7 +1067,7 @@
 }
 
 .dn__ord-tab.active {
-  background: var(--t-primary, #84BD93);
+  background: var(--t-accent, #84BD93);
   color: #fff;
 }
 

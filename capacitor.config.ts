@@ -1,8 +1,8 @@
 import type { CapacitorConfig } from '@capacitor/cli';
 
 const config: CapacitorConfig = {
-  appId: 'com.zingmyorder.testrestaurant',
-  appName: 'Test Center',
+  appId: 'com.cafedolce.zingmyorder',
+  appName: 'Cafe Dolce Amore',
   webDir: 'dist',
   plugins: {
     CapacitorUpdater: {
