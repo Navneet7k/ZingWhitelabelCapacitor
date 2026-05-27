@@ -429,40 +429,85 @@ const PulseApp: React.FC = () => {
         {/* ── ACCOUNT ── */}
         {view === 'account' && (
           <>
-            <p className="pl__view-title">Account</p>
             {authUser ? (
-              <div className="pl__profile-card">
-                <div className="pl__avatar">
-                  {safe(authUser.name?.[0], '?').toUpperCase()}
+              <>
+                {/* Hero */}
+                <div className="pl__acc-hero">
+                  <div className="pl__acc-avatar">
+                    <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="rgba(255,255,255,0.85)" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round">
+                      <circle cx="12" cy="8" r="4"/>
+                      <path d="M4 20c0-4 3.6-7 8-7s8 3 8 7"/>
+                    </svg>
+                  </div>
+                  <p className="pl__acc-name">{safe(restaurantName)}</p>
+                  <p className="pl__acc-email">{safe(authUser.email)}</p>
                 </div>
-                <p className="pl__profile-name">{safe(authUser.name)}</p>
-                <p className="pl__profile-email">{safe(authUser.email)}</p>
-                {points > 0 && (
-                  <div className="pl__loyalty"><span>🌿</span><span>{points} loyalty points</span></div>
-                )}
-                <button className="pl__signout" onClick={() => { clearAuth(); setAuthUser(null); }}>Sign Out</button>
-                <div style={{ margin: '12px 0 4px', borderTop: '1px solid var(--t-border, rgba(40,169,107,0.15))', width: '100%' }} />
-                {[
-                  { label: '✏️ Edit Profile',   path: 'edit-profile' },
-                  { label: '❤️ Favorites',       path: 'favorites'   },
-                  { label: '⭐ Points',           path: 'points'      },
-                  { label: '🏠 Saved Addresses', path: 'address'     },
-                ].map(item => (
-                  <button key={item.path} className="pl__signout" style={{ marginTop: 6 }}
-                    onClick={() => openWebView(clientUrl(item.path), item.label.slice(3), template.colors.primary)}>
-                    {item.label}
+
+                {/* Quick actions */}
+                <div className="pl__acc-actions">
+                  <button className="pl__acc-action" onClick={() => setView('orders')}>
+                    <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
+                      <path d="M6 2L3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"/><line x1="3" y1="6" x2="21" y2="6"/><path d="M16 10a4 4 0 0 1-8 0"/>
+                    </svg>
+                    <span>My Orders</span>
                   </button>
-                ))}
-                {showDevOptions && (
-                <button className="pl__signout" style={{ marginTop: 6 }} onClick={() => setShowCustomize(true)}>
-                  🎨 Customize
-                </button>
-                )}
-                <button className="pl__signout" style={{ marginTop: 6, background: '#EF4444', color: '#fff' }}
-                  onClick={() => setShowDeleteConfirm(true)}>
-                  🗑️ Delete Account
-                </button>
-              </div>
+                  <div className="pl__acc-action-div" />
+                  <button className="pl__acc-action" onClick={() => openWebView(clientUrl('favorites'), 'Favorites', template.colors.primary)}>
+                    <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
+                      <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/>
+                    </svg>
+                    <span>Favorite</span>
+                  </button>
+                  <div className="pl__acc-action-div" />
+                  <button className="pl__acc-action" onClick={() => openWebView(clientUrl('points'), 'Points', template.colors.primary)}>
+                    <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
+                      <polyline points="20 12 20 22 4 22 4 12"/><rect x="2" y="7" width="20" height="5"/><path d="M12 22V7"/><path d="M12 7H7.5a2.5 2.5 0 0 1 0-5C11 2 12 7 12 7z"/><path d="M12 7h4.5a2.5 2.5 0 0 0 0-5C13 2 12 7 12 7z"/>
+                    </svg>
+                    <span>Points</span>
+                  </button>
+                </div>
+
+                {/* List rows */}
+                <div className="pl__acc-list">
+                  <button className="pl__acc-row" onClick={() => openWebView(clientUrl('edit-profile'), 'Edit Profile', template.colors.primary)}>
+                    <span className="pl__acc-row-icon">
+                      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                        <path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"/>
+                      </svg>
+                    </span>
+                    <span className="pl__acc-row-label">Edit Profile</span>
+                    <svg className="pl__acc-row-chevron" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                      <path d="M9 18l6-6-6-6"/>
+                    </svg>
+                  </button>
+                  <button className="pl__acc-row" onClick={() => { clearAuth(); setAuthUser(null); }}>
+                    <span className="pl__acc-row-icon">
+                      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                        <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/><polyline points="16 17 21 12 16 7"/><line x1="21" y1="12" x2="9" y2="12"/>
+                      </svg>
+                    </span>
+                    <span className="pl__acc-row-label">Sign out</span>
+                  </button>
+                  <button className="pl__acc-row pl__acc-row--danger" onClick={() => setShowDeleteConfirm(true)}>
+                    <span className="pl__acc-row-icon">
+                      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                        <polyline points="3 6 5 6 21 6"/><path d="M19 6l-1 14a2 2 0 0 1-2 2H8a2 2 0 0 1-2-2L5 6"/><path d="M10 11v6"/><path d="M14 11v6"/><path d="M9 6V4a1 1 0 0 1 1-1h4a1 1 0 0 1 1 1v2"/>
+                      </svg>
+                    </span>
+                    <span className="pl__acc-row-label">Delete My Account</span>
+                  </button>
+                  {showDevOptions && (
+                    <button className="pl__acc-row" onClick={() => setShowCustomize(true)}>
+                      <span className="pl__acc-row-icon">
+                        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                          <circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83-2.83l.06-.06A1.65 1.65 0 0 0 4.68 15a1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 2.83-2.83l.06.06A1.65 1.65 0 0 0 9 4.68a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 2.83l-.06.06A1.65 1.65 0 0 0 19.4 9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"/>
+                        </svg>
+                      </span>
+                      <span className="pl__acc-row-label">Customize</span>
+                    </button>
+                  )}
+                </div>
+              </>
             ) : (
               <div className="pl__login-card">
                 <p className="pl__login-title">Sign In</p>
