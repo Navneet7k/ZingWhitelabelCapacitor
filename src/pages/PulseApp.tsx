@@ -62,13 +62,35 @@ function updateStatusLabel(s: UpdateStatus): { text: string; color: string } {
 type PulseView = 'home' | 'menu' | 'orders' | 'account' | 'location';
 
 const NAV: { id: PulseView; icon: React.ReactNode; label: string }[] = [
-  { id: 'home',     icon: '🏠', label: 'Home'      },
-  { id: 'menu',     icon: '🍽️', label: 'Menu'      },
-  { id: 'orders',   icon: '🛒', label: 'Order'     },
-  { id: 'account',  icon: '👤', label: 'Account'   },
+  { id: 'home', label: 'Home', icon: (
+    <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
+      <path d="M3 9.5L12 3l9 6.5V20a1 1 0 0 1-1 1H5a1 1 0 0 1-1-1V9.5z"/>
+      <path d="M9 21V12h6v9"/>
+    </svg>
+  )},
+  { id: 'menu', label: 'Menu', icon: (
+    <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
+      <path d="M6 2h12a1 1 0 0 1 1 1v18a1 1 0 0 1-1 1H6a1 1 0 0 1-1-1V3a1 1 0 0 1 1-1z"/>
+      <path d="M9 7h6M9 11h6M9 15h4"/>
+    </svg>
+  )},
+  { id: 'orders', label: 'Order', icon: (
+    <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
+      <path d="M6 2L3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"/>
+      <line x1="3" y1="6" x2="21" y2="6"/>
+      <path d="M16 10a4 4 0 0 1-8 0"/>
+    </svg>
+  )},
+  { id: 'account', label: 'Account', icon: (
+    <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
+      <circle cx="12" cy="8" r="4"/>
+      <path d="M4 20c0-4 3.6-7 8-7s8 3 8 7"/>
+    </svg>
+  )},
   { id: 'location', label: 'Locations', icon: (
-    <svg width="22" height="22" viewBox="0 0 24 24" fill="currentColor">
-      <path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5s1.12-2.5 2.5-2.5 2.5 1.12 2.5 2.5-1.12 2.5-2.5 2.5z"/>
+    <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
+      <path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7z"/>
+      <circle cx="12" cy="9" r="2.5"/>
     </svg>
   )},
 ];
@@ -94,6 +116,7 @@ const PulseApp: React.FC = () => {
   const [showDevOptions, setShowDevOptions] = useState(false);
   const [showDeleteConfirm, setShowDeleteConfirm] = useState(false);
   const [updateStatus, setUpdateStatus] = useState<UpdateStatus>(getStatus);
+  const [orderTab, setOrderTab]      = useState<'current' | 'past' | 'favorite'>('current');
   useEffect(() => onStatusChange(setUpdateStatus), []);
 
   const restaurantId      = getRestaurantId();
@@ -105,6 +128,9 @@ const PulseApp: React.FC = () => {
   const popularDishes  = homeData?.popularDishes ?? [];
   const banners        = homeData?.banners ?? [];
   const recentOrders   = homeData?.recentOrders ?? [];
+  const currentOrders  = homeData?.currentOrders  ?? [];
+  const pastOrders     = homeData?.pastOrders      ?? [];
+  const favoriteOrders = homeData?.favoriteOrders  ?? [];
   const points         = homeData?.points ?? 0;
   const featuredImages = homeData?.featuredImages ?? [];
   const gallery        = homeData?.gallery ?? [];
@@ -236,6 +262,49 @@ const PulseApp: React.FC = () => {
                     </div>
                   </div>
                 ))}
+              </div>
+            )}
+
+            {/* My Orders */}
+            {(currentOrders.length > 0 || pastOrders.length > 0 || favoriteOrders.length > 0) && (
+              <div className="pl__ord-section">
+                <div className="pl__ord-header">
+                  <p className="pl__ord-title">My Orders</p>
+                  <button className="pl__ord-view-all" onClick={() => setView('orders')}>View all</button>
+                </div>
+                <div className="pl__ord-tabs">
+                  {(['current', 'past', 'favorite'] as const).map(tab => (
+                    <button
+                      key={tab}
+                      className={`pl__ord-tab${orderTab === tab ? ' active' : ''}`}
+                      onClick={() => setOrderTab(tab)}
+                    >
+                      {tab.charAt(0).toUpperCase() + tab.slice(1)}
+                    </button>
+                  ))}
+                </div>
+                {(() => {
+                  const list = orderTab === 'current' ? currentOrders : orderTab === 'past' ? pastOrders : favoriteOrders;
+                  const o = list[0];
+                  if (!o) return <div className="pl__ord-empty">No {orderTab} orders</div>;
+                  return (
+                    <div className="pl__ord-card">
+                      {o.image
+                        ? <img className="pl__ord-img" src={o.image} alt="" loading="lazy" />
+                        : <div className="pl__ord-img-ph"><span>Order Image</span></div>
+                      }
+                      <div className="pl__ord-info">
+                        <p className="pl__ord-date">{safe(o.date)}</p>
+                        <p className="pl__ord-id">Order #{safe(String(o.id)).replace('ORD-', '')}</p>
+                        <p className="pl__ord-items">{o.items?.length ?? 0} Items</p>
+                        <p className="pl__ord-price">${Number(o.total).toFixed(2)}</p>
+                      </div>
+                      <button className="pl__ord-status-btn" onClick={() => setView('orders')}>
+                        Order Status | 🕐
+                      </button>
+                    </div>
+                  );
+                })()}
               </div>
             )}
 

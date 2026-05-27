@@ -239,6 +239,112 @@
   padding: 0;
 }
 
+/* ── MY ORDERS (HOME) ── */
+.pl__ord-section {
+  padding: 0 0 20px;
+}
+.pl__ord-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 18px 16px 4px;
+}
+.pl__ord-title {
+  font-family: var(--t-font-heading, 'Poppins', sans-serif);
+  font-size: 16px;
+  font-weight: 700;
+  color: #1A1A1A;
+  margin: 0;
+}
+.pl__ord-view-all {
+  background: none;
+  border: none;
+  font-family: var(--t-font-body, 'Poppins', sans-serif);
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--t-primary, #28A96B);
+  cursor: pointer;
+  padding: 0;
+}
+.pl__ord-tabs {
+  display: flex;
+  gap: 8px;
+  padding: 2px 16px 12px;
+}
+.pl__ord-tab {
+  padding: 7px 18px;
+  border-radius: 50px;
+  border: none;
+  background: #fff;
+  color: #333;
+  font-family: var(--t-font-body, 'Poppins', sans-serif);
+  font-size: 13px;
+  font-weight: 600;
+  cursor: pointer;
+  box-shadow: 0 1px 6px rgba(0,0,0,0.08);
+  transition: background 0.2s, color 0.2s;
+}
+.pl__ord-tab.active {
+  background: var(--t-accent, #28A96B);
+  color: #fff;
+}
+.pl__ord-empty {
+  margin: 0 16px;
+  padding: 24px 16px;
+  text-align: center;
+  font-size: 13px;
+  color: #999;
+}
+.pl__ord-card {
+  margin: 0 16px;
+  background: #fff;
+  border-radius: 18px;
+  overflow: hidden;
+  box-shadow: 0 4px 20px rgba(0,0,0,0.12);
+}
+.pl__ord-img {
+  width: 100%;
+  height: 210px;
+  object-fit: cover;
+  display: block;
+}
+.pl__ord-img-ph {
+  width: 100%;
+  height: 210px;
+  background: #e4e4e4;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #aaa;
+  font-size: 16px;
+  font-weight: 500;
+}
+.pl__ord-info {
+  padding: 12px 14px 10px;
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+}
+.pl__ord-date { margin: 0; font-size: 12px; color: #999; }
+.pl__ord-id   { margin: 0; font-size: 14px; font-weight: 700; color: #1A1A1A; }
+.pl__ord-items{ margin: 0; font-size: 13px; color: #666; }
+.pl__ord-price{ margin: 0; font-size: 14px; font-weight: 700; color: #1A1A1A; }
+.pl__ord-status-btn {
+  display: block;
+  width: calc(100% - 28px);
+  margin: 0 14px 14px;
+  padding: 14px;
+  background: #1A1A1A;
+  color: #fff;
+  border: none;
+  border-radius: 10px;
+  font-family: var(--t-font-body, 'Poppins', sans-serif);
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+  text-align: center;
+}
+
 /* ── FEATURED IMAGES ── */
 .pl__feat-scroll {
   display: flex;
