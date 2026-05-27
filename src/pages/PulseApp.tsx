@@ -2,9 +2,9 @@ import React, { useState, useEffect, useRef } from 'react';
 import { useTemplate, TEMPLATES } from '../context/TemplateContext';
 import { useHomeData } from '../context/HomeDataContext';
 import { useMenuData } from '../context/MenuDataContext';
-import { getSavedUser, isLoggedIn, login, saveAuth, clearAuth, getToken } from '../services/authApi';
+import { getSavedUser, isLoggedIn, login, register, saveAuth, clearAuth, getToken } from '../services/authApi';
 import type { AuthUser } from '../services/authApi';
-import { getOrderUrl, getRestaurantLocations, getRestaurantAddress, getRestaurantPhone } from '../services/configApi';
+import { getOrderUrl, getRestaurantLocations, getRestaurantAddress, getRestaurantPhone, getRestaurantLogo } from '../services/configApi';
 import type { RestaurantLocation } from '../services/configApi';
 import { getRestaurantId, getRestaurantName } from '../services/restaurantConfig';
 import { openWebView } from '../services/webviewService';
@@ -108,10 +108,22 @@ const PulseApp: React.FC = () => {
   const [bannerIdx, setBannerIdx]    = useState(0);
   const [activeCategory, setCategory]= useState<number | null>(null);
   const [authUser, setAuthUser]      = useState<AuthUser | null>(getInitialUser);
-  const [loginEmail, setEmail]       = useState('');
-  const [loginPassword, setPassword] = useState('');
-  const [loginError, setLoginError]  = useState('');
-  const [loginLoading, setLoading]   = useState(false);
+  const [authTab, setAuthTab]         = useState<'login' | 'register'>('login');
+  const [loginEmail, setEmail]        = useState('');
+  const [loginPassword, setPassword]  = useState('');
+  const [loginError, setLoginError]   = useState('');
+  const [loginLoading, setLoading]    = useState(false);
+  const [showLoginPass, setShowLoginPass] = useState(false);
+  const [regName,    setRegName]      = useState('');
+  const [regEmail,   setRegEmail]     = useState('');
+  const [regMobile,  setRegMobile]    = useState('');
+  const [regPass,    setRegPass]      = useState('');
+  const [regConfirm, setRegConfirm]   = useState('');
+  const [regError,   setRegError]     = useState('');
+  const [regLoading, setRegLoading]   = useState(false);
+  const [regSuccess, setRegSuccess]   = useState(false);
+  const [showRegPass,    setShowRegPass]    = useState(false);
+  const [showRegConfirm, setShowRegConfirm] = useState(false);
   const [showCustomize, setShowCustomize]       = useState(false);
   const [showDevOptions, setShowDevOptions] = useState(false);
   const [showDeleteConfirm, setShowDeleteConfirm] = useState(false);
@@ -121,6 +133,7 @@ const PulseApp: React.FC = () => {
 
   const restaurantId      = getRestaurantId();
   const restaurantName    = safe(getRestaurantName(), 'Nice Food');
+  const restaurantLogo    = getRestaurantLogo();
   const restaurantAddress = getRestaurantAddress();
   const restaurantPhone   = getRestaurantPhone();
   const locations         = getRestaurantLocations();
@@ -181,6 +194,24 @@ const PulseApp: React.FC = () => {
     } catch (err: any) {
       setLoginError(safe(err?.message, 'Login failed'));
     } finally { setLoading(false); }
+  };
+
+  const handleRegister = async (e: React.FormEvent) => {
+    e.preventDefault();
+    if (!restaurantId) return;
+    if (!regName.trim())                                    { setRegError('Please enter your name'); return; }
+    if (!/\S+@\S+\.\S+/.test(regEmail.trim()))             { setRegError('Please enter a valid email'); return; }
+    if (!/^\+?[\d\s\-()]{7,}$/.test(regMobile.trim()))    { setRegError('Please enter a valid mobile number'); return; }
+    if (regPass.length < 6)                                 { setRegError('Password must be at least 6 characters'); return; }
+    if (regPass !== regConfirm)                             { setRegError('Passwords do not match'); return; }
+    setRegLoading(true); setRegError('');
+    try {
+      await register({ name: regName.trim(), email: regEmail.trim(), mobile: regMobile.trim(), password: regPass, passwordConfirmation: regConfirm, restaurantId });
+      setRegSuccess(true);
+      setTimeout(() => { setAuthTab('login'); setRegSuccess(false); setRegName(''); setRegEmail(''); setRegMobile(''); setRegPass(''); setRegConfirm(''); }, 2000);
+    } catch (err: any) {
+      setRegError(safe(err?.message, 'Registration failed'));
+    } finally { setRegLoading(false); }
   };
 
   function clientUrl(path: string) {
@@ -509,21 +540,148 @@ const PulseApp: React.FC = () => {
                 </div>
               </>
             ) : (
-              <div className="pl__login-card">
-                <p className="pl__login-title">Sign In</p>
-                <p className="pl__login-sub">Track orders &amp; earn rewards</p>
-                {loginError && <p className="pl__login-error">{loginError}</p>}
-                <form onSubmit={handleLogin}>
-                  <input className="pl__input" type="email" placeholder="Email address"
-                    value={loginEmail} onChange={e => setEmail(e.target.value)}
-                    required autoComplete="email" />
-                  <input className="pl__input" type="password" placeholder="Password"
-                    value={loginPassword} onChange={e => setPassword(e.target.value)}
-                    required autoComplete="current-password" />
-                  <button className="pl__submit" type="submit" disabled={loginLoading}>
-                    {loginLoading ? 'Signing in…' : 'Sign In'}
-                  </button>
-                </form>
+              <div className="pl__auth-screen">
+                {/* Hero */}
+                <div className="pl__auth-hero">
+                  <div className="pl__auth-logo-wrap">
+                    {restaurantLogo
+                      ? <img src={restaurantLogo} alt={restaurantName} className="pl__auth-logo-img" />
+                      : <svg width="38" height="38" viewBox="0 0 24 24" fill="none" stroke="var(--t-primary,#28A96B)" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round">
+                          <path d="M3 2h18v4H3z"/><path d="M3 6c0 7 4 12 9 12s9-5 9-12"/><path d="M12 18v4"/><path d="M8 22h8"/>
+                        </svg>
+                    }
+                  </div>
+                  <p className="pl__auth-brand">{restaurantName}</p>
+                  <p className="pl__auth-tagline">Order fresh, earn rewards</p>
+                </div>
+
+                {/* Card */}
+                <div className="pl__auth-card">
+                  {/* Tabs */}
+                  <div className="pl__auth-tabs">
+                    <button className={`pl__auth-tab${authTab === 'login' ? ' active' : ''}`}
+                      onClick={() => { setAuthTab('login'); setLoginError(''); setRegError(''); }}>
+                      Sign In
+                    </button>
+                    <button className={`pl__auth-tab${authTab === 'register' ? ' active' : ''}`}
+                      onClick={() => { setAuthTab('register'); setLoginError(''); setRegError(''); }}>
+                      Sign Up
+                    </button>
+                  </div>
+
+                  {/* Sign In */}
+                  {authTab === 'login' && (
+                    <form className="pl__auth-form" onSubmit={handleLogin}>
+                      {loginError && <div className="pl__auth-error">{loginError}</div>}
+                      <div className="pl__auth-field">
+                        <label className="pl__auth-label">Email</label>
+                        <div className="pl__auth-input-wrap">
+                          <svg className="pl__auth-field-icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
+                            <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/>
+                          </svg>
+                          <input className="pl__auth-input" type="email" placeholder="your@email.com"
+                            value={loginEmail} onChange={e => setEmail(e.target.value)}
+                            required autoComplete="email" />
+                        </div>
+                      </div>
+                      <div className="pl__auth-field">
+                        <label className="pl__auth-label">Password</label>
+                        <div className="pl__auth-input-wrap">
+                          <svg className="pl__auth-field-icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
+                            <rect x="3" y="11" width="18" height="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/>
+                          </svg>
+                          <input className="pl__auth-input" type={showLoginPass ? 'text' : 'password'} placeholder="••••••••"
+                            value={loginPassword} onChange={e => setPassword(e.target.value)}
+                            required autoComplete="current-password" />
+                          <button type="button" className="pl__auth-eye" onClick={() => setShowLoginPass(v => !v)}>
+                            {showLoginPass
+                              ? <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round"><path d="M17.94 17.94A10.07 10.07 0 0 1 12 20c-7 0-11-8-11-8a18.45 18.45 0 0 1 5.06-5.94M9.9 4.24A9.12 9.12 0 0 1 12 4c7 0 11 8 11 8a18.5 18.5 0 0 1-2.16 3.19m-6.72-1.07a3 3 0 1 1-4.24-4.24"/><line x1="1" y1="1" x2="23" y2="23"/></svg>
+                              : <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>
+                            }
+                          </button>
+                        </div>
+                      </div>
+                      <button className="pl__auth-submit" type="submit" disabled={loginLoading}
+                        style={{ background: 'var(--t-primary,#28A96B)' }}>
+                        {loginLoading ? 'Signing in…' : 'Sign In'}
+                      </button>
+                    </form>
+                  )}
+
+                  {/* Sign Up */}
+                  {authTab === 'register' && (
+                    <form className="pl__auth-form" onSubmit={handleRegister}>
+                      {regError   && <div className="pl__auth-error">{regError}</div>}
+                      {regSuccess && <div className="pl__auth-success">Account created! Redirecting to sign in…</div>}
+                      <div className="pl__auth-field">
+                        <label className="pl__auth-label">Full Name</label>
+                        <div className="pl__auth-input-wrap">
+                          <svg className="pl__auth-field-icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
+                            <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/>
+                          </svg>
+                          <input className="pl__auth-input" type="text" placeholder="John Doe"
+                            value={regName} onChange={e => setRegName(e.target.value)} required />
+                        </div>
+                      </div>
+                      <div className="pl__auth-field">
+                        <label className="pl__auth-label">Email</label>
+                        <div className="pl__auth-input-wrap">
+                          <svg className="pl__auth-field-icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
+                            <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/>
+                          </svg>
+                          <input className="pl__auth-input" type="email" placeholder="your@email.com"
+                            value={regEmail} onChange={e => setRegEmail(e.target.value)} required autoComplete="email" />
+                        </div>
+                      </div>
+                      <div className="pl__auth-field">
+                        <label className="pl__auth-label">Mobile Number</label>
+                        <div className="pl__auth-input-wrap">
+                          <svg className="pl__auth-field-icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
+                            <rect x="5" y="2" width="14" height="20" rx="2" ry="2"/><line x1="12" y1="18" x2="12.01" y2="18"/>
+                          </svg>
+                          <input className="pl__auth-input" type="tel" placeholder="+1 000 000 0000"
+                            value={regMobile} onChange={e => setRegMobile(e.target.value)} required autoComplete="tel" />
+                        </div>
+                      </div>
+                      <div className="pl__auth-field">
+                        <label className="pl__auth-label">Password</label>
+                        <div className="pl__auth-input-wrap">
+                          <svg className="pl__auth-field-icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
+                            <rect x="3" y="11" width="18" height="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/>
+                          </svg>
+                          <input className="pl__auth-input" type={showRegPass ? 'text' : 'password'} placeholder="Min 6 characters"
+                            value={regPass} onChange={e => setRegPass(e.target.value)} required />
+                          <button type="button" className="pl__auth-eye" onClick={() => setShowRegPass(v => !v)}>
+                            {showRegPass
+                              ? <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round"><path d="M17.94 17.94A10.07 10.07 0 0 1 12 20c-7 0-11-8-11-8a18.45 18.45 0 0 1 5.06-5.94M9.9 4.24A9.12 9.12 0 0 1 12 4c7 0 11 8 11 8a18.5 18.5 0 0 1-2.16 3.19m-6.72-1.07a3 3 0 1 1-4.24-4.24"/><line x1="1" y1="1" x2="23" y2="23"/></svg>
+                              : <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>
+                            }
+                          </button>
+                        </div>
+                      </div>
+                      <div className="pl__auth-field">
+                        <label className="pl__auth-label">Confirm Password</label>
+                        <div className="pl__auth-input-wrap">
+                          <svg className="pl__auth-field-icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
+                            <rect x="3" y="11" width="18" height="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/>
+                          </svg>
+                          <input className="pl__auth-input" type={showRegConfirm ? 'text' : 'password'} placeholder="Repeat password"
+                            value={regConfirm} onChange={e => setRegConfirm(e.target.value)} required />
+                          <button type="button" className="pl__auth-eye" onClick={() => setShowRegConfirm(v => !v)}>
+                            {showRegConfirm
+                              ? <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round"><path d="M17.94 17.94A10.07 10.07 0 0 1 12 20c-7 0-11-8-11-8a18.45 18.45 0 0 1 5.06-5.94M9.9 4.24A9.12 9.12 0 0 1 12 4c7 0 11 8 11 8a18.5 18.5 0 0 1-2.16 3.19m-6.72-1.07a3 3 0 1 1-4.24-4.24"/><line x1="1" y1="1" x2="23" y2="23"/></svg>
+                              : <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>
+                            }
+                          </button>
+                        </div>
+                      </div>
+                      <button className="pl__auth-submit" type="submit" disabled={regLoading || regSuccess}
+                        style={{ background: 'var(--t-primary,#28A96B)' }}>
+                        {regLoading ? 'Creating account…' : 'Create Account'}
+                      </button>
+                    </form>
+                  )}
+                </div>
               </div>
             )}
 
