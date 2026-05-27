@@ -12,6 +12,7 @@ import { getStatus, onStatusChange, applyIfReady, checkOnTabSwitch } from '../se
 import type { UpdateStatus } from '../services/updater';
 import CustomizePage from './CustomizePage';
 import './DineApp.css';
+import { ICON_MY_ORDERS, ICON_FAVOURITES, ICON_POINTS, ICON_ADDRESS, ICON_DELETE, ICON_EDIT_PROFILE, ICON_SIGNOUT } from './DineAppIcons';
 
 function updateStatusLabel(s: UpdateStatus): { text: string; color: string } {
   switch (s.state) {
@@ -531,44 +532,57 @@ const DineApp: React.FC = () => {
             {/* ── ACCOUNT ── */}
             {view === 'account' && (
               <>
-                <p className="dn__view-title">Account</p>
-                {authUser ? (
-                  <div className="dn__profile-card">
-                    <div className="dn__avatar">
-                      {safe(authUser.name?.[0], '?').toUpperCase()}
-                    </div>
-                    <p className="dn__profile-name">{safe(authUser.name)}</p>
-                    <p className="dn__profile-email">{safe(authUser.email)}</p>
-                    {points > 0 && (
-                      <div className="dn__loyalty">
-                        <span>⭐</span>
-                        <span>{points.toLocaleString()} loyalty points</span>
-                      </div>
-                    )}
-                    <button className="dn__signout" onClick={() => { clearAuth(); setAuthUser(null); }}>
-                      Sign Out
-                    </button>
-                    <div style={{ margin: '12px 0 4px', borderTop: '1px solid rgba(132,189,147,0.3)' }} />
-                    <button className="dn__signout" style={{ marginTop: 6 }} onClick={() => openWebView(clientUrl('edit-profile'), 'Edit Profile', template.colors.primary)}>
-                      ✏️ Edit Profile
-                    </button>
-                    <button className="dn__signout" style={{ marginTop: 6 }} onClick={() => openWebView(clientUrl('favorites'), 'Favorites', template.colors.primary)}>
-                      ❤️ Favorites
-                    </button>
-                    <button className="dn__signout" style={{ marginTop: 6 }} onClick={() => openWebView(clientUrl('points'), 'Points', template.colors.primary)}>
-                      ⭐ Points
-                    </button>
-                    <button className="dn__signout" style={{ marginTop: 6 }} onClick={() => openWebView(clientUrl('address'), 'Saved Addresses', template.colors.primary)}>
-                      🏠 Saved Addresses
-                    </button>
-                    <button className="dn__signout" style={{ marginTop: 6 }}>
-                      📋 Terms &amp; Conditions
-                    </button>
-                    <button className="dn__signout" style={{ marginTop: 6, background: '#EF4444', color: '#fff' }} onClick={() => setShowDeleteConfirm(true)}>
-                      🗑️ Delete Account
-                    </button>
+                {/* Avatar + Name */}
+                <div className="dn__acc-hero">
+                  <div className="dn__acc-avatar">
+                    {authUser ? safe(authUser.name?.[0], '?').toUpperCase() : '?'}
                   </div>
-                ) : null}
+                  <p className="dn__acc-welcome">Welcome</p>
+                  <h2 className="dn__acc-name">{authUser ? safe(authUser.name, 'Guest') : 'Guest'}</h2>
+                  <p className="dn__acc-email">{authUser ? safe(authUser.email) : ''}</p>
+                </div>
+
+                {authUser && (
+                  <>
+                    {/* Icon grid */}
+                    <div className="dn__acc-grid">
+                      <button className="dn__acc-tile" onClick={() => setView('orders')}>
+                        <span className="dn__acc-tile-icon" dangerouslySetInnerHTML={{ __html: ICON_MY_ORDERS }} />
+                        <span className="dn__acc-tile-label">My Orders</span>
+                      </button>
+                      <button className="dn__acc-tile" onClick={() => openWebView(clientUrl('favorites'), 'Favourites', template.colors.primary)}>
+                        <span className="dn__acc-tile-icon" dangerouslySetInnerHTML={{ __html: ICON_FAVOURITES }} />
+                        <span className="dn__acc-tile-label">Favourites</span>
+                      </button>
+                      <button className="dn__acc-tile" onClick={() => openWebView(clientUrl('points'), 'Points', template.colors.primary)}>
+                        <span className="dn__acc-tile-icon" dangerouslySetInnerHTML={{ __html: ICON_POINTS }} />
+                        <span className="dn__acc-tile-label">Points</span>
+                      </button>
+                      <button className="dn__acc-tile" onClick={() => openWebView(clientUrl('address'), 'Saved Addresses', template.colors.primary)}>
+                        <span className="dn__acc-tile-icon" dangerouslySetInnerHTML={{ __html: ICON_ADDRESS }} />
+                        <span className="dn__acc-tile-label">Address</span>
+                      </button>
+                      <button className="dn__acc-tile" onClick={() => openWebView(clientUrl('edit-profile'), 'Edit Profile', template.colors.primary)}>
+                        <span className="dn__acc-tile-icon" dangerouslySetInnerHTML={{ __html: ICON_EDIT_PROFILE }} />
+                        <span className="dn__acc-tile-label">Edit Profile</span>
+                      </button>
+                      <button className="dn__acc-tile" onClick={() => setShowDeleteConfirm(true)}>
+                        <span className="dn__acc-tile-icon" dangerouslySetInnerHTML={{ __html: ICON_DELETE }} />
+                        <span className="dn__acc-tile-label">Delete</span>
+                      </button>
+                    </div>
+
+                    {/* Footer */}
+                    <div className="dn__acc-footer">
+                      <button className="dn__acc-signout-btn" onClick={() => { clearAuth(); setAuthUser(null); }}>
+                        <span dangerouslySetInnerHTML={{ __html: ICON_SIGNOUT }} />
+                      </button>
+                      <button className="dn__acc-order-btn" onClick={handleOrder}>
+                        Order Now
+                      </button>
+                    </div>
+                  </>
+                )}
 
                 {/* ── Customize ── */}
                 {showDevOptions && (
