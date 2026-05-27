@@ -120,6 +120,7 @@ export function openWebView(
         console.log('[WebView] URL changed →', url);
         if (url.includes('unauthorize/user')) {
           console.log('[WebView] Unauthorized — clearing auth and redirecting to login');
+          hideOverlay(overlay);
           InAppBrowser.close({}).catch(() => {});
           _nativeBrowserOpen = false;
           clearAuth();
