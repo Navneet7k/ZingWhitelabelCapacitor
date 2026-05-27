@@ -144,8 +144,8 @@
 }
 
 .dn__hero-img {
-  width: calc(100% - 20px);
-  height: calc(100% - 20px);
+  width: calc(100% - 8px);
+  height: calc(100% - 8px);
   border-radius: 50%;
   object-fit: cover;
   border: 2px solid #fff;
