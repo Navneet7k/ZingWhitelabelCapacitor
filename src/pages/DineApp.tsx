@@ -9,10 +9,22 @@ import type { RestaurantLocation } from '../services/configApi';
 import { getRestaurantId, getRestaurantName } from '../services/restaurantConfig';
 import { openWebView } from '../services/webviewService';
 import { checkConfigColorsOnTabSwitch } from '../services/configColorsService';
+import { getStatus, onStatusChange } from '../services/updater';
+import type { UpdateStatus } from '../services/updater';
 import CustomizePage from './CustomizePage';
 import './DineApp.css';
 import { ICON_MY_ORDERS, ICON_FAVOURITES, ICON_POINTS, ICON_ADDRESS, ICON_DELETE, ICON_EDIT_PROFILE, ICON_SIGNOUT } from './DineAppIcons';
 
+function updateStatusLabel(s: UpdateStatus): { text: string; color: string } {
+  switch (s.state) {
+    case 'idle':        return { text: 'Idle', color: '#888' };
+    case 'checking':    return { text: 'Checking for updates…', color: '#F5A623' };
+    case 'up_to_date':  return { text: `Up to date (${s.version})`, color: '#4CAF50' };
+    case 'downloading': return { text: `Downloading update ${s.from} → ${s.to}…`, color: '#2196F3' };
+    case 'ready':       return { text: `Update ready (v${s.version}) — will apply when app backgrounds`, color: '#9C27B0' };
+    case 'error':       return { text: `Update error: ${s.reason}`, color: '#F44336' };
+  }
+}
 
 function safe(v: unknown, fallback = ''): string {
   try { return (v != null && v !== '') ? String(v) : fallback; } catch { return fallback; }
@@ -56,6 +68,8 @@ const DineApp: React.FC = () => {
   const [selectedCategory, setSelectedCategory] = useState<number | null>(null);
   const [showCustomize, setShowCustomize]       = useState(false);
   const [showDevOptions, setShowDevOptions] = useState(false);
+  const [updateStatus, setUpdateStatus] = useState<UpdateStatus>(getStatus);
+  useEffect(() => onStatusChange(setUpdateStatus), []);
   const [showDeleteConfirm, setShowDeleteConfirm] = useState(false);
   const [authUser, setAuthUser]                 = useState<AuthUser | null>(getInitialUser);
   const [authScreen, setAuthScreen]             = useState<'signin' | 'signup'>('signin');
@@ -592,6 +606,21 @@ const DineApp: React.FC = () => {
                   🎨 Customize
                 </button>
                 )}
+
+                {/* ── OTA Update panel ── */}
+                <div style={{ margin: '16px 16px 4px', background: 'rgba(0,0,0,0.15)', borderRadius: 12, padding: '14px 16px' }}>
+                  <div style={{ display: 'flex', alignItems: 'center', gap: 8, marginBottom: 6 }}>
+                    <span style={{ fontSize: 18 }}>
+                      {updateStatus.state === 'checking' || updateStatus.state === 'downloading' ? '🔄' :
+                       updateStatus.state === 'ready' ? '⬆️' :
+                       updateStatus.state === 'error' ? '❌' : '🔃'}
+                    </span>
+                    <span style={{ fontSize: 14, fontWeight: 700, color: 'var(--t-text, #fff)', cursor: 'pointer' }} onClick={() => setShowDevOptions(d => !d)}>App Updates</span>
+                  </div>
+                  <p style={{ margin: 0, fontSize: 12, color: updateStatusLabel(updateStatus).color }}>
+                    {updateStatusLabel(updateStatus).text}
+                  </p>
+                </div>
 
                 {/* ── Template Switcher ── */}
                 {showDevOptions && (<>
