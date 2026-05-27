@@ -9,22 +9,10 @@ import type { RestaurantLocation } from '../services/configApi';
 import { getRestaurantId, getRestaurantName } from '../services/restaurantConfig';
 import { openWebView } from '../services/webviewService';
 import { checkConfigColorsOnTabSwitch } from '../services/configColorsService';
-import { getStatus, onStatusChange, applyIfReady, checkOnTabSwitch } from '../services/updater';
-import type { UpdateStatus } from '../services/updater';
 import CustomizePage from './CustomizePage';
 import './DineApp.css';
 import { ICON_MY_ORDERS, ICON_FAVOURITES, ICON_POINTS, ICON_ADDRESS, ICON_DELETE, ICON_EDIT_PROFILE, ICON_SIGNOUT } from './DineAppIcons';
 
-function updateStatusLabel(s: UpdateStatus): { text: string; color: string } {
-  switch (s.state) {
-    case 'idle':        return { text: 'Idle', color: '#888' };
-    case 'checking':    return { text: 'Checking for updates…', color: '#F5A623' };
-    case 'up_to_date':  return { text: `Up to date (${s.version})`, color: '#4CAF50' };
-    case 'downloading': return { text: `Downloading update ${s.from} → ${s.to}…`, color: '#2196F3' };
-    case 'ready':       return { text: `Update ready (v${s.version}) — restart app to apply`, color: '#9C27B0' };
-    case 'error':       return { text: `Update error: ${s.reason}`, color: '#F44336' };
-  }
-}
 
 function safe(v: unknown, fallback = ''): string {
   try { return (v != null && v !== '') ? String(v) : fallback; } catch { return fallback; }
@@ -86,8 +74,6 @@ const DineApp: React.FC = () => {
   const [regError, setRegError]                 = useState('');
   const [regSuccess, setRegSuccess]             = useState(false);
   const [regLoading, setRegLoading]             = useState(false);
-  const [updateStatus, setUpdateStatus] = useState<UpdateStatus>(getStatus);
-  useEffect(() => onStatusChange(setUpdateStatus), []);
 
   useEffect(() => {
     const handler = () => { setAuthUser(null); setView('account'); };
@@ -135,8 +121,6 @@ const DineApp: React.FC = () => {
   const didMountRef = useRef(false);
   useEffect(() => {
     if (!didMountRef.current) { didMountRef.current = true; return; }
-    checkOnTabSwitch();
-    applyIfReady();
     checkConfigColorsOnTabSwitch(restaurantId ?? '');
   }, [view]);
 
@@ -608,29 +592,6 @@ const DineApp: React.FC = () => {
                   🎨 Customize
                 </button>
                 )}
-
-                {/* ── OTA Update panel ── */}
-                <div style={{ margin: '16px 16px 4px', background: 'rgba(0,0,0,0.15)', borderRadius: 12, padding: '14px 16px' }}>
-                  <div style={{ display: 'flex', alignItems: 'center', gap: 8, marginBottom: 6 }}>
-                    <span style={{ fontSize: 18 }}>
-                      {updateStatus.state === 'checking' || updateStatus.state === 'downloading' ? '🔄' :
-                       updateStatus.state === 'ready' ? '⬆️' :
-                       updateStatus.state === 'error' ? '❌' : '🔃'}
-                    </span>
-                    <span style={{ fontSize: 14, fontWeight: 700, color: 'var(--t-text, #fff)', cursor: 'pointer' }} onClick={() => setShowDevOptions(d => !d)}>App Updates</span>
-                  </div>
-                  <p style={{ margin: '0 0 8px', fontSize: 12, color: updateStatusLabel(updateStatus).color }}>
-                    {updateStatus.state === 'ready'
-                      ? `v${(updateStatus as any).version} downloaded — tap to install`
-                      : updateStatusLabel(updateStatus).text}
-                  </p>
-                  {updateStatus.state === 'ready' && (
-                    <button
-                      style={{ padding: '8px 16px', background: template.colors.primary, color: '#fff', border: 'none', borderRadius: 8, fontSize: 13, fontWeight: 700, cursor: 'pointer' }}
-                      onClick={() => applyIfReady()}
-                    >Apply Update Now</button>
-                  )}
-                </div>
 
                 {/* ── Template Switcher ── */}
                 {showDevOptions && (<>

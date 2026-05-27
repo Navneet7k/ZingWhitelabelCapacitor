@@ -146,6 +146,10 @@ export async function checkOnTabSwitch(): Promise<void> {
 export async function applyIfReady(): Promise<void> {
   if (!_pendingBundle) { console.log('[OTA] applyIfReady() — no pending bundle, skipping'); return; }
   if (!Capacitor.isNativePlatform()) return;
+  if (document.visibilityState !== 'hidden') {
+    console.log('[OTA] applyIfReady() — app is visible, skipping to prevent mid-session restart');
+    return;
+  }
   const bundle = _pendingBundle;
   _pendingBundle = null;
   console.log(`[OTA] applyIfReady() — calling set() to apply bundle v${bundle.version ?? '?'}. App will reload.`);

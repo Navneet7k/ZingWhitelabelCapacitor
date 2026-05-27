@@ -303,42 +303,9 @@ const AppInner: React.FC = () => {
     }, CONFIG_POLL_MS);
 
     // ── OTA auto-update lifecycle ─────────────────────────────────────────
-    const IDLE_MS     = 15 * 60 * 1000; // apply after 15 min of no interaction
-    const POLL_MS     = 10 * 60 * 1000; // re-check manifest every 10 min regardless
-    let idleTimer: ReturnType<typeof setTimeout> | null = null;
-    let lastActivity = Date.now();
+    const POLL_MS = 10 * 60 * 1000; // re-check manifest every 10 min
 
-    const resetActivity = () => { lastActivity = Date.now(); };
-
-    function scheduleIdleApply() {
-      if (idleTimer) clearTimeout(idleTimer);
-      idleTimer = setTimeout(() => {
-        if (Date.now() - lastActivity >= IDLE_MS) {
-          if (!hasOpenBrowsers()) {
-            console.log('[OTA] idle timer fired — app idle 15+ min, applying update');
-            applyIfReady();
-          } else {
-            console.log('[OTA] idle timer fired — browser open, rescheduling');
-            scheduleIdleApply();
-          }
-        } else {
-          console.log('[OTA] idle timer fired — user was active, rescheduling');
-          scheduleIdleApply();
-        }
-      }, IDLE_MS);
-    }
-
-    // When a bundle finishes downloading, start the idle countdown
-    const unsubStatus = onStatusChange(s => {
-      console.log(`[OTA] status changed → ${s.state}${'version' in s ? ` v${s.version}` : ''}${'reason' in s ? ` (${s.reason})` : ''}`);
-      if (s.state === 'ready') {
-        console.log('[OTA] bundle ready — scheduling idle apply (15 min of no activity)');
-        scheduleIdleApply();
-      }
-    });
-
-    // Periodic poll — catches releases while app stays open without any
-    // tab switching or backgrounding (the previously missing trigger)
+    // Periodic poll — catches releases while app stays open
     const pollInterval = setInterval(() => recheckForUpdate(), POLL_MS);
 
     const onVisibility = () => {
@@ -365,8 +332,6 @@ const AppInner: React.FC = () => {
     };
 
     document.addEventListener('visibilitychange', onVisibility);
-    document.addEventListener('touchstart',  resetActivity, { passive: true });
-    document.addEventListener('pointermove', resetActivity, { passive: true });
 
     return () => {
       clearTimeout(configTimeout);
@@ -374,10 +339,6 @@ const AppInner: React.FC = () => {
       clearInterval(pollInterval);
       document.removeEventListener('visibilitychange', onVisibility);
       document.removeEventListener('touchstart', onUserTouch);
-      document.removeEventListener('touchstart',  resetActivity);
-      document.removeEventListener('pointermove', resetActivity);
-      unsubStatus();
-      if (idleTimer) clearTimeout(idleTimer);
     };
   }, []);
 
