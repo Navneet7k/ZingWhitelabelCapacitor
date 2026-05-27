@@ -34,11 +34,23 @@ function getInitialUser(): AuthUser | null {
 
 type DineView = 'home' | 'menu' | 'orders' | 'account';
 
-const NAV: { id: DineView; icon: string; label: string }[] = [
-  { id: 'home',    icon: '🏠', label: 'Home'    },
-  { id: 'menu',    icon: '🍽️', label: 'Menu'    },
-  { id: 'orders',  icon: '🛍️', label: 'Orders'  },
-  { id: 'account', icon: '👤', label: 'Account' },
+const HOME_ICON = (
+  <svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+    <path d="M10 20v-6h4v6h5v-8h3L12 3 2 12h3v8z"/>
+  </svg>
+);
+const MENU_ICON = (
+  <svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+    <rect x="3" y="3" width="8" height="8" rx="1.5"/>
+    <rect x="13" y="3" width="8" height="8" rx="1.5"/>
+    <rect x="3" y="13" width="8" height="8" rx="1.5"/>
+    <rect x="13" y="13" width="8" height="8" rx="1.5"/>
+  </svg>
+);
+
+const NAV: { id: DineView; icon: React.ReactNode; label: string }[] = [
+  { id: 'home', icon: HOME_ICON, label: 'Home' },
+  { id: 'menu', icon: MENU_ICON, label: 'Menu' },
 ];
 
 const DineApp: React.FC = () => {
@@ -220,12 +232,10 @@ const DineApp: React.FC = () => {
           <header className="dn__header">
             <div className="dn__logo-circle">🍃</div>
             <span className="dn__header-name">{restaurantName}</span>
-            {homeData !== null && (
-              <div className="dn__pts-pill">
-                <span className="dn__pts-num">{points.toLocaleString()}</span>
-                <span className="dn__pts-lbl">Pts</span>
-              </div>
-            )}
+            <button className="dn__pts-pill" onClick={() => setView('account')}>
+              <span className="dn__pts-num">{points.toLocaleString()}</span>
+              <span className="dn__pts-lbl">Pts</span>
+            </button>
           </header>
 
           <div className="dn__scroll">
@@ -700,7 +710,6 @@ const DineApp: React.FC = () => {
                 aria-label={n.label}
               >
                 <span className="dn__nav-icon">{n.icon}</span>
-                <span className="dn__nav-label">{n.label}</span>
               </button>
             ))}
           </nav>
