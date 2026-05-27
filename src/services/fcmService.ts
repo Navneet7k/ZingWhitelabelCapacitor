@@ -23,9 +23,13 @@ export async function initFcm(): Promise<string | null> {
     return new Promise((resolve) => {
       PushNotifications.addListener('registration', ({ value }) => {
         localStorage.setItem(FCM_TOKEN_KEY, value);
+        console.log('[FCM] Token generated:', value);
         resolve(value);
       });
-      PushNotifications.addListener('registrationError', () => resolve(null));
+      PushNotifications.addListener('registrationError', (err) => {
+        console.error('[FCM] Registration error:', err);
+        resolve(null);
+      });
     });
   } catch {
     return null;
