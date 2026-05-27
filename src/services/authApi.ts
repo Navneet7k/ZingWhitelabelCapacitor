@@ -70,16 +70,16 @@ export async function register(params: {
 
 export async function updateFcmToken(fcmToken: string, apiToken: string): Promise<void> {
   try {
-    const res = await fetch(`${BASE_URL}/client/update/fcm?api_token=${apiToken}`, {
-      method: 'POST',
+    const { CapacitorHttp } = await import('@capacitor/core');
+    const res = await CapacitorHttp.post({
+      url: `${BASE_URL}/client/update/fcm?api_token=${apiToken}`,
       headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ fcm_token: fcmToken }),
+      data: { fcm_token: fcmToken },
     });
-    const data = await res.json().catch(() => null);
-    if (res.ok) {
-      console.log('[FCM] Token updated to backend successfully:', data);
+    if (res.status >= 200 && res.status < 300) {
+      console.log('[FCM] Token updated to backend successfully:', res.data);
     } else {
-      console.warn('[FCM] Backend token update failed:', res.status, data);
+      console.warn('[FCM] Backend token update failed:', res.status, res.data);
     }
   } catch (err) {
     console.error('[FCM] Token update request error:', err);
