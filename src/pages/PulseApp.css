@@ -653,10 +653,10 @@
   transition: color 0.2s;
 }
 .pl__nav-btn.active .pl__nav-icon {
-  background: var(--t-primary, #28A96B);
-  color: #fff;
+  background: #2d5a3d;
+  color: var(--t-accent, #28A96B);
 }
-.pl__nav-btn.active .pl__nav-label { color: var(--t-primary, #28A96B); font-weight: 600; }
+.pl__nav-btn.active .pl__nav-label { color: var(--t-accent, #28A96B); font-weight: 600; }
 
 /* ── LOCATION VIEW ── */
 .pl__loc-map-ph {
