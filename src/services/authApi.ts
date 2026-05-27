@@ -70,12 +70,20 @@ export async function register(params: {
 
 export async function updateFcmToken(fcmToken: string, apiToken: string): Promise<void> {
   try {
-    await fetch(`${BASE_URL}/client/update/fcm?api_token=${apiToken}`, {
+    const res = await fetch(`${BASE_URL}/client/update/fcm?api_token=${apiToken}`, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ fcm_token: fcmToken }),
     });
-  } catch { /* silent fail — non-critical */ }
+    const data = await res.json().catch(() => null);
+    if (res.ok) {
+      console.log('[FCM] Token updated to backend successfully:', data);
+    } else {
+      console.warn('[FCM] Backend token update failed:', res.status, data);
+    }
+  } catch (err) {
+    console.error('[FCM] Token update request error:', err);
+  }
 }
 
 // ── Local storage ──────────────────────────────────────────────────────────────
