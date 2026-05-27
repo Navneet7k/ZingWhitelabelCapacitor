@@ -636,14 +636,26 @@
   background: none;
   cursor: pointer;
 }
-.pl__nav-icon { font-size: 20px; filter: grayscale(1); transition: filter 0.2s; }
+.pl__nav-icon {
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #bbb;
+  transition: background 0.2s, color 0.2s;
+}
 .pl__nav-label {
   font-family: var(--t-font-body, 'Poppins', sans-serif);
   font-size: 10px;
   color: #aaa;
   transition: color 0.2s;
 }
-.pl__nav-btn.active .pl__nav-icon { filter: none; }
+.pl__nav-btn.active .pl__nav-icon {
+  background: var(--t-primary, #28A96B);
+  color: #fff;
+}
 .pl__nav-btn.active .pl__nav-label { color: var(--t-primary, #28A96B); font-weight: 600; }
 
 /* ── LOCATION VIEW ── */
