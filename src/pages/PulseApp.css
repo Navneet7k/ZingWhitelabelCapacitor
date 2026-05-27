@@ -391,15 +391,17 @@
 .pl__cat-grid {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
-  border-top: 1px solid #e0e0e0;
-  border-left: 1px solid #e0e0e0;
+  border-top: 1px solid #d4d4d4;
+  border-left: 1px solid #d4d4d4;
 }
 .pl__cat-cell {
-  border-right: 1px solid #e0e0e0;
-  border-bottom: 1px solid #e0e0e0;
-  background: #fff;
-  padding: 18px 8px;
-  min-height: 65px;
+  border-right: 1px solid #d4d4d4;
+  border-bottom: 1px solid #d4d4d4;
+  border-top: none;
+  border-left: none;
+  background: #f2f2f2;
+  padding: 22px 10px;
+  min-height: 72px;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -409,8 +411,6 @@
   color: #333;
   cursor: pointer;
   line-height: 1.35;
-  border-top: none;
-  border-left: none;
 }
 
 /* ── ITEM LIST ── */
