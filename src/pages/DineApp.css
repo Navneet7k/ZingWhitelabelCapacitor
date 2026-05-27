@@ -144,11 +144,11 @@
 }
 
 .dn__hero-img {
-  width: calc(100% - 8px);
-  height: calc(100% - 8px);
+  width: calc(100% - 4px);
+  height: calc(100% - 4px);
   border-radius: 50%;
   object-fit: cover;
-  border: 2px solid #fff;
+  border: 1px solid #fff;
 }
 
 .dn__hero-ph {
