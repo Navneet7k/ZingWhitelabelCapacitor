@@ -114,6 +114,10 @@ export function openWebView(
         onClose?.();
       });
 
+      await InAppBrowser.addListener('urlChangeEvent', (event: any) => {
+        console.log('[WebView] URL changed →', event?.url ?? event);
+      });
+
       // isPresentAfterPageLoad: true — webview stays hidden until fully loaded,
       // then slides in. The overlay covers the wait so the user sees no white flash.
       await InAppBrowser.openWebView({
