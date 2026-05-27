@@ -65,15 +65,15 @@
   font-family: var(--t-font-heading, 'Poppins', sans-serif);
   font-size: 26px;
   font-weight: 700;
-  color: #fff;
+  color: var(--t-primary-text, #fff);
   line-height: 1.25;
   margin-bottom: 14px;
   white-space: pre-wrap;
 }
 .pl__banner-btn {
-  background: transparent;
+  background: var(--t-primary, #28A96B);
   color: #fff;
-  border: 1.5px solid rgba(255,255,255,0.85);
+  border: none;
   border-radius: 50px;
   padding: 9px 22px;
   font-family: var(--t-font-body, 'Poppins', sans-serif);
@@ -140,15 +140,16 @@
   line-height: 1.4;
 }
 .pl__pts-link {
-  background: none;
+  background: #fff;
   border: none;
+  border-radius: 50px;
   font-family: var(--t-font-body, 'Poppins', sans-serif);
   font-size: 12px;
   font-weight: 600;
-  color: #fff;
-  padding: 0;
+  color: var(--t-primary, #28A96B);
+  padding: 5px 14px;
   cursor: pointer;
-  text-decoration: underline;
+  display: inline-block;
 }
 
 /* ── POPULAR DISHES GRID ── */
