@@ -720,8 +720,8 @@
 /* ── BOTTOM NAV ── */
 .pl__nav {
   display: flex;
-  background: var(--t-surface, #fff);
-  border-top: 1px solid var(--t-border, rgba(40,169,107,0.12));
+  background: #fff;
+  border-top: 1px solid rgba(0,0,0,0.08);
   padding-bottom: env(safe-area-inset-bottom, 0px);
   flex-shrink: 0;
 }
