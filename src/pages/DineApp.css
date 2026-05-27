@@ -550,7 +550,7 @@
 
 .dn__item-row {
   border-radius: 16px;
-  overflow: hidden;
+  overflow: visible;
   cursor: pointer;
   background: #FFFFFF;
   box-shadow: 0 2px 10px rgba(63, 45, 32, 0.08);
@@ -564,15 +564,20 @@
   padding: 12px 12px 10px;
 }
 
-/* Food image — Figma: 108x89, r=20, warm border */
+/* Food image — projects out from top-left of card */
 .dn__item-img {
-  width: 100px;
-  height: 80px;
+  width: 108px;
+  height: 96px;
   border-radius: 16px;
   object-fit: cover;
   flex-shrink: 0;
   border: 1.5px solid #E8D0C8;
   background: #EDE0D8;
+  position: relative;
+  top: -20px;
+  left: -16px;
+  z-index: 2;
+  box-shadow: 0 8px 24px rgba(63, 45, 32, 0.2);
 }
 
 .dn__item-ph {
@@ -620,6 +625,7 @@
 /* Colored strip at bottom — holds description */
 .dn__item-strip {
   padding: 8px 12px 10px;
+  border-radius: 0 0 16px 16px;
 }
 
 .dn__item-strip--green { background: #B4CDAB; }
