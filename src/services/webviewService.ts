@@ -1,4 +1,5 @@
 import { Capacitor } from '@capacitor/core';
+import { clearAuth } from './authApi';
 
 type OpenEvent = { url: string; title: string; onClose?: () => void };
 type Listener = (event: OpenEvent | null) => void;
@@ -115,7 +116,15 @@ export function openWebView(
       });
 
       await InAppBrowser.addListener('urlChangeEvent', (event: any) => {
-        console.log('[WebView] URL changed →', event?.url ?? event);
+        const url: string = event?.url ?? '';
+        console.log('[WebView] URL changed →', url);
+        if (url.includes('unauthorize/user')) {
+          console.log('[WebView] Unauthorized — clearing auth and redirecting to login');
+          InAppBrowser.close({}).catch(() => {});
+          _nativeBrowserOpen = false;
+          clearAuth();
+          setTimeout(() => window.location.reload(), 150);
+        }
       });
 
       // isPresentAfterPageLoad: true — webview stays hidden until fully loaded,
