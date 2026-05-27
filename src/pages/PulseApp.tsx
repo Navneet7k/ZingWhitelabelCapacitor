@@ -441,7 +441,6 @@ const PulseApp: React.FC = () => {
                   </div>
                   <p className="pl__acc-name">{safe(restaurantName)}</p>
                   <p className="pl__acc-email">{safe(authUser.email)}</p>
-                </div>
 
                 {/* Quick actions */}
                 <div className="pl__acc-actions">
@@ -466,6 +465,7 @@ const PulseApp: React.FC = () => {
                     <span>Points</span>
                   </button>
                 </div>
+                </div>{/* end hero */}
 
                 {/* List rows */}
                 <div className="pl__acc-list">
