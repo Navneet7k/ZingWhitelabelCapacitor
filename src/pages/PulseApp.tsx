@@ -4,7 +4,8 @@ import { useHomeData } from '../context/HomeDataContext';
 import { useMenuData } from '../context/MenuDataContext';
 import { getSavedUser, isLoggedIn, login, saveAuth, clearAuth, getToken } from '../services/authApi';
 import type { AuthUser } from '../services/authApi';
-import { getOrderUrl } from '../services/configApi';
+import { getOrderUrl, getRestaurantLocations, getRestaurantAddress, getRestaurantPhone } from '../services/configApi';
+import type { RestaurantLocation } from '../services/configApi';
 import { getRestaurantId, getRestaurantName } from '../services/restaurantConfig';
 import { openWebView } from '../services/webviewService';
 import { checkConfigColorsOnTabSwitch } from '../services/configColorsService';
@@ -58,13 +59,18 @@ function updateStatusLabel(s: UpdateStatus): { text: string; color: string } {
   }
 }
 
-type PulseView = 'home' | 'menu' | 'orders' | 'account';
+type PulseView = 'home' | 'menu' | 'orders' | 'account' | 'location';
 
-const NAV: { id: PulseView; icon: string; label: string }[] = [
-  { id: 'home',    icon: '🏠', label: 'Home'    },
-  { id: 'menu',    icon: '🍽️', label: 'Menu'    },
-  { id: 'orders',  icon: '🛒', label: 'Order'   },
-  { id: 'account', icon: '👤', label: 'Account' },
+const NAV: { id: PulseView; icon: React.ReactNode; label: string }[] = [
+  { id: 'home',     icon: '🏠', label: 'Home'      },
+  { id: 'menu',     icon: '🍽️', label: 'Menu'      },
+  { id: 'orders',   icon: '🛒', label: 'Order'     },
+  { id: 'account',  icon: '👤', label: 'Account'   },
+  { id: 'location', label: 'Locations', icon: (
+    <svg width="22" height="22" viewBox="0 0 24 24" fill="currentColor">
+      <path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5s1.12-2.5 2.5-2.5 2.5 1.12 2.5 2.5-1.12 2.5-2.5 2.5z"/>
+    </svg>
+  )},
 ];
 
 function getInitialUser(): AuthUser | null {
@@ -90,8 +96,11 @@ const PulseApp: React.FC = () => {
   const [updateStatus, setUpdateStatus] = useState<UpdateStatus>(getStatus);
   useEffect(() => onStatusChange(setUpdateStatus), []);
 
-  const restaurantId   = getRestaurantId();
-  const restaurantName = safe(getRestaurantName(), 'Nice Food');
+  const restaurantId      = getRestaurantId();
+  const restaurantName    = safe(getRestaurantName(), 'Nice Food');
+  const restaurantAddress = getRestaurantAddress();
+  const restaurantPhone   = getRestaurantPhone();
+  const locations         = getRestaurantLocations();
   const allCategories  = menuData?.categories ?? [];
   const popularDishes  = homeData?.popularDishes ?? [];
   const banners        = homeData?.banners ?? [];
@@ -429,6 +438,80 @@ const PulseApp: React.FC = () => {
             </>)}
           </>
         )}
+        {/* ── LOCATION ── */}
+        {view === 'location' && (
+          <>
+            <p className="pl__view-title">Location</p>
+
+            {/* Map placeholder */}
+            <div className="pl__loc-map-ph">
+              <svg width="110" height="110" viewBox="0 0 110 110" fill="none" xmlns="http://www.w3.org/2000/svg">
+                {/* Terrain spread */}
+                <ellipse cx="55" cy="85" rx="38" ry="12" fill="#A5D6A7" opacity="0.5"/>
+                <path d="M20 85 Q35 72 55 78 Q75 84 90 75 L90 90 Q70 100 55 95 Q35 100 20 90 Z" fill="#C8E6C9" opacity="0.7"/>
+                {/* Pin shadow */}
+                <ellipse cx="55" cy="82" rx="10" ry="4" fill="rgba(0,0,0,0.15)"/>
+                {/* Pin body */}
+                <path d="M55 22C44.5 22 36 30.5 36 41C36 55 55 78 55 78C55 78 74 55 74 41C74 30.5 65.5 22 55 22Z" fill="#E53935"/>
+                {/* Pin inner circle */}
+                <circle cx="55" cy="41" r="8" fill="#fff" opacity="0.9"/>
+              </svg>
+            </div>
+
+            {/* Location entries */}
+            <div className="pl__loc-list">
+              {(locations.length > 0 ? locations : [{
+                text: restaurantName,
+                address: restaurantAddress ?? undefined,
+                phone: restaurantPhone ?? undefined,
+              } as RestaurantLocation]).map((loc: RestaurantLocation, i: number) => (
+                <div key={i} className="pl__loc-entry">
+                  <p className="pl__loc-name">{safe(loc.text, restaurantName)}</p>
+
+                  {loc.phone && (
+                    <div className="pl__loc-row">
+                      <span className="pl__loc-icon-wrap">
+                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none">
+                          <path d="M6.62 10.79c1.44 2.83 3.76 5.14 6.59 6.59l2.2-2.2c.27-.27.67-.36 1.02-.24 1.12.37 2.33.57 3.57.57.55 0 1 .45 1 1V20c0 .55-.45 1-1 1C7.61 21 2 15.39 2 8.82c0-.55.45-1 1-1h3.5c.55 0 1 .45 1 1 0 1.25.2 2.45.57 3.57.11.35.03.74-.25 1.02l-2.2 2.2z" fill="currentColor"/>
+                        </svg>
+                      </span>
+                      <span className="pl__loc-val">{loc.phone}</span>
+                    </div>
+                  )}
+
+                  {loc.email && (
+                    <div className="pl__loc-row">
+                      <span className="pl__loc-icon-wrap pl__loc-icon-wrap--rect">
+                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none">
+                          <path d="M20 4H4c-1.1 0-2 .9-2 2v12c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 4l-8 5-8-5V6l8 5 8-5v2z" fill="currentColor"/>
+                        </svg>
+                      </span>
+                      <span className="pl__loc-val">{loc.email}</span>
+                    </div>
+                  )}
+
+                  {loc.address && (
+                    <div className="pl__loc-row">
+                      <span className="pl__loc-icon-wrap pl__loc-icon-wrap--pin">
+                        <svg width="14" height="14" viewBox="0 0 24 24" fill="none">
+                          <path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5s1.12-2.5 2.5-2.5 2.5 1.12 2.5 2.5-1.12 2.5-2.5 2.5z" fill="currentColor"/>
+                        </svg>
+                      </span>
+                      <span className="pl__loc-val">{loc.address}</span>
+                    </div>
+                  )}
+
+                  <button
+                    className="pl__loc-order-btn"
+                    onClick={() => loc.url ? openWebView(loc.url, 'Order Online', template.colors.primary) : handleOrder()}
+                  >Order Online</button>
+                </div>
+              ))}
+            </div>
+            <div style={{ height: 20 }} />
+          </>
+        )}
+
       </div>
 
       {/* ── Bottom nav ── */}
