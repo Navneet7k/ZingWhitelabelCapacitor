@@ -178,7 +178,7 @@
   font-family: var(--t-font-heading, 'Poppins', sans-serif);
   font-size: 13px;
   font-weight: 700;
-  color: var(--t-text, #1A1A1A);
+  color: #1A1A1A;
   margin: 0 0 4px;
   line-height: 1.3;
   overflow: hidden;
@@ -189,7 +189,7 @@
 .pl__dish-desc {
   font-family: var(--t-font-body, 'Poppins', sans-serif);
   font-size: 11px;
-  color: var(--t-text-muted, #666);
+  color: #666;
   margin: 0 0 8px;
   line-height: 1.4;
   overflow: hidden;
