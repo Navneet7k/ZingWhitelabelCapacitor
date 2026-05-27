@@ -592,7 +592,7 @@
 .dn__item-name {
   font-size: var(--t-item-name-size, 15px);
   font-weight: 500;
-  color: var(--t-text, #3F2D20);
+  color: #3F2D20;
   margin: 0 0 3px;
   line-height: 1.3;
 }
