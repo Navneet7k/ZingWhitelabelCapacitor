@@ -103,6 +103,7 @@
 
 /* Blob+hero container — normal flow, centered by the flex parent */
 .dn__banner-center {
+  position: relative;
   align-self: center;
   width: clamp(230px, 72vw, 320px);
   flex-shrink: 0;
