@@ -21,7 +21,7 @@
 /* ── Header ── */
 .dk__header {
   flex-shrink: 0;
-  padding: 20px 20px 10px;
+  padding: calc(env(safe-area-inset-top) + 20px) 20px 10px;
 }
 .dk__restaurant-name {
   font-size: 24px; font-weight: 800;

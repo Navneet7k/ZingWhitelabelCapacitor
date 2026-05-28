@@ -12,7 +12,7 @@
 /* ── Header ── */
 .nr__header {
   flex-shrink: 0;
-  padding: 20px 20px 0;
+  padding: calc(env(safe-area-inset-top) + 20px) 20px 0;
 }
 .nr__logo {
   font-family: Georgia, 'Times New Roman', serif;

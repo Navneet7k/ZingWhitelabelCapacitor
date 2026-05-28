@@ -46,7 +46,7 @@
 /* ── Home Header / Action Bar ── */
 .sp2__header {
   background: #ffffff;
-  padding: 10px 16px;
+  padding: calc(env(safe-area-inset-top) + 10px) 16px 10px;
   display: flex;
   align-items: center;
   position: sticky;
