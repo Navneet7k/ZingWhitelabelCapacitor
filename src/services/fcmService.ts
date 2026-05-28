@@ -23,6 +23,12 @@ export async function initFcm(): Promise<string | null> {
 
     return new Promise((resolve) => {
       PushNotifications.addListener('registration', ({ value }) => {
+        // On iOS, the registration event fires twice: first with the raw APNS device
+        // token (64-char uppercase hex), then with the real FCM token. Skip the first.
+        if (Capacitor.getPlatform() === 'ios' && /^[0-9A-F]{64}$/.test(value)) {
+          log('[FCM] iOS APNS token received, waiting for FCM token...');
+          return;
+        }
         localStorage.setItem(FCM_TOKEN_KEY, value);
         log('[FCM] Token generated:', value);
         resolve(value);
@@ -32,7 +38,8 @@ export async function initFcm(): Promise<string | null> {
         resolve(null);
       });
     });
-  } catch {
+  } catch (err) {
+    error('[FCM] Init error:', err);
     return null;
   }
 }
