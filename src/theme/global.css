@@ -42,6 +42,10 @@ ion-toolbar {
   --border-width: 0;
 }
 
+ion-header ion-toolbar:first-of-type {
+  --padding-top: env(safe-area-inset-top);
+}
+
 ion-title {
   font-family: var(--t-font-heading);
   font-size: 20px;
