@@ -490,7 +490,7 @@
   align-items: center;
   justify-content: center;
   font-size: 36px;
-  background: #EDE0D8;
+  background: var(--t-primary, #EDE0D8);
 }
 
 .dn__cat-overlay {
