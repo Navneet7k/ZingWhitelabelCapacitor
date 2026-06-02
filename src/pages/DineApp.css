@@ -472,7 +472,7 @@
   border-radius: 16px;
   overflow: hidden;
   cursor: pointer;
-  background: #EDE0D8;
+  background: var(--t-primary, #EDE0D8);
   -webkit-tap-highlight-color: transparent;
 }
 
