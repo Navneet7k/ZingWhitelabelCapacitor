@@ -562,7 +562,11 @@ const DineApp: React.FC = () => {
                   <>
                     {/* Icon grid */}
                     <div className="dn__acc-grid">
-                      <button className="dn__acc-tile" onClick={() => setView('orders')}>
+                      <button className="dn__acc-tile" onClick={() => {
+                        const rid = getRestaurantId() ?? '';
+                        const token = getToken() ?? '';
+                        openWebView(`https://app.zingmyorder.com/orders-page/${rid}?token=${encodeURIComponent(token)}`, 'My Orders', template.colors.primary);
+                      }}>
                         <span className="dn__acc-tile-icon" dangerouslySetInnerHTML={{ __html: ICON_MY_ORDERS }} />
                         <span className="dn__acc-tile-label">My Orders</span>
                       </button>

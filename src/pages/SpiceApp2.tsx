@@ -558,7 +558,11 @@ const SpiceApp2: React.FC = () => {
 
                 {/* Quick-action card — overlaps the colour boundary */}
                 <div className="sp2__acc-quick">
-                  <button className="sp2__acc-quick-item" onClick={() => setView('orders')}>
+                  <button className="sp2__acc-quick-item" onClick={() => {
+                    const rid = getRestaurantId() ?? '';
+                    const token = getToken() ?? '';
+                    openWebView(`https://app.zingmyorder.com/orders-page/${rid}?token=${encodeURIComponent(token)}`, 'My Orders', template.colors.primary);
+                  }}>
                     <span className="sp2__acc-quick-icon"><IonIcon icon={bagOutline} /></span>
                     <span className="sp2__acc-quick-label">My Orders</span>
                   </button>

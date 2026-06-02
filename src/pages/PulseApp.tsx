@@ -481,7 +481,11 @@ const PulseApp: React.FC = () => {
 
                 {/* Quick actions */}
                 <div className="pl__acc-actions">
-                  <button className="pl__acc-action" onClick={() => setView('orders')}>
+                  <button className="pl__acc-action" onClick={() => {
+                    const rid = getRestaurantId() ?? '';
+                    const token = getToken() ?? '';
+                    openWebView(`https://app.zingmyorder.com/orders-page/${rid}?token=${encodeURIComponent(token)}`, 'My Orders', template.colors.primary);
+                  }}>
                     <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
                       <path d="M6 2L3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"/><line x1="3" y1="6" x2="21" y2="6"/><path d="M16 10a4 4 0 0 1-8 0"/>
                     </svg>
