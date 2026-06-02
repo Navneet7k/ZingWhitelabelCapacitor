@@ -7,6 +7,7 @@ import type { AuthUser } from '../services/authApi';
 import { getOrderUrl } from '../services/configApi';
 import { getRestaurantId, getRestaurantName } from '../services/restaurantConfig';
 import { openWebView } from '../services/webviewService';
+import { getSavedFcmToken } from '../services/fcmService';
 import { checkConfigColorsOnTabSwitch } from '../services/configColorsService';
 import { getStatus, onStatusChange, applyIfReady, checkOnTabSwitch } from '../services/updater';
 import type { UpdateStatus } from '../services/updater';
@@ -59,6 +60,7 @@ const FloatApp: React.FC = () => {
   const [loginLoading, setLoading]    = useState(false);
   const [showCustomize, setShowCustomize] = useState(false);
   const [showDevOptions, setShowDevOptions] = useState(false);
+  const [copiedFcm, setCopiedFcm]           = useState(false);
   const [showDeleteConfirm, setShowDeleteConfirm] = useState(false);
   const [updateStatus, setUpdateStatus] = useState<UpdateStatus>(getStatus);
   useEffect(() => onStatusChange(setUpdateStatus), []);
@@ -436,6 +438,10 @@ const FloatApp: React.FC = () => {
                 ))}
               </div>
             </div>
+            <button
+              onClick={() => { const t = getSavedFcmToken(); if (!t) return; navigator.clipboard.writeText(t).then(() => { setCopiedFcm(true); setTimeout(() => setCopiedFcm(false), 2000); }); }}
+              style={{ display: 'block', width: 'calc(100% - 32px)', margin: '8px 16px 0', padding: '12px', border: '1px solid rgba(128,128,128,0.25)', borderRadius: 12, background: 'rgba(128,128,128,0.1)', color: 'inherit', fontFamily: 'inherit', fontSize: 14, fontWeight: 600, cursor: 'pointer' }}
+            >{copiedFcm ? '✅ Copied!' : getSavedFcmToken() ? '📋 Copy FCM Token' : 'Token not available'}</button>
             </>)}
 
           </div>

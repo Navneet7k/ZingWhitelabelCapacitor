@@ -8,6 +8,7 @@ import { getOrderUrl, getRestaurantLocations, getRestaurantAddress, getRestauran
 import type { RestaurantLocation } from '../services/configApi';
 import { getRestaurantId, getRestaurantName } from '../services/restaurantConfig';
 import { openWebView } from '../services/webviewService';
+import { getSavedFcmToken } from '../services/fcmService';
 import { checkConfigColorsOnTabSwitch } from '../services/configColorsService';
 import { getStatus, onStatusChange, applyIfReady, checkOnTabSwitch } from '../services/updater';
 import type { UpdateStatus } from '../services/updater';
@@ -126,6 +127,7 @@ const PulseApp: React.FC = () => {
   const [showRegConfirm, setShowRegConfirm] = useState(false);
   const [showCustomize, setShowCustomize]       = useState(false);
   const [showDevOptions, setShowDevOptions] = useState(false);
+  const [copiedFcm, setCopiedFcm]           = useState(false);
   const [showDeleteConfirm, setShowDeleteConfirm] = useState(false);
   const [updateStatus, setUpdateStatus] = useState<UpdateStatus>(getStatus);
   const [orderTab, setOrderTab]      = useState<'current' | 'past' | 'favorite'>('current');
@@ -719,6 +721,10 @@ const PulseApp: React.FC = () => {
                 </button>
               ))}
             </div>
+            <button
+              onClick={() => { const t = getSavedFcmToken(); if (!t) return; navigator.clipboard.writeText(t).then(() => { setCopiedFcm(true); setTimeout(() => setCopiedFcm(false), 2000); }); }}
+              style={{ display: 'block', width: 'calc(100% - 32px)', margin: '0 16px 8px', padding: '12px', border: '1px solid rgba(128,128,128,0.25)', borderRadius: 12, background: 'rgba(128,128,128,0.1)', color: 'inherit', fontFamily: 'inherit', fontSize: 14, fontWeight: 600, cursor: 'pointer' }}
+            >{copiedFcm ? '✅ Copied!' : getSavedFcmToken() ? '📋 Copy FCM Token' : 'Token not available'}</button>
             <div style={{ height: 20 }} />
             </>)}
           </>
