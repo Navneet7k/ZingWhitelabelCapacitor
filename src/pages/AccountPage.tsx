@@ -193,7 +193,7 @@ const AccountPage: React.FC<{ onSignOut?: () => void }> = ({ onSignOut }) => {
               </div>
             )}
 
-            {showDevOptions && !isRestaurantMode() && (
+            {showDevOptions && (
               <div className="acc__fcm-section">
                 <h3 className="acc__template-title">FCM Token</h3>
                 <button
