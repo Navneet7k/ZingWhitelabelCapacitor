@@ -4,7 +4,7 @@ import { useHomeData } from '../context/HomeDataContext';
 import { useMenuData } from '../context/MenuDataContext';
 import { getSavedUser, isLoggedIn, login, register, saveAuth, clearAuth, getToken } from '../services/authApi';
 import type { AuthUser } from '../services/authApi';
-import { getOrderUrl, getRestaurantLocations, getRestaurantAddress, getRestaurantPhone, getRestaurantLogo } from '../services/configApi';
+import { getOrderUrl, getOrderButtonUrl, getRestaurantLocations, getRestaurantAddress, getRestaurantPhone, getRestaurantLogo } from '../services/configApi';
 import type { RestaurantLocation } from '../services/configApi';
 import { getRestaurantId, getRestaurantName } from '../services/restaurantConfig';
 import { openWebView } from '../services/webviewService';
@@ -180,7 +180,7 @@ const PulseApp: React.FC = () => {
   const handleOrder = async () => {
     try {
       if (!authUser) { setView('account'); return; }
-      const url = getOrderUrl();
+      const url = getOrderButtonUrl() ?? getOrderUrl();
       if (!url) return;
       await openWebView(url, 'Place Order', template.colors.primary);
     } catch { /* silent */ }
