@@ -472,7 +472,7 @@ const PulseApp: React.FC = () => {
                       <path d="M4 20c0-4 3.6-7 8-7s8 3 8 7"/>
                     </svg>
                   </div>
-                  <p className="pl__acc-name">{safe(restaurantName)}</p>
+                  <p className="pl__acc-name">{safe(authUser.name)}</p>
                   <p className="pl__acc-email">{safe(authUser.email)}</p>
 
                 {/* Quick actions */}
