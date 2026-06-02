@@ -143,7 +143,7 @@
 .pl__pts-link {
   background: #fff;
   border: none;
-  border-radius: 10px;
+  border-radius: 6px;
   font-family: var(--t-font-body, 'Poppins', sans-serif);
   font-size: 12px;
   font-weight: 600;
