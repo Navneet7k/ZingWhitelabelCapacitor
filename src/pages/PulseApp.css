@@ -922,6 +922,15 @@
 .pl__nav-btn.active .pl__nav-label { color: var(--t-accent, #28A96B); font-weight: 600; }
 
 /* ── LOCATION VIEW ── */
+.pl__loc-view-title {
+  display: inline-block;
+  background: var(--t-primary, #28A96B);
+  color: #fff !important;
+  padding: 5px 16px;
+  border-radius: 6px;
+  margin: 16px 16px 12px;
+}
+
 .pl__loc-map-ph {
   margin: 0 16px 20px;
   background: #E8F5E9;
@@ -996,8 +1005,8 @@
 .pl__loc-order-btn {
   width: 100%;
   padding: 12px;
-  background: #E0E0E0;
-  color: #555;
+  background: var(--t-primary, #28A96B);
+  color: #fff;
   border: none;
   border-radius: 10px;
   font-family: var(--t-font-body, 'Poppins', sans-serif);

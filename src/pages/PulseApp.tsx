@@ -732,7 +732,7 @@ const PulseApp: React.FC = () => {
         {/* ── LOCATION ── */}
         {view === 'location' && (
           <>
-            <p className="pl__view-title">Location</p>
+            <p className="pl__view-title pl__loc-view-title">Location</p>
 
             {/* Map placeholder */}
             <div className="pl__loc-map-ph">
