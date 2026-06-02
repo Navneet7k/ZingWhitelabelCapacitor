@@ -303,14 +303,15 @@
 
 /* Add button — Figma: circular outline, border #D3BBAA, + icon #3F2D20 */
 .dn__dish-add {
-  width: 40px;
-  height: 40px;
-  border-radius: 50%;
-  background: transparent;
-  border: 1.5px solid #D3BBAA;
-  color: var(--t-text, #3F2D20);
-  font-size: 22px;
-  line-height: 1;
+  width: 100%;
+  border-radius: 10px;
+  background: var(--t-accent, #84BD93);
+  border: none;
+  color: #fff;
+  font-size: 13px;
+  font-weight: 600;
+  font-family: 'Poppins', sans-serif;
+  padding: 8px 0;
   display: flex;
   align-items: center;
   justify-content: center;

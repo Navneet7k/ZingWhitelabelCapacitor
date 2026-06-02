@@ -357,7 +357,7 @@ const DineApp: React.FC = () => {
                           <button
                             className="dn__dish-add"
                             onClick={e => { e.stopPropagation(); handleOrder(); }}
-                          >+</button>
+                          >Order</button>
                         </div>
                       ))}
                     </div>
