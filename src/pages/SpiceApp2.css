@@ -405,7 +405,7 @@
 }
 
 .sp2__ord-tab.active {
-  background: #5BBD6E;
+  background: var(--t-accent, #5BBD6E);
   color: #fff;
 }
 
