@@ -330,7 +330,11 @@ const PulseApp: React.FC = () => {
                         <p className="pl__ord-items">{o.items?.length ?? 0} Items</p>
                         <p className="pl__ord-price">${Number(o.total).toFixed(2)}</p>
                       </div>
-                      <button className="pl__ord-status-btn" onClick={() => setView('orders')}>
+                      <button className="pl__ord-status-btn" onClick={() => {
+                        const rid = getRestaurantId() ?? '';
+                        const token = getToken() ?? '';
+                        openWebView(`https://app.zingmyorder.com/orders-page/${rid}?token=${encodeURIComponent(token)}`, 'My Orders', template.colors.primary);
+                      }}>
                         Order Status | 🕐
                       </button>
                     </div>

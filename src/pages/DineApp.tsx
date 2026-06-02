@@ -327,7 +327,11 @@ const DineApp: React.FC = () => {
                           </div>
                           <button
                             className="dn__ord-status-btn"
-                            onClick={() => setView('orders')}
+                            onClick={() => {
+                              const rid = getRestaurantId() ?? '';
+                              const token = getToken() ?? '';
+                              openWebView(`https://app.zingmyorder.com/orders-page/${rid}?token=${encodeURIComponent(token)}`, 'My Orders', template.colors.primary);
+                            }}
                           >
                             Order Status | 🕐
                           </button>

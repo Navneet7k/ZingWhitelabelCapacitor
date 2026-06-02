@@ -364,7 +364,11 @@ const SpiceApp2: React.FC = () => {
                       </div>
                       <button
                         className="sp2__ord-status-btn"
-                        onClick={() => setView('orders')}
+                        onClick={() => {
+                          const rid = getRestaurantId() ?? '';
+                          const token = getToken() ?? '';
+                          openWebView(`https://app.zingmyorder.com/orders-page/${rid}?token=${encodeURIComponent(token)}`, 'My Orders', template.colors.primary);
+                        }}
                       >
                         Order Status | 🕐
                       </button>
