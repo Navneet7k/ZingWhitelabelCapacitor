@@ -153,7 +153,7 @@
 }
 
 .sp2__view-title {
-  margin: 18px 16px 12px;
+  margin: calc(env(safe-area-inset-top) + 18px) 16px 12px;
   font-size: 20px;
   font-weight: 800;
   color: var(--t-text, #fff);
@@ -768,7 +768,7 @@
 /* ── Account — profile hero ── */
 .sp2__profile-hero {
   background: var(--t-primary, #1B4D2E);
-  padding: 36px 20px 56px;
+  padding: calc(env(safe-area-inset-top) + 36px) 20px 56px;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -1102,7 +1102,7 @@
 /* ── Location screen ── */
 .sp2__loc-header {
   background: var(--t-primary, #1B4D2E);
-  padding: 14px 16px;
+  padding: calc(env(safe-area-inset-top) + 14px) 16px 14px;
   text-align: center;
   margin-bottom: 20px;
 }
