@@ -176,6 +176,23 @@
 .acc__template-emoji { font-size: 20px; }
 .acc__template-name { font-size: 10px; font-family: sans-serif; font-weight: 600; }
 
+/* ── FCM token section ── */
+.acc__fcm-section { padding: 0 16px 16px; }
+.acc__fcm-btn {
+  width: 100%;
+  padding: 13px;
+  border: 1px solid var(--t-border, rgba(0,0,0,0.1));
+  border-radius: var(--t-radius, 12px);
+  background: var(--t-surface, #fff);
+  font-family: var(--t-font-body, sans-serif);
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--t-text, #1A1A1A);
+  cursor: pointer;
+  transition: opacity 0.15s;
+}
+.acc__fcm-btn:active { opacity: 0.7; }
+
 /* ── Update status panel ── */
 .acc__update-panel {
   margin: 0 16px 8px;

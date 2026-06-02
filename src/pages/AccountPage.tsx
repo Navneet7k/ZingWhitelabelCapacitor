@@ -7,6 +7,7 @@ import { LOYALTY, RECENT_ORDERS } from '../config/mockData';
 import { getStatus, onStatusChange, applyIfReady, UpdateStatus } from '../services/updater';
 import { isRestaurantMode, getRestaurantName, getRestaurantId } from '../services/restaurantConfig';
 import { clearAuth, getToken, getSavedUser } from '../services/authApi';
+import { getSavedFcmToken } from '../services/fcmService';
 import { useHomeData } from '../context/HomeDataContext';
 import './AccountPage.css';
 
@@ -49,6 +50,7 @@ const AccountPage: React.FC<{ onSignOut?: () => void }> = ({ onSignOut }) => {
   const [showCustomize, setShowCustomize]   = useState(false);
   const [showDeleteConfirm, setShowDeleteConfirm] = useState(false);
   const [showDevOptions, setShowDevOptions] = useState(false);
+  const [copiedFcm, setCopiedFcm]           = useState(false);
 
   useEffect(() => { return onStatusChange(setUpdateStatus); }, []);
 
@@ -188,6 +190,25 @@ const AccountPage: React.FC<{ onSignOut?: () => void }> = ({ onSignOut }) => {
                     </button>
                   ))}
                 </div>
+              </div>
+            )}
+
+            {showDevOptions && !isRestaurantMode() && (
+              <div className="acc__fcm-section">
+                <h3 className="acc__template-title">FCM Token</h3>
+                <button
+                  className="acc__fcm-btn"
+                  onClick={() => {
+                    const token = getSavedFcmToken();
+                    if (!token) return;
+                    navigator.clipboard.writeText(token).then(() => {
+                      setCopiedFcm(true);
+                      setTimeout(() => setCopiedFcm(false), 2000);
+                    });
+                  }}
+                >
+                  {copiedFcm ? '✅ Copied!' : getSavedFcmToken() ? '📋 Copy FCM Token' : 'Token not available'}
+                </button>
               </div>
             )}
 
