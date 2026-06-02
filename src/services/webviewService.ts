@@ -109,8 +109,20 @@ export function openWebView(
     const overlay = showOverlay(title);
 
     import('@capgo/inappbrowser').then(async ({ InAppBrowser, ToolBarType }) => {
+      let overlayHidden = false;
+      const dismissOverlay = () => {
+        if (overlayHidden) return;
+        overlayHidden = true;
+        hideOverlay(overlay);
+      };
+
+      // Safety timeout — dismiss overlay after 15s if browserPageLoaded never fires.
+      const safetyTimer = setTimeout(dismissOverlay, 15000);
+
       const handle = await InAppBrowser.addListener('closeEvent', () => {
         _nativeBrowserOpen = false;
+        clearTimeout(safetyTimer);
+        dismissOverlay();
         handle.remove();
         onClose?.();
       });
@@ -120,7 +132,8 @@ export function openWebView(
         console.log('[WebView] URL changed →', url);
         if (url.includes('unauthorize/user')) {
           console.log('[WebView] Unauthorized — clearing auth and redirecting to login');
-          hideOverlay(overlay);
+          clearTimeout(safetyTimer);
+          dismissOverlay();
           InAppBrowser.close({}).catch(() => {});
           _nativeBrowserOpen = false;
           clearAuth();
@@ -128,8 +141,24 @@ export function openWebView(
         }
       });
 
+      // browserPageLoaded fires when the page finishes loading on both platforms.
+      // On iOS, openWebView() resolves immediately (before page loads), so we must
+      // wait for this event before dismissing the overlay — not the promise resolution.
+      await InAppBrowser.addListener('browserPageLoaded', () => {
+        clearTimeout(safetyTimer);
+        dismissOverlay();
+      });
+
+      await InAppBrowser.addListener('pageLoadError', () => {
+        clearTimeout(safetyTimer);
+        dismissOverlay();
+      });
+
       // isPresentAfterPageLoad: true — webview stays hidden until fully loaded,
       // then slides in. The overlay covers the wait so the user sees no white flash.
+      // NOTE: On iOS the promise resolves immediately on webview creation (before page
+      // load). On Android it resolves after first page load. We rely on browserPageLoaded
+      // for the dismiss signal on both platforms, so promise resolution is ignored here.
       await InAppBrowser.openWebView({
         url,
         title,
@@ -138,9 +167,6 @@ export function openWebView(
         showArrow:             true,
         isPresentAfterPageLoad: true,
       });
-
-      // Page has loaded — dismiss overlay and let InAppBrowser animate in.
-      hideOverlay(overlay);
     }).catch(e => {
       console.error('[WebView] InAppBrowser failed, falling back to iframe:', e);
       hideOverlay(overlay);
