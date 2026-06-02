@@ -1225,7 +1225,7 @@
   align-items: center;
   justify-content: center;
   gap: 8px;
-  background: var(--t-surface, #FFE2CD);
+  background: var(--t-accent, #FFE2CD);
   border: none;
   border-radius: 18px;
   padding: 16px 6px 14px;
