@@ -335,7 +335,7 @@
   width: calc(100% - 28px);
   margin: 0 14px 14px;
   padding: 14px;
-  background: #1A1A1A;
+  background: var(--t-bg, #1A1A1A);
   color: #fff;
   border: none;
   border-radius: 10px;
