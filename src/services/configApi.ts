@@ -3,13 +3,14 @@ import { getToken } from './authApi';
 const BASE_URL    = 'https://app.zingmyorder.com/api';
 const IMG_BASE    = 'https://app.zingmyorder.com/image/original/';
 const ORDER_BASE  = 'https://app.zingmyorder.com/order/eatery';
-const SLUG_KEY        = 'zing_restaurant_slug';
-const LOGO_KEY        = 'zing_restaurant_logo';
-const COLORS_KEY      = 'zing_config_colors';
-const PHONE_KEY       = 'zing_restaurant_phone';
-const ADDRESS_KEY     = 'zing_restaurant_address';
-const LOCATIONS_KEY   = 'zing_restaurant_locations';
+const SLUG_KEY         = 'zing_restaurant_slug';
+const LOGO_KEY         = 'zing_restaurant_logo';
+const COLORS_KEY       = 'zing_config_colors';
+const PHONE_KEY        = 'zing_restaurant_phone';
+const ADDRESS_KEY      = 'zing_restaurant_address';
+const LOCATIONS_KEY    = 'zing_restaurant_locations';
 const THEME_DESIGN_KEY = 'zing_theme_design';
+const ORDER_BUTTON_KEY = 'zing_order_button';
 
 export interface RestaurantLocation {
   text?:    string;
@@ -34,6 +35,7 @@ interface ApiConfigResponse {
     theme_design?: string;
     [key: string]: unknown;
   };
+  order_button?: string;
   [key: string]: unknown;
 }
 
@@ -56,6 +58,8 @@ export async function fetchRestaurantConfig(restaurantId: string): Promise<void>
     if (Array.isArray(locs) && locs.length > 0) localStorage.setItem(LOCATIONS_KEY, JSON.stringify(locs));
     const themeDesign = data?.app?.theme_design;
     if (themeDesign) localStorage.setItem(THEME_DESIGN_KEY, String(themeDesign));
+    const orderButton = data?.order_button;
+    if (orderButton) localStorage.setItem(ORDER_BUTTON_KEY, String(orderButton));
   } catch { /* non-critical */ }
 }
 
@@ -98,6 +102,13 @@ export function getRestaurantLocations(): RestaurantLocation[] {
     const raw = localStorage.getItem(LOCATIONS_KEY);
     return raw ? JSON.parse(raw) : [];
   } catch { return []; }
+}
+
+export function getOrderButtonUrl(): string | null {
+  const base = localStorage.getItem(ORDER_BUTTON_KEY);
+  if (!base) return null;
+  const token = getToken();
+  return token ? `${base}?token=${encodeURIComponent(token)}` : base;
 }
 
 export function getOrderUrl(): string | null {
