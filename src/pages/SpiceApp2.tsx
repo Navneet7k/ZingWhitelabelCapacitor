@@ -702,12 +702,6 @@ const SpiceApp2: React.FC = () => {
                   ? `v${(updateStatus as any).version} downloaded — tap to install`
                   : updateStatusLabel(updateStatus).text}
               </p>
-              {updateStatus.state === 'ready' && (
-                <button
-                  style={{ padding: '8px 16px', background: template.colors.primary, color: '#fff', border: 'none', borderRadius: 8, fontSize: 13, fontWeight: 700, cursor: 'pointer' }}
-                  onClick={() => applyIfReady()}
-                >Apply Update Now</button>
-              )}
             </div>
 
             {showDevOptions && (<>

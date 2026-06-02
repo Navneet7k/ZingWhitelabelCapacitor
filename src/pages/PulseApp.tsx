@@ -709,11 +709,6 @@ const PulseApp: React.FC = () => {
                   ? `v${(updateStatus as any).version} downloaded — tap to install`
                   : updateStatusLabel(updateStatus).text}
               </p>
-              {updateStatus.state === 'ready' && (
-                <button className="pl__cta" style={{ marginTop: 8 }} onClick={() => applyIfReady()}>
-                  Apply Update Now
-                </button>
-              )}
             </div>
 
             {showDevOptions && (<>
