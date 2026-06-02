@@ -276,8 +276,8 @@
   padding: 7px 18px;
   border-radius: 8px;
   border: none;
-  background: #fff;
-  color: #333;
+  background: var(--t-primary, #28A96B);
+  color: #fff;
   font-family: var(--t-font-body, 'Poppins', sans-serif);
   font-size: 13px;
   font-weight: 600;
@@ -906,13 +906,13 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  color: #bbb;
+  color: var(--t-primary, #28A96B);
   transition: background 0.2s, color 0.2s;
 }
 .pl__nav-label {
   font-family: var(--t-font-body, 'Poppins', sans-serif);
   font-size: 10px;
-  color: #aaa;
+  color: var(--t-primary, #28A96B);
   transition: color 0.2s;
 }
 .pl__nav-btn.active .pl__nav-icon {
