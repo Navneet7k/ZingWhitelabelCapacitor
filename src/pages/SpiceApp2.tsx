@@ -763,7 +763,11 @@ const SpiceApp2: React.FC = () => {
                   {loc.url && (
                     <button
                       className="sp2__loc-order-btn"
-                      onClick={() => openWebView(loc.url!, 'Order Now', template.colors.primary)}
+                      onClick={() => {
+                        const token = getToken();
+                        const url = token ? `${loc.url}?token=${encodeURIComponent(token)}` : loc.url!;
+                        openWebView(url, 'Order Now', template.colors.primary);
+                      }}
                     >Order Now</button>
                   )}
                 </div>
