@@ -798,7 +798,7 @@ const PulseApp: React.FC = () => {
                   <button
                     className="pl__loc-order-btn"
                     onClick={() => {
-                      if (loc.url) {
+                      if (locations.length > 1 && loc.url) {
                         const token = getToken();
                         const url = token ? `${loc.url}?token=${encodeURIComponent(token)}` : loc.url;
                         openWebView(url, 'Order Online', template.colors.primary);

@@ -760,13 +760,17 @@ const SpiceApp2: React.FC = () => {
                       <p className="sp2__loc-detail-text">{loc.email}</p>
                     </div>
                   )}
-                  {loc.url && (
+                  {(loc.url || locations.length === 1) && (
                     <button
                       className="sp2__loc-order-btn"
                       onClick={() => {
-                        const token = getToken();
-                        const url = token ? `${loc.url}?token=${encodeURIComponent(token)}` : loc.url!;
-                        openWebView(url, 'Order Now', template.colors.primary);
+                        if (locations.length > 1 && loc.url) {
+                          const token = getToken();
+                          const url = token ? `${loc.url}?token=${encodeURIComponent(token)}` : loc.url!;
+                          openWebView(url, 'Order Now', template.colors.primary);
+                        } else {
+                          handleOrder();
+                        }
                       }}
                     >Order Now</button>
                   )}
