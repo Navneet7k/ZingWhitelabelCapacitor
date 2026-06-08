@@ -58,7 +58,7 @@ const CafeApp: React.FC = () => {
   const [updateStatus, setUpdateStatus] = useState<UpdateStatus>(getStatus);
   useEffect(() => onStatusChange(setUpdateStatus), []);
   useEffect(() => {
-    const handler = () => setView('account');
+    const handler = () => setActiveSheet('account');
     window.addEventListener('zing:auth-required', handler);
     return () => window.removeEventListener('zing:auth-required', handler);
   }, []);

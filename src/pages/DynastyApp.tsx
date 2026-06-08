@@ -58,7 +58,7 @@ const DynastyApp: React.FC = () => {
   const [updateStatus, setUpdateStatus] = useState<UpdateStatus>(getStatus);
   useEffect(() => onStatusChange(setUpdateStatus), []);
   useEffect(() => {
-    const handler = () => setView('account');
+    const handler = () => { setSheetTab('account'); setSheetOpen(true); };
     window.addEventListener('zing:auth-required', handler);
     return () => window.removeEventListener('zing:auth-required', handler);
   }, []);
