@@ -92,9 +92,14 @@ const DineApp: React.FC = () => {
   const [regLoading, setRegLoading]             = useState(false);
 
   useEffect(() => {
-    const handler = () => { setAuthUser(null); setView('account'); };
-    window.addEventListener('zing:force-logout', handler);
-    return () => window.removeEventListener('zing:force-logout', handler);
+    const forceLogout = () => { setAuthUser(null); setView('account'); };
+    const authRequired = () => setView('account');
+    window.addEventListener('zing:force-logout', forceLogout);
+    window.addEventListener('zing:auth-required', authRequired);
+    return () => {
+      window.removeEventListener('zing:force-logout', forceLogout);
+      window.removeEventListener('zing:auth-required', authRequired);
+    };
   }, []);
   const galleryRef  = useRef<HTMLDivElement>(null);
   const featTouchX  = useRef(0);

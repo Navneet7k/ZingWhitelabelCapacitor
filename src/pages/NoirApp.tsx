@@ -53,6 +53,11 @@ const NoirApp: React.FC = () => {
   const [showDeleteConfirm, setShowDeleteConfirm] = useState(false);
   const [updateStatus, setUpdateStatus] = useState<UpdateStatus>(getStatus);
   useEffect(() => onStatusChange(setUpdateStatus), []);
+  useEffect(() => {
+    const handler = () => setView('account');
+    window.addEventListener('zing:auth-required', handler);
+    return () => window.removeEventListener('zing:auth-required', handler);
+  }, []);
 
   const restaurantId   = getRestaurantId();
   const restaurantName = safe(getRestaurantName(), 'Noir');

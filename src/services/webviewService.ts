@@ -1,5 +1,5 @@
 import { Capacitor } from '@capacitor/core';
-import { clearAuth } from './authApi';
+import { clearAuth, isLoggedIn } from './authApi';
 
 type OpenEvent = { url: string; title: string; onClose?: () => void };
 type Listener = (event: OpenEvent | null) => void;
@@ -102,6 +102,11 @@ export function openWebView(
   toolbarColor?: string,
   onClose?: () => void,
 ): void {
+  if (!isLoggedIn()) {
+    window.dispatchEvent(new CustomEvent('zing:auth-required'));
+    return;
+  }
+
   console.log(`[WebView] Opening — title: "${title}" | url: ${url}`);
 
   if (Capacitor.isNativePlatform()) {

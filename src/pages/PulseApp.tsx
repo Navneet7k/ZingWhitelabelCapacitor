@@ -132,6 +132,11 @@ const PulseApp: React.FC = () => {
   const [updateStatus, setUpdateStatus] = useState<UpdateStatus>(getStatus);
   const [orderTab, setOrderTab]      = useState<'current' | 'past' | 'favorite'>('current');
   useEffect(() => onStatusChange(setUpdateStatus), []);
+  useEffect(() => {
+    const handler = () => setView('account');
+    window.addEventListener('zing:auth-required', handler);
+    return () => window.removeEventListener('zing:auth-required', handler);
+  }, []);
 
   const restaurantId      = getRestaurantId();
   const restaurantName    = safe(getRestaurantName(), 'Nice Food');

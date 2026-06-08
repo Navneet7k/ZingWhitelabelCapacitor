@@ -63,6 +63,11 @@ const PiazzaApp: React.FC = () => {
   const [activeGalleryIndex, setGalleryIndex] = useState(0);
   const [updateStatus, setUpdateStatus] = useState<UpdateStatus>(getStatus);
   useEffect(() => onStatusChange(setUpdateStatus), []);
+  useEffect(() => {
+    const handler = () => setView('account');
+    window.addEventListener('zing:auth-required', handler);
+    return () => window.removeEventListener('zing:auth-required', handler);
+  }, []);
   const galleryRef = useRef<HTMLDivElement>(null);
 
   const restaurantId    = getRestaurantId();

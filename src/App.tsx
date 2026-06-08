@@ -292,6 +292,13 @@ const AppInner: React.FC = () => {
     };
     document.addEventListener('touchstart', onUserTouch, { passive: true });
 
+    // Redirect to account/login when a WebView is blocked due to missing auth
+    const onAuthRequired = () => {
+      const accountTab = document.querySelector('ion-tab-button[tab="account"]') as HTMLElement;
+      accountTab?.click();
+    };
+    window.addEventListener('zing:auth-required', onAuthRequired);
+
     // ── Fallback poll — catches updates when app is idle (no taps) ────────
     const CONFIG_POLL_MS = 60 * 1000;
     const configPoll = setInterval(() => {
@@ -339,6 +346,7 @@ const AppInner: React.FC = () => {
       clearInterval(pollInterval);
       document.removeEventListener('visibilitychange', onVisibility);
       document.removeEventListener('touchstart', onUserTouch);
+      window.removeEventListener('zing:auth-required', onAuthRequired);
     };
   }, []);
 
