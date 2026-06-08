@@ -439,7 +439,6 @@ const SpiceApp: React.FC = () => {
             {recentOrders.length > 0 ? (
               recentOrders.map(o => (
                 <div key={o.id} className="sp__order-row">
-                  <span className="sp__order-row-emoji">{safe(o.statusEmoji, '📦')}</span>
                   <div className="sp__order-row-detail">
                     <p className="sp__order-row-id">{safe(String(o.id))}</p>
                     <p className="sp__order-row-date">{safe(o.date)}</p>
@@ -453,7 +452,7 @@ const SpiceApp: React.FC = () => {
                 </div>
               ))
             ) : (
-              <p className="sp__empty">No orders yet 🌶️</p>
+              <p className="sp__empty">No orders so far. Place your first order!</p>
             )}
             <div style={{ height: 12 }} />
             <button className="sp__cta" onClick={handleOrder}>Place New Order</button>

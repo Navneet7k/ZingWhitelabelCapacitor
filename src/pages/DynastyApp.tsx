@@ -305,7 +305,6 @@ const DynastyApp: React.FC = () => {
                 {(homeData?.recentOrders?.length ?? 0) > 0 ? (
                   homeData!.recentOrders.slice(0, 5).map(order => (
                     <div key={order.id} className="dyn__sheet-order-row">
-                      <span className="dyn__sheet-order-emoji">{order.statusEmoji}</span>
                       <div className="dyn__sheet-order-detail">
                         <p className="dyn__sheet-order-id">{order.id}</p>
                         <p className="dyn__sheet-order-date">{order.date}</p>
@@ -317,7 +316,7 @@ const DynastyApp: React.FC = () => {
                     </div>
                   ))
                 ) : (
-                  <p className="dyn__sheet-empty">No orders yet 🏮</p>
+                  <p className="dyn__sheet-empty">No orders so far. Place your first order!</p>
                 )}
                 <button className="dyn__sheet-cta" onClick={() => { setSheetOpen(false); handleOrder(); }}>
                   Place New Order

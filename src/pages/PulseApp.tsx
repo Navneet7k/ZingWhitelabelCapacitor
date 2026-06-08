@@ -442,7 +442,6 @@ const PulseApp: React.FC = () => {
             {recentOrders.length > 0
               ? recentOrders.map(o => (
                   <div key={o.id} className="pl__order-row">
-                    <span className="pl__order-emoji">{safe(o.statusEmoji, '📦')}</span>
                     <div className="pl__order-detail">
                       <p className="pl__order-id">{safe(o.id)}</p>
                       <p className="pl__order-date">{safe(o.date)}</p>
@@ -455,7 +454,7 @@ const PulseApp: React.FC = () => {
                     </div>
                   </div>
                 ))
-              : <p className="pl__empty">No orders yet 🛒</p>
+              : <p className="pl__empty">No orders so far. Place your first order!</p>
             }
             <div style={{ height: 12 }} />
             <button className="pl__cta" onClick={handleOrder}>Place New Order</button>

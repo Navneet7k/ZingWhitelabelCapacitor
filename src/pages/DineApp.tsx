@@ -525,7 +525,6 @@ const DineApp: React.FC = () => {
                 {recentOrders.length > 0
                   ? recentOrders.map(o => (
                       <div key={o.id} className="dn__order-row">
-                        <span className="dn__order-emoji">{safe(o.statusEmoji, '📦')}</span>
                         <div className="dn__order-info">
                           <p className="dn__order-id">{safe(o.id)}</p>
                           <p className="dn__order-date">{safe(o.date)}</p>
@@ -538,7 +537,7 @@ const DineApp: React.FC = () => {
                         </div>
                       </div>
                     ))
-                  : <p className="dn__empty">No orders yet</p>
+                  : <p className="dn__empty">No orders so far. Place your first order!</p>
                 }
                 <button className="dn__cta" onClick={handleOrder}>Place New Order</button>
                 <div style={{ height: 20 }} />

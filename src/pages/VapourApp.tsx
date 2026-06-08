@@ -193,7 +193,6 @@ const VapourApp: React.FC = () => {
                 <p className="vp__section-label">Recent Orders</p>
                 {recentOrders.slice(0, 2).map(o => (
                   <div key={o.id} className="vp__order-row">
-                    <span className="vp__order-emoji">{safe(o.statusEmoji, '📦')}</span>
                     <div className="vp__order-detail">
                       <p className="vp__order-id">{safe(o.id)}</p>
                       <p className="vp__order-date">{safe(o.date)}</p>
@@ -276,7 +275,6 @@ const VapourApp: React.FC = () => {
             {recentOrders.length > 0
               ? recentOrders.map(o => (
                   <div key={o.id} className="vp__order-row">
-                    <span className="vp__order-emoji">{safe(o.statusEmoji, '📦')}</span>
                     <div className="vp__order-detail">
                       <p className="vp__order-id">{safe(o.id)}</p>
                       <p className="vp__order-date">{safe(o.date)}</p>
@@ -289,7 +287,7 @@ const VapourApp: React.FC = () => {
                     </div>
                   </div>
                 ))
-              : <p className="vp__empty">No orders yet ⚡</p>
+              : <p className="vp__empty">No orders so far. Place your first order!</p>
             }
             <div style={{ height: 16 }} />
             <button className="vp__cta" onClick={handleOrder}>Place New Order</button>

@@ -380,7 +380,6 @@ const PiazzaApp: React.FC = () => {
             {recentOrders.length > 0
               ? recentOrders.map(o => (
                   <div key={o.id} className="pz__order-row">
-                    <span className="pz__order-emoji">{safe(o.statusEmoji, '📦')}</span>
                     <div className="pz__order-info">
                       <p className="pz__order-id">{safe(o.id)}</p>
                       <p className="pz__order-date">{safe(o.date)}</p>
@@ -393,7 +392,7 @@ const PiazzaApp: React.FC = () => {
                     </div>
                   </div>
                 ))
-              : <p className="pz__empty">No orders yet 🌿</p>
+              : <p className="pz__empty">No orders so far. Place your first order!</p>
             }
             <button className="pz__cta" onClick={handleOrder}>Place New Order</button>
             <div style={{ height: 20 }} />

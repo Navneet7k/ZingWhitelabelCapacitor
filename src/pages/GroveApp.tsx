@@ -210,7 +210,6 @@ const GroveApp: React.FC = () => {
                 <p className="gv__section-label">Recent Orders</p>
                 {recentOrders.slice(0, 2).map(o => (
                   <div key={o.id} className="gv__order-row">
-                    <span className="gv__order-emoji">{safe(o.statusEmoji, '📦')}</span>
                     <div className="gv__order-detail">
                       <p className="gv__order-id">{safe(o.id)}</p>
                       <p className="gv__order-date">{safe(o.date)}</p>
@@ -295,7 +294,6 @@ const GroveApp: React.FC = () => {
             {recentOrders.length > 0
               ? recentOrders.map(o => (
                   <div key={o.id} className="gv__order-row">
-                    <span className="gv__order-emoji">{safe(o.statusEmoji, '📦')}</span>
                     <div className="gv__order-detail">
                       <p className="gv__order-id">{safe(o.id)}</p>
                       <p className="gv__order-date">{safe(o.date)}</p>
@@ -308,7 +306,7 @@ const GroveApp: React.FC = () => {
                     </div>
                   </div>
                 ))
-              : <p className="gv__empty">No orders yet 🌿</p>
+              : <p className="gv__empty">No orders so far. Place your first order!</p>
             }
             <div style={{ height: 12 }} />
             <button className="gv__cta" onClick={handleOrder}>Place New Order</button>

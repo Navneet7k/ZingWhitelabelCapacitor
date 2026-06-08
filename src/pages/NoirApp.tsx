@@ -254,7 +254,7 @@ const NoirApp: React.FC = () => {
                     </div>
                   </div>
                 ))
-              : <p className="nr__empty">No orders yet 🎭</p>
+              : <p className="nr__empty">No orders so far. Place your first order!</p>
             }
             <div style={{ height: 16 }} />
             <button className="nr__cta" onClick={handleOrder}>Place New Order</button>

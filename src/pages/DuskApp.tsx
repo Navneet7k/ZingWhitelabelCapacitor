@@ -179,7 +179,6 @@ const DuskApp: React.FC = () => {
                 <p className="dk__section-label">Recent Orders</p>
                 {recentOrders.slice(0, 2).map(o => (
                   <div key={o.id} className="dk__order-card">
-                    <span className="dk__order-emoji">{safe(o.statusEmoji, '📦')}</span>
                     <div className="dk__order-info">
                       <p className="dk__order-id">{safe(o.id)}</p>
                       <p className="dk__order-date">{safe(o.date)}</p>
@@ -268,7 +267,6 @@ const DuskApp: React.FC = () => {
             {recentOrders.length > 0
               ? recentOrders.map(o => (
                   <div key={o.id} className="dk__order-card">
-                    <span className="dk__order-emoji">{safe(o.statusEmoji, '📦')}</span>
                     <div className="dk__order-info">
                       <p className="dk__order-id">{safe(o.id)}</p>
                       <p className="dk__order-date">{safe(o.date)}</p>
@@ -281,7 +279,7 @@ const DuskApp: React.FC = () => {
                     </div>
                   </div>
                 ))
-              : <p className="dk__empty">No orders yet 🌅</p>
+              : <p className="dk__empty">No orders so far. Place your first order!</p>
             }
             <div style={{ height: 16 }} />
             <button className="dk__cta" onClick={handleOrder}>Place New Order</button>

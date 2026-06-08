@@ -363,7 +363,6 @@ const CafeApp: React.FC = () => {
               <div className="cafe__sheet-orders">
                 {homeData!.recentOrders.slice(0, 5).map(order => (
                   <div key={order.id} className="cafe__sheet-order-row">
-                    <span className="cafe__sheet-order-emoji">{order.statusEmoji}</span>
                     <div className="cafe__sheet-order-detail">
                       <p className="cafe__sheet-order-id">{order.id}</p>
                       <p className="cafe__sheet-order-date">{order.date}</p>
@@ -378,7 +377,7 @@ const CafeApp: React.FC = () => {
                 ))}
               </div>
             ) : (
-              <p className="cafe__sheet-empty">No orders yet. Time to brew something! ☕</p>
+              <p className="cafe__sheet-empty">No orders so far. Place your first order!</p>
             )}
             <button className="cafe__sheet-cta" onClick={() => { setActiveSheet(null); handleOrder(); }}>
               Place New Order

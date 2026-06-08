@@ -217,7 +217,6 @@ const FloatApp: React.FC = () => {
                 <p className="fl__section-label">Recent Orders</p>
                 {homeData!.recentOrders.slice(0, 2).map(o => (
                   <div key={o.id} className="fl__glass-card fl__order-row">
-                    <span className="fl__order-emoji">{o.statusEmoji}</span>
                     <div className="fl__order-detail">
                       <p className="fl__order-id">{o.id}</p>
                       <p className="fl__order-date">{o.date}</p>
@@ -297,7 +296,6 @@ const FloatApp: React.FC = () => {
             {(homeData?.recentOrders?.length ?? 0) > 0 ? (
               homeData!.recentOrders.map(o => (
                 <div key={o.id} className="fl__glass-card fl__order-row fl__order-row--full">
-                  <span className="fl__order-emoji">{o.statusEmoji}</span>
                   <div className="fl__order-detail">
                     <p className="fl__order-id">{o.id}</p>
                     <p className="fl__order-date">{o.date}</p>
@@ -309,7 +307,7 @@ const FloatApp: React.FC = () => {
                 </div>
               ))
             ) : (
-              <p className="fl__empty">No orders yet 🔮</p>
+              <p className="fl__empty">No orders so far. Place your first order!</p>
             )}
             <button className="fl__cta-btn" onClick={handleOrder}>
               Place New Order

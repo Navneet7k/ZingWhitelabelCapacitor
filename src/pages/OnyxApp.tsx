@@ -477,7 +477,6 @@ const OnyxApp: React.FC = () => {
                 {recentOrders.length > 0
                   ? recentOrders.map(o => (
                       <div key={o.id} className="ox__order-row">
-                        <span className="ox__order-emoji">{safe(o.statusEmoji, '📦')}</span>
                         <div className="ox__order-info">
                           <p className="ox__order-id">{safe(o.id)}</p>
                           <p className="ox__order-date">{safe(o.date)}</p>
@@ -490,7 +489,7 @@ const OnyxApp: React.FC = () => {
                         </div>
                       </div>
                     ))
-                  : <p className="ox__empty">No orders yet</p>
+                  : <p className="ox__empty">No orders so far. Place your first order!</p>
                 }
                 <button className="ox__cta" onClick={handleOrder}>Place New Order</button>
                 <div style={{ height: 20 }} />
