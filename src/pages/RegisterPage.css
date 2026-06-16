@@ -230,3 +230,38 @@
 
 .register--rustic .register__card  { border-radius: 8px; border: 1.5px solid var(--t-border); box-shadow: none; }
 .register--rustic .register__btn   { border-radius: 6px; }
+.register--rustic .register__input { color: #3E1F00; background: #fff; }
+.register--rustic .register__label { color: #3E1F00; }
+
+.register--fresh .register__input { color: #1A1A1A; background: #fff; }
+.register--fresh .register__label { color: #1A1A1A; }
+
+.register--zen .register__input { color: #2D2D2D; }
+.register--zen .register__label { color: #2D2D2D; }
+
+.register--ocean .register__input { color: #1A2F3E; background: #fff; }
+.register--ocean .register__label { color: #1A2F3E; }
+
+.register--blossom .register__input { color: #2D1B2D; background: #fff; }
+.register--blossom .register__label { color: #2D1B2D; }
+
+.register--retro .register__input { color: #1A0A00; background: #fff; }
+.register--retro .register__label { color: #1A0A00; }
+
+.register--tropical .register__input { color: #2D1F0E; background: #fff; }
+.register--tropical .register__label { color: #2D1F0E; }
+
+.register--brew .register__input { color: #1A0E0A; background: #fff; }
+.register--brew .register__label { color: #1A0E0A; }
+
+.register--piazza .register__input { color: #1A1A1A; background: #fff; }
+.register--piazza .register__label { color: #1A1A1A; }
+
+.register--dine .register__input { color: #3F2D20; background: #fff; }
+.register--dine .register__label { color: #3F2D20; }
+
+.register--pulse .register__input { color: #1A1A1A; background: #fff; }
+.register--pulse .register__label { color: #1A1A1A; }
+
+.register--grove .register__input { color: #1A2E1A; background: #fff; }
+.register--grove .register__label { color: #1A2E1A; }

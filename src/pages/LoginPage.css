@@ -237,3 +237,38 @@
 
 .login--rustic .login__card  { border-radius: 8px; border: 1.5px solid var(--t-border); box-shadow: none; }
 .login--rustic .login__btn   { border-radius: 6px; }
+.login--rustic .login__input { color: #3E1F00; background: #fff; }
+.login--rustic .login__label { color: #3E1F00; }
+
+.login--fresh .login__input { color: #1A1A1A; background: #fff; }
+.login--fresh .login__label { color: #1A1A1A; }
+
+.login--zen .login__input { color: #2D2D2D; }
+.login--zen .login__label { color: #2D2D2D; }
+
+.login--ocean .login__input { color: #1A2F3E; background: #fff; }
+.login--ocean .login__label { color: #1A2F3E; }
+
+.login--blossom .login__input { color: #2D1B2D; background: #fff; }
+.login--blossom .login__label { color: #2D1B2D; }
+
+.login--retro .login__input { color: #1A0A00; background: #fff; }
+.login--retro .login__label { color: #1A0A00; }
+
+.login--tropical .login__input { color: #2D1F0E; background: #fff; }
+.login--tropical .login__label { color: #2D1F0E; }
+
+.login--brew .login__input { color: #1A0E0A; background: #fff; }
+.login--brew .login__label { color: #1A0E0A; }
+
+.login--piazza .login__input { color: #1A1A1A; background: #fff; }
+.login--piazza .login__label { color: #1A1A1A; }
+
+.login--dine .login__input { color: #3F2D20; background: #fff; }
+.login--dine .login__label { color: #3F2D20; }
+
+.login--pulse .login__input { color: #1A1A1A; background: #fff; }
+.login--pulse .login__label { color: #1A1A1A; }
+
+.login--grove .login__input { color: #1A2E1A; background: #fff; }
+.login--grove .login__label { color: #1A2E1A; }
