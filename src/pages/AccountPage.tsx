@@ -122,7 +122,7 @@ const AccountPage: React.FC<{ onSignOut?: () => void }> = ({ onSignOut }) => {
               ))}
             </div>
 
-            {showDevOptions && !isRestaurantMode() && (
+            {showDevOptions && (
               <div className="acc__template-section">
                 <h3 className="acc__template-title">App Template</h3>
                 <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', margin: '0 0 12px', padding: '10px 12px', background: 'rgba(128,128,128,0.08)', borderRadius: 10 }}>
