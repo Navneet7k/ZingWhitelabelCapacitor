@@ -211,6 +211,12 @@ const AccountGate: React.FC = () => {
 
   const updateView = (v: AuthView) => { _authView = v; setView(v); };
 
+  useEffect(() => {
+    const handler = () => updateView('login');
+    window.addEventListener('zing:force-logout', handler);
+    return () => window.removeEventListener('zing:force-logout', handler);
+  }, []);
+
   if (view === 'login')    return <LoginPage    onLogin={() => updateView('profile')} onRegister={() => updateView('register')} />;
   if (view === 'register') return <RegisterPage onRegister={() => updateView('profile')} onBack={() => updateView('login')} />;
   return <AccountPage onSignOut={() => updateView('login')} />;
@@ -297,7 +303,13 @@ const AppInner: React.FC = () => {
       const accountTab = document.querySelector('ion-tab-button[tab="account"]') as HTMLElement;
       accountTab?.click();
     };
+    const onForceLogout = () => {
+      _authView = 'login';
+      const accountTab = document.querySelector('ion-tab-button[tab="account"]') as HTMLElement;
+      accountTab?.click();
+    };
     window.addEventListener('zing:auth-required', onAuthRequired);
+    window.addEventListener('zing:force-logout', onForceLogout);
 
     // ── Fallback poll — catches updates when app is idle (no taps) ────────
     const CONFIG_POLL_MS = 60 * 1000;
@@ -347,6 +359,7 @@ const AppInner: React.FC = () => {
       document.removeEventListener('visibilitychange', onVisibility);
       document.removeEventListener('touchstart', onUserTouch);
       window.removeEventListener('zing:auth-required', onAuthRequired);
+      window.removeEventListener('zing:force-logout', onForceLogout);
     };
   }, []);
 

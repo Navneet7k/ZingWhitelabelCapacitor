@@ -62,8 +62,13 @@ const VapourApp: React.FC = () => {
   useEffect(() => onStatusChange(setUpdateStatus), []);
   useEffect(() => {
     const handler = () => setView('account');
+    const forceLogout = () => { setAuthUser(null); setView('account'); };
     window.addEventListener('zing:auth-required', handler);
-    return () => window.removeEventListener('zing:auth-required', handler);
+    window.addEventListener('zing:force-logout', forceLogout);
+    return () => {
+      window.removeEventListener('zing:auth-required', handler);
+      window.removeEventListener('zing:force-logout', forceLogout);
+    };
   }, []);
 
   const restaurantId   = getRestaurantId();
