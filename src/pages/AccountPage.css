@@ -387,11 +387,10 @@
 [data-template="dine"] .acc__restaurant-panel     { --t-surface:#FFFFFF; --t-text:#3F2D20; --t-text-muted:#8B6B4A; }
 [data-template="pulse"] .acc__update-panel,
 [data-template="pulse"] .acc__fcm-btn,
-[data-template="pulse"] .acc__restaurant-panel    { --t-surface:#FFFFFF; --t-text:#1A1A1A; --t-text-muted:#666666; }
+[data-template="pulse"] .acc__restaurant-panel    { --t-surface:#FFFFFF; --t-text:#1A1A1A; --t-text-muted:#666666; background: #FFFFFF !important; }
 [data-template="pulse"] .acc__update-title,
-[data-template="pulse"] .acc__update-text,
 [data-template="pulse"] .acc__fcm-btn,
-[data-template="pulse"] .acc__restaurant-name     { color: #1A1A1A; }
+[data-template="pulse"] .acc__restaurant-name     { color: #1A1A1A !important; }
 [data-template="grove"] .acc__update-panel,
 [data-template="grove"] .acc__fcm-btn,
 [data-template="grove"] .acc__restaurant-panel    { --t-surface:#FFFFFF; --t-text:#1A2E1A; --t-text-muted:#6B7C6B; }
