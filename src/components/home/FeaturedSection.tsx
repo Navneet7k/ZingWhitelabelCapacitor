@@ -2,7 +2,11 @@ import React, { createContext, useContext } from 'react';
 import { useTemplate } from '../../context/TemplateContext';
 import { useHomeData } from '../../context/HomeDataContext';
 import type { GalleryItem } from '../../services/homeApi';
+import { getOrderUrl } from '../../services/configApi';
+import { openWebView } from '../../services/webviewService';
 import './FeaturedSection.css';
+
+const openOrder = () => { const url = getOrderUrl(); if (url) openWebView(url, 'Place Order', '#1A1A1A'); };
 
 const FeaturedCtx = createContext<GalleryItem[]>([]);
 
@@ -113,7 +117,7 @@ const FiestaFeatured: React.FC = () => {
       <h2 className="section-title feat-title--fiesta">Featured Picks 🌟</h2>
       <div className="feat-scroll feat-scroll--fiesta">
         {items.map((item, i) => (
-          <div key={item.id} className="feat-card feat-card--fiesta" style={{ animationDelay: `${i * 0.06}s` }}>
+          <div key={item.id} className="feat-card feat-card--fiesta" style={{ animationDelay: `${i * 0.06}s`, cursor: 'pointer' }} onClick={openOrder}>
             <FiestaImg src={item.url} cls="feat-card__img" />
             <span className="feat-card--fiesta__badge">{BADGES[i % BADGES.length]}</span>
           </div>

@@ -3,7 +3,11 @@ import { POPULAR_DISHES as MOCK_DISHES } from '../../config/mockData';
 import { useTemplate } from '../../context/TemplateContext';
 import { useHomeData } from '../../context/HomeDataContext';
 import type { Dish } from '../../services/homeApi';
+import { getOrderUrl } from '../../services/configApi';
+import { openWebView } from '../../services/webviewService';
 import './PopularDishesSection.css';
+
+const openOrder = () => { const url = getOrderUrl(); if (url) openWebView(url, 'Place Order', '#1A1A1A'); };
 
 const DishesCtx = createContext<Dish[]>(MOCK_DISHES);
 
@@ -154,7 +158,7 @@ const FiestaDishes: React.FC = () => {
       <h2 className="section-title">Popular Dishes 🍽️</h2>
       <div className="fiesta-dishes__track">
         {POPULAR_DISHES.map((dish, i) => (
-          <div key={dish.id} className="fiesta-dish-card" style={{ animationDelay: `${i * 0.07}s` }}>
+          <div key={dish.id} className="fiesta-dish-card" style={{ animationDelay: `${i * 0.07}s`, cursor: 'pointer' }} onClick={openOrder}>
             <FiestaImg src={dish.image} alt={dish.name} cls="fiesta-dish-card__img" />
             <div className="fiesta-dish-card__gradient" style={{ background: FIESTA_GRADIENTS[i % FIESTA_GRADIENTS.length] }} />
             <div className="fiesta-dish-card__content">

@@ -3,7 +3,11 @@ import { GALLERY_ITEMS as MOCK_GALLERY } from '../../config/mockData';
 import { useTemplate } from '../../context/TemplateContext';
 import { useHomeData } from '../../context/HomeDataContext';
 import type { GalleryItem } from '../../services/homeApi';
+import { getOrderUrl } from '../../services/configApi';
+import { openWebView } from '../../services/webviewService';
 import './GallerySection.css';
+
+const openOrder = () => { const url = getOrderUrl(); if (url) openWebView(url, 'Place Order', '#1A1A1A'); };
 
 const GalleryCtx = createContext<GalleryItem[]>(MOCK_GALLERY);
 
@@ -130,9 +134,9 @@ const FiestaGallery: React.FC = () => {
       <h2 className="section-title">Our Gallery 📸</h2>
       <div className="fiesta-gallery">
         {GALLERY_ITEMS.map((item, i) => (
-          <div key={item.id} className="fiesta-gallery__tile" style={{ animationDelay: `${i * 0.06}s` }}>
+          <div key={item.id} className="fiesta-gallery__tile" style={{ animationDelay: `${i * 0.06}s`, cursor: 'pointer' }} onClick={openOrder}>
             <FiestaImg src={item.url} height="110px" />
-            <button className={`fiesta-gallery__like ${liked.has(item.id) ? 'liked' : ''}`} onClick={() => toggle(item.id)}>
+            <button className={`fiesta-gallery__like ${liked.has(item.id) ? 'liked' : ''}`} onClick={e => { e.stopPropagation(); toggle(item.id); }}>
               {liked.has(item.id) ? '❤️' : '🤍'}
             </button>
           </div>
