@@ -46,7 +46,7 @@ const LuxeGallery: React.FC = () => {
       <h2 className="section-title">Our Gallery</h2>
       <div className="luxe-gallery">
         {GALLERY_ITEMS.map((item, i) => (
-          <div key={item.id} className="luxe-gallery__tile" style={{ animationDelay: `${i * 0.07}s` }}>
+          <div key={item.id} className="luxe-gallery__tile" style={{ animationDelay: `${i * 0.07}s`, cursor: 'pointer' }} onClick={openOrder}>
             <img src={item.url} alt="" style={{ aspectRatio: item.aspect }} />
           </div>
         ))}
@@ -62,7 +62,7 @@ const FreshGallery: React.FC = () => {
       <h2 className="section-title">Our Gallery</h2>
       <div className="fresh-gallery">
         {GALLERY_ITEMS.map((item, i) => (
-          <div key={item.id} className={`fresh-gallery__tile stagger-${Math.min(i + 1, 6)}`}>
+          <div key={item.id} className={`fresh-gallery__tile stagger-${Math.min(i + 1, 6)}`} style={{ cursor: 'pointer' }} onClick={openOrder}>
             <img src={item.url} alt="" />
           </div>
         ))}
@@ -96,7 +96,7 @@ const ZenGallery: React.FC = () => {
       <h2 className="section-title">Our Gallery</h2>
       <div className="zen-gallery">
         {GALLERY_ITEMS.map((item, i) => (
-          <div key={item.id} className="zen-gallery__tile" style={{ animationDelay: `${i * 0.1}s` }}>
+          <div key={item.id} className="zen-gallery__tile" style={{ animationDelay: `${i * 0.1}s`, cursor: 'pointer' }} onClick={openOrder}>
             <img src={item.url} alt="" style={{ aspectRatio: item.aspect }} />
           </div>
         ))}
@@ -159,7 +159,7 @@ const RusticGallery: React.FC = () => {
   const GALLERY_ITEMS = useContext(GalleryCtx);
   return (
     <div className="section" style={{ paddingBottom: 24 }}><h2 className="section-title">Our Gallery</h2>
-      <div className="rustic-gallery">{GALLERY_ITEMS.map((item, i) => <div key={item.id} className="rustic-gallery__tile" style={{ animationDelay: `${i * 0.08}s` }}><img src={item.url} alt="" /><div className="rustic-gallery__label">ZING</div></div>)}</div>
+      <div className="rustic-gallery">{GALLERY_ITEMS.map((item, i) => <div key={item.id} className="rustic-gallery__tile" style={{ animationDelay: `${i * 0.08}s`, cursor: 'pointer' }} onClick={openOrder}><img src={item.url} alt="" /><div className="rustic-gallery__label">ZING</div></div>)}</div>
     </div>
   );
 };
@@ -168,7 +168,7 @@ const OceanGallery: React.FC = () => {
   const GALLERY_ITEMS = useContext(GalleryCtx);
   return (
     <div className="section" style={{ paddingBottom: 16 }}><h2 className="section-title">Our Gallery</h2>
-      <div className="ocean-gallery">{GALLERY_ITEMS.map((item, i) => <div key={item.id} className="ocean-gallery__tile" style={{ animationDelay: `${i * 0.06}s` }}><img src={item.url} alt="" /></div>)}</div>
+      <div className="ocean-gallery">{GALLERY_ITEMS.map((item, i) => <div key={item.id} className="ocean-gallery__tile" style={{ animationDelay: `${i * 0.06}s`, cursor: 'pointer' }} onClick={openOrder}><img src={item.url} alt="" /></div>)}</div>
     </div>
   );
 };
@@ -177,7 +177,7 @@ const BlossomGallery: React.FC = () => {
   const GALLERY_ITEMS = useContext(GalleryCtx);
   return (
     <div className="section" style={{ paddingBottom: 16 }}><h2 className="section-title">Our Gallery 🌸</h2>
-      <div className="blossom-gallery">{GALLERY_ITEMS.map((item, i) => <div key={item.id} className="blossom-gallery__tile" style={{ animationDelay: `${i * 0.07}s` }}><img src={item.url} alt="" /></div>)}</div>
+      <div className="blossom-gallery">{GALLERY_ITEMS.map((item, i) => <div key={item.id} className="blossom-gallery__tile" style={{ animationDelay: `${i * 0.07}s`, cursor: 'pointer' }} onClick={openOrder}><img src={item.url} alt="" /></div>)}</div>
     </div>
   );
 };
@@ -204,7 +204,7 @@ const RetroGallery: React.FC = () => {
   const GALLERY_ITEMS = useContext(GalleryCtx);
   return (
     <div className="section" style={{ paddingBottom: 16 }}><h2 className="section-title">Photo Wall</h2>
-      <div className="retro-gallery">{GALLERY_ITEMS.map((item, i) => <div key={item.id} className="retro-gallery__tile" style={{ animationDelay: `${i * 0.06}s` }}><img src={item.url} alt="" /><div className="retro-gallery__label">ZING DINER</div></div>)}</div>
+      <div className="retro-gallery">{GALLERY_ITEMS.map((item, i) => <div key={item.id} className="retro-gallery__tile" style={{ animationDelay: `${i * 0.06}s`, cursor: 'pointer' }} onClick={openOrder}><img src={item.url} alt="" /><div className="retro-gallery__label">ZING DINER</div></div>)}</div>
     </div>
   );
 };
@@ -216,7 +216,7 @@ const RoyalGallery: React.FC = () => {
       <h2 className="section-title">Our Establishment</h2>
       <div className="royal-gallery">
         {GALLERY_ITEMS.map((item, i) => (
-          <div key={item.id} className="royal-gallery__tile" style={{ animationDelay: `${i * 0.08}s` }}>
+          <div key={item.id} className="royal-gallery__tile" style={{ animationDelay: `${i * 0.08}s`, cursor: 'pointer' }} onClick={openOrder}>
             <img src={item.url} alt="" />
           </div>
         ))}
@@ -232,7 +232,7 @@ const TropicalGallery: React.FC = () => {
       <h2 className="section-title">Taste The Tropics 🌺</h2>
       <div className="tropical-gallery">
         {GALLERY_ITEMS.map((item, i) => (
-          <div key={item.id} className="tropical-gallery__tile" style={{ animationDelay: `${i * 0.07}s` }}>
+          <div key={item.id} className="tropical-gallery__tile" style={{ animationDelay: `${i * 0.07}s`, cursor: 'pointer' }} onClick={openOrder}>
             <img src={item.url} alt="" />
             <div className="tropical-gallery__badge">🌴</div>
           </div>

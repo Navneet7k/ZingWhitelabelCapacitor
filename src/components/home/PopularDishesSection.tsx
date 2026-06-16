@@ -57,7 +57,7 @@ const LuxeDishes: React.FC = () => {
       <h2 className="section-title">Popular Dishes</h2>
       <div className="luxe-dishes__scroll">
         {POPULAR_DISHES.map((dish, i) => (
-          <div key={dish.id} className="luxe-dish-card" style={{ animationDelay: `${i * 0.08}s` }}>
+          <div key={dish.id} className="luxe-dish-card" style={{ animationDelay: `${i * 0.08}s`, cursor: 'pointer' }} onClick={openOrder}>
             <img src={dish.image} alt={dish.name} className="luxe-dish-card__img" />
             <div className="luxe-dish-card__overlay">
               <h3 className="luxe-dish-card__name">{dish.name}</h3>
@@ -77,7 +77,7 @@ const FreshDishes: React.FC = () => {
       <h2 className="section-title">Popular Dishes</h2>
       <div className="fresh-dishes__grid">
         {POPULAR_DISHES.map((dish, i) => (
-          <div key={dish.id} className="fresh-dish-card" style={{ animationDelay: `${i * 0.07}s` }}>
+          <div key={dish.id} className="fresh-dish-card" style={{ animationDelay: `${i * 0.07}s`, cursor: 'pointer' }} onClick={openOrder}>
             <div className="fresh-dish-card__img-wrap">
               <img src={dish.image} alt={dish.name} />
             </div>
@@ -125,7 +125,7 @@ const ZenDishes: React.FC = () => {
     <div className="section">
       <h2 className="section-title">Today's Selection</h2>
       {POPULAR_DISHES.slice(0, 4).map((dish, i) => (
-        <div key={dish.id} className="zen-dish-row" style={{ animationDelay: `${i * 0.1}s` }}>
+        <div key={dish.id} className="zen-dish-row" style={{ animationDelay: `${i * 0.1}s`, cursor: 'pointer' }} onClick={openOrder}>
           <img src={dish.image} alt={dish.name} className="zen-dish-row__img" />
           <div className="zen-dish-row__body">
             <h3 className="zen-dish-row__name">{dish.name}</h3>
@@ -203,7 +203,7 @@ const RusticDishes: React.FC = () => {
       <h2 className="section-title">From Our Kitchen</h2>
       <div className="rustic-dishes__track">
         {POPULAR_DISHES.map((dish, i) => (
-          <div key={dish.id} className="rustic-dish-card" style={{ animationDelay: `${i * 0.08}s` }}>
+          <div key={dish.id} className="rustic-dish-card" style={{ animationDelay: `${i * 0.08}s`, cursor: 'pointer' }} onClick={openOrder}>
             <img src={dish.image} alt={dish.name} className="rustic-dish-card__img" />
             <div className="rustic-dish-card__body">
               <h3 className="rustic-dish-card__name">{dish.name}</h3>
@@ -223,7 +223,7 @@ const OceanDishes: React.FC = () => {
       <h2 className="section-title">Today's Catch</h2>
       <div className="ocean-dishes__list">
         {POPULAR_DISHES.slice(0, 4).map((dish, i) => (
-          <div key={dish.id} className="ocean-dish-row" style={{ animationDelay: `${i * 0.08}s` }}>
+          <div key={dish.id} className="ocean-dish-row" style={{ animationDelay: `${i * 0.08}s`, cursor: 'pointer' }} onClick={openOrder}>
             <img src={dish.image} alt={dish.name} className="ocean-dish-row__img" />
             <div className="ocean-dish-row__body">
               <h3 className="ocean-dish-row__name">{dish.name}</h3>
@@ -243,7 +243,7 @@ const BlossomDishes: React.FC = () => {
       <h2 className="section-title">Sweet Selections</h2>
       <div className="blossom-dishes__track">
         {POPULAR_DISHES.map((dish, i) => (
-          <div key={dish.id} className="blossom-dish-card" style={{ animationDelay: `${i * 0.07}s` }}>
+          <div key={dish.id} className="blossom-dish-card" style={{ animationDelay: `${i * 0.07}s`, cursor: 'pointer' }} onClick={openOrder}>
             <div className="blossom-dish-card__img-wrap">
               <img src={dish.image} alt={dish.name} />
               <div className="blossom-dish-card__heart">♡</div>
@@ -316,7 +316,7 @@ const RetroDishes: React.FC = () => {
       <h2 className="section-title">Today's Specials</h2>
       <div className="retro-dishes__list">
         {POPULAR_DISHES.slice(0, 5).map((dish, i) => (
-          <div key={dish.id} className="retro-dish-row" style={{ animationDelay: `${i * 0.06}s` }}>
+          <div key={dish.id} className="retro-dish-row" style={{ animationDelay: `${i * 0.06}s`, cursor: 'pointer' }} onClick={openOrder}>
             <img src={dish.image} alt={dish.name} className="retro-dish-row__img" />
             <div className="retro-dish-row__body">
               <h3 className="retro-dish-row__name">{dish.name}</h3>
@@ -336,7 +336,7 @@ const RoyalDishes: React.FC = () => {
       <h2 className="section-title">From The Kitchen</h2>
       <div className="royal-dishes__track">
         {POPULAR_DISHES.map((dish, i) => (
-          <div key={dish.id} className="royal-dish-card" style={{ animationDelay: `${i * 0.08}s` }}>
+          <div key={dish.id} className="royal-dish-card" style={{ animationDelay: `${i * 0.08}s`, cursor: 'pointer' }} onClick={openOrder}>
             <img src={dish.image} alt={dish.name} className="royal-dish-card__img" />
             <div className="royal-dish-card__body">
               <h3 className="royal-dish-card__name">{dish.name}</h3>
@@ -357,7 +357,7 @@ const TropicalDishes: React.FC = () => {
       <h2 className="section-title">Island Favorites 🥭</h2>
       <div className="tropical-dishes__track">
         {POPULAR_DISHES.map((dish, i) => (
-          <div key={dish.id} className="tropical-dish-card" style={{ animationDelay: `${i * 0.07}s` }}>
+          <div key={dish.id} className="tropical-dish-card" style={{ animationDelay: `${i * 0.07}s`, cursor: 'pointer' }} onClick={openOrder}>
             <div className="tropical-dish-card__img-wrap">
               <img src={dish.image} alt={dish.name} />
               <span className="tropical-dish-card__fruit">{TROPICAL_FRUITS[i % TROPICAL_FRUITS.length]}</span>

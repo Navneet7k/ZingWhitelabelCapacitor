@@ -46,7 +46,7 @@ const LuxeFeatured: React.FC = () => {
       <h2 className="section-title feat-title--luxe">Featured Dishes</h2>
       <div className="feat-scroll feat-scroll--luxe">
         {items.map((item, i) => (
-          <div key={item.id} className="feat-card feat-card--luxe" style={{ animationDelay: `${i * 0.07}s` }}>
+          <div key={item.id} className="feat-card feat-card--luxe" style={{ animationDelay: `${i * 0.07}s`, cursor: 'pointer' }} onClick={openOrder}>
             <img src={item.url} alt="" className="feat-card__img" />
             <div className="feat-card--luxe__shimmer" />
           </div>
@@ -64,7 +64,7 @@ const FreshFeatured: React.FC = () => {
       <h2 className="section-title feat-title--fresh">Featured Dishes</h2>
       <div className="feat-scroll feat-scroll--fresh">
         {items.map((item, i) => (
-          <div key={item.id} className="feat-card feat-card--fresh" style={{ animationDelay: `${i * 0.07}s` }}>
+          <div key={item.id} className="feat-card feat-card--fresh" style={{ animationDelay: `${i * 0.07}s`, cursor: 'pointer' }} onClick={openOrder}>
             <img src={item.url} alt="" className="feat-card__img" />
           </div>
         ))}
@@ -81,7 +81,7 @@ const ZenFeatured: React.FC = () => {
       <h2 className="section-title feat-title--zen">Featured</h2>
       <div className="feat-scroll feat-scroll--zen">
         {items.map((item, i) => (
-          <div key={item.id} className="feat-card feat-card--zen" style={{ animationDelay: `${i * 0.1}s` }}>
+          <div key={item.id} className="feat-card feat-card--zen" style={{ animationDelay: `${i * 0.1}s`, cursor: 'pointer' }} onClick={openOrder}>
             <img src={item.url} alt="" className="feat-card__img" />
           </div>
         ))}
@@ -153,7 +153,7 @@ const RusticFeatured: React.FC = () => {
       <h2 className="section-title feat-title--rustic">House Specials</h2>
       <div className="feat-scroll feat-scroll--rustic">
         {items.map((item, i) => (
-          <div key={item.id} className="feat-card feat-card--rustic" style={{ animationDelay: `${i * 0.08}s` }}>
+          <div key={item.id} className="feat-card feat-card--rustic" style={{ animationDelay: `${i * 0.08}s`, cursor: 'pointer' }} onClick={openOrder}>
             <img src={item.url} alt="" className="feat-card__img" />
             <div className="feat-card--rustic__tag">SPECIAL</div>
           </div>
@@ -171,7 +171,7 @@ const OceanFeatured: React.FC = () => {
       <h2 className="section-title feat-title--ocean">Featured Dishes</h2>
       <div className="feat-scroll feat-scroll--ocean">
         {items.map((item, i) => (
-          <div key={item.id} className="feat-card feat-card--ocean" style={{ animationDelay: `${i * 0.06}s` }}>
+          <div key={item.id} className="feat-card feat-card--ocean" style={{ animationDelay: `${i * 0.06}s`, cursor: 'pointer' }} onClick={openOrder}>
             <img src={item.url} alt="" className="feat-card__img" />
             <div className="feat-card--ocean__wave" />
           </div>
@@ -189,7 +189,7 @@ const BlossomFeatured: React.FC = () => {
       <h2 className="section-title feat-title--blossom">Featured Dishes 🌸</h2>
       <div className="feat-scroll feat-scroll--blossom">
         {items.map((item, i) => (
-          <div key={item.id} className="feat-card feat-card--blossom" style={{ animationDelay: `${i * 0.07}s` }}>
+          <div key={item.id} className="feat-card feat-card--blossom" style={{ animationDelay: `${i * 0.07}s`, cursor: 'pointer' }} onClick={openOrder}>
             <img src={item.url} alt="" className="feat-card__img" />
           </div>
         ))}
@@ -224,7 +224,7 @@ const RetroFeatured: React.FC = () => {
       <h2 className="section-title feat-title--retro">Today's Specials</h2>
       <div className="feat-scroll feat-scroll--retro">
         {items.map((item, i) => (
-          <div key={item.id} className="feat-card feat-card--retro" style={{ animationDelay: `${i * 0.06}s` }}>
+          <div key={item.id} className="feat-card feat-card--retro" style={{ animationDelay: `${i * 0.06}s`, cursor: 'pointer' }} onClick={openOrder}>
             <div className="feat-card--retro__holes">
               {[...Array(4)].map((_, h) => <span key={h} className="feat-card--retro__hole" />)}
             </div>
@@ -247,7 +247,7 @@ const TropicalFeatured: React.FC = () => {
       <h2 className="section-title feat-title--tropical">Island Specials 🌴</h2>
       <div className="feat-scroll feat-scroll--tropical">
         {items.map((item, i) => (
-          <div key={item.id} className="feat-card feat-card--tropical" style={{ animationDelay: `${i * 0.07}s` }}>
+          <div key={item.id} className="feat-card feat-card--tropical" style={{ animationDelay: `${i * 0.07}s`, cursor: 'pointer' }} onClick={openOrder}>
             <img src={item.url} alt="" className="feat-card__img" />
             <span className="feat-card--tropical__leaf">🌿</span>
           </div>
@@ -265,7 +265,7 @@ const RoyalFeatured: React.FC = () => {
       <h2 className="section-title feat-title--royal">Featured Selections</h2>
       <div className="feat-scroll feat-scroll--royal">
         {items.map((item, i) => (
-          <div key={item.id} className="feat-card feat-card--royal" style={{ animationDelay: `${i * 0.08}s` }}>
+          <div key={item.id} className="feat-card feat-card--royal" style={{ animationDelay: `${i * 0.08}s`, cursor: 'pointer' }} onClick={openOrder}>
             <div className="feat-card--royal__corner feat-card--royal__corner--tl" />
             <div className="feat-card--royal__corner feat-card--royal__corner--tr" />
             <img src={item.url} alt="" className="feat-card__img" />
