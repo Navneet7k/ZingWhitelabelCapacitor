@@ -18,7 +18,7 @@ import WebViewModal from './components/WebViewModal';
 import { isLoggedIn, updateFcmToken, getToken, getSavedUser } from './services/authApi';
 import { initFcm } from './services/fcmService';
 import { fetchRestaurantConfig, getThemeDesign, fetchAndStoreThemeDesign } from './services/configApi';
-import { getRestaurantId } from './services/restaurantConfig';
+import { getRestaurantId, isDebugTemplateMode } from './services/restaurantConfig';
 import { HomeDataProvider } from './context/HomeDataContext';
 import { MenuDataProvider } from './context/MenuDataContext';
 import TemplateSelectPage from './pages/TemplateSelectPage';
@@ -292,7 +292,7 @@ const AppInner: React.FC = () => {
       if (now - lastConfigCheck < CONFIG_THROTTLE_MS) return;
       lastConfigCheck = now;
       fetchAndStoreThemeDesign(rid).then(newDesign => {
-        if (newDesign) setTemplateId(themeDesignToTemplateId(newDesign));
+        if (newDesign && !isDebugTemplateMode()) setTemplateId(themeDesignToTemplateId(newDesign));
         applyConfigColors(getStoredConfigColors());
       });
     };
@@ -316,7 +316,7 @@ const AppInner: React.FC = () => {
     const configPoll = setInterval(() => {
       if (!rid) return;
       fetchAndStoreThemeDesign(rid).then(newDesign => {
-        if (newDesign) setTemplateId(themeDesignToTemplateId(newDesign));
+        if (newDesign && !isDebugTemplateMode()) setTemplateId(themeDesignToTemplateId(newDesign));
         applyConfigColors(getStoredConfigColors());
       });
     }, CONFIG_POLL_MS);
@@ -343,7 +343,7 @@ const AppInner: React.FC = () => {
         // Re-check config when app comes to foreground (covers ALL templates)
         if (rid) {
           fetchAndStoreThemeDesign(rid).then(newDesign => {
-            if (newDesign) setTemplateId(themeDesignToTemplateId(newDesign));
+            if (newDesign && !isDebugTemplateMode()) setTemplateId(themeDesignToTemplateId(newDesign));
             applyConfigColors(getStoredConfigColors());
           });
         }
@@ -411,13 +411,15 @@ const AppInner: React.FC = () => {
           const rid = getRestaurantId();
           if (rid) {
             checkConfigColorsOnTabSwitch(rid);
-            // Apply stored theme_design instantly (covers subsequent switches)
-            const design = getThemeDesign();
-            if (design) setTemplateId(themeDesignToTemplateId(design));
-            // Fetch latest from server; apply as soon as it lands (no extra tab switch needed)
-            fetchAndStoreThemeDesign(rid).then(newDesign => {
-              if (newDesign) setTemplateId(themeDesignToTemplateId(newDesign));
-            });
+            if (!isDebugTemplateMode()) {
+              // Apply stored theme_design instantly (covers subsequent switches)
+              const design = getThemeDesign();
+              if (design) setTemplateId(themeDesignToTemplateId(design));
+              // Fetch latest from server; apply as soon as it lands (no extra tab switch needed)
+              fetchAndStoreThemeDesign(rid).then(newDesign => {
+                if (newDesign) setTemplateId(themeDesignToTemplateId(newDesign));
+              });
+            }
           }
         }}>
           <IonTabButton tab="home" href="/home">

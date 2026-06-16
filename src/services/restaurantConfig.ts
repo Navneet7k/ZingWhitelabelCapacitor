@@ -50,3 +50,14 @@ export function getRestaurantName(): string | null {
 export function isRestaurantMode(): boolean {
   return !!getRestaurantId();
 }
+
+const DEBUG_TEMPLATE_KEY = 'zing_debug_template';
+
+export function isDebugTemplateMode(): boolean {
+  return localStorage.getItem(DEBUG_TEMPLATE_KEY) === 'true';
+}
+
+export function setDebugTemplateMode(enabled: boolean): void {
+  if (enabled) localStorage.setItem(DEBUG_TEMPLATE_KEY, 'true');
+  else localStorage.removeItem(DEBUG_TEMPLATE_KEY);
+}

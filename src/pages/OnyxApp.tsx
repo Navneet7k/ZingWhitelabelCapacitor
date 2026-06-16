@@ -5,7 +5,7 @@ import { useMenuData } from '../context/MenuDataContext';
 import { getSavedUser, isLoggedIn, login, register, saveAuth, clearAuth, getToken } from '../services/authApi';
 import type { AuthUser } from '../services/authApi';
 import { getOrderUrl, getRestaurantLogo } from '../services/configApi';
-import { getRestaurantId, getRestaurantName } from '../services/restaurantConfig';
+import { getRestaurantId, getRestaurantName, isDebugTemplateMode, setDebugTemplateMode } from '../services/restaurantConfig';
 import { openWebView } from '../services/webviewService';
 import { getSavedFcmToken } from '../services/fcmService';
 import { checkConfigColorsOnTabSwitch } from '../services/configColorsService';
@@ -47,6 +47,7 @@ const OnyxApp: React.FC = () => {
   const [showCustomize, setShowCustomize]       = useState(false);
   const [showDevOptions, setShowDevOptions] = useState(false);
   const [copiedFcm, setCopiedFcm]           = useState(false);
+  const [debugMode, setDebugMode]           = useState(isDebugTemplateMode);
   const [showDeleteConfirm, setShowDeleteConfirm] = useState(false);
   const [authUser, setAuthUser]                 = useState<AuthUser | null>(getInitialUser);
   const [authScreen, setAuthScreen]             = useState<'signin' | 'signup'>('signin');
@@ -580,6 +581,15 @@ const OnyxApp: React.FC = () => {
 
                 {/* ── Template Switcher ── */}
                 {showDevOptions && (<>
+                <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', margin: '0 16px 12px', padding: '12px 14px', background: 'rgba(128,128,128,0.12)', borderRadius: 12 }}>
+                  <div>
+                    <p style={{ margin: 0, fontSize: 13, fontWeight: 600, color: 'var(--t-text)' }}>Set Debug Template</p>
+                    <p style={{ margin: '3px 0 0', fontSize: 11, color: 'var(--t-text-muted)', opacity: 0.8 }}>{debugMode ? 'Locked — backend won\'t override' : 'Backend controls on tab switch'}</p>
+                  </div>
+                  <div onClick={() => { const next = !debugMode; setDebugTemplateMode(next); setDebugMode(next); }} style={{ width: 44, height: 24, borderRadius: 12, background: debugMode ? template.colors.primary : '#666', position: 'relative', cursor: 'pointer', transition: 'background 0.2s', flexShrink: 0, marginLeft: 12 }}>
+                    <span style={{ position: 'absolute', top: 2, left: debugMode ? 22 : 2, width: 20, height: 20, borderRadius: '50%', background: '#fff', transition: 'left 0.2s', display: 'block' }} />
+                  </div>
+                </div>
                 <p className="ox__tmpl-label">Switch Template</p>
                 <div className="ox__tmpl-strip">
                   {TEMPLATES.map(t => (
