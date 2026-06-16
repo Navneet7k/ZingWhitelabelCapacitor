@@ -469,40 +469,23 @@
    RUSTIC — "Open tab" receipt stub with tally marks
    ══════════════════════════════════════════════════════════════════════════════ */
 .rustic-pill {
-  display: flex; align-items: center; gap: 0;
+  display: flex; flex-direction: column; align-items: flex-start; gap: 14px;
   width: 100%;
   background: #FFF8F0;
   border: 1.5px solid rgba(193,68,14,0.25);
+  border-left: 4px solid #C1440E;
+  padding: 18px 20px 22px;
   cursor: pointer; text-align: left;
   animation: fadeInUp 0.5s ease both;
-  position: relative; overflow: hidden;
-  flex-direction: column;
 }
-.rustic-pill__perf {
-  width: 100%; height: 10px;
-  background: repeating-linear-gradient(
-    90deg,
-    #FFF8F0 0px, #FFF8F0 8px,
-    rgba(193,68,14,0.25) 8px, rgba(193,68,14,0.25) 14px
-  );
-}
-.rustic-pill__body {
-  width: 100%; display: flex; align-items: center;
-  justify-content: space-between; gap: 12px;
-  padding: 10px 16px;
-}
-.rustic-pill__heading { font-family: 'Merriweather', serif; font-size: 12px; font-weight: 700; color: #5D3A1A; letter-spacing: 0.08em; text-transform: uppercase; }
-.rustic-pill__row { display: flex; align-items: center; gap: 10px; }
-.rustic-pill__tally { font-size: 14px; color: #C1440E; letter-spacing: 2px; }
-.rustic-pill__total { font-family: 'Abril Fatface', cursive; font-size: 13px; color: #C1440E; }
-.rustic-pill__cta {
-  position: absolute; right: 0; top: 0; bottom: 0;
-  background: #C1440E; color: #fff;
-  font-family: 'Merriweather', serif; font-size: 10px; font-weight: 700;
-  writing-mode: vertical-rl; text-transform: uppercase; letter-spacing: 1px;
-  padding: 12px 6px; display: flex; align-items: center; justify-content: center;
-  min-width: 28px;
-}
+.rustic-pill__heading { font-family: 'Merriweather', serif; font-size: 11px; font-weight: 700; color: #8B6B4A; letter-spacing: 0.12em; text-transform: uppercase; }
+.rustic-pill__stats { display: flex; align-items: center; width: 100%; }
+.rustic-pill__stat { flex: 1; display: flex; flex-direction: column; gap: 4px; }
+.rustic-pill__stat:last-child { align-items: flex-end; }
+.rustic-pill__stat-val { font-family: 'Abril Fatface', cursive; font-size: 36px; color: #3E1F00; line-height: 1; }
+.rustic-pill__stat-val--active { color: #C1440E; }
+.rustic-pill__stat-lbl { font-family: 'Merriweather', serif; font-size: 11px; color: #8B6B4A; }
+.rustic-pill__stat-sep { width: 1px; background: rgba(193,68,14,0.2); align-self: stretch; margin: 0 20px; }
 
 .rustic-ord-sheet { background: #FFF8F0; }
 .rustic-ord-sheet__perf {

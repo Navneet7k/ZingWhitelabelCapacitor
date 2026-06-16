@@ -274,8 +274,18 @@ const RusticOrders: React.FC = () => {
   return (
     <div className="section ord-wrap">
       <button className="rustic-pill" onClick={() => setOpen(true)}>
-        <span className="rustic-pill__heading">ORDER HISTORY</span>
-        <span className="rustic-pill__cta">OPEN TAB ›</span>
+        <span className="rustic-pill__heading">Order History</span>
+        <div className="rustic-pill__stats">
+          <div className="rustic-pill__stat">
+            <span className="rustic-pill__stat-val rustic-pill__stat-val--active">{currentOrders.length}</span>
+            <span className="rustic-pill__stat-lbl">Active Orders</span>
+          </div>
+          <div className="rustic-pill__stat-sep" />
+          <div className="rustic-pill__stat">
+            <span className="rustic-pill__stat-val">{pastOrders.length}</span>
+            <span className="rustic-pill__stat-lbl">Past Orders</span>
+          </div>
+        </div>
       </button>
 
       {open && (
