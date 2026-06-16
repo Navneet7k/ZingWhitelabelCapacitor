@@ -269,24 +269,12 @@ const RusticOrders: React.FC = () => {
     );
   }
 
-  const allOrders = [...currentOrders, ...pastOrders];
-  const total = allOrders.reduce((s, o) => s + (o.total ?? 0), 0);
-  const tallyGroups = Math.floor(allOrders.length / 5);
-  const tallyRem    = allOrders.length % 5;
   const list = tab === 'current' ? currentOrders : tab === 'past' ? pastOrders : favoriteOrders;
 
   return (
     <div className="section ord-wrap">
       <button className="rustic-pill" onClick={() => setOpen(true)}>
-        <div className="rustic-pill__inner">
-          <span className="rustic-pill__heading">ORDER HISTORY</span>
-          <div className="rustic-pill__row">
-            <span className="rustic-pill__tally">
-              {'𝍩'.repeat(tallyGroups)}{'|'.repeat(tallyRem)}
-            </span>
-            <span className="rustic-pill__total">Tab: ${total.toFixed(2)}</span>
-          </div>
-        </div>
+        <span className="rustic-pill__heading">ORDER HISTORY</span>
         <span className="rustic-pill__cta">OPEN TAB ›</span>
       </button>
 
