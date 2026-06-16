@@ -248,10 +248,15 @@ const NeonOrders: React.FC = () => {
 
 const RusticOrders: React.FC = () => {
   const { data } = useHomeData();
-  const RECENT_ORDERS = data?.recentOrders ?? [];
+  const currentOrders  = data?.currentOrders  ?? [];
+  const pastOrders     = data?.pastOrders      ?? [];
+  const favoriteOrders = data?.favoriteOrders  ?? [];
   const [open, setOpen] = useState(false);
+  const [tab, setTab]   = useState<'current' | 'past' | 'favourite'>('current');
 
-  if (!RECENT_ORDERS.length) {
+  const hasAny = currentOrders.length > 0 || pastOrders.length > 0 || favoriteOrders.length > 0;
+
+  if (!hasAny) {
     return (
       <div className="section">
         <h2 className="section-title">Order History</h2>
@@ -264,9 +269,12 @@ const RusticOrders: React.FC = () => {
     );
   }
 
-  const total = RECENT_ORDERS.reduce((s, o) => s + (o.total ?? 0), 0);
-  const tallyGroups = Math.floor(RECENT_ORDERS.length / 5);
-  const tallyRem    = RECENT_ORDERS.length % 5;
+  const allOrders = [...currentOrders, ...pastOrders];
+  const total = allOrders.reduce((s, o) => s + (o.total ?? 0), 0);
+  const tallyGroups = Math.floor(allOrders.length / 5);
+  const tallyRem    = allOrders.length % 5;
+  const list = tab === 'current' ? currentOrders : tab === 'past' ? pastOrders : favoriteOrders;
+
   return (
     <div className="section ord-wrap">
       <button className="rustic-pill" onClick={() => setOpen(true)}>
@@ -291,22 +299,40 @@ const RusticOrders: React.FC = () => {
               <span className="rustic-ord-sheet__title">Your Orders</span>
               <button className="rustic-ord-sheet__close" onClick={() => setOpen(false)}>✕</button>
             </div>
-            <div className="ord-sheet__body">
-              {RECENT_ORDERS.map((o, i) => (
-                <div key={o.id} className="rustic-order-card" style={{ animationDelay: `${i * 0.08}s` }}>
-                  <div className="rustic-order-card__header">
-                    <span className="rustic-order-card__id">{o.id}</span>
-                    <span className="rustic-order-card__date">{o.date}</span>
-                  </div>
-                  <div className="rustic-order-card__items">
-                    {(o.items ?? []).map((item, j) => <span key={j} className="rustic-order-card__item">{item}</span>)}
-                  </div>
-                  <div className="rustic-order-card__footer">
-                    <span className="rustic-order-card__status" style={{ color: o.color }}>{o.status}</span>
-                    <span className="rustic-order-card__total">${o.total.toFixed(2)}</span>
-                  </div>
-                </div>
+            <div className="rustic-ord-tabs">
+              {(['current', 'past', 'favourite'] as const).map(t => (
+                <button
+                  key={t}
+                  className={`rustic-ord-tab${tab === t ? ' active' : ''}`}
+                  onClick={() => setTab(t)}
+                >
+                  {t.charAt(0).toUpperCase() + t.slice(1)}
+                </button>
               ))}
+            </div>
+            <div className="ord-sheet__body">
+              {list.length === 0 ? (
+                <div className="rustic-ord-empty">
+                  <span>📋</span>
+                  <p>No {tab} orders</p>
+                </div>
+              ) : (
+                list.map((o, i) => (
+                  <div key={o.id} className="rustic-order-card" style={{ animationDelay: `${i * 0.08}s` }}>
+                    <div className="rustic-order-card__header">
+                      <span className="rustic-order-card__id">{o.id}</span>
+                      <span className="rustic-order-card__date">{o.date}</span>
+                    </div>
+                    <div className="rustic-order-card__items">
+                      {(o.items ?? []).map((item, j) => <span key={j} className="rustic-order-card__item">{item}</span>)}
+                    </div>
+                    <div className="rustic-order-card__footer">
+                      <span className="rustic-order-card__status" style={{ color: o.color }}>{o.statusEmoji} {o.status}</span>
+                      <span className="rustic-order-card__total">${o.total.toFixed(2)}</span>
+                    </div>
+                  </div>
+                ))
+              )}
               <div style={{ height: 32 }} />
             </div>
           </div>

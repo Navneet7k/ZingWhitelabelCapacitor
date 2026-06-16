@@ -517,6 +517,10 @@
 .rustic-ord-sheet__header { border-bottom: 1px dashed rgba(193,68,14,0.3); }
 .rustic-ord-sheet__title { font-family: 'Abril Fatface', cursive; font-size: 18px; color: #C1440E; }
 .rustic-ord-sheet__close { background: rgba(193,68,14,0.1); border: none; border-radius: 50%; width: 32px; height: 32px; color: #C1440E; font-size: 13px; cursor: pointer; }
+.rustic-ord-tabs { display: flex; border-bottom: 1px dashed rgba(193,68,14,0.3); background: #FFF8F0; }
+.rustic-ord-tab { flex: 1; background: none; border: none; padding: 12px 0; font-family: 'Merriweather', serif; font-size: 12px; font-weight: 700; color: #8B6B4A; letter-spacing: 0.05em; cursor: pointer; border-bottom: 2px solid transparent; transition: color 0.2s, border-color 0.2s; }
+.rustic-ord-tab.active { color: #C1440E; border-bottom-color: #C1440E; }
+.rustic-ord-empty { display: flex; flex-direction: column; align-items: center; gap: 8px; padding: 40px 20px; color: #8B6B4A; font-family: 'Merriweather', serif; font-size: 13px; }
 
 /* ══════════════════════════════════════════════════════════════════════════════
    OCEAN — Teal wave gradient pill

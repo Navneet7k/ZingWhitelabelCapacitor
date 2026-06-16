@@ -215,12 +215,8 @@ const RusticDishes: React.FC = () => {
           <div key={dish.id} className="rustic-dish-card" style={{ animationDelay: `${i * 0.08}s` }}>
             <img src={dish.image} alt={dish.name} className="rustic-dish-card__img" />
             <div className="rustic-dish-card__body">
-              <span className="rustic-dish-card__tag">{dish.tag}</span>
               <h3 className="rustic-dish-card__name">{dish.name}</h3>
-              <div className="rustic-dish-card__row">
-                <Price dish={dish} className="rustic-dish-card__price" />
-                {dish.rating != null && <span className="rustic-dish-card__rating">★ {dish.rating}</span>}
-              </div>
+              {dish.description && <p className="rustic-dish-card__desc">{dish.description}</p>}
             </div>
           </div>
         ))}
