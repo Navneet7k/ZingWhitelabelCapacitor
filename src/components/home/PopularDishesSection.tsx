@@ -56,9 +56,8 @@ const LuxeDishes: React.FC = () => {
           <div key={dish.id} className="luxe-dish-card" style={{ animationDelay: `${i * 0.08}s` }}>
             <img src={dish.image} alt={dish.name} className="luxe-dish-card__img" />
             <div className="luxe-dish-card__overlay">
-              <span className="luxe-dish-card__tag">{dish.tag}</span>
               <h3 className="luxe-dish-card__name">{dish.name}</h3>
-              <Price dish={dish} className="luxe-dish-card__price" />
+              {dish.description && <p className="luxe-dish-card__desc">{dish.description}</p>}
             </div>
           </div>
         ))}
@@ -77,14 +76,10 @@ const FreshDishes: React.FC = () => {
           <div key={dish.id} className="fresh-dish-card" style={{ animationDelay: `${i * 0.07}s` }}>
             <div className="fresh-dish-card__img-wrap">
               <img src={dish.image} alt={dish.name} />
-              <span className="fresh-dish-card__tag">{dish.tag}</span>
             </div>
             <div className="fresh-dish-card__body">
               <h3 className="fresh-dish-card__name">{dish.name}</h3>
-              <div className="fresh-dish-card__row">
-                <Price dish={dish} className="fresh-dish-card__price" />
-                <button className="fresh-dish-card__add">+</button>
-              </div>
+              {dish.description && <p className="fresh-dish-card__desc">{dish.description}</p>}
             </div>
           </div>
         ))}
@@ -130,12 +125,8 @@ const ZenDishes: React.FC = () => {
           <img src={dish.image} alt={dish.name} className="zen-dish-row__img" />
           <div className="zen-dish-row__body">
             <h3 className="zen-dish-row__name">{dish.name}</h3>
-            <div className="zen-dish-row__meta">
-              <span className="zen-dish-row__tag">{dish.tag}</span>
-              {dish.rating != null && <span className="zen-dish-row__rating">★ {dish.rating}</span>}
-            </div>
+            {dish.description && <p className="zen-dish-row__desc">{dish.description}</p>}
           </div>
-          <Price dish={dish} className="zen-dish-row__price" />
         </div>
       ))}
     </div>
@@ -231,12 +222,8 @@ const OceanDishes: React.FC = () => {
           <div key={dish.id} className="ocean-dish-row" style={{ animationDelay: `${i * 0.08}s` }}>
             <img src={dish.image} alt={dish.name} className="ocean-dish-row__img" />
             <div className="ocean-dish-row__body">
-              <span className="ocean-dish-row__tag">{dish.tag}</span>
               <h3 className="ocean-dish-row__name">{dish.name}</h3>
-              <div className="ocean-dish-row__row">
-                <Price dish={dish} className="ocean-dish-row__price" />
-                <button className="ocean-dish-row__add">Add →</button>
-              </div>
+              {dish.description && <p className="ocean-dish-row__desc">{dish.description}</p>}
             </div>
           </div>
         ))}
@@ -259,11 +246,7 @@ const BlossomDishes: React.FC = () => {
             </div>
             <div className="blossom-dish-card__body">
               <h3 className="blossom-dish-card__name">{dish.name}</h3>
-              <span className="blossom-dish-card__tag">{dish.tag}</span>
-              <div className="blossom-dish-card__row">
-                <Price dish={dish} className="blossom-dish-card__price" />
-                <button className="blossom-dish-card__add">+</button>
-              </div>
+              {dish.description && <p className="blossom-dish-card__desc">{dish.description}</p>}
             </div>
           </div>
         ))}
@@ -333,11 +316,7 @@ const RetroDishes: React.FC = () => {
             <img src={dish.image} alt={dish.name} className="retro-dish-row__img" />
             <div className="retro-dish-row__body">
               <h3 className="retro-dish-row__name">{dish.name}</h3>
-              <span className="retro-dish-row__tag">{dish.tag}</span>
-            </div>
-            <div className="retro-dish-row__right">
-              <Price dish={dish} className="retro-dish-row__price" />
-              <button className="retro-dish-row__add">ORDER</button>
+              {dish.description && <p className="retro-dish-row__desc">{dish.description}</p>}
             </div>
           </div>
         ))}
@@ -356,12 +335,8 @@ const RoyalDishes: React.FC = () => {
           <div key={dish.id} className="royal-dish-card" style={{ animationDelay: `${i * 0.08}s` }}>
             <img src={dish.image} alt={dish.name} className="royal-dish-card__img" />
             <div className="royal-dish-card__body">
-              <span className="royal-dish-card__tag">{dish.tag}</span>
               <h3 className="royal-dish-card__name">{dish.name}</h3>
-              <div className="royal-dish-card__row">
-                <Price dish={dish} className="royal-dish-card__price" />
-                {dish.rating != null && <span className="royal-dish-card__rating">★ {dish.rating}</span>}
-              </div>
+              {dish.description && <p className="royal-dish-card__desc">{dish.description}</p>}
             </div>
           </div>
         ))}
@@ -384,12 +359,8 @@ const TropicalDishes: React.FC = () => {
               <span className="tropical-dish-card__fruit">{TROPICAL_FRUITS[i % TROPICAL_FRUITS.length]}</span>
             </div>
             <div className="tropical-dish-card__body">
-              <span className="tropical-dish-card__tag">{dish.tag}</span>
               <h3 className="tropical-dish-card__name">{dish.name}</h3>
-              <div className="tropical-dish-card__row">
-                <Price dish={dish} className="tropical-dish-card__price" />
-                <button className="tropical-dish-card__add">+</button>
-              </div>
+              {dish.description && <p className="tropical-dish-card__desc">{dish.description}</p>}
             </div>
           </div>
         ))}

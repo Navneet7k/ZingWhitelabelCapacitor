@@ -20,6 +20,7 @@ const LoyaltySection: React.FC = () => {
     case 'blossom': return <BlossomLoyalty />;
     case 'tropical': return <TropicalLoyalty />;
     case 'royal':    return <RoyalLoyalty />;
+    case 'retro':    return <RetroLoyalty />;
     default:         return <FreshLoyalty />;
   }
 };
@@ -27,59 +28,57 @@ const LoyaltySection: React.FC = () => {
 const pct = Math.round((LOYALTY.points / LOYALTY.nextTierPoints) * 100);
 
 /* ── LUXE: Slim gold-bordered card ── */
-const LuxeLoyalty: React.FC = () => (
-  <div className="section" style={{ paddingTop: 28 }}>
-    <div className="luxe-loyalty">
-      <div className="luxe-loyalty__left">
-        <span className="luxe-loyalty__label">LOYALTY POINTS</span>
-        <span className="luxe-loyalty__points">{LOYALTY.points.toLocaleString()}</span>
-        <span className="luxe-loyalty__tier">{LOYALTY.tier} Member</span>
-      </div>
-      <div className="luxe-loyalty__divider" />
-      <div className="luxe-loyalty__right">
-        <span className="luxe-loyalty__next-label">Next: {LOYALTY.nextTier}</span>
-        <span className="luxe-loyalty__next-pts">{LOYALTY.nextTierPoints - LOYALTY.points} pts away</span>
-        <div className="luxe-loyalty__bar">
-          <div className="luxe-loyalty__fill" style={{ width: `${pct}%` }} />
+const LuxeLoyalty: React.FC = () => {
+  const { data } = useHomeData();
+  const pts = data?.points ?? 0;
+  function openPoints() {
+    const rid = getRestaurantId() ?? ''; const token = getToken() ?? '';
+    openWebView(`https://app.zingmyorder.com/client/app/points/${rid}?token=${encodeURIComponent(token)}`, 'Points', '#C9A84C');
+  }
+  return (
+    <div className="section" style={{ paddingTop: 28 }}>
+      <div className="luxe-loyalty">
+        <div className="luxe-loyalty__left">
+          <span className="luxe-loyalty__label">LOYALTY POINTS</span>
+          <span className="luxe-loyalty__points">{pts.toLocaleString()}</span>
+          <p className="luxe-loyalty__earn">Earn points for each order</p>
+        </div>
+        <div className="luxe-loyalty__divider" />
+        <div className="luxe-loyalty__right">
+          <button className="luxe-loyalty__learn-btn" onClick={openPoints}>Learn More →</button>
         </div>
       </div>
     </div>
-  </div>
-);
+  );
+};
 
 /* ── FRESH: SVG circular progress ring ── */
 const FreshLoyalty: React.FC = () => {
-  const radius = 36;
-  const circumference = 2 * Math.PI * radius;
-  const offset = circumference - (pct / 100) * circumference;
+  const { data } = useHomeData();
+  const pts = data?.points ?? 0;
+  function openPoints() {
+    const rid = getRestaurantId() ?? ''; const token = getToken() ?? '';
+    openWebView(`https://app.zingmyorder.com/client/app/points/${rid}?token=${encodeURIComponent(token)}`, 'Points', '#00B87C');
+  }
+  const r = 36; const circ = 2 * Math.PI * r;
   return (
     <div className="section">
       <h2 className="section-title">Your Rewards</h2>
       <div className="fresh-loyalty">
         <div className="fresh-loyalty__ring-wrap">
           <svg width="88" height="88" viewBox="0 0 88 88">
-            <circle cx="44" cy="44" r={radius} fill="none" stroke="#E8FFF5" strokeWidth="7" />
-            <circle
-              cx="44" cy="44" r={radius}
-              fill="none" stroke="#00B87C" strokeWidth="7"
-              strokeLinecap="round"
-              strokeDasharray={circumference}
-              strokeDashoffset={offset}
-              transform="rotate(-90 44 44)"
-              style={{ transition: 'stroke-dashoffset 1.2s cubic-bezier(0.34,1.56,0.64,1)' }}
-            />
+            <circle cx="44" cy="44" r={r} fill="none" stroke="#E8FFF5" strokeWidth="7" />
+            <circle cx="44" cy="44" r={r} fill="none" stroke="#00B87C" strokeWidth="7"
+              strokeLinecap="round" strokeDasharray={circ} strokeDashoffset={0} transform="rotate(-90 44 44)" />
           </svg>
           <div className="fresh-loyalty__ring-text">
-            <span className="fresh-loyalty__pct">{pct}%</span>
+            <span className="fresh-loyalty__pct">✦</span>
           </div>
         </div>
         <div className="fresh-loyalty__info">
-          <span className="fresh-loyalty__pts">{LOYALTY.points.toLocaleString()} pts</span>
-          <span className="fresh-loyalty__tier-badge">{LOYALTY.tier}</span>
-          <p className="fresh-loyalty__desc">
-            Earn {LOYALTY.nextTierPoints - LOYALTY.points} more points to reach <strong>{LOYALTY.nextTier}</strong>
-          </p>
-          <button className="fresh-loyalty__btn">Redeem Points</button>
+          <span className="fresh-loyalty__pts">{pts.toLocaleString()} pts</span>
+          <p className="fresh-loyalty__desc">Earn points for each order you place</p>
+          <button className="fresh-loyalty__btn" onClick={openPoints}>Learn More →</button>
         </div>
       </div>
     </div>
@@ -117,24 +116,26 @@ const StreetLoyalty: React.FC = () => {
 };
 
 /* ── ZEN: Minimal text + thin progress bar ── */
-const ZenLoyalty: React.FC = () => (
-  <div className="section" style={{ paddingTop: 32 }}>
-    <div className="zen-loyalty">
-      <div className="zen-loyalty__top">
-        <span className="zen-loyalty__points">{LOYALTY.points.toLocaleString()}</span>
-        <span className="zen-loyalty__unit">points</span>
-      </div>
-      <div className="zen-loyalty__tier">{LOYALTY.tier} · {LOYALTY.nextTier} in {LOYALTY.nextTierPoints - LOYALTY.points} pts</div>
-      <div className="zen-loyalty__track">
-        <div className="zen-loyalty__fill" style={{ '--progress-width': `${pct}%` } as React.CSSProperties} />
-      </div>
-      <div className="zen-loyalty__labels">
-        <span>0</span>
-        <span>{LOYALTY.nextTier} at {LOYALTY.nextTierPoints.toLocaleString()} pts</span>
+const ZenLoyalty: React.FC = () => {
+  const { data } = useHomeData();
+  const pts = data?.points ?? 0;
+  function openPoints() {
+    const rid = getRestaurantId() ?? ''; const token = getToken() ?? '';
+    openWebView(`https://app.zingmyorder.com/client/app/points/${rid}?token=${encodeURIComponent(token)}`, 'Points', '#5C3D2E');
+  }
+  return (
+    <div className="section" style={{ paddingTop: 32 }}>
+      <div className="zen-loyalty">
+        <div className="zen-loyalty__top">
+          <span className="zen-loyalty__points">{pts.toLocaleString()}</span>
+          <span className="zen-loyalty__unit">points</span>
+        </div>
+        <p className="zen-loyalty__earn">Earn points for each order you place</p>
+        <button className="zen-loyalty__learn-btn" onClick={openPoints}>Learn More →</button>
       </div>
     </div>
-  </div>
-);
+  );
+};
 
 /* ── FIESTA: Colorful stars card ── */
 const FiestaLoyalty: React.FC = () => {
@@ -218,49 +219,48 @@ const RusticLoyalty: React.FC = () => {
 };
 
 /* ── OCEAN: Wave progress card ── */
-const OceanLoyalty: React.FC = () => (
-  <div className="section">
-    <h2 className="section-title">Rewards</h2>
-    <div className="ocean-loyalty">
-      <div className="ocean-loyalty__left">
-        <span className="ocean-loyalty__pts">{LOYALTY.points.toLocaleString()}</span>
-        <span className="ocean-loyalty__label">points</span>
-        <span className="ocean-loyalty__tier">{LOYALTY.tier} 🌊</span>
-      </div>
-      <div className="ocean-loyalty__right">
-        <div className="ocean-loyalty__wave-bar">
-          <div className="ocean-loyalty__wave-fill" style={{ width: `${pct}%` }} />
+const OceanLoyalty: React.FC = () => {
+  const { data } = useHomeData();
+  const pts = data?.points ?? 0;
+  function openPoints() {
+    const rid = getRestaurantId() ?? ''; const token = getToken() ?? '';
+    openWebView(`https://app.zingmyorder.com/client/app/points/${rid}?token=${encodeURIComponent(token)}`, 'Points', '#1B4F72');
+  }
+  return (
+    <div className="section">
+      <h2 className="section-title">Rewards</h2>
+      <div className="ocean-loyalty">
+        <div className="ocean-loyalty__left">
+          <span className="ocean-loyalty__pts">{pts.toLocaleString()}</span>
+          <span className="ocean-loyalty__label">points</span>
         </div>
-        <p className="ocean-loyalty__next">{LOYALTY.nextTierPoints - LOYALTY.points} pts to {LOYALTY.nextTier}</p>
-        <button className="ocean-loyalty__btn">Redeem →</button>
+        <div className="ocean-loyalty__right">
+          <p className="ocean-loyalty__earn">Earn points for each order you place</p>
+          <button className="ocean-loyalty__btn" onClick={openPoints}>Learn More →</button>
+        </div>
       </div>
     </div>
-  </div>
-);
+  );
+};
 
 /* ── BLOSSOM: Heart-shaped progress ── */
 const BlossomLoyalty: React.FC = () => {
-  const hearts = Math.round((pct / 100) * 5);
+  const { data } = useHomeData();
+  const pts = data?.points ?? 0;
+  function openPoints() {
+    const rid = getRestaurantId() ?? ''; const token = getToken() ?? '';
+    openWebView(`https://app.zingmyorder.com/client/app/points/${rid}?token=${encodeURIComponent(token)}`, 'Points', '#FF6B95');
+  }
   return (
     <div className="section">
       <h2 className="section-title">Your Rewards</h2>
       <div className="blossom-loyalty">
         <div className="blossom-loyalty__header">
-          <span className="blossom-loyalty__pts">{LOYALTY.points.toLocaleString()}</span>
-          <span className="blossom-loyalty__tier"> ✦ {LOYALTY.tier}</span>
+          <span className="blossom-loyalty__pts">{pts.toLocaleString()}</span>
+          <span className="blossom-loyalty__unit"> pts</span>
         </div>
-        <div className="blossom-loyalty__hearts">
-          {[1,2,3,4,5].map(h => (
-            <span key={h} className={`blossom-heart ${h <= hearts ? 'filled' : ''}`}
-              style={{ animationDelay: `${h * 0.12}s` }}>
-              {h <= hearts ? '♥' : '♡'}
-            </span>
-          ))}
-        </div>
-        <div className="blossom-loyalty__bar">
-          <div className="blossom-loyalty__fill" style={{ '--progress-width': `${pct}%` } as React.CSSProperties} />
-        </div>
-        <p className="blossom-loyalty__note">{LOYALTY.nextTierPoints - LOYALTY.points} more points to {LOYALTY.nextTier} 🌸</p>
+        <p className="blossom-loyalty__earn">Earn points for each order you place 🌸</p>
+        <button className="blossom-loyalty__learn-btn" onClick={openPoints}>Learn More →</button>
       </div>
     </div>
   );
@@ -293,54 +293,73 @@ const EmberLoyalty: React.FC = () => (
 );
 
 /* ── ROYAL: Heraldic honours card ── */
-const RoyalLoyalty: React.FC = () => (
-  <div className="section" style={{ paddingTop: 28 }}>
-    <div className="royal-loyalty">
-      <div className="royal-loyalty__header">
-        <span className="royal-loyalty__crown">👑</span>
-        <div>
-          <span className="royal-loyalty__label">ROYAL HONOURS</span>
-          <span className="royal-loyalty__tier">{LOYALTY.tier} Member</span>
+const RoyalLoyalty: React.FC = () => {
+  const { data } = useHomeData();
+  const pts = data?.points ?? 0;
+  function openPoints() {
+    const rid = getRestaurantId() ?? ''; const token = getToken() ?? '';
+    openWebView(`https://app.zingmyorder.com/client/app/points/${rid}?token=${encodeURIComponent(token)}`, 'Points', '#C9923A');
+  }
+  return (
+    <div className="section" style={{ paddingTop: 28 }}>
+      <div className="royal-loyalty">
+        <div className="royal-loyalty__header">
+          <span className="royal-loyalty__crown">👑</span>
+          <div><span className="royal-loyalty__label">ROYAL HONOURS</span></div>
+          <span className="royal-loyalty__pts">{pts.toLocaleString()}</span>
         </div>
-        <span className="royal-loyalty__pts">{LOYALTY.points.toLocaleString()}</span>
-      </div>
-      <div className="royal-loyalty__rule">✦ ✦ ✦</div>
-      <div className="royal-loyalty__progress-label">
-        <span>{LOYALTY.nextTier} — {LOYALTY.nextTierPoints - LOYALTY.points} pts away</span>
-        <span>{pct}%</span>
-      </div>
-      <div className="royal-loyalty__track">
-        <div className="royal-loyalty__fill" style={{ '--progress-width': `${pct}%` } as React.CSSProperties} />
+        <div className="royal-loyalty__rule">✦ ✦ ✦</div>
+        <p className="royal-loyalty__earn">Earn points for each order you place</p>
+        <button className="royal-loyalty__learn-btn" onClick={openPoints}>Learn More →</button>
       </div>
     </div>
-  </div>
-);
+  );
+};
 
 /* ── TROPICAL: Pineapple stamp card ── */
 const TropicalLoyalty: React.FC = () => {
-  const pineapples = Math.round((pct / 100) * 5);
+  const { data } = useHomeData();
+  const pts = data?.points ?? 0;
+  function openPoints() {
+    const rid = getRestaurantId() ?? ''; const token = getToken() ?? '';
+    openWebView(`https://app.zingmyorder.com/client/app/points/${rid}?token=${encodeURIComponent(token)}`, 'Points', '#FF7043');
+  }
   return (
     <div className="section">
       <h2 className="section-title">Your Rewards 🌴</h2>
       <div className="tropical-loyalty">
         <div className="tropical-loyalty__top">
           <div>
-            <span className="tropical-loyalty__pts">{LOYALTY.points.toLocaleString()}</span>
+            <span className="tropical-loyalty__pts">{pts.toLocaleString()}</span>
             <span className="tropical-loyalty__unit"> points</span>
           </div>
-          <span className="tropical-loyalty__tier">{LOYALTY.tier} 🌺</span>
         </div>
-        <div className="tropical-loyalty__pineapples">
-          {[1, 2, 3, 4, 5].map(p => (
-            <span key={p} className={`tropical-pine ${p <= pineapples ? 'lit' : ''}`}
-              style={{ animationDelay: `${p * 0.1}s` }}>🍍</span>
-          ))}
+        <p className="tropical-loyalty__earn">Earn points for each order you place</p>
+        <button className="tropical-loyalty__btn" onClick={openPoints}>Learn More 🥥</button>
+      </div>
+    </div>
+  );
+};
+
+/* ── RETRO: Diner-check rewards card ── */
+const RetroLoyalty: React.FC = () => {
+  const { data } = useHomeData();
+  const pts = data?.points ?? 0;
+  function openPoints() {
+    const rid = getRestaurantId() ?? ''; const token = getToken() ?? '';
+    openWebView(`https://app.zingmyorder.com/client/app/points/${rid}?token=${encodeURIComponent(token)}`, 'Points', '#D62828');
+  }
+  return (
+    <div className="section">
+      <h2 className="section-title">Your Rewards</h2>
+      <div className="retro-loyalty">
+        <div className="retro-loyalty__top">
+          <span className="retro-loyalty__label">LOYALTY POINTS</span>
+          <span className="retro-loyalty__pts">{pts.toLocaleString()}</span>
         </div>
-        <div className="tropical-loyalty__track">
-          <div className="tropical-loyalty__fill" style={{ '--progress-width': `${pct}%` } as React.CSSProperties} />
-        </div>
-        <p className="tropical-loyalty__note">{LOYALTY.nextTierPoints - LOYALTY.points} pts to {LOYALTY.nextTier}</p>
-        <button className="tropical-loyalty__btn">Redeem 🥥</button>
+        <div className="retro-loyalty__divider" />
+        <p className="retro-loyalty__earn">Earn points for each order you place</p>
+        <button className="retro-loyalty__learn-btn" onClick={openPoints}>Learn More →</button>
       </div>
     </div>
   );
