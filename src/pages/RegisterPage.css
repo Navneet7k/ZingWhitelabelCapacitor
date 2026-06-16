@@ -202,6 +202,8 @@
 
 .register--fiesta .register__card  { border-radius: 20px; }
 .register--fiesta .register__brand { font-size: 32px; }
+.register--fiesta .register__input { color: #292F36; background: #fff; }
+.register--fiesta .register__label { color: #292F36; }
 
 .register--ocean .register__card   { border-radius: 16px; }
 

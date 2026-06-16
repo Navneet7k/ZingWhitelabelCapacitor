@@ -207,6 +207,8 @@
 
 .login--fiesta .login__card  { border-radius: 20px; }
 .login--fiesta .login__brand { font-size: 32px; }
+.login--fiesta .login__input { color: #292F36; background: #fff; }
+.login--fiesta .login__label { color: #292F36; }
 
 .login--ocean .login__card   { border-radius: 16px; }
 .login--ocean .login__header { margin-bottom: 24px; }

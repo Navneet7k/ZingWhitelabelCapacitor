@@ -332,6 +332,9 @@
 [data-template="blossom"]  .acc__menu { --t-surface:#FFFFFF; --t-text:#2D1B2D; --t-text-muted:#B07090; }
 [data-template="ember"]    .acc__menu { --t-surface:#241200; --t-text:#F5E6D3; --t-text-muted:#8B7355; }
 [data-template="fiesta"]   .acc__menu { --t-surface:#FFFFFF; --t-text:#292F36; --t-text-muted:#7A7A7A; }
+[data-template="fiesta"] .acc__update-panel,
+[data-template="fiesta"] .acc__fcm-btn,
+[data-template="fiesta"] .acc__restaurant-panel { --t-surface:#FFFFFF; --t-text:#292F36; --t-text-muted:#7A7A7A; }
 [data-template="cosmic"]   .acc__menu { --t-surface:#0D1530; --t-text:#E8F4FF; --t-text-muted:#5577AA; }
 [data-template="tropical"] .acc__menu { --t-surface:#FFFFFF; --t-text:#2D1F0E; --t-text-muted:#8B7A5E; }
 [data-template="royal"]    .acc__menu { --t-surface:#200D18; --t-text:#F5ECD7; --t-text-muted:#9E8470; }
