@@ -460,6 +460,11 @@
 .blossom-ord-sheet__title { font-family: 'Dancing Script', cursive; font-size: 20px; color: #FF6B95; }
 .blossom-ord-sheet__close { background: #FFE8EE; border: none; border-radius: 50%; width: 32px; height: 32px; color: #FF6B95; font-size: 13px; cursor: pointer; }
 
+.rustic-empty-orders { background: #FFF8F0; border: 1px dashed rgba(193,68,14,0.3); padding: 32px 20px; text-align: center; animation: fadeInUp 0.5s ease both; }
+.rustic-empty-orders__icon { font-size: 32px; display: block; margin-bottom: 10px; }
+.rustic-empty-orders__text { font-family: 'Abril Fatface', cursive; font-size: 16px; color: #3E1F00; margin: 0 0 4px; }
+.rustic-empty-orders__sub { font-family: 'Merriweather', serif; font-size: 12px; color: #8B6B4A; margin: 0; }
+
 /* ══════════════════════════════════════════════════════════════════════════════
    RUSTIC — "Open tab" receipt stub with tally marks
    ══════════════════════════════════════════════════════════════════════════════ */

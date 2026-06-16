@@ -247,9 +247,23 @@ const NeonOrders: React.FC = () => {
 };
 
 const RusticOrders: React.FC = () => {
-  const RECENT_ORDERS = useContext(OrdersCtx);
+  const { data } = useHomeData();
+  const RECENT_ORDERS = data?.recentOrders ?? [];
   const [open, setOpen] = useState(false);
-  if (!RECENT_ORDERS.length) return null;
+
+  if (!RECENT_ORDERS.length) {
+    return (
+      <div className="section">
+        <h2 className="section-title">Order History</h2>
+        <div className="rustic-empty-orders">
+          <span className="rustic-empty-orders__icon">📋</span>
+          <p className="rustic-empty-orders__text">No recent orders</p>
+          <p className="rustic-empty-orders__sub">Your order history will appear here</p>
+        </div>
+      </div>
+    );
+  }
+
   const total = RECENT_ORDERS.reduce((s, o) => s + (o.total ?? 0), 0);
   const tallyGroups = Math.floor(RECENT_ORDERS.length / 5);
   const tallyRem    = RECENT_ORDERS.length % 5;

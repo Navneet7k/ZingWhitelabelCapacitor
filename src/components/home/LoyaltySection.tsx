@@ -1,6 +1,10 @@
 import React, { useEffect, useRef } from 'react';
 import { LOYALTY } from '../../config/mockData';
 import { useTemplate } from '../../context/TemplateContext';
+import { useHomeData } from '../../context/HomeDataContext';
+import { openWebView } from '../../services/webviewService';
+import { getRestaurantId } from '../../services/restaurantConfig';
+import { getToken } from '../../services/authApi';
 import './LoyaltySection.css';
 
 const LoyaltySection: React.FC = () => {
@@ -189,31 +193,35 @@ const NeonLoyalty: React.FC = () => (
 );
 
 /* ── RUSTIC: Wooden badge board ── */
-const RusticLoyalty: React.FC = () => (
-  <div className="section">
-    <h2 className="section-title">Your Rewards</h2>
-    <div className="rustic-loyalty">
-      <div className="rustic-loyalty__top">
-        <div className="rustic-loyalty__badge">
-          <span className="rustic-loyalty__tier">{LOYALTY.tier}</span>
-          <span className="rustic-loyalty__member">Member</span>
-        </div>
-        <div className="rustic-loyalty__pts-wrap">
-          <span className="rustic-loyalty__pts">{LOYALTY.points.toLocaleString()}</span>
+const RusticLoyalty: React.FC = () => {
+  const { data } = useHomeData();
+  const pts = data?.points ?? 0;
+
+  function openPoints() {
+    const rid = getRestaurantId() ?? '';
+    const token = getToken() ?? '';
+    openWebView(
+      `https://app.zingmyorder.com/client/app/points/${rid}?token=${encodeURIComponent(token)}`,
+      'Points',
+      '#C1440E'
+    );
+  }
+
+  return (
+    <div className="section">
+      <h2 className="section-title">Your Rewards</h2>
+      <div className="rustic-loyalty">
+        <div className="rustic-loyalty__pts-wrap" style={{ textAlign: 'center' }}>
+          <span className="rustic-loyalty__pts">{pts.toLocaleString()}</span>
           <span className="rustic-loyalty__pts-label">points earned</span>
         </div>
-      </div>
-      <div className="rustic-loyalty__divider">✦ ✦ ✦</div>
-      <div className="rustic-loyalty__progress-label">
-        <span>{LOYALTY.nextTierPoints - LOYALTY.points} pts until {LOYALTY.nextTier}</span>
-        <span>{pct}%</span>
-      </div>
-      <div className="rustic-loyalty__track">
-        <div className="rustic-loyalty__fill" style={{ '--progress-width': `${pct}%` } as React.CSSProperties} />
+        <div className="rustic-loyalty__divider">✦ ✦ ✦</div>
+        <p className="rustic-loyalty__earn-text">Earn points for each order you place</p>
+        <button className="rustic-loyalty__learn-btn" onClick={openPoints}>Learn More →</button>
       </div>
     </div>
-  </div>
-);
+  );
+};
 
 /* ── OCEAN: Wave progress card ── */
 const OceanLoyalty: React.FC = () => (

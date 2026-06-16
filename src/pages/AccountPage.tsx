@@ -3,17 +3,12 @@ import { IonContent, IonHeader, IonPage, IonToolbar, IonTitle, IonButtons } from
 import { openWebView } from '../services/webviewService';
 import { useTemplate, TEMPLATES } from '../context/TemplateContext';
 import CustomizePage from './CustomizePage';
-import { LOYALTY, RECENT_ORDERS } from '../config/mockData';
 import { getStatus, onStatusChange, applyIfReady, UpdateStatus } from '../services/updater';
 import { isRestaurantMode, getRestaurantName, getRestaurantId, isDebugTemplateMode, setDebugTemplateMode } from '../services/restaurantConfig';
 import { clearAuth, getToken, getSavedUser } from '../services/authApi';
 import { getSavedFcmToken } from '../services/fcmService';
 import { useHomeData } from '../context/HomeDataContext';
 import './AccountPage.css';
-
-const STATUS_ICONS: Record<string, string> = {
-  Delivered: '✅', 'In Progress': '🔥', Pending: '⏳',
-};
 
 const MENU_ITEMS_ACC = [
   { icon: '✏️', label: 'Edit Profile' },
@@ -46,7 +41,6 @@ const AccountPage: React.FC<{ onSignOut?: () => void }> = ({ onSignOut }) => {
   const displayEmail= savedUser?.email ?? '';
   const initials    = displayName.split(' ').map((w: string) => w[0] ?? '').join('').toUpperCase().slice(0, 2) || 'G';
   const [updateStatus, setUpdateStatus]     = useState<UpdateStatus>(getStatus);
-  const [showHistory, setShowHistory]       = useState(false);
   const [showCustomize, setShowCustomize]   = useState(false);
   const [showDeleteConfirm, setShowDeleteConfirm] = useState(false);
   const [showDevOptions, setShowDevOptions] = useState(false);
@@ -54,8 +48,6 @@ const AccountPage: React.FC<{ onSignOut?: () => void }> = ({ onSignOut }) => {
   const [debugMode, setDebugMode]           = useState(isDebugTemplateMode);
 
   useEffect(() => { return onStatusChange(setUpdateStatus); }, []);
-
-  const orders = data?.recentOrders?.length ? data.recentOrders : RECENT_ORDERS;
 
   function clientUrl(path: string) {
     const rid   = getRestaurantId() ?? '';
@@ -65,7 +57,7 @@ const AccountPage: React.FC<{ onSignOut?: () => void }> = ({ onSignOut }) => {
 
   const handleMenuItem = (label: string) => {
     if (label === 'Sign Out')         { clearAuth(); onSignOut?.(); }
-    if (label === 'My Orders')        { setShowHistory(true); }
+    if (label === 'My Orders')        { const rid = getRestaurantId() ?? ''; const token = getToken() ?? ''; openWebView(`https://app.zingmyorder.com/orders-page/${rid}?token=${encodeURIComponent(token)}`, 'My Orders', template.colors.primary); }
     if (label === 'Customize')        { setShowCustomize(true); }
     if (label === 'Edit Profile')     { openWebView(clientUrl('edit-profile'), 'Edit Profile',    template.colors.primary); }
     if (label === 'Favorites')        { openWebView(clientUrl('favorites'),    'Favorites',       template.colors.primary); }
@@ -85,66 +77,25 @@ const AccountPage: React.FC<{ onSignOut?: () => void }> = ({ onSignOut }) => {
     <IonPage>
       <IonHeader>
         <IonToolbar>
-          {(showHistory || showCustomize) && (
+          {showCustomize && (
             <IonButtons slot="start">
               <button
                 className="acc__back-btn"
-                onClick={() => { setShowHistory(false); setShowCustomize(false); }}
+                onClick={() => { setShowCustomize(false); }}
               >
                 ‹ Back
               </button>
             </IonButtons>
           )}
           <IonTitle>
-            {showHistory ? 'My Orders' : showCustomize ? 'Customize' : 'Account'}
+            {showCustomize ? 'Customize' : 'Account'}
           </IonTitle>
         </IonToolbar>
       </IonHeader>
 
-      <IonContent key={showHistory ? 'history' : showCustomize ? 'customize' : 'profile'}>
+      <IonContent key={showCustomize ? 'customize' : 'profile'}>
         {showCustomize ? (
           <CustomizePage onBack={() => setShowCustomize(false)} />
-        ) : showHistory ? (
-          <>
-            <div className="acc__orders-banner" style={{ background: `var(--t-primary, ${template.colors.primary})` }}>
-              <div className="acc__orders-stat">
-                <span className="acc__orders-stat-val">{orders.filter(o => o.status === 'In Progress').length}</span>
-                <span className="acc__orders-stat-lbl">In Progress</span>
-              </div>
-              <div className="acc__orders-stat-sep" />
-              <div className="acc__orders-stat">
-                <span className="acc__orders-stat-val">{orders.filter(o => o.status === 'Delivered').length}</span>
-                <span className="acc__orders-stat-lbl">Delivered</span>
-              </div>
-              <div className="acc__orders-stat-sep" />
-              <div className="acc__orders-stat">
-                <span className="acc__orders-stat-val">{orders.filter(o => o.status === 'Pending').length}</span>
-                <span className="acc__orders-stat-lbl">Pending</span>
-              </div>
-            </div>
-
-            <p className="acc__section-title">Recent Orders</p>
-            <div className="acc__orders">
-              {orders.map((order, i) => (
-                <div key={order.id} className="acc__order-card" style={{ animationDelay: `${i * 0.06}s` }}>
-                  <div className="acc__order-header">
-                    <span className="acc__order-id">{order.id}</span>
-                    <span className="acc__order-status" style={{ color: order.color }}>
-                      {STATUS_ICONS[order.status] ?? ''} {order.status}
-                    </span>
-                  </div>
-                  <div className="acc__order-items">
-                    {order.items.map((item, j) => <span key={j} className="acc__order-item">{item}</span>)}
-                  </div>
-                  <div className="acc__order-footer">
-                    <span className="acc__order-date">{order.date}</span>
-                    <span className="acc__order-total" style={{ color: `var(--t-primary, ${template.colors.primary})` }}>${order.total.toFixed(2)}</span>
-                  </div>
-                </div>
-              ))}
-            </div>
-            <div style={{ height: 32 }} />
-          </>
         ) : (
           <>
             <div className="acc__profile" style={{ background: `var(--t-primary, ${template.colors.primary})` }}>
@@ -152,8 +103,7 @@ const AccountPage: React.FC<{ onSignOut?: () => void }> = ({ onSignOut }) => {
               <h2 className="acc__name">{displayName}</h2>
               <p className="acc__email">{displayEmail}</p>
               <div className="acc__badges">
-                <span className="acc__badge">{LOYALTY.tier} Member</span>
-                <span className="acc__badge">{LOYALTY.points.toLocaleString()} pts</span>
+                <span className="acc__badge">{(data?.points ?? 0).toLocaleString()} pts</span>
               </div>
             </div>
 

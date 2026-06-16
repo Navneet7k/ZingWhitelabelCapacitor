@@ -192,6 +192,8 @@
 .rustic-loyalty__progress-label { display: flex; justify-content: space-between; font-family: 'Merriweather', serif; font-size: 11px; color: #8B6B4A; margin-bottom: 6px; }
 .rustic-loyalty__track { height: 6px; background: rgba(193,68,14,0.1); }
 .rustic-loyalty__fill { height: 100%; background: #C1440E; animation: progressFill 1s 0.3s ease both; }
+.rustic-loyalty__earn-text { font-family: 'Merriweather', serif; font-size: 13px; color: #8B6B4A; text-align: center; margin: 0 0 14px; line-height: 1.5; }
+.rustic-loyalty__learn-btn { display: block; margin: 0 auto; background: #C1440E; color: #FDF6EC; font-family: 'Merriweather', serif; font-size: 13px; font-weight: 700; border: none; padding: 10px 28px; cursor: pointer; letter-spacing: 0.05em; }
 
 /* ── OCEAN LOYALTY ── */
 .ocean-loyalty { display: flex; gap: 16px; background: #fff; border-radius: 20px; padding: 20px; box-shadow: 0 6px 24px rgba(27,79,114,0.1); animation: scaleIn 0.45s ease both; }
