@@ -163,7 +163,8 @@
 .fiesta-loyalty__bar-wrap {}
 .fiesta-loyalty__bar { height: 8px; background: rgba(255,255,255,0.25); border-radius: 4px; margin-bottom: 6px; overflow: hidden; }
 .fiesta-loyalty__fill { height: 100%; background: #FFE66D; border-radius: 4px; animation: progressFill 1s 0.3s ease both; }
-.fiesta-loyalty__next { font-family: 'Poppins', sans-serif; font-size: 11px; opacity: 0.85; }
+.fiesta-loyalty__earn { font-family: 'Poppins', sans-serif; font-size: 13px; opacity: 0.9; margin: 4px 0 14px; }
+.fiesta-loyalty__btn { background: rgba(255,255,255,0.25); border: none; color: #fff; font-family: 'Poppins', sans-serif; font-size: 13px; font-weight: 600; padding: 10px 20px; border-radius: 20px; cursor: pointer; }
 
 /* ── NEON LOYALTY ── */
 .neon-loyalty { border: 1px solid rgba(0,245,255,0.3); background: #0D0020; padding: 16px; animation: fadeInUp 0.4s ease both; }

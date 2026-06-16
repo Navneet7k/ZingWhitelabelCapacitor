@@ -167,12 +167,8 @@ const FiestaDishes: React.FC = () => {
             <FiestaImg src={dish.image} alt={dish.name} cls="fiesta-dish-card__img" />
             <div className="fiesta-dish-card__gradient" style={{ background: FIESTA_GRADIENTS[i % FIESTA_GRADIENTS.length] }} />
             <div className="fiesta-dish-card__content">
-              <span className="fiesta-dish-card__tag">{dish.tag}</span>
               <h3 className="fiesta-dish-card__name">{dish.name}</h3>
-              <div className="fiesta-dish-card__row">
-                <Price dish={dish} className="fiesta-dish-card__price" />
-                <button className="fiesta-dish-card__add">＋</button>
-              </div>
+              {dish.description && <p className="fiesta-dish-card__desc">{dish.description}</p>}
             </div>
           </div>
         ))}

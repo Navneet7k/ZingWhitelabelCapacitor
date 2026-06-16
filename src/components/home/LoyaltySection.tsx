@@ -138,33 +138,27 @@ const ZenLoyalty: React.FC = () => (
 
 /* ── FIESTA: Colorful stars card ── */
 const FiestaLoyalty: React.FC = () => {
-  const stars = Math.round((pct / 100) * 5);
+  const { data } = useHomeData();
+  const pts = data?.points ?? 0;
+
+  function openPoints() {
+    const rid = getRestaurantId() ?? '';
+    const token = getToken() ?? '';
+    openWebView(`https://app.zingmyorder.com/client/app/points/${rid}?token=${encodeURIComponent(token)}`, 'Points', '#FF6B6B');
+  }
+
   return (
     <div className="section">
       <h2 className="section-title">Your Rewards 🎁</h2>
       <div className="fiesta-loyalty">
         <div className="fiesta-loyalty__top">
           <div>
-            <span className="fiesta-loyalty__pts">{LOYALTY.points.toLocaleString()}</span>
+            <span className="fiesta-loyalty__pts">{pts.toLocaleString()}</span>
             <span className="fiesta-loyalty__label"> points</span>
           </div>
-          <span className="fiesta-loyalty__tier">{LOYALTY.tier} ✦</span>
         </div>
-        <div className="fiesta-loyalty__stars">
-          {[1,2,3,4,5].map(s => (
-            <span
-              key={s}
-              className={`fiesta-star ${s <= stars ? 'filled' : ''}`}
-              style={{ animationDelay: `${s * 0.1}s` }}
-            >★</span>
-          ))}
-        </div>
-        <div className="fiesta-loyalty__bar-wrap">
-          <div className="fiesta-loyalty__bar">
-            <div className="fiesta-loyalty__fill" style={{ '--progress-width': `${pct}%` } as React.CSSProperties} />
-          </div>
-          <span className="fiesta-loyalty__next">{LOYALTY.nextTierPoints - LOYALTY.points} pts to {LOYALTY.nextTier} 🚀</span>
-        </div>
+        <p className="fiesta-loyalty__earn">Earn points for each order you place</p>
+        <button className="fiesta-loyalty__btn" onClick={openPoints}>Learn More →</button>
       </div>
     </div>
   );
