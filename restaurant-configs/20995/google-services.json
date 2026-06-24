@@ -1,0 +1,276 @@
+{
+  "project_info": {
+    "project_number": "345270947844",
+    "project_id": "zing-kitchen-1",
+    "storage_bucket": "zing-kitchen-1.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:345270947844:android:c375454c29b8fe6ed52551",
+        "android_client_info": {
+          "package_name": "com.citypizzapluswings.zingmyorder"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBvcpwfWgbtdiSwT_KQgHjfbmHEYUOLdnM"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:345270947844:android:1ea90312053876aed52551",
+        "android_client_info": {
+          "package_name": "com.dillaethiopian.zingmyorder"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBvcpwfWgbtdiSwT_KQgHjfbmHEYUOLdnM"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:345270947844:android:d1e473574cca9d47d52551",
+        "android_client_info": {
+          "package_name": "com.freshhalalmarket.zingmyorder"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBvcpwfWgbtdiSwT_KQgHjfbmHEYUOLdnM"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:345270947844:android:18576635d0c8ba7fd52551",
+        "android_client_info": {
+          "package_name": "com.jcburgerbar.zingmyorder"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBvcpwfWgbtdiSwT_KQgHjfbmHEYUOLdnM"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:345270947844:android:b2863ecdb4dc9a2cd52551",
+        "android_client_info": {
+          "package_name": "com.louisianafamous.zingmyorder"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBvcpwfWgbtdiSwT_KQgHjfbmHEYUOLdnM"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:345270947844:android:2499605e5f067941d52551",
+        "android_client_info": {
+          "package_name": "com.lustergrill.zingmyorder"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBvcpwfWgbtdiSwT_KQgHjfbmHEYUOLdnM"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:345270947844:android:9e5495005456e4f8d52551",
+        "android_client_info": {
+          "package_name": "com.micholandiahilltop.zingmyorder"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBvcpwfWgbtdiSwT_KQgHjfbmHEYUOLdnM"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:345270947844:android:206f4f41344b838dd52551",
+        "android_client_info": {
+          "package_name": "com.phokingwing.zingmyorder"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBvcpwfWgbtdiSwT_KQgHjfbmHEYUOLdnM"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:345270947844:android:22eb23930bd77336d52551",
+        "android_client_info": {
+          "package_name": "com.restaurant.zingmyorder"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBvcpwfWgbtdiSwT_KQgHjfbmHEYUOLdnM"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:345270947844:android:66b1c66b622a9e92d52551",
+        "android_client_info": {
+          "package_name": "com.sandysrestaurant.zingmyorder"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBvcpwfWgbtdiSwT_KQgHjfbmHEYUOLdnM"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:345270947844:android:472b404fb1edc98bd52551",
+        "android_client_info": {
+          "package_name": "com.slicensizzle.zingmyorder"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBvcpwfWgbtdiSwT_KQgHjfbmHEYUOLdnM"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:345270947844:android:84b8f1e800b25286d52551",
+        "android_client_info": {
+          "package_name": "com.yogissushiandsportsbar.zingmyorder"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBvcpwfWgbtdiSwT_KQgHjfbmHEYUOLdnM"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:345270947844:android:e2b9ac5b923d8014d52551",
+        "android_client_info": {
+          "package_name": "com.zatothai.zingmyorder"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBvcpwfWgbtdiSwT_KQgHjfbmHEYUOLdnM"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:345270947844:android:e68466f9ac1e1290d52551",
+        "android_client_info": {
+          "package_name": "com.zingmyorder.testrestaurant"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBvcpwfWgbtdiSwT_KQgHjfbmHEYUOLdnM"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

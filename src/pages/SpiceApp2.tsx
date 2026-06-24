@@ -314,7 +314,6 @@ const SpiceApp2: React.FC = () => {
                     onClick={() => setSelectedBanner(i)}
                   >
                     <Sp2Img src={banner.image ?? ''} cls="sp2__circle-img" fallback={<div className="sp2__circle-ph">🌶</div>} />
-                    <span className="sp2__circle-label">{safe(banner.title)}</span>
                   </button>
                 ))}
               </div>

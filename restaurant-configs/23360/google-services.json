@@ -1,0 +1,48 @@
+{
+  "project_info": {
+    "project_number": "593619271217",
+    "project_id": "zing-kitchen-3",
+    "storage_bucket": "zing-kitchen-3.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:593619271217:android:27efc703a63b7b4364df10",
+        "android_client_info": {
+          "package_name": "com.ciaosweetsgelato.zingmyorder"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAyLnK4A33I9rxSNaPoox0gykhY0h8fP_k"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:593619271217:android:9f1746635e39348e64df10",
+        "android_client_info": {
+          "package_name": "com.sssubs.zingmyorder"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAyLnK4A33I9rxSNaPoox0gykhY0h8fP_k"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
