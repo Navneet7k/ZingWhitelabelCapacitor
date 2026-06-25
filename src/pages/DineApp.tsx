@@ -150,6 +150,7 @@ const DineApp: React.FC = () => {
   const handleOrder = async () => {
     try {
       if (!authUser) { setView('account'); return; }
+      if (locations.length > 1) { setView('location'); return; }
       const url = getOrderButtonUrl() ?? getOrderUrl();
       if (!url) return;
       await openWebView(url, 'Place Order', template.colors.primary);

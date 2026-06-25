@@ -1,7 +1,7 @@
 {
   "name": "ZingWhitelabelCapacitor",
   "private": true,
-  "version": "2.4.156",
+  "version": "2.4.157",
   "type": "module",
   "scripts": {
     "dev": "vite",
