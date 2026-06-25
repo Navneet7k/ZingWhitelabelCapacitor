@@ -160,7 +160,13 @@ export function mapHomeResponse(raw: ApiHomeResponse): HomeData {
 export function getCachedHomeData(restaurantId: string): HomeData | null {
   try {
     const raw = localStorage.getItem(`zing_home_v3_${restaurantId}`);
-    return raw ? JSON.parse(raw) : null;
+    if (!raw) return null;
+    const cached: HomeData = JSON.parse(raw);
+    cached.recentOrders   = [];
+    cached.currentOrders  = [];
+    cached.pastOrders     = [];
+    cached.favoriteOrders = [];
+    return cached;
   } catch { return null; }
 }
 
