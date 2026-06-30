@@ -194,7 +194,7 @@ const PulseApp: React.FC = () => {
       if (locations.length > 1) { setView('location'); return; }
       const url = getOrderButtonUrl() ?? getOrderUrl();
       if (!url) return;
-      await openWebView(url, 'Place Order', template.colors.primary);
+      await openWebView(url, 'Place Order', template.colors.primary, () => { refetchHome(getToken() ?? undefined); });
     } catch { /* silent */ }
   };
 
@@ -822,7 +822,7 @@ const PulseApp: React.FC = () => {
                       if (locations.length > 1 && loc.url) {
                         const token = getToken();
                         const url = token ? `${loc.url}?token=${encodeURIComponent(token)}` : loc.url;
-                        openWebView(url, 'Order Online', template.colors.primary);
+                        openWebView(url, 'Order Online', template.colors.primary, () => { refetchHome(getToken() ?? undefined); });
                       } else {
                         handleOrder();
                       }
