@@ -58,7 +58,7 @@ const NAV: { id: DineView; icon: React.ReactNode; label: string }[] = [
 
 const DineApp: React.FC = () => {
   const { template, setTemplateId } = useTemplate();
-  const { data: homeData }          = useHomeData();
+  const { data: homeData, refetch: refetchHome } = useHomeData();
   const { data: menuData }          = useMenuData();
 
   const [view, setView]                         = useState<DineView>('home');
@@ -196,6 +196,7 @@ const DineApp: React.FC = () => {
       setAuthUser(user);
       setEmail('');
       setPassword('');
+      refetchHome(token);
     } catch (err: unknown) {
       setLoginError(safe((err as { message?: string })?.message, 'Login failed'));
     } finally {

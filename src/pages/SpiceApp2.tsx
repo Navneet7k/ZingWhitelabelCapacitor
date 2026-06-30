@@ -123,7 +123,7 @@ function getInitialUser(): AuthUser | null {
 
 const SpiceApp2: React.FC = () => {
   const { template, setTemplateId } = useTemplate();
-  const { data: homeData } = useHomeData();
+  const { data: homeData, refetch: refetchHome } = useHomeData();
   const { data: menuData } = useMenuData();
 
   const [view, setView]                   = useState<Spice2View>('home');
@@ -227,6 +227,7 @@ const SpiceApp2: React.FC = () => {
       setAuthUser(user);
       setLoginEmail('');
       setLoginPassword('');
+      refetchHome(token);
     } catch (err: any) {
       setLoginError(safe(err?.message, 'Login failed'));
     } finally {

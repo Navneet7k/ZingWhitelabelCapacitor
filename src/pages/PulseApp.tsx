@@ -102,7 +102,7 @@ function getInitialUser(): AuthUser | null {
 
 const PulseApp: React.FC = () => {
   const { template, setTemplateId } = useTemplate();
-  const { data: homeData }          = useHomeData();
+  const { data: homeData, refetch: refetchHome } = useHomeData();
   const { data: menuData }          = useMenuData();
 
   const [view, setView]              = useState<PulseView>('home');
@@ -205,6 +205,7 @@ const PulseApp: React.FC = () => {
     try {
       const { token, user } = await login(loginEmail, loginPassword, restaurantId);
       saveAuth(token, user); setAuthUser(user); setEmail(''); setPassword('');
+      refetchHome(token);
     } catch (err: any) {
       setLoginError(safe(err?.message, 'Login failed'));
     } finally { setLoading(false); }

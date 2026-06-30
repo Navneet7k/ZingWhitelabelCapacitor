@@ -6,9 +6,10 @@ interface CtxValue {
   data:    HomeData | null;
   loading: boolean;
   error:   string  | null;
+  refetch: (token?: string) => Promise<void>;
 }
 
-const HomeDataContext = createContext<CtxValue>({ data: null, loading: true, error: null });
+const HomeDataContext = createContext<CtxValue>({ data: null, loading: true, error: null, refetch: async () => {} });
 
 export const HomeDataProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
   const restaurantId = getRestaurantId();
@@ -28,8 +29,19 @@ export const HomeDataProvider: React.FC<{ children: React.ReactNode }> = ({ chil
       .finally(()  => setLoading(false));
   }, [restaurantId]);
 
+  const refetch = async (token?: string) => {
+    if (!restaurantId) return;
+    try {
+      const fresh = await fetchHomeData(restaurantId, token);
+      setData(fresh);
+      setError(null);
+    } catch (e: any) {
+      console.warn('[HomeApi] refetch failed', e);
+    }
+  };
+
   return (
-    <HomeDataContext.Provider value={{ data, loading, error }}>
+    <HomeDataContext.Provider value={{ data, loading, error, refetch }}>
       {children}
     </HomeDataContext.Provider>
   );

@@ -170,10 +170,12 @@ export function getCachedHomeData(restaurantId: string): HomeData | null {
   } catch { return null; }
 }
 
-export async function fetchHomeData(restaurantId: string): Promise<HomeData> {
+export async function fetchHomeData(restaurantId: string, token?: string): Promise<HomeData> {
   const url = `${BASE_URL}/home/${restaurantId}`;
   log('[Home] Request:', url);
-  const res = await fetch(url, { cache: 'no-store' });
+  const headers: Record<string, string> = {};
+  if (token) headers['Authorization'] = `Bearer ${token}`;
+  const res = await fetch(url, { cache: 'no-store', headers });
   if (!res.ok) {
     warn('[Home] Response error:', res.status);
     throw new Error(`HTTP ${res.status}`);
