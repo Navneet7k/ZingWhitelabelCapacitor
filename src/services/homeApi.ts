@@ -171,11 +171,11 @@ export function getCachedHomeData(restaurantId: string): HomeData | null {
 }
 
 export async function fetchHomeData(restaurantId: string, token?: string): Promise<HomeData> {
-  const url = `${BASE_URL}/home/${restaurantId}`;
+  const url = token
+    ? `${BASE_URL}/home/${restaurantId}?token=${encodeURIComponent(token)}`
+    : `${BASE_URL}/home/${restaurantId}`;
   log('[Home] Request:', url);
-  const headers: Record<string, string> = {};
-  if (token) headers['Authorization'] = `Bearer ${token}`;
-  const res = await fetch(url, { cache: 'no-store', headers });
+  const res = await fetch(url, { cache: 'no-store' });
   if (!res.ok) {
     warn('[Home] Response error:', res.status);
     throw new Error(`HTTP ${res.status}`);
