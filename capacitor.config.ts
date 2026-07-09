@@ -1,7 +1,7 @@
 import type { CapacitorConfig } from '@capacitor/cli';
 
 const config: CapacitorConfig = {
-  appId: 'com.wildfishandchicken.zingmyorder',
+  appId: 'com.sodalab.zingmyorder',
   appName: "BOWL'D KITCHEN",
   webDir: 'dist',
   plugins: {

@@ -4,7 +4,7 @@ android {
     namespace = "com.zing.whitelabel"
     compileSdk = rootProject.ext.compileSdkVersion
     defaultConfig {
-        applicationId "com.wildfishandchicken.zingmyorder"
+        applicationId "com.sodalab.zingmyorder"
         minSdkVersion rootProject.ext.minSdkVersion
         targetSdkVersion rootProject.ext.targetSdkVersion
         versionCode 4

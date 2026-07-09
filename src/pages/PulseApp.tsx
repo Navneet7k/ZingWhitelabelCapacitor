@@ -108,6 +108,7 @@ const PulseApp: React.FC = () => {
   const [view, setView]              = useState<PulseView>('home');
   const [bannerIdx, setBannerIdx]    = useState(0);
   const [activeCategory, setCategory]= useState<number | null>(null);
+  const [activeGroup, setGroup]      = useState<number | null>(null);
   const [authUser, setAuthUser]      = useState<AuthUser | null>(getInitialUser);
   const [authTab, setAuthTab]         = useState<'login' | 'register'>('login');
   const [loginEmail, setEmail]        = useState('');
@@ -151,6 +152,8 @@ const PulseApp: React.FC = () => {
   const restaurantPhone   = getRestaurantPhone();
   const locations         = getRestaurantLocations();
   const allCategories  = menuData?.categories ?? [];
+  const menuGroups     = menuData?.groups ?? [];
+  const isGroupMode    = menuData?.isGroupMode ?? false;
   const popularDishes  = homeData?.popularDishes ?? [];
   const banners        = homeData?.banners ?? [];
   const recentOrders   = homeData?.recentOrders ?? [];
@@ -393,7 +396,59 @@ const PulseApp: React.FC = () => {
         {/* ── MENU ── */}
         {view === 'menu' && (
           <>
-            {activeCategory === null ? (
+            {isGroupMode ? (
+              activeGroup === null ? (
+                <>
+                  <p className="pl__view-title">Menu</p>
+                  {!menuData
+                    ? <p className="pl__empty">Loading…</p>
+                    : menuGroups.length === 0
+                      ? <p className="pl__empty">No categories</p>
+                      : (
+                        <div className="pl__grp-grid">
+                          {menuGroups.map(g => (
+                            <button key={g.id} className="pl__grp-cell"
+                              onClick={() => setGroup(g.id)}>
+                              {g.logo ? <PlImg cls="pl__grp-img" src={g.logo} /> : null}
+                              <span className="pl__grp-label">{safe(g.name)}</span>
+                            </button>
+                          ))}
+                        </div>
+                      )
+                  }
+                </>
+              ) : (
+                <>
+                  <div className="pl__items-header">
+                    <button className="pl__items-back" onClick={() => setGroup(null)}>
+                      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round">
+                        <path d="M15 18l-6-6 6-6"/>
+                      </svg>
+                    </button>
+                    <p className="pl__items-title">
+                      {safe(menuGroups.find(g => g.id === activeGroup)?.name)}
+                    </p>
+                  </div>
+                  {allCategories.filter(cat => cat.groupId === activeGroup).map(cat => (
+                    <div key={cat.id}>
+                      <div className="pl__cat-header">{safe(cat.name)}</div>
+                      <div className="pl__item-list">
+                        {(cat.items ?? []).map(item => (
+                          <div key={item.id} className="pl__item-row" onClick={handleOrder}>
+                            <div className="pl__item-left">
+                              <p className="pl__item-name">{safe(item.name)}</p>
+                              {item.description && <p className="pl__item-desc">{item.description}</p>}
+                              <p className="pl__item-price">${safe(String(item.price ?? 0))}</p>
+                            </div>
+                            {item.image ? <PlImg cls="pl__item-thumb" src={item.image} /> : null}
+                          </div>
+                        ))}
+                      </div>
+                    </div>
+                  ))}
+                </>
+              )
+            ) : activeCategory === null ? (
               <>
                 <p className="pl__view-title">Menu</p>
                 {!menuData

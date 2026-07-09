@@ -413,6 +413,51 @@
   box-shadow: 0 1px 4px rgba(0,0,0,0.07);
 }
 
+/* ── GROUP GRID (subcategory mode) ── */
+.pl__grp-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 16px;
+  padding: 16px;
+}
+.pl__grp-cell {
+  border: none;
+  background: #fff;
+  border-radius: 14px;
+  padding: 14px 12px 16px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 10px;
+  cursor: pointer;
+  box-shadow: 0 1px 6px rgba(0,0,0,0.08);
+}
+.pl__grp-img {
+  width: 100%;
+  aspect-ratio: 1;
+  border-radius: 50%;
+}
+.pl__grp-label {
+  font-family: var(--t-font-body, 'Poppins', sans-serif);
+  font-size: 13px;
+  font-weight: 600;
+  color: #1A1A1A;
+  text-align: center;
+  line-height: 1.3;
+}
+
+/* ── CATEGORY HEADER BAR (subcategory mode) ── */
+.pl__cat-header {
+  background: linear-gradient(90deg, #8b5fbf, #c9648f);
+  border-left: 4px solid #6a3f99;
+  color: #fff;
+  font-family: var(--t-font-heading, 'Poppins', sans-serif);
+  font-size: 15px;
+  font-weight: 700;
+  padding: 12px 16px;
+  margin-top: 6px;
+}
+
 /* ── ITEM LIST ── */
 .pl__items-header {
   display: flex;
