@@ -287,7 +287,7 @@ const PulseApp: React.FC = () => {
               </div>
               <div className="pl__pts-right">
                 <p className="pl__pts-text">Earn Points for Each Order.</p>
-                <button className="pl__pts-link" onClick={() => openWebView(clientUrl('points'), 'Points', '#fff')}>
+                <button className="pl__pts-link" onClick={() => openWebView(clientUrl('points'), 'Points', '#000000')}>
                   Learn More
                 </button>
               </div>
