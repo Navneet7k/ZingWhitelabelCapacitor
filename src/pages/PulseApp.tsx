@@ -197,7 +197,7 @@ const PulseApp: React.FC = () => {
       if (locations.length > 1) { setView('location'); return; }
       const url = getOrderButtonUrl() ?? getOrderUrl();
       if (!url) return;
-      await openWebView(url, 'Place Order', template.colors.primary, () => { refetchHome(getToken() ?? undefined); });
+      await openWebView(url, 'Place Order', '#000000', () => { refetchHome(getToken() ?? undefined); });
     } catch { /* silent */ }
   };
 
@@ -238,7 +238,7 @@ const PulseApp: React.FC = () => {
 
   function handleDeleteConfirmed() {
     setShowDeleteConfirm(false);
-    openWebView(`https://app.zingmyorder.com/app/delete-user/${getRestaurantId() ?? ''}?token=${getToken() ?? ''}`, 'Delete Account', template.colors.primary);
+    openWebView(`https://app.zingmyorder.com/app/delete-user/${getRestaurantId() ?? ''}?token=${getToken() ?? ''}`, 'Delete Account', '#000000');
   }
 
   return (
@@ -349,7 +349,7 @@ const PulseApp: React.FC = () => {
                       <button className="pl__ord-status-btn" onClick={() => {
                         const rid = getRestaurantId() ?? '';
                         const token = getToken() ?? '';
-                        openWebView(`https://app.zingmyorder.com/orders-page/${rid}?token=${encodeURIComponent(token)}`, 'My Orders', template.colors.primary);
+                        openWebView(`https://app.zingmyorder.com/orders-page/${rid}?token=${encodeURIComponent(token)}`, 'My Orders', '#000000');
                       }}>
                         Order Status | 🕐
                       </button>
@@ -551,7 +551,7 @@ const PulseApp: React.FC = () => {
                   <button className="pl__acc-action" onClick={() => {
                     const rid = getRestaurantId() ?? '';
                     const token = getToken() ?? '';
-                    openWebView(`https://app.zingmyorder.com/orders-page/${rid}?token=${encodeURIComponent(token)}`, 'My Orders', template.colors.primary);
+                    openWebView(`https://app.zingmyorder.com/orders-page/${rid}?token=${encodeURIComponent(token)}`, 'My Orders', '#000000');
                   }}>
                     <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
                       <path d="M6 2L3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"/><line x1="3" y1="6" x2="21" y2="6"/><path d="M16 10a4 4 0 0 1-8 0"/>
@@ -559,14 +559,14 @@ const PulseApp: React.FC = () => {
                     <span>My Orders</span>
                   </button>
                   <div className="pl__acc-action-div" />
-                  <button className="pl__acc-action" onClick={() => openWebView(clientUrl('favorites'), 'Favorites', template.colors.primary)}>
+                  <button className="pl__acc-action" onClick={() => openWebView(clientUrl('favorites'), 'Favorites', '#000000')}>
                     <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
                       <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/>
                     </svg>
                     <span>Favorite</span>
                   </button>
                   <div className="pl__acc-action-div" />
-                  <button className="pl__acc-action" onClick={() => openWebView(clientUrl('points'), 'Points', template.colors.primary)}>
+                  <button className="pl__acc-action" onClick={() => openWebView(clientUrl('points'), 'Points', '#000000')}>
                     <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
                       <polyline points="20 12 20 22 4 22 4 12"/><rect x="2" y="7" width="20" height="5"/><path d="M12 22V7"/><path d="M12 7H7.5a2.5 2.5 0 0 1 0-5C11 2 12 7 12 7z"/><path d="M12 7h4.5a2.5 2.5 0 0 0 0-5C13 2 12 7 12 7z"/>
                     </svg>
@@ -577,7 +577,7 @@ const PulseApp: React.FC = () => {
 
                 {/* List rows */}
                 <div className="pl__acc-list">
-                  <button className="pl__acc-row" onClick={() => openWebView(clientUrl('edit-profile'), 'Edit Profile', template.colors.primary)}>
+                  <button className="pl__acc-row" onClick={() => openWebView(clientUrl('edit-profile'), 'Edit Profile', '#000000')}>
                     <span className="pl__acc-row-icon">
                       <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
                         <path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"/>
@@ -877,7 +877,7 @@ const PulseApp: React.FC = () => {
                       if (locations.length > 1 && loc.url) {
                         const token = getToken();
                         const url = token ? `${loc.url}?token=${encodeURIComponent(token)}` : loc.url;
-                        openWebView(url, 'Order Online', template.colors.primary, () => { refetchHome(getToken() ?? undefined); });
+                        openWebView(url, 'Order Online', '#000000', () => { refetchHome(getToken() ?? undefined); });
                       } else {
                         handleOrder();
                       }
