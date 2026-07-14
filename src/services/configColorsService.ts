@@ -42,6 +42,8 @@ function buildCSSProps(colors: Record<string, string>): string {
   if (colors['primary-text-color']) p.push(`--t-primary-text:${colors['primary-text-color']};`);
   if (colors['secondary-text-color']) p.push(`--t-secondary-text:${colors['secondary-text-color']};`);
   if (colors['body-text-color'])    p.push(`--t-body-text:${colors['body-text-color']};`);
+  if (colors['button-color'])       p.push(`--t-button:${colors['button-color']};`);
+  if (colors['button-text-color'])  p.push(`--t-button-text:${colors['button-text-color']};`);
   return p.join('');
 }
 
