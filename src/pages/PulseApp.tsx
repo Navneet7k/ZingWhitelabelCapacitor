@@ -13,6 +13,7 @@ import { checkConfigColorsOnTabSwitch } from '../services/configColorsService';
 import { getStatus, onStatusChange, applyIfReady, checkOnTabSwitch } from '../services/updater';
 import type { UpdateStatus } from '../services/updater';
 import CustomizePage from './CustomizePage';
+import locationMapPlaceholder from '../assets/location-map-placeholder.png';
 import './PulseApp.css';
 
 function safe(v: unknown, fallback = ''): string {
@@ -813,19 +814,10 @@ const PulseApp: React.FC = () => {
           <>
             <p className="pl__view-title pl__loc-view-title">Location</p>
 
+            <div className="pl__loc-card">
             {/* Map placeholder */}
             <div className="pl__loc-map-ph">
-              <svg width="110" height="110" viewBox="0 0 110 110" fill="none" xmlns="http://www.w3.org/2000/svg">
-                {/* Terrain spread */}
-                <ellipse cx="55" cy="85" rx="38" ry="12" fill="#A5D6A7" opacity="0.5"/>
-                <path d="M20 85 Q35 72 55 78 Q75 84 90 75 L90 90 Q70 100 55 95 Q35 100 20 90 Z" fill="#C8E6C9" opacity="0.7"/>
-                {/* Pin shadow */}
-                <ellipse cx="55" cy="82" rx="10" ry="4" fill="rgba(0,0,0,0.15)"/>
-                {/* Pin body */}
-                <path d="M55 22C44.5 22 36 30.5 36 41C36 55 55 78 55 78C55 78 74 55 74 41C74 30.5 65.5 22 55 22Z" fill="#E53935"/>
-                {/* Pin inner circle */}
-                <circle cx="55" cy="41" r="8" fill="#fff" opacity="0.9"/>
-              </svg>
+              <img src={locationMapPlaceholder} alt="" className="pl__loc-map-img" />
             </div>
 
             {/* Location entries */}
@@ -885,6 +877,7 @@ const PulseApp: React.FC = () => {
                   >Order Online</button>
                 </div>
               ))}
+            </div>
             </div>
             <div style={{ height: 20 }} />
           </>
