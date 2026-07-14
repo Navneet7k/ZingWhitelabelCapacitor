@@ -35,6 +35,12 @@
   padding-top: env(safe-area-inset-top);
 }
 
+.pl__scroll--account {
+  display: flex;
+  flex-direction: column;
+  min-height: 100%;
+}
+
 /* ── BANNER SLIDER ── */
 .pl__banner {
   position: relative;
@@ -868,6 +874,7 @@
 /* ── UPDATE PANEL ── */
 .pl__update-panel {
   margin: 16px 16px 8px;
+  margin-top: auto;
   background: var(--t-surface, #fff);
   border-radius: 14px;
   padding: 14px 16px;
@@ -971,7 +978,9 @@
   display: inline-block;
   background: var(--t-primary, #28A96B);
   color: #fff !important;
-  padding: 4px 18px 4px 20px;
+  font-size: 13px;
+  font-weight: 400;
+  padding: 3px 16px 3px 20px;
   border-radius: 0 8px 8px 0;
   margin: 16px 16px 10px 0;
 }

@@ -244,7 +244,7 @@ const PulseApp: React.FC = () => {
 
   return (
     <div className="pl">
-      <div className="pl__scroll">
+      <div className={`pl__scroll${view === 'account' ? ' pl__scroll--account' : ''}`}>
 
         {/* ── HOME ── */}
         {view === 'home' && (
