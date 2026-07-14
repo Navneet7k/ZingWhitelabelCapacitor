@@ -72,8 +72,8 @@
   white-space: pre-wrap;
 }
 .pl__banner-btn {
-  background: var(--t-primary, #28A96B);
-  color: #fff;
+  background: var(--t-button, #28A96B);
+  color: var(--t-button-text, #fff);
   border: none;
   border-radius: 10px;
   padding: 9px 22px;
@@ -855,8 +855,8 @@
   margin: 0 16px;
   width: calc(100% - 32px);
   padding: 14px;
-  background: var(--t-primary, #28A96B);
-  color: #fff;
+  background: var(--t-button, #28A96B);
+  color: var(--t-button-text, #fff);
   border: none;
   border-radius: 14px;
   font-family: var(--t-font-body, 'Poppins', sans-serif);
@@ -1050,8 +1050,8 @@
 .pl__loc-order-btn {
   width: 100%;
   padding: 12px;
-  background: var(--t-primary, #28A96B);
-  color: #fff;
+  background: var(--t-button, #28A96B);
+  color: var(--t-button-text, #fff);
   border: none;
   border-radius: 10px;
   font-family: var(--t-font-body, 'Poppins', sans-serif);
