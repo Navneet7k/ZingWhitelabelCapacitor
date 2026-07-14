@@ -794,14 +794,14 @@ const PulseApp: React.FC = () => {
             </div>
             )}
 
-            <div className="pl__update-panel">
+            <div className="pl__update-panel" onClick={() => setShowDevOptions(d => !d)} style={{ cursor: 'pointer' }}>
               <div className="pl__update-header">
                 <span style={{ fontSize: 16 }}>
                   {updateStatus.state === 'checking' || updateStatus.state === 'downloading' ? '🔄'
                    : updateStatus.state === 'ready' ? '⬆️'
                    : updateStatus.state === 'error'  ? '❌' : '🔃'}
                 </span>
-                <span className="pl__update-title" onClick={() => setShowDevOptions(d => !d)} style={{ cursor: 'pointer' }}>App Updates</span>
+                <span className="pl__update-title">App Updates</span>
               </div>
               <p className="pl__update-text" style={{ color: updateStatusLabel(updateStatus).color }}>
                 {updateStatus.state === 'ready'
