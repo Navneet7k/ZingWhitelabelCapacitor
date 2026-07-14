@@ -37,7 +37,7 @@ function buildCSSProps(colors: Record<string, string>): string {
   if (colors['secondary-color'])    p.push(`--t-accent:${colors['secondary-color']};`);
   if (colors['body-color'])         p.push(`--t-bg:${colors['body-color']};`);
   if (colors['card-color'])         p.push(`--t-surface:${colors['card-color']};`);
-  if (colors['heading-color'])      p.push(`--t-text:${colors['heading-color']};`);
+  if (colors['header-color'])       p.push(`--t-text:${colors['header-color']};`);
   if (colors['card-text-muted'])    p.push(`--t-text-muted:${colors['card-text-muted']};`);
   if (colors['primary-text-color']) p.push(`--t-primary-text:${colors['primary-text-color']};`);
   if (colors['secondary-text-color']) p.push(`--t-secondary-text:${colors['secondary-text-color']};`);
