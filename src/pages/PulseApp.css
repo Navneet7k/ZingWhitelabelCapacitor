@@ -141,13 +141,13 @@
   line-height: 1.4;
 }
 .pl__pts-link {
-  background: #fff;
+  background: var(--t-button, #fff);
   border: none;
   border-radius: 6px;
   font-family: var(--t-font-body, 'Poppins', sans-serif);
   font-size: 12px;
   font-weight: 600;
-  color: var(--t-primary, #28A96B);
+  color: var(--t-button-text, #28A96B);
   padding: 5px 14px;
   cursor: pointer;
   display: inline-block;
