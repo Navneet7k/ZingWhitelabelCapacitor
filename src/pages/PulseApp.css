@@ -969,11 +969,11 @@
 /* ── LOCATION VIEW ── */
 .pl__loc-view-title {
   display: inline-block;
-  background: color-mix(in srgb, var(--t-primary, #28A96B) 18%, #fff);
-  color: var(--t-primary, #28A96B);
-  padding: 5px 16px;
-  border-radius: 6px;
-  margin: 16px 16px 12px;
+  background: var(--t-primary, #28A96B);
+  color: #fff !important;
+  padding: 4px 18px 4px 20px;
+  border-radius: 0 8px 8px 0;
+  margin: 16px 16px 10px 0;
 }
 
 .pl__loc-card {
