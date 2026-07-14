@@ -870,6 +870,14 @@
   cursor: pointer;
 }
 
+/* ── DEV OPTIONS (expanded App Updates section) ── */
+.pl__dev-options {
+  max-height: 45vh;
+  overflow-y: auto;
+  -webkit-overflow-scrolling: touch;
+  padding-top: 12px;
+}
+
 /* ── UPDATE PANEL ── */
 .pl__update-panel {
   margin: 16px 16px 8px;

@@ -763,23 +763,8 @@ const PulseApp: React.FC = () => {
               </div>
             )}
 
-            <div className="pl__update-panel">
-              <div className="pl__update-header">
-                <span style={{ fontSize: 16 }}>
-                  {updateStatus.state === 'checking' || updateStatus.state === 'downloading' ? '🔄'
-                   : updateStatus.state === 'ready' ? '⬆️'
-                   : updateStatus.state === 'error'  ? '❌' : '🔃'}
-                </span>
-                <span className="pl__update-title" onClick={() => setShowDevOptions(d => !d)} style={{ cursor: 'pointer' }}>App Updates</span>
-              </div>
-              <p className="pl__update-text" style={{ color: updateStatusLabel(updateStatus).color }}>
-                {updateStatus.state === 'ready'
-                  ? `v${(updateStatus as any).version} downloaded — tap to install`
-                  : updateStatusLabel(updateStatus).text}
-              </p>
-            </div>
-
-            {showDevOptions && (<>
+            {showDevOptions && (
+            <div className="pl__dev-options">
             <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', margin: '0 16px 12px', padding: '12px 14px', background: 'rgba(128,128,128,0.12)', borderRadius: 12 }}>
               <div>
                 <p style={{ margin: 0, fontSize: 13, fontWeight: 600, color: 'var(--t-text)' }}>Set Debug Template</p>
@@ -805,8 +790,25 @@ const PulseApp: React.FC = () => {
               onClick={() => { const t = getSavedFcmToken(); if (!t) return; navigator.clipboard.writeText(t).then(() => { setCopiedFcm(true); setTimeout(() => setCopiedFcm(false), 2000); }); }}
               style={{ display: 'block', width: 'calc(100% - 32px)', margin: '0 16px 8px', padding: '12px', border: '1px solid rgba(128,128,128,0.25)', borderRadius: 12, background: 'rgba(128,128,128,0.1)', color: 'inherit', fontFamily: 'inherit', fontSize: 14, fontWeight: 600, cursor: 'pointer' }}
             >{copiedFcm ? '✅ Copied!' : getSavedFcmToken() ? '📋 Copy FCM Token' : 'Token not available'}</button>
-            <div style={{ height: 20 }} />
-            </>)}
+            <div style={{ height: 12 }} />
+            </div>
+            )}
+
+            <div className="pl__update-panel">
+              <div className="pl__update-header">
+                <span style={{ fontSize: 16 }}>
+                  {updateStatus.state === 'checking' || updateStatus.state === 'downloading' ? '🔄'
+                   : updateStatus.state === 'ready' ? '⬆️'
+                   : updateStatus.state === 'error'  ? '❌' : '🔃'}
+                </span>
+                <span className="pl__update-title" onClick={() => setShowDevOptions(d => !d)} style={{ cursor: 'pointer' }}>App Updates</span>
+              </div>
+              <p className="pl__update-text" style={{ color: updateStatusLabel(updateStatus).color }}>
+                {updateStatus.state === 'ready'
+                  ? `v${(updateStatus as any).version} downloaded — tap to install`
+                  : updateStatusLabel(updateStatus).text}
+              </p>
+            </div>
           </>
         )}
         {/* ── LOCATION ── */}
