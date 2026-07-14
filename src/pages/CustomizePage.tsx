@@ -159,7 +159,7 @@ const SwatchRow: React.FC<SwatchRowProps> = ({
 
 const CustomizePage: React.FC<Props> = ({ onBack }) => {
   const { template } = useTemplate();
-  const { overrides, setOverride, resetOverrides, configColorsEnabled, setConfigColorsEnabled } = useThemeCustom();
+  const { overrides, setOverride, resetOverrides } = useThemeCustom();
 
   const hasAnyOverride = Object.keys(overrides).length > 0;
 
@@ -180,26 +180,6 @@ const CustomizePage: React.FC<Props> = ({ onBack }) => {
       <p className="cp__subtitle">
         Customizing <strong>{template.name}</strong> template
       </p>
-
-      {/* Brand Colors Toggle */}
-      <div className="cp__section cp__section--toggle">
-        <div className="cp__toggle-row">
-          <div className="cp__toggle-info">
-            <span className="cp__section-title">Use Brand Colors</span>
-            <p className="cp__toggle-desc">Fetch colors from your restaurant config</p>
-          </div>
-          <button
-            className={`cp__toggle-btn${configColorsEnabled ? ' cp__toggle-btn--on' : ''}`}
-            onClick={() => setConfigColorsEnabled(!configColorsEnabled)}
-            aria-label="Toggle brand colors"
-          >
-            <span className="cp__toggle-knob" />
-          </button>
-        </div>
-        {configColorsEnabled && (
-          <p className="cp__toggle-hint">Brand colors are active and override manual swatches below.</p>
-        )}
-      </div>
 
       {/* Accent Color */}
       <SwatchRow

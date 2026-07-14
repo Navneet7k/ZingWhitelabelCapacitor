@@ -1,15 +1,5 @@
 const BASE_URL               = 'https://app.zingmyorder.com/api';
 const CONFIG_COLORS_KEY      = 'zing_config_colors';
-const CONFIG_COLORS_ENABLED  = 'zing_config_colors_enabled';
-
-// ── Toggle state ────────────────────────────────────────────────────────────
-export function isConfigColorsEnabled(): boolean {
-  return localStorage.getItem(CONFIG_COLORS_ENABLED) === 'true';
-}
-export function persistConfigColorsEnabled(enabled: boolean): void {
-  if (enabled) localStorage.setItem(CONFIG_COLORS_ENABLED, 'true');
-  else localStorage.removeItem(CONFIG_COLORS_ENABLED);
-}
 
 // ── Stored colors ────────────────────────────────────────────────────────────
 export function getStoredConfigColors(): Record<string, string> | null {
@@ -69,10 +59,6 @@ export function applyConfigColors(colors: Record<string, string> | null, _retry 
   tag.textContent = props ? `[data-template="${tmpl}"]{${props}}` : '';
 }
 
-export function clearConfigColors(): void {
-  if (_styleTag) _styleTag.textContent = '';
-}
-
 // ── Fetch & store ────────────────────────────────────────────────────────────
 export async function fetchAndStoreConfigColors(restaurantId: string): Promise<boolean> {
   try {
@@ -87,9 +73,11 @@ export async function fetchAndStoreConfigColors(restaurantId: string): Promise<b
 
 // ── Called on every tab switch ────────────────────────────────────────────────
 export function checkConfigColorsOnTabSwitch(restaurantId: string): void {
-  if (!isConfigColorsEnabled() || !restaurantId) return;
+  if (!restaurantId) return;
   // Apply whatever is currently stored (instant — no network wait).
-  // The fetch below updates localStorage silently; next tab switch picks up new values.
   applyConfigColors(getStoredConfigColors());
-  fetchAndStoreConfigColors(restaurantId);
+  // Fetch fresh colors in the background; re-apply immediately if they changed.
+  fetchAndStoreConfigColors(restaurantId).then(changed => {
+    if (changed) applyConfigColors(getStoredConfigColors());
+  });
 }
