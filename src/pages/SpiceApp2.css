@@ -308,8 +308,8 @@
 
 .sp2__points-btn {
   align-self: flex-start;
-  background: var(--t-bg, #2C5F3E);
-  color: #fff;
+  background: var(--t-button, #2C5F3E);
+  color: var(--t-button-text, #fff);
   border: none;
   border-radius: 22px;
   padding: 10px 20px;
@@ -475,8 +475,8 @@
   width: calc(100% - 28px);
   margin: 0 14px 14px;
   padding: 14px;
-  background: var(--t-bg, #2C5F3E);
-  color: #fff;
+  background: var(--t-button, #2C5F3E);
+  color: var(--t-button-text, #fff);
   border: none;
   border-radius: 10px;
   font-size: 14px;
@@ -567,8 +567,8 @@
 .sp2__contact-btn {
   width: 100%;
   padding: 13px;
-  background: var(--t-bg, #2C5F3E);
-  color: #fff;
+  background: var(--t-button, #2C5F3E);
+  color: var(--t-button-text, #fff);
   border: none;
   border-radius: 12px;
   font-size: 15px;
@@ -583,8 +583,8 @@
   width: calc(100% - 32px);
   margin: 8px 16px;
   padding: 14px;
-  background: var(--t-primary, #1B4D2E);
-  color: #fff;
+  background: var(--t-button, #1B4D2E);
+  color: var(--t-button-text, #fff);
   border: none;
   border-radius: var(--t-radius, 14px);
   font-size: 16px;
@@ -1166,8 +1166,8 @@
 }
 
 .sp2__loc-order-btn {
-  background: var(--t-primary, #1B4D2E);
-  color: #fff;
+  background: var(--t-button, #1B4D2E);
+  color: var(--t-button-text, #fff);
   border: none;
   border-radius: 22px;
   padding: 11px 40px;
