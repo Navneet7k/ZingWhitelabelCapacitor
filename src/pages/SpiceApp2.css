@@ -993,8 +993,8 @@
 
 .sp2__auth-btn {
   padding: 14px;
-  background: var(--t-primary, #1B4D2E);
-  color: #fff;
+  background: var(--t-button, #1B4D2E);
+  color: var(--t-button-text, #fff);
   border: none;
   border-radius: 12px;
   font-size: 16px;
@@ -1328,8 +1328,8 @@
   width: 32px;
   height: 32px;
   border-radius: 50%;
-  background: var(--t-primary, #1B4D2E);
-  color: #fff;
+  background: var(--t-button, #1B4D2E);
+  color: var(--t-button-text, #fff);
   border: none;
   font-size: 20px;
   display: flex;
