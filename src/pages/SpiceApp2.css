@@ -1403,8 +1403,8 @@
   display: flex;
   align-items: center;
   gap: 6px;
-  padding: 14px 16px 12px;
-  border-bottom: 1px solid #f0f0f0;
+  padding: calc(env(safe-area-inset-top) + 14px) 16px 12px;
+  border-bottom: 1px solid rgba(255,255,255,0.12);
 }
 .sp2__items-back {
   background: none;
