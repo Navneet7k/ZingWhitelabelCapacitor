@@ -130,6 +130,7 @@ const SpiceApp2: React.FC = () => {
   const [selectedBanner, setSelectedBanner] = useState(0);
   const [activeGallery, setActiveGallery] = useState(0);
   const [expandedCatId, setExpandedCatId] = useState<number | null>(null);
+  const [activeGroup, setGroup]           = useState<number | null>(null);
   const [orderTab, setOrderTab]           = useState<'current' | 'past' | 'favorite'>('current');
   const galleryTouchX = useRef(0);
   const [authUser, setAuthUser]           = useState<AuthUser | null>(getInitialUser);
@@ -185,18 +186,8 @@ const SpiceApp2: React.FC = () => {
   const pastOrders     = homeData?.pastOrders      ?? [];
   const favoriteOrders = homeData?.favoriteOrders  ?? [];
 
-  const groups = menuData?.groups ?? [];
-  const menuSections = (() => {
-    const secs: Array<{ group: typeof groups[number] | null; categories: typeof allCategories }> = [];
-    groups.forEach(g => {
-      const cats = allCategories.filter(c => c.groupId === g.id);
-      if (cats.length > 0) secs.push({ group: g, categories: cats });
-    });
-    const placed = new Set(secs.flatMap(s => s.categories.map(c => c.id)));
-    const remaining = allCategories.filter(c => !placed.has(c.id));
-    if (remaining.length > 0) secs.push({ group: null, categories: remaining });
-    return secs;
-  })();
+  const groups      = menuData?.groups ?? [];
+  const isGroupMode = menuData?.isGroupMode ?? false;
 
   const didMountRef = useRef(false);
   useEffect(() => {
@@ -468,6 +459,60 @@ const SpiceApp2: React.FC = () => {
         {/* ── MENU ── */}
         {view === 'menu' && (
           <>
+            {isGroupMode ? (
+              activeGroup === null ? (
+                <>
+                  <p className="sp2__view-title">Menu</p>
+                  {!menuData
+                    ? <p className="sp2__empty">Loading…</p>
+                    : groups.length === 0
+                      ? <p className="sp2__empty">No categories</p>
+                      : (
+                        <div className="sp2__grp-grid">
+                          {groups.map(g => (
+                            <button key={g.id} className="sp2__grp-cell"
+                              onClick={() => setGroup(g.id)}>
+                              {g.logo ? <Sp2Img cls="sp2__grp-img" src={g.logo} /> : null}
+                              <span className="sp2__grp-label">{safe(g.name)}</span>
+                            </button>
+                          ))}
+                        </div>
+                      )
+                  }
+                </>
+              ) : (
+                <>
+                  <div className="sp2__items-header">
+                    <button className="sp2__items-back" onClick={() => setGroup(null)}>
+                      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round">
+                        <path d="M15 18l-6-6 6-6"/>
+                      </svg>
+                    </button>
+                    <p className="sp2__items-title">
+                      {safe(groups.find(g => g.id === activeGroup)?.name)}
+                    </p>
+                  </div>
+                  {allCategories.filter(cat => cat.groupId === activeGroup).map(cat => (
+                    <div key={cat.id}>
+                      <div className="sp2__cat-header">{safe(cat.name)}</div>
+                      <div className="sp2__item-list">
+                        {(cat.items ?? []).map(item => (
+                          <div key={item.id} className="sp2__item-row" onClick={handleOrder}>
+                            <div className="sp2__item-left">
+                              <p className="sp2__item-name">{safe(item.name)}</p>
+                              {item.description && <p className="sp2__item-desc">{item.description}</p>}
+                              <p className="sp2__item-price">${safe(String(item.price ?? 0))}</p>
+                            </div>
+                            {item.image ? <Sp2Img cls="sp2__item-thumb" src={item.image} /> : null}
+                          </div>
+                        ))}
+                      </div>
+                    </div>
+                  ))}
+                </>
+              )
+            ) : (
+            <>
             <p className="sp2__view-title">Menu</p>
             {!menuData ? (
               <p className="sp2__empty">Loading…</p>
@@ -520,6 +565,8 @@ const SpiceApp2: React.FC = () => {
                   </div>
                 ))}
               </div>
+            )}
+            </>
             )}
             <div style={{ height: 20 }} />
           </>
