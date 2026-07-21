@@ -1411,7 +1411,7 @@
   border: none;
   padding: 0;
   cursor: pointer;
-  color: var(--t-text, #fff);
+  color: #fff;
   display: flex;
   align-items: center;
   flex-shrink: 0;
@@ -1419,30 +1419,38 @@
 .sp2__items-title {
   font-size: 16px;
   font-weight: 700;
-  color: var(--t-text, #fff);
+  color: #fff;
   margin: 0;
 }
+/* Card wrapper — matches the accordion's white-card convention (.sp2__acc-items) so
+   item text stays legible regardless of this restaurant's brand bg/text color pairing. */
 .sp2__item-list {
-  padding: 0 12px;
+  background: var(--t-surface, #fff);
+  border-radius: 12px;
+  overflow: hidden;
+  margin: 0 12px 12px;
 }
 .sp2__item-row {
   display: flex;
   align-items: flex-start;
   gap: 12px;
-  padding: 14px 4px;
-  border-bottom: 1px solid rgba(255,255,255,0.1);
+  padding: 14px 16px;
+  border-bottom: 1px solid #f0f0f0;
   cursor: pointer;
+}
+.sp2__item-row:last-child {
+  border-bottom: none;
 }
 .sp2__item-left { flex: 1; min-width: 0; }
 .sp2__item-name {
   font-size: 14px;
   font-weight: 700;
-  color: var(--t-text, #fff);
+  color: #1A1A1A;
   margin: 0 0 4px;
 }
 .sp2__item-desc {
   font-size: 12px;
-  color: var(--t-secondary-text, #aaa);
+  color: #888;
   margin: 0 0 6px;
   line-height: 1.4;
   display: -webkit-box;
