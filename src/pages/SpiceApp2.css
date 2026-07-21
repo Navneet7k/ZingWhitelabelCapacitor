@@ -144,7 +144,7 @@
   margin: 18px 16px 10px;
   font-size: 16px;
   font-weight: 700;
-  color: var(--t-text, #fff);
+  color: var(--t-body-text, #fff);
 }
 
 .sp2__section-title--flush {
