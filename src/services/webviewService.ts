@@ -164,16 +164,6 @@ export function openWebView(
       // NOTE: On iOS the promise resolves immediately on webview creation (before page
       // load). On Android it resolves after first page load. We rely on browserPageLoaded
       // for the dismiss signal on both platforms, so promise resolution is ignored here.
-      //
-      // Android-only: shrink the popup's window height by a hardcoded margin, attempting
-      // to leave blank native space at the bottom so the page's own bottom bar (e.g.
-      // "Add to Cart") isn't covered by Android's 3-button nav bar. The plugin's Dialog
-      // window has no Gravity set (defaults to CENTER), so a height reduction likely
-      // splits evenly between top/bottom — this margin is doubled (96, vs. 48 tried
-      // previously) to compensate, so ~48 lands at the bottom as originally intended.
-      // REVERT: delete the `...(isAndroid ? { height: ... } : {})` spread below.
-      const isAndroid = Capacitor.getPlatform() === 'android';
-      const ANDROID_BOTTOM_MARGIN_DP = 96;
       await InAppBrowser.openWebView({
         url,
         title,
@@ -181,7 +171,6 @@ export function openWebView(
         toolbarType:           ToolBarType.COMPACT,
         showArrow:             true,
         isPresentAfterPageLoad: true,
-        ...(isAndroid ? { height: Math.round(window.innerHeight - ANDROID_BOTTOM_MARGIN_DP) } : {}),
       });
     }).catch(e => {
       console.error('[WebView] InAppBrowser failed, falling back to iframe:', e);
