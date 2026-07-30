@@ -171,6 +171,12 @@ export function openWebView(
         toolbarType:           ToolBarType.COMPACT,
         showArrow:             true,
         isPresentAfterPageLoad: true,
+        // Attempt to inset content above Android's 3-button nav bar (see plugin issue
+        // Cap-go/capacitor-inappbrowser#576/#641 — reported unreliable by some users on
+        // some devices, but costs nothing to try). REVERT: delete these 2 lines if it
+        // causes any new layout issue.
+        enabledSafeBottomMargin: true,
+        useTopInset:             true,
       });
     }).catch(e => {
       console.error('[WebView] InAppBrowser failed, falling back to iframe:', e);
