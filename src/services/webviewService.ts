@@ -164,6 +164,13 @@ export function openWebView(
       // NOTE: On iOS the promise resolves immediately on webview creation (before page
       // load). On Android it resolves after first page load. We rely on browserPageLoaded
       // for the dismiss signal on both platforms, so promise resolution is ignored here.
+      //
+      // Android-only: shrink the webview's own height by a fixed margin, leaving blank
+      // native space at the bottom so the page's own bottom bar (e.g. "Add to Cart")
+      // isn't covered by Android's 3-button navigation bar. This is a native sizing
+      // param (no script injected into the site). REVERT: delete the `...(isAndroid...)`
+      // spread below if this causes any issue.
+      const isAndroid = Capacitor.getPlatform() === 'android';
       await InAppBrowser.openWebView({
         url,
         title,
@@ -171,6 +178,7 @@ export function openWebView(
         toolbarType:           ToolBarType.COMPACT,
         showArrow:             true,
         isPresentAfterPageLoad: true,
+        ...(isAndroid ? { height: Math.round(window.innerHeight - 48) } : {}),
       });
     }).catch(e => {
       console.error('[WebView] InAppBrowser failed, falling back to iframe:', e);
