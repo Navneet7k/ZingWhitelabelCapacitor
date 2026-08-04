@@ -129,7 +129,7 @@ const SpiceApp2: React.FC = () => {
   const [view, setView]                   = useState<Spice2View>('home');
   const [selectedBanner, setSelectedBanner] = useState(0);
   const [activeGallery, setActiveGallery] = useState(0);
-  const [expandedCatId, setExpandedCatId] = useState<number | null>(null);
+  const [activeCategory, setCategory]     = useState<number | null>(null);
   const [activeGroup, setGroup]           = useState<number | null>(null);
   const [orderTab, setOrderTab]           = useState<'current' | 'past' | 'favorite'>('current');
   const galleryTouchX = useRef(0);
@@ -188,6 +188,9 @@ const SpiceApp2: React.FC = () => {
 
   const groups      = menuData?.groups ?? [];
   const isGroupMode = menuData?.isGroupMode ?? false;
+  const filteredItems = activeCategory
+    ? (allCategories.find(c => c.id === activeCategory)?.items ?? [])
+    : allCategories.flatMap(c => c.items ?? []);
 
   const didMountRef = useRef(false);
   useEffect(() => {
@@ -511,62 +514,56 @@ const SpiceApp2: React.FC = () => {
                   ))}
                 </>
               )
-            ) : (
-            <>
-            <p className="sp2__view-title">Menu</p>
-            {!menuData ? (
-              <p className="sp2__empty">Loading…</p>
-            ) : allCategories.length === 0 ? (
-              <p className="sp2__empty">No items available</p>
-            ) : (
-              <div className="sp2__accordion">
-                {allCategories.map(cat => (
-                  <div key={cat.id} className="sp2__acc-cat-wrap">
-                    <button
-                      className={`sp2__acc-cat-row${expandedCatId === cat.id ? ' expanded' : ''}`}
-                      onClick={() => setExpandedCatId(prev => prev === cat.id ? null : cat.id)}
-                    >
-                      <span className="sp2__acc-cat-name">{safe(cat.name)}</span>
-                      <span className="sp2__acc-cat-badges">
-                        {cat.stockStatus === 0 && <span className="sp2__acc-oos">Sold Out</span>}
-                        {cat.isLocked && <span className="sp2__acc-locked">🔒</span>}
-                      </span>
-                      <span className="sp2__acc-cat-toggle">{expandedCatId === cat.id ? '−' : '+'}</span>
-                    </button>
-                    {expandedCatId === cat.id && (
-                      <div className="sp2__acc-items">
-                        {cat.items.length === 0 ? (
-                          <p className="sp2__acc-no-items">No items in this category</p>
-                        ) : cat.items.map(item => (
-                          <div key={item.id} className="sp2__acc-item-row">
-                            <div className="sp2__acc-item-info">
-                              <p className="sp2__acc-item-name">{safe(item.name)}</p>
-                              {item.description && (
-                                <p className="sp2__acc-item-desc">{item.description}</p>
-                              )}
-                              <p className="sp2__acc-item-price">${item.price.toFixed(2)}</p>
-                            </div>
-                            <div className="sp2__acc-item-right">
-                              <Sp2Img
-                                src={item.image ?? ''}
-                                cls="sp2__acc-item-img"
-                                fallback={<div className="sp2__acc-item-img sp2__acc-item-img--ph" />}
-                              />
-                              <button
-                                className="sp2__acc-item-add"
-                                disabled={cat.stockStatus === 0}
-                                onClick={e => { e.stopPropagation(); handleOrder(); }}
-                              >+</button>
-                            </div>
-                          </div>
+            ) : activeCategory === null ? (
+              <>
+                <p className="sp2__view-title">Menu</p>
+                {!menuData
+                  ? <p className="sp2__empty">Loading…</p>
+                  : allCategories.length === 0
+                    ? <p className="sp2__empty">No categories</p>
+                    : (
+                      <div className="sp2__cat-grid">
+                        {allCategories.map(cat => (
+                          <button key={cat.id} className="sp2__cat-cell"
+                            onClick={() => setCategory(cat.id)}>
+                            {safe(cat.name)}
+                          </button>
                         ))}
                       </div>
-                    )}
-                  </div>
-                ))}
-              </div>
-            )}
-            </>
+                    )
+                }
+              </>
+            ) : (
+              <>
+                <div className="sp2__items-header">
+                  <button className="sp2__items-back" onClick={() => setCategory(null)}>
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round">
+                      <path d="M15 18l-6-6 6-6"/>
+                    </svg>
+                  </button>
+                  <p className="sp2__items-title">
+                    {safe(allCategories.find(c => c.id === activeCategory)?.name)}
+                  </p>
+                </div>
+                {filteredItems.length === 0
+                  ? <p className="sp2__empty">No items</p>
+                  : (
+                    <div className="sp2__item-list">
+                      {filteredItems.map(item => (
+                        <div key={item.id} className="sp2__item-row" onClick={handleOrder}>
+                          <div className="sp2__item-left">
+                            <p className="sp2__item-name">{safe(item.name)}</p>
+                            {item.description && <p className="sp2__item-desc">{item.description}</p>}
+                            <p className="sp2__item-price">${safe(String(item.price ?? 0))}</p>
+                          </div>
+                          <Sp2Img cls="sp2__item-thumb" src={item.image ?? ''}
+                            fallback={<div className="sp2__item-thumb sp2__item-thumb--ph" />} />
+                        </div>
+                      ))}
+                    </div>
+                  )
+                }
+              </>
             )}
             <div style={{ height: 20 }} />
           </>
