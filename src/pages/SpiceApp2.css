@@ -1269,12 +1269,7 @@
   color: var(--t-text, #fff);
   margin: 0;
 }
-.sp2__item-list {
-  background: var(--t-surface, #fff);
-  border-radius: 12px;
-  overflow: hidden;
-  margin: 0 12px 12px;
-}
+.sp2__item-list { }
 .sp2__item-row {
   display: flex;
   align-items: flex-start;
