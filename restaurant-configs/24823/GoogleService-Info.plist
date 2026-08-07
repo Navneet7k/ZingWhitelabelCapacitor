@@ -3,17 +3,17 @@
 <plist version="1.0">
 <dict>
 	<key>API_KEY</key>
-	<string>AIzaSyAIJ0bWkJAHiyyMEiSYGof1ofmQSrpS5Y8</string>
+	<string>AIzaSyBb5NWxsls_0Y2JaCF6LOegBbttyybI2yw</string>
 	<key>GCM_SENDER_ID</key>
-	<string>561140263661</string>
+	<string>593619271217</string>
 	<key>PLIST_VERSION</key>
 	<string>1</string>
 	<key>BUNDLE_ID</key>
-	<string>com.tangspacificbistro.zingmyorder</string>
+	<string>com.barrelhouse.zingmyorder</string>
 	<key>PROJECT_ID</key>
-	<string>zingmyorderapp</string>
+	<string>zing-kitchen-3</string>
 	<key>STORAGE_BUCKET</key>
-	<string>zingmyorderapp.firebasestorage.app</string>
+	<string>zing-kitchen-3.firebasestorage.app</string>
 	<key>IS_ADS_ENABLED</key>
 	<false></false>
 	<key>IS_ANALYTICS_ENABLED</key>
@@ -25,8 +25,6 @@
 	<key>IS_SIGNIN_ENABLED</key>
 	<true></true>
 	<key>GOOGLE_APP_ID</key>
-	<string>1:561140263661:ios:cbdd6d7cbc6c3af6d8bae4</string>
-	<key>DATABASE_URL</key>
-	<string>https://zingmyorderapp.firebaseio.com</string>
+	<string>1:593619271217:ios:02b7fc1f377c071f64df10</string>
 </dict>
 </plist>

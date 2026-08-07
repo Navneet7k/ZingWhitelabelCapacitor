@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "727116815909",
+    "project_id": "zing-kitchen-4",
+    "storage_bucket": "zing-kitchen-4.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:727116815909:android:6a6956d186b1abc8aaa9cc",
+        "android_client_info": {
+          "package_name": "com.dieseldale.zingmyorder"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBJOdeP30qai4FkzBCKegGvesggUyF9w2Y"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

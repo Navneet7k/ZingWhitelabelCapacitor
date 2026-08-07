@@ -56,13 +56,7 @@ EOF
 
 # ── 2. Patch capacitor.config.ts ──────────────────────────────────────────────
 echo "→ Patching capacitor.config.ts..."
-node -e "
-const fs = require('fs');
-let src = fs.readFileSync('capacitor.config.ts', 'utf8');
-src = src.replace(/appId: '.*?'/, \"appId: '$APP_ID'\");
-src = src.replace(/appName: '.*?'/, \"appName: '$APP_NAME'\");
-fs.writeFileSync('capacitor.config.ts', src);
-"
+node scripts/patch-capacitor-config.cjs "$APP_ID" "$APP_NAME"
 
 # ── 3. Copy icons ──────────────────────────────────────────────────────────────
 echo "→ Copying icon and splash..."
@@ -86,18 +80,7 @@ if [[ "$PLATFORM" == "android" || "$PLATFORM" == "both" ]]; then
 
   # 6a. Patch strings.xml (launcher name)
   echo "→ Patching android/app/src/main/res/values/strings.xml..."
-  node -e "
-  const fs = require('fs');
-  const path = 'android/app/src/main/res/values/strings.xml';
-  const xml = \`<?xml version='1.0' encoding='utf-8'?>
-<resources>
-    <string name=\"app_name\">$APP_NAME</string>
-    <string name=\"title_activity_main\">$APP_NAME</string>
-    <string name=\"package_name\">$APP_ID</string>
-    <string name=\"custom_url_scheme\">$APP_ID</string>
-</resources>\`;
-  fs.writeFileSync(path, xml);
-  "
+  node scripts/patch-strings-xml.cjs "$APP_NAME" "$APP_ID"
 
   # 6b. Patch applicationId in build.gradle
   echo "→ Patching android/app/build.gradle applicationId..."

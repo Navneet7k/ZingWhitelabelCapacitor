@@ -1,21 +1,21 @@
 {
   "project_info": {
-    "project_number": "593619271217",
-    "project_id": "zing-kitchen-3",
-    "storage_bucket": "zing-kitchen-3.firebasestorage.app"
+    "project_number": "208737636428",
+    "project_id": "zing-kitchen-2",
+    "storage_bucket": "zing-kitchen-2.firebasestorage.app"
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:593619271217:android:9f0e3fa42209263664df10",
+        "mobilesdk_app_id": "1:208737636428:android:bf272e09845d4a4a5d24e9",
         "android_client_info": {
-          "package_name": "com.bowldkitchen.zingmyorder"
+          "package_name": "com.broadstpizzeria.zingmyorder"
         }
       },
       "oauth_client": [],
       "api_key": [
         {
-          "current_key": "AIzaSyAyLnK4A33I9rxSNaPoox0gykhY0h8fP_k"
+          "current_key": "AIzaSyCvooSU42XmbSfW_8ABVN7ZAOXy-7PEZfQ"
         }
       ],
       "services": {
@@ -26,15 +26,15 @@
     },
     {
       "client_info": {
-        "mobilesdk_app_id": "1:593619271217:android:27efc703a63b7b4364df10",
+        "mobilesdk_app_id": "1:208737636428:android:b95f3bd868b0d8a35d24e9",
         "android_client_info": {
-          "package_name": "com.ciaosweetsgelato.zingmyorder"
+          "package_name": "com.dcdonutsdreamcafe.zingmyorder"
         }
       },
       "oauth_client": [],
       "api_key": [
         {
-          "current_key": "AIzaSyAyLnK4A33I9rxSNaPoox0gykhY0h8fP_k"
+          "current_key": "AIzaSyCvooSU42XmbSfW_8ABVN7ZAOXy-7PEZfQ"
         }
       ],
       "services": {
@@ -45,15 +45,15 @@
     },
     {
       "client_info": {
-        "mobilesdk_app_id": "1:593619271217:android:af839e4c4f1c03d364df10",
+        "mobilesdk_app_id": "1:208737636428:android:09ea5b21fd09febf5d24e9",
         "android_client_info": {
-          "package_name": "com.kochicken.zingmyorder"
+          "package_name": "com.emiliosmexicankitchen.zingmyorder"
         }
       },
       "oauth_client": [],
       "api_key": [
         {
-          "current_key": "AIzaSyAyLnK4A33I9rxSNaPoox0gykhY0h8fP_k"
+          "current_key": "AIzaSyCvooSU42XmbSfW_8ABVN7ZAOXy-7PEZfQ"
         }
       ],
       "services": {
@@ -64,15 +64,15 @@
     },
     {
       "client_info": {
-        "mobilesdk_app_id": "1:593619271217:android:d033602ac03fe3af64df10",
+        "mobilesdk_app_id": "1:208737636428:android:f424fd51eb3960e65d24e9",
         "android_client_info": {
-          "package_name": "com.munchasub.zingmyorder"
+          "package_name": "com.innerchilounge.zingmyorder"
         }
       },
       "oauth_client": [],
       "api_key": [
         {
-          "current_key": "AIzaSyAyLnK4A33I9rxSNaPoox0gykhY0h8fP_k"
+          "current_key": "AIzaSyCvooSU42XmbSfW_8ABVN7ZAOXy-7PEZfQ"
         }
       ],
       "services": {
@@ -83,15 +83,15 @@
     },
     {
       "client_info": {
-        "mobilesdk_app_id": "1:593619271217:android:5618919f5ee5006564df10",
+        "mobilesdk_app_id": "1:208737636428:android:65ef32e3d59365f65d24e9",
         "android_client_info": {
-          "package_name": "com.rightslice.zingmyorder"
+          "package_name": "com.jamaicastateside.zingmyorder"
         }
       },
       "oauth_client": [],
       "api_key": [
         {
-          "current_key": "AIzaSyAyLnK4A33I9rxSNaPoox0gykhY0h8fP_k"
+          "current_key": "AIzaSyCvooSU42XmbSfW_8ABVN7ZAOXy-7PEZfQ"
         }
       ],
       "services": {
@@ -102,15 +102,15 @@
     },
     {
       "client_info": {
-        "mobilesdk_app_id": "1:593619271217:android:82e156f332d5fbff64df10",
+        "mobilesdk_app_id": "1:208737636428:android:32ff563508813eee5d24e9",
         "android_client_info": {
-          "package_name": "com.skinnybean.zingmyorder"
+          "package_name": "com.mainstreetpizzeria.zingmyorder"
         }
       },
       "oauth_client": [],
       "api_key": [
         {
-          "current_key": "AIzaSyAyLnK4A33I9rxSNaPoox0gykhY0h8fP_k"
+          "current_key": "AIzaSyCvooSU42XmbSfW_8ABVN7ZAOXy-7PEZfQ"
         }
       ],
       "services": {
@@ -121,15 +121,15 @@
     },
     {
       "client_info": {
-        "mobilesdk_app_id": "1:593619271217:android:bb2bbcc7b503160c64df10",
+        "mobilesdk_app_id": "1:208737636428:android:f2acba71944fd8275d24e9",
         "android_client_info": {
-          "package_name": "com.sodalab.zingmyorder"
+          "package_name": "com.maryscafe.zingmyorder"
         }
       },
       "oauth_client": [],
       "api_key": [
         {
-          "current_key": "AIzaSyAyLnK4A33I9rxSNaPoox0gykhY0h8fP_k"
+          "current_key": "AIzaSyCvooSU42XmbSfW_8ABVN7ZAOXy-7PEZfQ"
         }
       ],
       "services": {
@@ -140,15 +140,15 @@
     },
     {
       "client_info": {
-        "mobilesdk_app_id": "1:593619271217:android:9f1746635e39348e64df10",
+        "mobilesdk_app_id": "1:208737636428:android:99f8c804f5ad55755d24e9",
         "android_client_info": {
-          "package_name": "com.sssubs.zingmyorder"
+          "package_name": "com.mexicanargaritastacos.zingmyorder"
         }
       },
       "oauth_client": [],
       "api_key": [
         {
-          "current_key": "AIzaSyAyLnK4A33I9rxSNaPoox0gykhY0h8fP_k"
+          "current_key": "AIzaSyCvooSU42XmbSfW_8ABVN7ZAOXy-7PEZfQ"
         }
       ],
       "services": {
@@ -159,15 +159,15 @@
     },
     {
       "client_info": {
-        "mobilesdk_app_id": "1:593619271217:android:b20336280d962a6f64df10",
+        "mobilesdk_app_id": "1:208737636428:android:c76ea3a369191fda5d24e9",
         "android_client_info": {
-          "package_name": "com.tangspacificbistro.zingmyorder"
+          "package_name": "com.mildredshalal.zingmyorder"
         }
       },
       "oauth_client": [],
       "api_key": [
         {
-          "current_key": "AIzaSyAyLnK4A33I9rxSNaPoox0gykhY0h8fP_k"
+          "current_key": "AIzaSyCvooSU42XmbSfW_8ABVN7ZAOXy-7PEZfQ"
         }
       ],
       "services": {
