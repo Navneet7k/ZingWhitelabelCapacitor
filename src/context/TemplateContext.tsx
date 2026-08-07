@@ -10,7 +10,7 @@ const DESIGN_TO_TEMPLATE: Record<string, TemplateId> = {
 };
 
 export function themeDesignToTemplateId(design: string | null): TemplateId {
-  return (design && DESIGN_TO_TEMPLATE[design]) || 'fiesta';
+  return (design && DESIGN_TO_TEMPLATE[design]) || 'pulse';
 }
 
 export interface Template {
@@ -238,7 +238,7 @@ export const TemplateProvider: React.FC<{ children: React.ReactNode }> = ({ chil
   // Visual fallback when stored template isn't in this bundle (e.g. after OTA rollback).
   // Deliberately does NOT call setTemplateId so localStorage is preserved.
   const template = knownTemplate
-    ?? TEMPLATES.find(t => t.id === 'fiesta')
+    ?? TEMPLATES.find(t => t.id === 'pulse')
     ?? TEMPLATES[0];
 
   useEffect(() => {
