@@ -214,7 +214,7 @@
 .dn__section-title {
   font-size: var(--t-section-title-size, 18px);
   font-weight: 700;
-  color: var(--t-text, #3F2D20);
+  color: var(--t-body-text, #3F2D20);
   padding: 16px 20px 10px;
   margin: 0;
 }
@@ -277,7 +277,7 @@
 .dn__dish-name {
   font-size: var(--t-item-name-size, 15px);
   font-weight: 700;
-  color: var(--t-text, #3F2D20);
+  color: var(--t-body-text, #3F2D20);
   text-align: center;
   margin: 0 0 4px;
   line-height: 1.3;
