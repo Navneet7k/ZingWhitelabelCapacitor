@@ -609,7 +609,7 @@
 .dn__item-name {
   font-size: var(--t-item-name-size, 15px);
   font-weight: 500;
-  color: #3F2D20;
+  color: var(--t-text, #3F2D20);
   margin: 0 0 3px;
   line-height: 1.3;
 }
@@ -617,7 +617,7 @@
 .dn__item-price {
   font-size: 14px;
   font-weight: 600;
-  color: #73665C;
+  color: var(--t-text, #73665C);
   margin: 0;
 }
 
