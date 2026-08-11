@@ -66,7 +66,8 @@ const DineApp: React.FC = () => {
   const [orderTab, setOrderTab]                 = useState<'current' | 'past' | 'favorite'>('current');
   const [featuredIndex, setFeaturedIndex]       = useState(0);
   const [activeGalleryIndex, setGalleryIndex]   = useState(0);
-  const [selectedCategory, setSelectedCategory] = useState<number | null>(null);
+  const [activeCategory, setCategory]           = useState<number | null>(null);
+  const [activeGroup, setGroup]                 = useState<number | null>(null);
   const [showCustomize, setShowCustomize]       = useState(false);
   const [showDevOptions, setShowDevOptions] = useState(false);
   const [copiedFcm, setCopiedFcm]           = useState(false);
@@ -110,6 +111,8 @@ const DineApp: React.FC = () => {
   const restaurantPhone   = getRestaurantPhone();
   const locations         = getRestaurantLocations();
   const allCategories  = menuData?.categories ?? [];
+  const groups         = menuData?.groups ?? [];
+  const isGroupMode    = menuData?.isGroupMode ?? false;
   const popularDishes  = homeData?.popularDishes ?? [];
   const banners        = homeData?.banners ?? [];
   const galleryBanners = banners.slice(0, 8).filter(b => b.image);
@@ -119,9 +122,9 @@ const DineApp: React.FC = () => {
   const favoriteOrders = homeData?.favoriteOrders  ?? [];
   const points         = homeData?.points ?? 0;
 
-  const menuItems = selectedCategory !== null
-    ? (allCategories.find(c => c.id === selectedCategory)?.items ?? [])
-    : [];
+  const filteredItems = activeCategory
+    ? (allCategories.find(c => c.id === activeCategory)?.items ?? [])
+    : allCategories.flatMap(c => c.items ?? []);
 
   useEffect(() => {
     if (popularDishes.length <= 1) return;
@@ -134,10 +137,6 @@ const DineApp: React.FC = () => {
     const t = setInterval(() => setFeaturedIndex(i => (i + 1) % popularDishes.length), 3500);
     return () => clearInterval(t);
   }, [popularDishes.length]);
-
-  useEffect(() => {
-    if (view !== 'menu') setSelectedCategory(null);
-  }, [view]);
 
   const didMountRef = useRef(false);
   useEffect(() => {
@@ -453,20 +452,103 @@ const DineApp: React.FC = () => {
             {/* ── MENU ── */}
             {view === 'menu' && (
               <>
-                {selectedCategory !== null ? (
+                {isGroupMode ? (
+                  activeGroup === null ? (
+                    /* Group grid */
+                    <>
+                      <p className="dn__view-title">Menu</p>
+                      {!menuData
+                        ? <p className="dn__empty">Loading…</p>
+                        : groups.length === 0
+                          ? <p className="dn__empty">No categories</p>
+                          : (
+                            <div className="dn__grp-grid">
+                              {groups.map(g => (
+                                <button key={g.id} className="dn__grp-cell" onClick={() => setGroup(g.id)}>
+                                  {g.logo
+                                    ? <img className="dn__grp-img" src={g.logo} alt="" loading="lazy" />
+                                    : null}
+                                  <span className="dn__grp-label">{safe(g.name)}</span>
+                                </button>
+                              ))}
+                            </div>
+                          )
+                      }
+                    </>
+                  ) : (
+                    /* Group's categories, each as a header bar + item list */
+                    <>
+                      <div className="dn__menu-header">
+                        <button className="dn__back-btn" onClick={() => setGroup(null)}>‹</button>
+                        <p className="dn__view-title" style={{ margin: 0 }}>
+                          {safe(groups.find(g => g.id === activeGroup)?.name)}
+                        </p>
+                      </div>
+                      {allCategories.filter(cat => cat.groupId === activeGroup).map(cat => (
+                        <div key={cat.id}>
+                          <div className="dn__cat-header">{safe(cat.name)}</div>
+                          <div className="dn__item-list">
+                            {(cat.items ?? []).map((item, i) => (
+                              <div key={item.id} className="dn__item-row" onClick={handleOrder}>
+                                <div className="dn__item-top">
+                                  {item.image
+                                    ? <img className="dn__item-img" src={item.image} alt="" loading="lazy" />
+                                    : <div className="dn__item-img dn__item-ph">🍽️</div>
+                                  }
+                                  <div className="dn__item-info">
+                                    <p className="dn__item-name">{safe(item.name)}</p>
+                                    <p className="dn__item-price">${safe(String(item.price ?? 0))}</p>
+                                  </div>
+                                  <button
+                                    className="dn__item-add"
+                                    onClick={e => { e.stopPropagation(); handleOrder(); }}
+                                  >+</button>
+                                </div>
+                                {item.description && (
+                                  <div className={`dn__item-strip dn__item-strip--${i % 2 === 0 ? 'green' : 'peach'}`}>
+                                    <p className="dn__item-desc">{item.description}</p>
+                                  </div>
+                                )}
+                              </div>
+                            ))}
+                          </div>
+                        </div>
+                      ))}
+                    </>
+                  )
+                ) : activeCategory === null ? (
+                  /* Category grid */
+                  <>
+                    <p className="dn__view-title">Menu</p>
+                    {!menuData
+                      ? <p className="dn__empty">Loading…</p>
+                      : allCategories.length === 0
+                        ? <p className="dn__empty">No categories</p>
+                        : (
+                          <div className="dn__cat-grid">
+                            {allCategories.map(cat => (
+                              <button key={cat.id} className="dn__cat-cell" onClick={() => setCategory(cat.id)}>
+                                {safe(cat.name)}
+                              </button>
+                            ))}
+                          </div>
+                        )
+                    }
+                  </>
+                ) : (
                   /* Item list */
                   <>
                     <div className="dn__menu-header">
-                      <button className="dn__back-btn" onClick={() => setSelectedCategory(null)}>‹</button>
+                      <button className="dn__back-btn" onClick={() => setCategory(null)}>‹</button>
                       <p className="dn__view-title" style={{ margin: 0 }}>
-                        {safe(allCategories.find(c => c.id === selectedCategory)?.name)}
+                        {safe(allCategories.find(c => c.id === activeCategory)?.name)}
                       </p>
                     </div>
-                    {menuItems.length === 0
+                    {filteredItems.length === 0
                       ? <p className="dn__empty">No items</p>
                       : (
                         <div className="dn__item-list">
-                          {menuItems.map((item, i) => (
+                          {filteredItems.map((item, i) => (
                             <div key={item.id} className="dn__item-row" onClick={handleOrder}>
                               <div className="dn__item-top">
                                 {item.image
@@ -475,7 +557,7 @@ const DineApp: React.FC = () => {
                                 }
                                 <div className="dn__item-info">
                                   <p className="dn__item-name">{safe(item.name)}</p>
-                                  <p className="dn__item-price">${safe(String(item.price))}</p>
+                                  <p className="dn__item-price">${safe(String(item.price ?? 0))}</p>
                                 </div>
                                 <button
                                   className="dn__item-add"
@@ -489,33 +571,6 @@ const DineApp: React.FC = () => {
                               )}
                             </div>
                           ))}
-                        </div>
-                      )
-                    }
-                  </>
-                ) : (
-                  /* Category grid */
-                  <>
-                    <p className="dn__view-title">Menu</p>
-                    {allCategories.length === 0
-                      ? <p className="dn__empty">{!menuData ? 'Loading…' : 'No categories'}</p>
-                      : (
-                        <div className="dn__cat-grid">
-                          {allCategories.map(cat => {
-                            const preview = cat.items?.[0]?.image;
-                            return (
-                              <div key={cat.id} className="dn__cat-tile" onClick={() => setSelectedCategory(cat.id)}>
-                                {preview
-                                  ? <img className="dn__cat-img" src={preview} alt="" loading="lazy" />
-                                  : <div className="dn__cat-img dn__cat-ph">🍽️</div>
-                                }
-                                <div className="dn__cat-overlay">
-                                  <p className="dn__cat-name">{safe(cat.name)}</p>
-                                  <p className="dn__cat-count">{cat.items?.length ?? 0} items</p>
-                                </div>
-                              </div>
-                            );
-                          })}
                         </div>
                       )
                     }
