@@ -467,7 +467,7 @@ const DineApp: React.FC = () => {
                                 <button key={g.id} className="dn__grp-cell" onClick={() => setGroup(g.id)}>
                                   {g.logo
                                     ? <img className="dn__grp-img" src={g.logo} alt="" loading="lazy" />
-                                    : null}
+                                    : <div className="dn__grp-img dn__grp-img-ph">🍽️</div>}
                                   <span className="dn__grp-label">{safe(g.name)}</span>
                                 </button>
                               ))}
