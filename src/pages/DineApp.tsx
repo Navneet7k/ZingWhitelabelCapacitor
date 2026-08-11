@@ -465,10 +465,10 @@ const DineApp: React.FC = () => {
                             <div className="dn__grp-grid">
                               {groups.map(g => (
                                 <button key={g.id} className="dn__grp-cell" onClick={() => setGroup(g.id)}>
+                                  <span className="dn__grp-label">{safe(g.name)}</span>
                                   {g.logo
                                     ? <img className="dn__grp-img" src={g.logo} alt="" loading="lazy" />
-                                    : <div className="dn__grp-img dn__grp-img-ph">🍽️</div>}
-                                  <span className="dn__grp-label">{safe(g.name)}</span>
+                                    : <div className="dn__grp-img dn__grp-img-ph" />}
                                 </button>
                               ))}
                             </div>

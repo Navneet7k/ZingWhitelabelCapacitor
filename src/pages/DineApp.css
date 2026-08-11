@@ -507,18 +507,17 @@
 }
 
 .dn__grp-img {
-  width: 140px;
+  width: 100%;
   height: 140px;
-  border-radius: 50%;
+  border-radius: 16px;
   object-fit: cover;
 }
 
 .dn__grp-img-ph {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-size: 36px;
-  background: var(--t-primary, #EDE0D8);
+  width: 100%;
+  height: 140px;
+  border-radius: 16px;
+  background: var(--t-surface, #fff);
 }
 
 .dn__grp-label {
