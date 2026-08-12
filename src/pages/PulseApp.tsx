@@ -794,13 +794,15 @@ const PulseApp: React.FC = () => {
             </div>
             )}
 
-            <div className="pl__update-panel" onClick={() => setShowDevOptions(d => !d)} style={{ cursor: 'pointer' }}>
-              <p className="pl__update-text" style={{ color: updateStatusLabel(updateStatus).color }}>
-                {updateStatus.state === 'ready'
-                  ? `v${(updateStatus as any).version} downloaded — tap to install`
-                  : updateStatusLabel(updateStatus).text}
-              </p>
-            </div>
+            {authUser && (
+              <div className="pl__update-panel" onClick={() => setShowDevOptions(d => !d)} style={{ cursor: 'pointer' }}>
+                <p className="pl__update-text" style={{ color: updateStatusLabel(updateStatus).color }}>
+                  {updateStatus.state === 'ready'
+                    ? `v${(updateStatus as any).version} downloaded — tap to install`
+                    : updateStatusLabel(updateStatus).text}
+                </p>
+              </div>
+            )}
           </>
         )}
         {/* ── LOCATION ── */}

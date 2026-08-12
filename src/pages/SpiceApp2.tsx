@@ -743,21 +743,23 @@ const SpiceApp2: React.FC = () => {
               </div>
             )}
 
-            <div style={{ margin: '16px 16px 4px', background: 'rgba(0,0,0,0.15)', borderRadius: 12, padding: '14px 16px' }}>
-              <div style={{ display: 'flex', alignItems: 'center', gap: 8, marginBottom: 6 }}>
-                <span style={{ fontSize: 18 }}>
-                  {updateStatus.state === 'checking' || updateStatus.state === 'downloading' ? '🔄' :
-                   updateStatus.state === 'ready' ? '⬆️' :
-                   updateStatus.state === 'error' ? '❌' : '🔃'}
-                </span>
-                <span style={{ fontSize: 14, fontWeight: 700, color: 'var(--t-text, #fff)', cursor: 'pointer' }} onClick={() => setShowDevOptions(d => !d)}>App Updates</span>
+            {authUser && (
+              <div style={{ margin: '16px 16px 4px', background: 'rgba(0,0,0,0.15)', borderRadius: 12, padding: '14px 16px' }}>
+                <div style={{ display: 'flex', alignItems: 'center', gap: 8, marginBottom: 6 }}>
+                  <span style={{ fontSize: 18 }}>
+                    {updateStatus.state === 'checking' || updateStatus.state === 'downloading' ? '🔄' :
+                     updateStatus.state === 'ready' ? '⬆️' :
+                     updateStatus.state === 'error' ? '❌' : '🔃'}
+                  </span>
+                  <span style={{ fontSize: 14, fontWeight: 700, color: 'var(--t-text, #fff)', cursor: 'pointer' }} onClick={() => setShowDevOptions(d => !d)}>App Updates</span>
+                </div>
+                <p style={{ margin: '0 0 8px', fontSize: 12, color: updateStatusLabel(updateStatus).color }}>
+                  {updateStatus.state === 'ready'
+                    ? `v${(updateStatus as any).version} downloaded — tap to install`
+                    : updateStatusLabel(updateStatus).text}
+                </p>
               </div>
-              <p style={{ margin: '0 0 8px', fontSize: 12, color: updateStatusLabel(updateStatus).color }}>
-                {updateStatus.state === 'ready'
-                  ? `v${(updateStatus as any).version} downloaded — tap to install`
-                  : updateStatusLabel(updateStatus).text}
-              </p>
-            </div>
+            )}
 
             {showDevOptions && (<>
             <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', margin: '0 16px 12px', padding: '12px 14px', background: 'rgba(128,128,128,0.12)', borderRadius: 12 }}>
