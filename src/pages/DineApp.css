@@ -511,6 +511,7 @@
   height: 140px;
   border-radius: 16px;
   object-fit: cover;
+  transform: translate(12px, 12px);
 }
 
 .dn__grp-img-ph {
@@ -518,6 +519,7 @@
   height: 140px;
   border-radius: 16px;
   background: var(--t-surface, #fff);
+  transform: translate(12px, 12px);
 }
 
 .dn__grp-label {
