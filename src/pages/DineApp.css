@@ -488,8 +488,8 @@
 .dn__grp-grid {
   display: grid;
   grid-template-columns: repeat(2, 1fr);
-  gap: 16px;
-  padding: 16px;
+  gap: 24px;
+  padding: 16px 20px;
 }
 
 .dn__grp-cell {
@@ -511,7 +511,7 @@
   height: 140px;
   border-radius: 16px;
   object-fit: cover;
-  transform: translate(12px, 12px);
+  transform: translate(28px, 32px);
 }
 
 .dn__grp-img-ph {
@@ -519,7 +519,7 @@
   height: 140px;
   border-radius: 16px;
   background: var(--t-surface, #fff);
-  transform: translate(12px, 12px);
+  transform: translate(28px, 32px);
 }
 
 .dn__grp-label {
