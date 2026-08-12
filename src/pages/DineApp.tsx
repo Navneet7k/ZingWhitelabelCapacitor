@@ -255,7 +255,7 @@ const DineApp: React.FC = () => {
                 ? <img src={restaurantLogo} alt={restaurantName} className="dn__logo-img" />
                 : '🍃'}
             </div>
-            <span className="dn__header-name">{restaurantName}</span>
+            {view !== 'home' && <span className="dn__header-name">{restaurantName}</span>}
             <button className="dn__pts-pill" onClick={() => setView('account')}>
               <span className="dn__pts-num">{points.toLocaleString()}</span>
               <span className="dn__pts-lbl">Pts</span>
