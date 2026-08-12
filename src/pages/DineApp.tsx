@@ -4,7 +4,7 @@ import { useHomeData } from '../context/HomeDataContext';
 import { useMenuData } from '../context/MenuDataContext';
 import { getSavedUser, isLoggedIn, login, register, saveAuth, clearAuth, getToken } from '../services/authApi';
 import type { AuthUser } from '../services/authApi';
-import { getOrderUrl, getOrderButtonUrl, getRestaurantLocations, getRestaurantAddress, getRestaurantPhone } from '../services/configApi';
+import { getOrderUrl, getOrderButtonUrl, getRestaurantLocations, getRestaurantAddress, getRestaurantPhone, getRestaurantLogo } from '../services/configApi';
 import type { RestaurantLocation } from '../services/configApi';
 import { getRestaurantId, getRestaurantName } from '../services/restaurantConfig';
 import { openWebView } from '../services/webviewService';
@@ -107,6 +107,7 @@ const DineApp: React.FC = () => {
 
   const restaurantId      = getRestaurantId();
   const restaurantName    = safe(getRestaurantName(), 'Our Restaurant');
+  const restaurantLogo    = getRestaurantLogo();
   const restaurantAddress = getRestaurantAddress();
   const restaurantPhone   = getRestaurantPhone();
   const locations         = getRestaurantLocations();
@@ -249,7 +250,11 @@ const DineApp: React.FC = () => {
         <>
           {/* ── Header ── */}
           <header className="dn__header">
-            <div className="dn__logo-circle">🍃</div>
+            <div className="dn__logo-circle">
+              {restaurantLogo
+                ? <img src={restaurantLogo} alt={restaurantName} className="dn__logo-img" />
+                : '🍃'}
+            </div>
             <span className="dn__header-name">{restaurantName}</span>
             <button className="dn__pts-pill" onClick={() => setView('account')}>
               <span className="dn__pts-num">{points.toLocaleString()}</span>
@@ -781,7 +786,11 @@ const DineApp: React.FC = () => {
               </svg>
               <div className="dn__auth-content">
                 <div className="dn__auth-logo-ring">
-                  <div className="dn__logo-circle" style={{ width: 78, height: 78, fontSize: 30 }}>🍃</div>
+                  <div className="dn__logo-circle" style={{ width: 78, height: 78, fontSize: 30 }}>
+                    {restaurantLogo
+                      ? <img src={restaurantLogo} alt={restaurantName} className="dn__logo-img" />
+                      : '🍃'}
+                  </div>
                 </div>
                 <p className="dn__auth-title">{authScreen === 'signin' ? 'Sign in' : 'Sign up'}</p>
                 <p className="dn__auth-sub">Or with Email</p>
