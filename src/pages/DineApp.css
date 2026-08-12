@@ -29,6 +29,7 @@
   padding: calc(env(safe-area-inset-top) + 8px) 16px 8px;
   display: flex;
   align-items: center;
+  justify-content: space-between;
   gap: 10px;
   background: var(--t-bg, #FFF5E0);
 }
