@@ -468,7 +468,7 @@ const DineApp: React.FC = () => {
                                   <span className="dn__grp-label">{safe(g.name)}</span>
                                   {g.logo
                                     ? <img className="dn__grp-img" src={g.logo} alt="" loading="lazy" />
-                                    : <div className="dn__grp-img dn__grp-img-ph" />}
+                                    : null}
                                 </button>
                               ))}
                             </div>
